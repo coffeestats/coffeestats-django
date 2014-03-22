@@ -24,8 +24,14 @@
   </head>
 
   <body>
+    <ul class="flash-messages" id="system-flash">
     {% if messages %}
+      {% for message in messages %}
+      <li{% if message.tags %} class="flash-{{ message.tags }}"{% endif %}>{{ message }} <a href="#" class="close">X</a></li>
+      {% endfor %}
     {% endif %}
+    {% block extra_system_flash %}{% endblock extra_system_flash %}
+    </ul>
     <div id="wrapper">
       <div id="header">
         {% if user.is_authenticated %}

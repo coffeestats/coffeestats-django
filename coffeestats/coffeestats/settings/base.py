@@ -1,3 +1,5 @@
+# -*- python -*-
+# pymode:lint_ignore=E501
 """Common settings and globals."""
 
 
@@ -194,7 +196,10 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'caffeine',
 )
+
+LOGIN_URL = '/login/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS

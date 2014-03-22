@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+{% if form.non_field_errors %}
+{% block extra_system_flash %}
+{% for message in form.non_field_errors %}
+<li class="flash-error">{{ message }}</li>
+{% endfor %}
+{% endblock %}
+{% endif %}
+{% block content %}
+<div class="white-box">
+  <h2>{% trans "Login" %}</h2>
+  <form action="{% url "login" %}" method="post" class="inlineform" id="login">
+    {% csrf_token %}
+    {{ form.username.errors }}
+    <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}placeholder="{% trans "Username" %}" autofocus class="left" />
+    {{ form.password.errors }}
+    <input type="password" required name="password" id="id_password" placeholder="{% trans "Password" %}" class="left" />
+    <input type="submit" name="submit" value="{% trans "Login" %}" class="left" />
+    <a href="{% url "registration_register" %}" class="btn secondary left">{% trans "Register" %}</a>
+  </form>
+  {% url "password_reset" as passwordreset_url %}
+  <p>{% blocktrans %}Forgot your password? <a href="{{ passwordreset_url }}">Request a password reset</a>.{% endblocktrans %}</p>
+</div>
+<div class="white-box">
+  <h2>{% trans "What is coffeestats.org?" %}</h2>
+  <p>{% trans "You like coffee, mate, graphs and nerdy statistics? Well, we do too!" %}</p>
+  <p>{% blocktrans %}It's dead-simple: You enjoy your fix of coffee as usual and we keep track of it -- enabling us to present you with awesome statistics about your general coffee consumption. Why? Just because, of course!{% endblocktrans %}</p>
+</div>
+<div class="clear"></div>
+<div class="white-box">
+  <h2>{% trans "Graphs!" %}</h2>
+  <p>{% trans "Overall Coffee vs. Mate consumption" %}</p>
+  <canvas id="coffeeexample" width="590" height="240" ></canvas>
+</div>
+{% endblock %}
+{% block extra_js %}
+{% include "js_sanitize_username.html" %}
+{% include "js_sanitize_not_empty.html" %}
+<script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('input#id_username').bind('invalid', usernamefieldvalidation);
+  $('input#id_password').bind('invalid', function(event) {
+    if (this.validity.valueMissing) {
+      this.setCustomValidity('{% trans "Password must not be empty!" %}');
+    } else {
+      this.setCustomValidity('');
+    }
+  });
+
+  if (!("autofocus" in document.createElement('input'))) {
+    $("input#username").focus();
+  }
+
+  var lineChartData = {
+    labels: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat",],
+    datasets: [
+      {
+        fillColor: "#FF9900",
+        strokeColor: "#FFB84D",
+        pointColor: "#FFB84D",
+        pointStrokeColor: "#fff",
+        data: [40,26,180,72,102,60,30,14,]
+      },
+      {
+        fillColor:  "#E64545",
+        strokeColor: "#FF9999",
+        pointColor: "#FF9999",
+        pointStrokeColor: "#fff",
+        data: [101,3,87,32,12,80,17,14,]
+      },
+    ]
+  }
+
+  new Chart(document.getElementById("coffeeexample").getContext("2d")).Line(lineChartData);
+
+  $('form').submit(function(event) {
+    return sanitize_username('input#id_username')
+          && sanitize_not_empty('input#id_password', 'Password must not be empty');
+  });
+});
+</script>
+{% endblock %}

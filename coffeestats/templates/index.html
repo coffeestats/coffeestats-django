@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% url "profile" as profile_url %}
+{% url "explore" as explore_url %}
+<div class="white-box">
+  <h2>{% trans "Whats up?" %}</h2>
+  <p>{% trans "You like coffee, graphs and nerdy statistics? Well, we do too!" %}</p>
+  <p>{% blocktrans %}If you had a coffee today, or are about to drink one, simply let us know <a href="{{ profile_url }}">here</a> and we'll keep track of it. You can also <a href="{{ explore_url
+    }}">explore</a> a bit and check out the other user's statistics!{% endblocktrans %}</p> </div>
+<div class="white-box">
+  <h2>{% trans "You're not always on a Workstation?" %}</h2>
+  <p>{% blocktrans %}Register a coffee on-the-run! Get your on-the-run url on your
+  <a href="{{ profile_url }}">profile page</a>. Simply bookmark the url on your mobile device and you will never forget a coffee =){% endblocktrans %}</p> </div>
+{% endblock %}

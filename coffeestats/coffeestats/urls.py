@@ -4,12 +4,16 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    url(r'^$', TemplateView.as_view(template_name='base.html')),
+from registration.backends.simple.views import RegistrationView
 
 urlpatterns = patterns(
     '',
     url(r'^', include('caffeine.urls')),
+    # registration
+    url(r'^register/$', RegistrationView.as_view(),
+        name='registration_register'),
+    url(r'^register/closed$', RegistrationView.as_view(),
+        name='registration_disallowed'),
     # authentication
     url(r'^login/$', 'django.contrib.auth.views.login',
         name='login'),

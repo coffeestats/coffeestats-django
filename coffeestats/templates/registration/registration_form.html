@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="white-box fullWidth">
+  <h2>{% trans "Register" %}</h2>
+  <p>{% trans "Fill these fields with your data, write down what reCAPTCHA says u and click Register!" %}</p>
+  <form action="{% url "registration_register" %}" method="post">
+    {% csrf_token %}
+    <div class="leftform">
+      <h3>{% trans "General" %}</h3>
+      <input type="text" name="username" required pattern="[a-z][a-z0-9_-]{1,29}" id="id_username" maxlength="30" placeholder="{% trans "Username" %}" class="register_field_standard" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}autofocus/>
+      <input type="password" name="password" required pattern=".{8,}" id="id_password" maxlength="20" placeholder="{% trans "Password" %}" class="register_field_standard" />
+      <input type="password" name="password2" required pattern=".{8,}" id="id_password2" placeholder="{% trans "Password (again)" %}" class="register_field_standard" />
+      <input type="email" name="email" id="id_email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required maxlength="128" placeholder="{% trans "E-Mail" %}" class="register_field_standard" {% if form.email.value %}value="{{ form.email.value }}" {% endif %}/>
+    </div>
+
+    <div class="leftform">
+      <h3>{% trans "Additional" %}</h3>
+      <input type="text" name="firstname" id="firstname" maxlength="20" placeholder="First name" class="register_field_standard" <?php if (isset($firstname)) { printf('value="%s"', htmlspecialchars($firstname)); } ?>/>
+      <input type="text" name="lastname" id="lastname" maxlength="20" placeholder="Last name" class="register_field_standard" <?php if (isset($lastname)) { printf('value="%s"', htmlspecialchars($lastname)); } ?>/>
+      <input type="text" name="location" id="location" maxlength="20" placeholder="Location" class="register_field_standard" <?php if (isset($location)) { printf('value="%s"', htmlspecialchars($location)); } ?>/>
+    </div>
+    <div class="leftform">
+      <?php echo recaptcha_get_html($publickey, $error, true); ?>
+    </div>
+    <p><input type="submit" value="{% trans "Register!" %}" class="register_button_standard" /></p>
+  </form>
+</div> <!-- end of white-box -->
+{% endblock %}

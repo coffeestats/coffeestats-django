@@ -19,6 +19,10 @@ mysql-server:
 libmysqlclient-dev:
   pkg.installed
 
+python-mysqldb:
+  pkg:
+    - installed
+
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:
     - user: root
@@ -104,12 +108,14 @@ coffeestats-db:
     - name: {{ pillar['database']['database'] }}
     - require:
       - service.running: mysql
+      - pkg.installed: python-mysqldb
   mysql_user.present:
     - host: localhost
     - name: {{ pillar['database']['user'] }}
     - password: {{ pillar['database']['password'] }}
     - require:
       - service.running: mysql
+      - pkg.installed: python-mysqldb
   mysql_grants.present:
     - grant: all privileges
     - database: {{ pillar['database']['database'] }}.*

@@ -2,6 +2,7 @@ Django==1.6.2
 bpython==0.12
 django-braces==1.2.2
 django-model-utils==1.5.0
+django-recaptcha==0.0.9
 django-registration==1.0
 logutils==0.3.3
 MySQL-python==1.2.5

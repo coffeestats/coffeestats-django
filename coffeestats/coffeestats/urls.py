@@ -5,12 +5,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 from registration.backends.simple.views import RegistrationView
+from caffeine.forms import CoffeestatsRegistrationForm
 
 urlpatterns = patterns(
     '',
     url(r'^', include('caffeine.urls')),
     # registration
-    url(r'^register/$', RegistrationView.as_view(),
+    url(r'^register/$', RegistrationView.as_view(
+        form_class=CoffeestatsRegistrationForm),
         name='registration_register'),
     url(r'^register/closed$', RegistrationView.as_view(),
         name='registration_disallowed'),

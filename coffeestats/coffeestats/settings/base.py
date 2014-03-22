@@ -5,6 +5,22 @@
 
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+import os
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_variable(var_name):
+    """
+    Get a setting from an environment variable.
+
+    :param str var_name: variable name
+
+    """
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
 
 
 ########## PATH CONFIGURATION
@@ -254,3 +270,14 @@ INSTALLED_APPS += (
 # Don't need to use South when setting up a test database.
 SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
+
+########## DJANGO-RECAPTCHA CONFIGURATION
+INSTALLED_APPS += (
+    # recaptcha support
+    'captcha',
+)
+
+RECAPTCHA_PUBLIC_KEY = get_env_variable('COFFEESTATS_RECAPTCHA_PUBLICKEY')
+RECAPTCHA_PRIVATE_KEY = get_env_variable('COFFEESTATS_RECAPTCHA_PRIVATEKEY')
+RECAPTCHA_USE_SSL = True
+########## END DJANGO-RECAPTCHA CONFIGURATION

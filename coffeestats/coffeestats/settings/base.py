@@ -215,7 +215,8 @@ LOCAL_APPS = (
     'caffeine',
 )
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS

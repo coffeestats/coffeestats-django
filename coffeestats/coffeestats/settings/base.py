@@ -63,11 +63,11 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': get_env_variable('COFFEESTATS_MYSQL_DATABASE'),
+        'USER': get_env_variable('COFFEESTATS_MYSQL_USER'),
+        'PASSWORD': get_env_variable('COFFEESTATS_MYSQL_PASSWORD'),
+        'HOST': get_env_variable('COFFEESTATS_MYSQL_HOSTNAME'),
         'PORT': '',
     }
 }

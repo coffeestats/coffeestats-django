@@ -1,0 +1,9 @@
+ul.nav-global {
+  padding-left: 8px;
+  display: block;
+}
+
+ul.nav-global li {
+  padding: 2px;
+  display: inline-block;
+}

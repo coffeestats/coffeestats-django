@@ -3,18 +3,19 @@ from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractUser
 
+from model_utils import Choices
 from model_utils.fields import AutoCreatedField
 
 
-DRINK_TYPES = (
-    (0, _('Coffee')),
-    (1, _('Mate')),
+DRINK_TYPES = Choices(
+    (0, 'coffee', _('Coffee')),
+    (1, 'mate', _('Mate')),
 )
 
-ACTION_TYPES = (
-    (1, _('Activate email')),
-    (2, _('Reset password')),
-    (3, _('Change email')),
+ACTION_TYPES = Choices(
+    (1, 'activate_email', _('Activate email')),
+    (2, 'reset_password',  _('Reset password')),
+    (3, 'change_email', _('Change email')),
 )
 
 
@@ -48,6 +49,12 @@ class Caffeine(models.Model):
     timezone = models.CharField(max_length=40, db_index=True,
                                 blank=True)
 
+    class Meta:
+        ordering = ['-date']
+
+    def __unicode__(self):
+        return "%s at %s" % (DRINK_TYPES[self.ctype][1], self.date)
+
 
 class Action(models.Model):
     """
@@ -62,3 +69,10 @@ class Action(models.Model):
                                              choices=ACTION_TYPES,
                                              db_index=True)
     data = models.TextField(_('action data'))
+
+    class Meta:
+        ordering = ['-validuntil']
+
+    def __unicode__(self):
+        return "%s valid until %s" % (ACTION_TYPES[self.atype][1],
+                                      self.validuntil)

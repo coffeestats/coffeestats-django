@@ -212,12 +212,14 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'registration',
     'caffeine',
 )
 
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'caffeine.User'
+ACCOUNT_ACTIVATION_DAYS = 1
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS

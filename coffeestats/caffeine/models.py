@@ -13,9 +13,7 @@ DRINK_TYPES = Choices(
 )
 
 ACTION_TYPES = Choices(
-    (1, 'activate_email', _('Activate email')),
-    (2, 'reset_password',  _('Reset password')),
-    (3, 'change_email', _('Change email')),
+    (1, 'change_email', _('Change email')),
 )
 
 

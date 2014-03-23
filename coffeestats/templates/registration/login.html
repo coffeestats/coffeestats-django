@@ -10,7 +10,7 @@
 {% block content %}
 <div class="white-box">
   <h2>{% trans "Login" %}</h2>
-  <form action="{% url "login" %}" method="post" class="inlineform" id="login">
+  <form action="{% url "auth_login" %}" method="post" class="inlineform" id="login">
     {% csrf_token %}
     {{ form.username.errors }}
     <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}placeholder="{% trans "Username" %}" autofocus class="left" />
@@ -19,7 +19,7 @@
     <input type="submit" name="submit" value="{% trans "Login" %}" class="left" />
     <a href="{% url "registration_register" %}" class="btn secondary left">{% trans "Register" %}</a>
   </form>
-  {% url "password_reset" as passwordreset_url %}
+  {% url "auth_password_reset" as passwordreset_url %}
   <p>{% blocktrans %}Forgot your password? <a href="{{ passwordreset_url }}">Request a password reset</a>.{% endblocktrans %}</p>
 </div>
 <div class="white-box">

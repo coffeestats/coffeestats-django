@@ -6,6 +6,10 @@ class AboutView(LoginRequiredMixin, TemplateView):
     template_name = 'about.html'
 
 
+class ActivationCompleteView(TemplateView):
+    template_name = 'registration/activation_complete.html'
+
+
 class ExploreView(LoginRequiredMixin, TemplateView):
     template_name = 'explore.html'
 
@@ -24,6 +28,14 @@ class OverallView(LoginRequiredMixin, TemplateView):
 
 class ProfileView(TemplateView):
     template_name = 'profile.html'
+
+
+class RegistrationClosedView(TemplateView):
+    template_name = 'registration/registration_closed.html'
+
+
+class RegistrationCompleteView(TemplateView):
+    template_name = 'registration/registration_complete.html'
 
 
 class SettingsView(LoginRequiredMixin, TemplateView):

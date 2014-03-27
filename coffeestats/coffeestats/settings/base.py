@@ -216,6 +216,11 @@ LOCAL_APPS = (
     'caffeine',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'caffeine.authbackend.LegacyCoffeestatsAuth',
+)
+
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'caffeine.User'
@@ -236,6 +241,11 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s',
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -246,6 +256,11 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
         }
     },
     'loggers': {
@@ -254,6 +269,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'caffeine': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
+        }
     }
 }
 ########## END LOGGING CONFIGURATION

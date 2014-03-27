@@ -43,3 +43,4 @@ coffeestats/assets/
 .ropeproject/
 .sass-cache/
 tags
+.coverage

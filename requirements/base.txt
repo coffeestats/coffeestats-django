@@ -7,3 +7,5 @@ django-registration==1.0
 logutils==0.3.3
 MySQL-python==1.2.5
 South==0.8.2
+passlib==1.6.2
+py-bcrypt==0.4

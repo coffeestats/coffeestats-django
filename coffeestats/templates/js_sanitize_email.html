@@ -1,0 +1,32 @@
+{% load i18n %}
+<script type="text/javascript">
+  var emailpat = /^([A-Za-z0-9._%+-]+)@([^@]+)$/;
+
+  function emailfieldvalidation(event) {
+    if (this.validity.patternMismatch) {
+      this.setCustomValidity('{% trans "Email address must contain a local part and a domain part separated by an @ sign!" %}');
+    } else if (this.validity.valueMissing) {
+      this.setCustomValidity('{% trans "Email address must not be empty!" %}');
+    } else {
+      this.setCustomValidity('');
+    }
+  }
+
+  function sanitize_email(fieldspec, mandatory) {
+    mandatory = typeof mandatory !== 'undefined' ? mandatory : true;
+    var emfield = $(fieldspec);
+    var emvalue = $.trim(emfield.val());
+    if ((emvalue.length == 0) && mandatory) {
+      alert('{% trans "Email address must not be empty!" %}');
+      emfield.focus();
+      return false;
+    }
+    if (emailpat.test(emvalue)) {
+      emfield.val(emvalue);
+      return true;
+    }
+    alert('{% trans "Email address must contain a local and a domain part separated by on @ sing!" %}');
+    emfield.focus();
+    return false;
+  }
+</script>

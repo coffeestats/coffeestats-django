@@ -1,7 +1,13 @@
+from hashlib import md5
+
 from django.db import models
+from django.utils import timezone
 from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import (
+    AbstractUser,
+    BaseUserManager,
+)
 
 from model_utils import Choices
 from model_utils.fields import AutoCreatedField
@@ -17,6 +23,45 @@ ACTION_TYPES = Choices(
 )
 
 
+class CaffeineUserManager(BaseUserManager):
+    def create_user(self, username, email, password=None):
+        """
+        Creates and saves a User with the given user name, email addresse and
+        password.
+
+        :param str username: the user name
+        :param str email: the email address
+        :param str password: the password
+        :returns: User instance
+
+        """
+        if not username:
+            raise ValueError(_("User must have a username."))
+        if not email:
+            raise ValueError(_("User must have an email address."))
+        user = self.model(
+            username=username,
+            email=self.normalize_email(email))
+        user.set_password(password)
+        # on the run token
+        # TODO: use something better for API authentication
+        user.token = md5(username + password).hexdigest()
+        user.date_joined = timezone.now()
+        user.save(using=self.db)
+        return user
+
+    def create_superuser(self, username, email, password):
+        """
+        Creates and saves a superuser with the given user name, email address
+        and password.
+
+        """
+        user = self.create_user(username, email, password)
+        user.is_admin = True
+        user.save(using=self.db)
+        return User
+
+
 class User(AbstractUser):
     """
     User model.
@@ -29,6 +74,8 @@ class User(AbstractUser):
     token = models.CharField(max_length=32, unique=True)
     timezone = models.CharField(_('timezone'), max_length=40,
                                 db_index=True, blank=True)
+
+    objects = CaffeineUserManager()
 
     def get_absolute_url(self):
         return "/profile/?u=%s" % urlquote(self.username)

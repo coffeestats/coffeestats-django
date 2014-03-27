@@ -1,0 +1,15 @@
+Hello,
+
+someone, possibly you, has registered a coffeestats.org account. Please
+activate the account during the next {{ expiration_days }} days by clicking the
+link below if you intend to use coffeestats.org.
+
+Your activation link is:
+
+http://{{ site.domain }}{% url "registration_activate" activation_key=activation_key %}
+
+Enjoy your caffeine and our fine statistics.
+
+
+Best regards,
+your coffeestats.org team

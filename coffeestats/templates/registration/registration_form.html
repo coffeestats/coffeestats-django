@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% if form.non_field_errors %}
+{% block extra_system_flash %}
+{% for message in form.non_field_errors %}
+<li class="flash-error">{{ message }} <a href="#" class="close">X</a></li>
+{% endfor %}
+{% endblock %}
+{% endif %}
 {% block content %}
 <div class="white-box fullWidth">
   <h2>{% trans "Register" %}</h2>
@@ -7,19 +14,27 @@
   <form action="{% url "registration_register" %}" method="post">
     <div class="leftform">
       <h3>{% trans "General" %}</h3>
+      {{ form.username.errors }}
       <input type="text" name="username" required pattern="[a-z][a-z0-9_-]{1,29}" id="id_username" maxlength="30" placeholder="{{ form.username.label }}" class="register_field_standard" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}autofocus/>
+      {{ form.password1.errors }}
       <input type="password" name="password1" required pattern=".{8,}" id="id_password1" maxlength="20" placeholder="{{ form.password1.label }}" class="register_field_standard" />
+      {{ form.password2.errors }}
       <input type="password" name="password2" required pattern=".{8,}" id="id_password2" placeholder="{{ form.password2.label }}" class="register_field_standard" />
+      {{ form.email.errors }}
       <input type="email" name="email" id="id_email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required maxlength="128" placeholder="{{ form.email.label }}" class="register_field_standard" {% if form.email.value %}value="{{ form.email.value }}" {% endif %}/>
     </div>
 
     <div class="leftform">
       <h3>{% trans "Additional" %}</h3>
+      {{ form.firstname.errors }}
       <input type="text" name="firstname" id="firstname" maxlength="20" placeholder="{{ form.firstname.label }}" class="register_field_standard" {% if form.firstname.value %}value="{{ form.firstname.value }}"{% endif %}/>
+      {{ form.lastname.errors }}
       <input type="text" name="lastname" id="lastname" maxlength="20" placeholder="{{ form.lastname.label }}" class="register_field_standard" {% if form.lastname.value %}value="{{ form.lastname.value }}"{% endif %}/>
+      {{ form.location.errors }}
       <input type="text" name="location" id="location" maxlength="20" placeholder="{{ form.location.label }}" class="register_field_standard" {% if form.location.value %}value="{{ form.location.value }}"{% endif %} />
     </div>
     <div class="leftform">
+      {{ form.captcha.errors }}
       {{ form.captcha }}
     </div>
     <p><input type="submit" value="{% trans "Register!" %}" class="register_button_standard" /></p>

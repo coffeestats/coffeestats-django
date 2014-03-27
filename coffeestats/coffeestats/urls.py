@@ -7,10 +7,7 @@ admin.autodiscover()
 
 from registration.backends.default.views import (
     ActivationView,
-    RegistrationView,
 )
-
-from caffeine.forms import CoffeestatsRegistrationForm
 
 urlpatterns = patterns(
     '',
@@ -18,9 +15,6 @@ urlpatterns = patterns(
     # registration
     url(r'^auth/activate/(?P<activation_key>\w+)/$', ActivationView.as_view(),
         name='registration_activate'),
-    url(r'^auth/register/$', RegistrationView.as_view(
-        form_class=CoffeestatsRegistrationForm),
-        name='registration_register'),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

@@ -4,8 +4,8 @@
     Author: Jan Dittberner <jan@dittberner.info>
     Author: Jeremias Arnstadt <j.arnstadt@art-ifact.de>
     license: MIT
-    Date: March 22nd, 2014
-    Version: 1.3
+    Date: March 27th, 2014
+    Version: 1.4
 */
 /* colors */
 /* FONTS */
@@ -204,6 +204,13 @@ li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
     text-shadow: 0 1px 0 white;
     opacity: 0.2; }
 
+ul.errorlist li {
+  list-style-type: none;
+  padding: 2px;
+  background-repeat: no-repeat;
+  background-position: 5px center;
+  padding: 10px 10px 10px 25px; }
+
 li.flash-success {
   background-image: url("/static/images/info.png");
   color: #468847;
@@ -222,13 +229,13 @@ li.flash-warning {
   background-color: #fcf8e3;
   border-color: #fbeed5; }
 
-li.flash-error {
+li.flash-error, ul.errorlist li {
   background-image: url("/static/images/alert.png");
   color: #b94a48;
   background-color: #f2dede;
   border-color: #eed3d7; }
 
-ul.flash-messages {
+ul.flash-messages, ul.errorlist {
   margin: 0px;
   padding: 0px; }
 

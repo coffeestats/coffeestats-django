@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="white-box fullWidth">
+{% if account %}
+  <p>{% trans "Your account has been activated successfully." %}</p>
+{% else %}
+  <p>{% trans "Account activation failed." %}</p>
+{% endif %}
+</div>
+{% endblock content %}

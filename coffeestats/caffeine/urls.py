@@ -4,7 +4,7 @@ from django.conf.urls import patterns, url
 
 from .views import (
     AboutView,
-    ActivationCompleteView,
+    CaffeineActivationView,
     CaffeineRegistrationView,
     ExploreView,
     ImprintView,
@@ -18,8 +18,10 @@ from .views import (
 urlpatterns = patterns(
     '',
     url(r'^$', IndexView.as_view(), name='home'),
-    url(r'^auth/activate/complete/$', ActivationCompleteView.as_view(),
-        name='registration_activation_complete'),
+    # registration
+    url(r'^auth/activate/(?P<activation_key>\w+)/$',
+        CaffeineActivationView.as_view(),
+        name='registration_activate'),
     url(r'^auth/register/$', CaffeineRegistrationView.as_view(),
         name='registration_register'),
     url(r'^auth/register/closed$', RegistrationClosedView.as_view(),

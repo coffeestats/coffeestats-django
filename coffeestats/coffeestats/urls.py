@@ -5,16 +5,9 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 admin.autodiscover()
 
-from registration.backends.default.views import (
-    ActivationView,
-)
-
 urlpatterns = patterns(
     '',
     url(r'^', include('caffeine.urls')),
-    # registration
-    url(r'^auth/activate/(?P<activation_key>\w+)/$', ActivationView.as_view(),
-        name='registration_activate'),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

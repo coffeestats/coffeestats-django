@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% if form.non_field_errors %}
+{% block extra_system_flash %}
+{% for message in form.non_field_errors %}
+<li class="flash-error">{{ message }} <a href="#" class="close">X</a></li>
+{% endfor %}
+{% endblock %}
+{% endif %}
+{% block content %}
+<div class="white-box">
+  <h2>{% trans "Update your profile" %}</h2>
+  <p>{% trans "You may change your personal information." %}</p>
+  <form action="{% url "settings" %}" method="post" class="coffeeform">
+    <div class="leftform">
+      <h3>{% trans "General" %}</h3>
+      <input type="text" name="username" id="id_username" maxlength="30" value="{{ request.user.username }}" readonly="readonly" />
+      {{ form.password1.errors }}
+      <input type="password" name="password1" pattern=".{8,}" id="id_password1" maxlength="20" placeholder="{% trans "Password" %}" autofocus />
+      {{ form.password2.errors }}
+      <input type="password" name="password2" pattern=".{8,}" id="id_password2" placeholder="{% trans "Password (again)" %}" />
+    </div>
+    <div class="leftform">
+      <h3>{% trans "Additional" %}</h3>
+      {{ form.first_name.errors }}
+      <input type="text" name="first_name" id="id_first_name" maxlength="20" placeholder="{% trans "First name" %}" {% if form.first_name.value %}value="{{ form.first_name.value }}" {% endif %}/>
+      {{ form.last_name.errors }}
+      <input type="text" name="last_name" id="id_last_name" maxlength="20" placeholder="{% trans "Last name" %}" {% if form.last_name.value %}value="{{ form.last_name.value }}" {% endif %}/>
+      {{ form.location.errors }}
+      <input type="text" name="location" id="id_location" maxlength="20" placeholder="{% trans "Location" %}" {% if form.location.value %}value="{{ form.location.value }}" {% endif %}/>
+    </div>
+    <div class="clear">
+      {{ form.email.errors }}
+      <input type="email" name="email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required id="id_email" maxlength="128" placeholder="{% trans "Email" %}" value="{{ form.email.value }}" />
+    </div>
+    <div class="clearfix"></div>
+    <p><input type="submit" name="submit" value="Update my settings" /></p>
+    {% csrf_token %}
+  </form>
+  <div class="clear"></div>
+</div>
+<div class="white-box">
+  <h2>{% trans "Export your Activity" %}</h2>
+  <p>{% trans "Your data is yours. You will receive the CSV files via email." %}</p>
+  <p><a class="btn" href="{% url "export_activity" %}">{% trans "Export, please!" %}</a></p>
+</div>
+<div><!-- space --></div>
+<div class="white-box">
+  <h2>{% trans "Delete your data" %}</h2>
+  <p>{% trans "Your data is yours. So it is your decission to leave us." %}</p>
+  <p><a class="btn" href="{% url "delete_account" %}">{% trans "Delete me, please!" %}</a></p>
+</div>
+{% endblock content %}
+{% block extra_js %}
+{% include "js_sanitize_password.html" %}
+{% include "js_sanitize_email.html" %}
+{% include "js_sanitize_string.html" %}
+<script type="text/javascript">
+$(document).ready(function() {
+  $('input#id_password1').bind('invalid', pwfieldvalidation);
+  $('input#id_password2').bind('invalid', pwfieldvalidation);
+  $('input#id_email').bind('invalid', emailfieldvalidation);
+
+  if (!("autofocus" in document.createElement('input'))) {
+    $("input#id_password1").focus();
+  }
+
+  $('form').submit(function(event) {
+    return sanitize_password(
+        'input#id_password1', 'input#id_password2', true)
+      && sanitize_email('input#id_email')
+      && sanitize_string('input#id_first_name', false,
+                         '{% trans "First name" %}')
+      && sanitize_string('input#id_last_name', false,
+                         '{% trans "Last name" %}')
+      && sanitize_string('input#id_location', false,
+                         '{% trans "Location" %}');
+  });
+});
+</script>
+{% endblock %}

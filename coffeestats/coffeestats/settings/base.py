@@ -224,7 +224,8 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'caffeine.User'
-ACCOUNT_ACTIVATION_DAYS = 1
+ACCOUNT_ACTIVATION_DAYS = 2
+EMAIL_CHANGE_ACTION_VALIDITY = 2
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS

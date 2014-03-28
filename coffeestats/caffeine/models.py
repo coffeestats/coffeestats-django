@@ -1,4 +1,5 @@
 from hashlib import md5
+from datetime import timedelta
 
 from django.db import models
 from django.utils import timezone
@@ -19,7 +20,7 @@ DRINK_TYPES = Choices(
 )
 
 ACTION_TYPES = Choices(
-    (1, 'change_email', _('Change email')),
+    (0, 'change_email', _('Change email')),
 )
 
 
@@ -59,7 +60,7 @@ class CaffeineUserManager(BaseUserManager):
         user = self.create_user(username, email, password)
         user.is_admin = True
         user.save(using=self.db)
-        return User
+        return user
 
 
 class User(AbstractUser):
@@ -101,6 +102,23 @@ class Caffeine(models.Model):
         return "%s at %s" % (DRINK_TYPES[self.ctype][1], self.date)
 
 
+class ActionManager(models.Manager):
+    """
+    Manager class for actions.
+
+    """
+    def create_action(self, user, actiontype, data, validdays):
+        action = self.model(user=user, atype=actiontype, data=data)
+        action.validuntil = timezone.now() + timedelta(validdays)
+        action.code = md5(user.username +
+                          ACTION_TYPES[actiontype][1] +
+                          data +
+                          action.validuntil.strftime(
+                              "%Y%m%d%H%M%S%f")).hexdigest()
+        action.save(using=self.db)
+        return action
+
+
 class Action(models.Model):
     """
     Action model.
@@ -114,6 +132,8 @@ class Action(models.Model):
                                              choices=ACTION_TYPES,
                                              db_index=True)
     data = models.TextField(_('action data'))
+
+    objects = ActionManager()
 
     class Meta:
         ordering = ['-validuntil']

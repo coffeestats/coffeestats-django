@@ -1,6 +1,17 @@
-from django.core.urlresolvers import reverse_lazy
+from django.conf import settings
+from django.core.urlresolvers import (
+    reverse,
+    reverse_lazy,
+)
+from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView
+from django.views.generic import (
+    TemplateView,
+    View,
+)
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import FormView
 
 from django.contrib import messages
 
@@ -10,7 +21,15 @@ from registration.backends.default.views import (
     RegistrationView,
 )
 
-from .forms import CoffeestatsRegistrationForm
+from .forms import (
+    CoffeestatsRegistrationForm,
+    SettingsForm,
+)
+
+from .models import (
+    ACTION_TYPES,
+    Action,
+)
 
 
 class AboutView(LoginRequiredMixin, TemplateView):
@@ -19,6 +38,18 @@ class AboutView(LoginRequiredMixin, TemplateView):
 
 class ExploreView(LoginRequiredMixin, TemplateView):
     template_name = 'explore.html'
+
+
+class ExportActivityView(LoginRequiredMixin, View):
+    def get(self, request):
+        # TODO: perform the export
+        return HttpResponseRedirect(reverse_lazy('settings'))
+
+
+class DeleteAccountView(LoginRequiredMixin, View):
+    def get(self, request):
+        # TODO: perform deletion
+        return HttpResponseRedirect(reverse_lazy('settings'))
 
 
 class ImprintView(TemplateView):
@@ -80,5 +111,65 @@ class RegistrationClosedView(TemplateView):
     template_name = 'registration/registration_closed.html'
 
 
-class SettingsView(LoginRequiredMixin, TemplateView):
+class SettingsView(LoginRequiredMixin, FormView):
     template_name = 'settings.html'
+    form_class = SettingsForm
+    success_url = reverse_lazy('settings')
+
+    def get_form_kwargs(self):
+        kwargs = super(SettingsView, self).get_form_kwargs()
+        kwargs.update({
+            'instance': self.request.user,
+        })
+        return kwargs
+
+    def send_email_change_mail(self, form):
+        ctx_dict = {
+            'email': form.email_action.data,
+            'expiration_days': settings.EMAIL_CHANGE_ACTION_VALIDITY,
+            'action_link': self.request.build_absolute_uri(
+                reverse('confirm_action',
+                        kwargs={'code': form.email_action.code})),
+            'user': self.request.user,
+        }
+        subject = render_to_string(
+            'registration/email_change_email_subject.txt', ctx_dict)
+        subject = ''.join(subject.splitlines())
+        body = render_to_string('registration/email_change_email.txt',
+                                ctx_dict)
+        form.instance.email_user(subject, body, settings.DEFAULT_FROM_EMAIL)
+        messages.add_message(
+            self.request, messages.INFO,
+            _('We sent an email with a link that you need to open to '
+              'confirm the change of your email address.'))
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            _('Successfully updated your profile information!'))
+        if form.email_action:
+            self.send_email_change_mail(form)
+        form.save()
+        if form.password_set:
+            messages.add_message(
+                self.request, messages.SUCCESS,
+                _('Successfully changed your password!'))
+        return super(SettingsView, self).form_valid(form)
+
+
+class ConfirmActionView(SingleObjectMixin, View):
+    model = Action
+    slug_field = 'code'
+    slug_url_kwarg = 'code'
+
+    def get(self, request, *args, **kwargs):
+        action = self.get_object()
+        data, user = action.data, action.user
+        if action.atype == ACTION_TYPES.change_email:
+            user.email = data
+            messages.add_message(
+                request, messages.SUCCESS,
+                _('Your email address has been changed successfully.'))
+            user.save()
+            action.delete()
+        return HttpResponseRedirect(reverse_lazy('home'))

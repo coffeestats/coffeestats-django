@@ -6,13 +6,16 @@ from .views import (
     AboutView,
     CaffeineActivationView,
     CaffeineRegistrationView,
+    DeleteAccountView,
     ExploreView,
+    ExportActivityView,
     ImprintView,
     IndexView,
     OverallView,
     ProfileView,
     RegistrationClosedView,
     SettingsView,
+    ConfirmActionView,
 )
 
 urlpatterns = patterns(
@@ -31,5 +34,14 @@ urlpatterns = patterns(
     url(r'^imprint/$', ImprintView.as_view(), name='imprint'),
     url(r'^overall/$', OverallView.as_view(), name='overall'),
     url(r'^settings/$', SettingsView.as_view(), name='settings'),
+    url(r'^activity/export/$',
+        ExportActivityView.as_view(),
+        name='export_activity'),
+    url(r'^deletemyaccount/$',
+        DeleteAccountView.as_view(),
+        name='delete_account'),
+    url(r'^action/confirm/(?P<code>\w+)/$',
+        ConfirmActionView.as_view(),
+        name='confirm_action'),
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
 )

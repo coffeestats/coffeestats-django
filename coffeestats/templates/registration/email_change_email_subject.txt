@@ -1,0 +1,1 @@
+{% load i18n %}{% blocktrans %}Change your email address for {{ site_name }}{% endblocktrans %}

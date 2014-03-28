@@ -1,0 +1,18 @@
+{% load i18n %}{% blocktrans with first_name=user.first_name username=user.username oldemail=user.email %}Hello {{ first_name }},
+
+someone, possibly you, has requested a change of the email address assigned to
+your coffestats.org account {{ username }}
+
+The email address should be changed from
+
+{{ oldemail }} to {{ email }}.
+
+Please confirm this change by clicking the link below:
+
+{{ action_link }}
+
+Enjoy your caffeine and our fine statistics.
+
+
+Best regards,
+your coffeestats.org team{% endblocktrans %}

@@ -31,6 +31,10 @@ urlpatterns = patterns(
     url(r'^password/reset/done/$',
         auth_views.password_reset_done,
         name='auth_password_reset_done'),
+    # javascript i18n
+    url(r'^jsi18n/(?P<packages>\S+?)/$',
+        'django.views.i18n.javascript_catalog',
+        name='jsi18n_catalog'),
     # admin site
     url(r'^admin/', include(admin.site.urls)),
 )

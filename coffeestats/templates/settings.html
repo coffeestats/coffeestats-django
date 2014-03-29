@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 {% if form.non_field_errors %}
 {% block extra_system_flash %}
 {% for message in form.non_field_errors %}
@@ -52,9 +52,8 @@
 </div>
 {% endblock content %}
 {% block extra_js %}
-{% include "js_sanitize_password.html" %}
-{% include "js_sanitize_email.html" %}
-{% include "js_sanitize_string.html" %}
+<script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
+<script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   $('input#id_password1').bind('invalid', pwfieldvalidation);

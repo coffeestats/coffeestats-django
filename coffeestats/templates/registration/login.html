@@ -35,8 +35,8 @@
 </div>
 {% endblock %}
 {% block extra_js %}
-{% include "js_sanitize_username.html" %}
-{% include "js_sanitize_not_empty.html" %}
+<script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
+<script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {

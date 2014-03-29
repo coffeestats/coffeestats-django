@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n staticfiles caffeine %}
+{% block content %}
+<div class="white-box">
+  {% if ownprofile %}
+  <div class="rightfloated">
+    <canvas id="ontherunqrcode" width="100" height="100"></canvas>
+  </div>
+  {% endif %}
+  <h2>{% if ownprofile %}{% trans "Your Profile" %}{% else %}{% blocktrans with username=profileuser.username %}{{ username }}'s Profile{% endblocktrans %}{% endif %}</h2>
+  <ul class="profilelist">
+    <li>{% blocktrans with first_name=profileuser.first_name last_name=profileuser.last_name %}Name: {{ first_name }} {{ last_name }}{% endblocktrans %}</li>
+    <li>{% blocktrans with location=profileuser.location %}Location: {{ location }}{% endblocktrans %}</li>
+    {% if ownprofile %}
+    <li>{% blocktrans %}Your Coffees total: {{ coffees }}{% endblocktrans %}</li>
+    <li>{% blocktrans %}Your Mate total: {{ mate }}{% endblocktrans %}</li>
+    {% else %}
+    <li>{% blocktrans %}Coffees total: {{ coffees }}{% endblocktrans %}</li>
+    <li>{% blocktrans %}Mate total: {{ mate }}{% endblocktrans %}</li>
+    {% endif %}
+  </ul>
+  <div class="pagelinks">
+    <div class="left">
+      {% if ownprofile %}
+      <a class="btn secondary left" href="{% publicurl %}">{% trans "public profile" %}</a>
+      <a class="btn secondary left" href="{% url "ontherun" username=profileuser.username token=profileuser.token %}">{% trans "on-the-run" %}</a>
+      {% endif %}
+    </div>
+    <div class="right">
+      {% if ownprofile %}
+      <a title="{% trans "share your public profile page on facebook" %}" href="https://www.facebook.com/sharer.php?u={% filter urlencode %}{% publicurl %}{% endfilter %}&amp;t={% filter urlencode %}{% trans "My coffee statistics" %}{% endfilter %}"><img src="{% static "images/facebook40.png" %}" alt="{% trans "facebook share icon" %}" /></a>
+      <a title="{% trans "share your public profile page on twitter" %}" href="https://twitter.com/intent/tweet?original_referer={% filter urlencode %}{% publicurl %}{% endfilter %}&amp;text={% filter urlencode %}{% trans "My coffee statistics" %}{% endfilter %}&amp;tw_p=tweetbutton&amp;url={% filter urlencode %}{% publicurl %}{% endfilter %}&amp;via=coffeestats"><img src="{% static "images/twitter40.png" %}" alt="{% trans "twitter share" %}" /></a> 
+      <a title="{% trans "share your public profile page on Google plus" %}" href="https://plus.google.com/share?url={% filter urlencode %}{% publicurl %}{% endfilter %}"><img src="{% static "images/googleplus40.png" %}" alt="{% trans "google plus share" %}" /></a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% if ownprofile %}
+<div class="white-box update">
+  <h2>{% trans "Coffee or Mate?" %}</h2>
+  {% if form.non_field_errors %}
+  {{ form.non_field_errors }}
+  {% endif %}
+  <form action="{% url "submit_caffeine" "coffee" %}" method="post" id="coffeeform">
+    <input type="submit" value="{% trans "Coffee!" %}" class="left" />
+    <input type="text" id="id_caffeinetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
+    {% csrf_token %}
+  </form>
+  <form action="{% url "submit_caffeine" "mate" %}" method="post" id="mate">
+    <input type="submit" value="{% trans "Mate!" %}" class="left" />
+    <input type="text" id="id_caffeinetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
+    {% csrf_token %}
+  </form>
+</div>
+{% endif %}
+{% endblock content %}

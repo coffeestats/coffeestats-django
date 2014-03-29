@@ -3,10 +3,16 @@ from django.core.urlresolvers import (
     reverse,
     reverse_lazy,
 )
-from django.http import HttpResponseRedirect
+from django.http import (
+    HttpResponseBadRequest,
+    HttpResponseNotFound,
+    HttpResponseRedirect,
+)
 from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.generic import (
+    RedirectView,
     TemplateView,
     View,
 )
@@ -29,6 +35,9 @@ from .forms import (
 from .models import (
     ACTION_TYPES,
     Action,
+    Caffeine,
+    DRINK_TYPES,
+    User,
 )
 
 
@@ -66,6 +75,35 @@ class OverallView(LoginRequiredMixin, TemplateView):
 
 class ProfileView(TemplateView):
     template_name = 'profile.html'
+    profileuser = None
+    ownprofile = False
+
+    def get(self, request, *args, **kwargs):
+        if 'u' in request.GET:
+            username = request.GET['u']
+            try:
+                self.profileuser = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return HttpResponseNotFound(_('No profile found'))
+        elif request.user.is_authenticated():
+            self.profileuser = request.user
+            self.ownprofile = True
+        else:
+            return HttpResponseBadRequest(_('Invalid request!'))
+        return super(ProfileView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        total = Caffeine.objects.total_caffeine_for_user(self.profileuser)
+
+        context.update(
+            {
+                'ownprofile': self.ownprofile,
+                'profileuser': self.profileuser,
+                'coffees': total[DRINK_TYPES.coffee],
+                'mate': total[DRINK_TYPES.mate],
+            })
+        return context
 
 
 class CaffeineActivationView(ActivationView):
@@ -173,3 +211,20 @@ class ConfirmActionView(SingleObjectMixin, View):
             user.save()
             action.delete()
         return HttpResponseRedirect(reverse_lazy('home'))
+
+
+class OnTheRunView(TemplateView):
+    template_name = "ontherun.html"
+
+
+class OnTheRunOldView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        user = get_object_or_404(
+            User, username=self.request.GET['u'], token=self.request.GET['t'])
+        return reverse('ontherun', kwargs={
+            'username': user.username,
+            'token': user.token})
+
+
+class SubmitCaffeineView(TemplateView):
+    template_name = "submitcaffeine.html"

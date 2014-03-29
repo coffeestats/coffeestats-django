@@ -82,6 +82,23 @@ class User(AbstractUser):
         return "/profile/?u=%s" % urlquote(self.username)
 
 
+class CaffeineManager(models.Manager):
+    """
+    Manager class for Caffeine.
+
+    """
+    def total_caffeine_for_user(self, user):
+        q = self.filter(user=user).values('ctype').annotate(
+            num_drinks=models.Count('ctype'))
+        result = {
+            DRINK_TYPES.mate: 0,
+            DRINK_TYPES.coffee: 0,
+        }
+        for item in q:
+            result[item['ctype']] = item['num_drinks']
+        return result
+
+
 class Caffeine(models.Model):
     """
     Caffeinated drink model.
@@ -94,6 +111,8 @@ class Caffeine(models.Model):
     entrytime = AutoCreatedField(_('entered'), db_index=True)
     timezone = models.CharField(max_length=40, db_index=True,
                                 blank=True)
+
+    objects = CaffeineManager()
 
     class Meta:
         ordering = ['-date']

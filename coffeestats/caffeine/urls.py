@@ -19,6 +19,7 @@ from .views import (
     RegistrationClosedView,
     SettingsView,
     SubmitCaffeineView,
+    DeleteCaffeineView,
 )
 
 urlpatterns = patterns(
@@ -52,5 +53,8 @@ urlpatterns = patterns(
     url(r'^action/confirm/(?P<code>\w+)/$',
         ConfirmActionView.as_view(),
         name='confirm_action'),
+    url(r'^delete/(?P<pk>\d+)/$',
+        DeleteCaffeineView.as_view(),
+        name='delete_caffeine'),
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
 )

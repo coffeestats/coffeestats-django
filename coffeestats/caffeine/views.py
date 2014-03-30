@@ -102,7 +102,16 @@ class ProfileView(TemplateView):
                 'profileuser': self.profileuser,
                 'coffees': total[DRINK_TYPES.coffee],
                 'mate': total[DRINK_TYPES.mate],
-            })
+            }
+        )
+        if self.ownprofile:
+            entries = Caffeine.objects.latest_caffeine_for_user(
+                self.profileuser)
+            context.update(
+                {
+                    'entries': entries,
+                }
+            )
         return context
 
 
@@ -228,3 +237,7 @@ class OnTheRunOldView(RedirectView):
 
 class SubmitCaffeineView(TemplateView):
     template_name = "submitcaffeine.html"
+
+
+class DeleteCaffeineView(TemplateView):
+    template_name = "deletecaffeine.html"

@@ -98,6 +98,9 @@ class CaffeineManager(models.Manager):
             result[item['ctype']] = item['num_drinks']
         return result
 
+    def latest_caffeine_for_user(self, user, count=10):
+        return self.filter(user=user).order_by('-entrytime')[:count]
+
 
 class Caffeine(models.Model):
     """
@@ -119,6 +122,9 @@ class Caffeine(models.Model):
 
     def __unicode__(self):
         return "%s at %s" % (DRINK_TYPES[self.ctype][1], self.date)
+
+    def format_type(self):
+        return DRINK_TYPES[self.ctype][1]
 
 
 class ActionManager(models.Manager):

@@ -60,7 +60,7 @@
   <table>
     {% for entry in entries %}
     <tr>
-      <td>{% blocktrans with entrytype=entry.format_type entrytime=entry.entrytime|date:"Y-m-d H:M:s" entrytimezone=entry.timezone %}{{ entrytype }} at {{ entrytime }} {{ entrytimezone }}{% endblocktrans %}</td>
+      <td>{% blocktrans with entrytype=entry.format_type entrytime=entry.entrytime|date:"Y-m-d H:i:s" entrytimezone=entry.timezone %}{{ entrytype }} at {{ entrytime }} {{ entrytimezone }}{% endblocktrans %}</td>
       <td><a href="{% url "delete_caffeine" entry.id %}" data-cid="{{ entry.id }}" class="deletecaffeine"> <img src="{% static "images/nope.png" %}" alt="{% trans "delete" %}" /></a></td>
     </tr>
     {% endfor %}

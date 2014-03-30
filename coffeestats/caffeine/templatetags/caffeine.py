@@ -12,3 +12,13 @@ def publicurl(context, username=None):
     request = context['request']
     return '%s?u=%s' % (request.build_absolute_uri(reverse('profile')),
                         urlquote_plus(username))
+
+
+@register.simple_tag(takes_context=True)
+def ontherunurl(context, user=None):
+    if user is None:
+        user = context['profileuser']
+    request = context['request']
+    return request.build_absolute_uri(reverse('ontherun', kwargs={
+        'username': user.username,
+        'token': user.token}))

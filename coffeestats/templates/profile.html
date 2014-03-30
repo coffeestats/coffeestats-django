@@ -68,4 +68,57 @@
 </div>
 {% endif %}
 {% endif %}
+<div class="white-box today">
+  <h2>{% trans "Caffeine today" %}</h2>
+  <canvas id="coffeetoday" width="590" height="240"></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine this month" %}</h2>
+  <canvas id="coffeemonth" width="590" height="240"></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Coffee vs. Mate" %}</h2>
+  <canvas id="coffeevsmate" width="590" height="240"></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine this year" %}</h2>
+  <canvas id="coffeeyear" width="590" height="240"></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine by hour (overall)" %}</h2>
+  <canvas id="coffeebyhour" width="590" height="240"></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine by weekday (overall)" %}</h2>
+  <canvas id="coffeebyweekday" width="590" height="240"></canvas>
+</div>
 {% endblock content %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static "js/jsqr-0.2-min.js" %}"></script>
+<script type="text/javascript">
+function drawQR(data, canvasid) {
+    var qr = new JSQR();
+    var code = new qr.Code();
+
+    code.encodeMode = code.ENCODE_MODE.BYTE;
+    code.version = code.DEFAULT;
+    code.errorCorrection = code.ERROR_CORRECTION.H;
+
+    var input = new qr.Input();
+    input.dataType = input.DATA_TYPE.TEXT;
+    input.data = data;
+
+    var matrix = new qr.Matrix(input, code);
+    matrix.scale = 3;
+    matrix.margin = 2;
+
+    var canvas = document.getElementById(canvasid);
+    canvas.setAttribute('width', matrix.pixelWidth);
+    canvas.setAttribute('height', matrix.pixelWidth);
+    canvas.getContext('2d').fillStyle = 'rgb(0,0,0)';
+    matrix.draw(canvas, 0, 0);
+}
+
+drawQR('{% ontherunurl %}', 'ontherunqrcode');
+</script>
+{% endblock extra_js %}

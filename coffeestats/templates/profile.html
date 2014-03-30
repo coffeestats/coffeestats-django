@@ -94,6 +94,7 @@
 </div>
 {% endblock content %}
 {% block extra_js %}
+{% if ownprofile %}
 <script type="text/javascript" src="{% static "js/jsqr-0.2-min.js" %}"></script>
 <script type="text/javascript">
 function drawQR(data, canvasid) {
@@ -121,4 +122,5 @@ function drawQR(data, canvasid) {
 
 drawQR('{% ontherunurl %}', 'ontherunqrcode');
 </script>
+{% endif %}
 {% endblock extra_js %}

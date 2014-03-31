@@ -95,23 +95,34 @@ class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         total = Caffeine.objects.total_caffeine_for_user(self.profileuser)
+        todaydata = Caffeine.objects.hourly_caffeine_for_user(
+            self.profileuser)
+        monthdata = Caffeine.objects.daily_caffeine_for_user(
+            self.profileuser)
+        yeardata = Caffeine.objects.monthly_caffeine_for_user(
+            self.profileuser)
+        byhourdata = Caffeine.objects.hourly_caffeine_for_user_overall(
+            self.profileuser)
+        byweekdaydata = Caffeine.objects.weekdaily_caffeine_for_user_overall(
+            self.profileuser)
 
-        context.update(
-            {
-                'ownprofile': self.ownprofile,
-                'profileuser': self.profileuser,
-                'coffees': total[DRINK_TYPES.coffee],
-                'mate': total[DRINK_TYPES.mate],
-            }
-        )
+        context.update({
+            'byhourdata': byhourdata,
+            'byweekdaydata': byweekdaydata,
+            'coffees': total[DRINK_TYPES.coffee],
+            'mate': total[DRINK_TYPES.mate],
+            'monthdata': monthdata,
+            'ownprofile': self.ownprofile,
+            'profileuser': self.profileuser,
+            'todaydata': todaydata,
+            'yeardata': yeardata,
+        })
         if self.ownprofile:
             entries = Caffeine.objects.latest_caffeine_for_user(
                 self.profileuser)
-            context.update(
-                {
-                    'entries': entries,
-                }
-            )
+            context.update({
+                'entries': entries,
+            })
         return context
 
 

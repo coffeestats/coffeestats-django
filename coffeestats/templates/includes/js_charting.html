@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
+<script type="text/javascript">
+function drawBarChart(canvasid, data, scaleSteps) {
+    new Chart(document.getElementById(canvasid).getContext("2d")).Bar(data, {
+        scaleOverride: true,
+        scaleSteps: Math.ceil(scaleSteps / Math.ceil(scaleSteps / 10)),
+        scaleStepWidth: Math.ceil(scaleSteps / 10),
+        scaleStartValue: 0,
+    });
+}
+
+function drawLineChart(canvasid, data, scaleSteps) {
+    new Chart(document.getElementById(canvasid).getContext("2d")).Line(data, {
+        scaleOverride: true,
+        scaleSteps: Math.ceil(scaleSteps / Math.ceil(scaleSteps / 10)),
+        scaleStepWidth: Math.ceil(scaleSteps / 10),
+        scaleStartValue: 0,
+    });
+}
+</script>

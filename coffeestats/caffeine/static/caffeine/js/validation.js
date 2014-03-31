@@ -120,3 +120,48 @@ function sanitize_username(fieldspec) {
   unfield.focus();
   return false;
 }
+
+function pad(n) {
+  return n<10 ? '0'+n : n;
+}
+
+function coffeetime(d) {
+  return d.getFullYear() + '-' +
+    pad(d.getMonth() + 1) +'-' +
+    pad(d.getDate()) + ' ' +
+    pad(d.getHours()) + ':' +
+    pad(d.getMinutes()) +':' +
+    pad(d.getSeconds());
+}
+
+var datetimepat = /^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})\ ([0-9]{1,2}):([0-9]{1,2})(|:([0-9]{1,2}))$/;
+
+function sanitize_datetime(fieldspec) {
+  var dtfield = $(fieldspec);
+  var dtval = $.trim(dtfield.val());
+  var now = new Date();
+  if (dtval.length == 0) {
+    dtval = coffeetime(now);
+    dtfield.val(dtval);
+  }
+  var matches = datetimepat.exec(dtval);
+  if (matches !== null) {
+    var year, month, day, hour, minute, second;
+    year = parseInt(matches[1]);
+    month = parseInt(matches[2]);
+    day = parseInt(matches[3]);
+    hour = parseInt(matches[4]);
+    minute = parseInt(matches[5]);
+    second = (matches[6] != "") ? parseInt(matches[7]) : 0;
+    var entered = new Date(year, month -1 , day, hour, minute, second);
+    if (entered.getTime() <= now.getTime()) {
+      dtfield.val(dtval);
+      return true;
+    }
+    alert(gettext('You can not enter dates in the future!'));
+  } else {
+    alert(gettext('No valid date/time information. Expected format YYYY-mm-dd HH:MM:ss'));
+  }
+  dtfield.focus();
+  return false;
+}

@@ -43,13 +43,13 @@
   {% endif %}
   <form action="{% url "submit_caffeine" "coffee" %}" method="post" id="coffeeform">
     <input type="submit" value="{% trans "Coffee!" %}" class="left" />
-    <input type="text" id="id_caffeinetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <input type="text" id="id_coffeetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
   <form action="{% url "submit_caffeine" "mate" %}" method="post" id="mate">
     <input type="submit" value="{% trans "Mate!" %}" class="left" />
-    <input type="text" id="id_caffeinetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <input type="text" id="id_matetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
@@ -123,4 +123,145 @@ function drawQR(data, canvasid) {
 drawQR('{% ontherunurl %}', 'ontherunqrcode');
 </script>
 {% endif %}
+{% include "includes/js_charting.html" %}
+<script type="text/javascript">
+var todaycolor = "#E64545";
+var monthcolor = "#FF9900";
+var monthcoffeecolor = "#FFB84D";
+var pointcolor = "#FFF";
+var byhourcoffeecolor = "#FF9999";
+var byweekdaycoffeecolor = "#99FF99";
+var yearcolor = "#3399FF";
+var hourcolor = "#FF6666";
+var weekdaycolor = "#A3CC52";
+var matecolor = "#FFCC00";
+var matelightcolor = "#FFE066";
+var barChartData;
+var lineChartData;
+
+var doughnutData = [
+    {
+      value: {{ coffees }},
+      color: todaycolor
+    },
+    {
+      value: {{ mate }},
+      color: matecolor
+    }
+];
+new Chart(document.getElementById("coffeevsmate").getContext("2d")).Doughnut(
+    doughnutData);
+
+barChartData = {
+  labels: ['{{ todaydata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: todaycolor,
+    strokeColor: todaycolor,
+    data: [{{ todaydata.coffee|join:", " }}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matecolor,
+    data: [{{ todaydata.mate|join:", "}}],
+  },
+  ]
+};
+drawBarChart('coffeetoday', barChartData, {{ todaydata.maxvalue|default:1 }});
+
+lineChartData = {
+  labels: ['{{ monthdata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: monthcolor,
+    strokeColor: monthcoffeecolor,
+    pointColor: monthcoffeecolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ monthdata.coffee|join:", " }}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matelightcolor,
+    pointColor: matelightcolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ montdata.mate|join:", " }}],
+  },
+  ]
+};
+drawLineChart('coffeemonth', lineChartData, {{ monthdata.maxvalue|default:1 }});
+
+barChartData = {
+  labels: ['{{ yeardata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: yearcolor,
+    strokeColor: yearcolor,
+    data: [{{ yeardata.coffee|join:", " }}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matecolor,
+    data: [{{ yeardata.mate|join:", " }}],
+  },
+  ]
+};
+drawBarChart('coffeeyear', barChartData, {{ yeardata.maxvalue|default:1 }});
+
+lineChartData = {
+  labels: ['{{ byhourdata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: hourcolor,
+    strokeColor: byhourcoffeecolor,
+    pointColor: byhourcoffeecolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byhourdata.coffee|join:", "}}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matelightcolor,
+    pointColor: matelightcolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byhourdata.mate|join:", "}}],
+  },
+  ]
+};
+drawLineChart('coffeebyhour', lineChartData, {{ byhourdata.maxvalue|default:1 }});
+
+lineChartData = {
+  labels: ['{{ byweekdaydata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: weekdaycolor,
+    strokeColor: byweekdaycoffeecolor,
+    pointColor: byweekdaycoffeecolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byweekdaydata.coffee|join:", "}}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matelightcolor,
+    pointColor: matelightcolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byweekdaydata.mate|join:", "}}],
+  },
+  ]
+};
+drawLineChart('coffeebyweekday', lineChartData, {{ byweekdaydata.maxvalue|default:1 }});
+</script>
+<script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
+<script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('img.toggle').click(function(event) {
+        $('#' + $(this).attr('data-toggle')).toggle();
+    });
+    $('#coffeeform').submit(function(event) {
+        return sanitize_datetime('input#id_coffeetime');
+    });
+    $('#mateform').submit(function(event) {
+        return sanitize_datetime('input#id_matetime');
+    });
+});
+</script>
 {% endblock extra_js %}

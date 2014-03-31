@@ -8,6 +8,8 @@ from captcha.fields import ReCaptchaField
 from .models import (
     ACTION_TYPES,
     Action,
+    Caffeine,
+    DRINK_TYPES,
     User,
 )
 
@@ -90,3 +92,20 @@ class SettingsForm(forms.ModelForm):
             self.instance.set_password(
                 self.cleaned_data['password2'])
         return cleaned_data
+
+
+class SubmitCaffeineForm(forms.ModelForm):
+    class Meta:
+        model = Caffeine
+        fields = ['date']
+
+    def __init__(self, user, ctype, *args, **kwargs):
+        self.user = user
+        self.ctype = getattr(DRINK_TYPES, ctype)
+        super(SubmitCaffeineForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        caffeine = Caffeine(user=self.user, ctype=self.ctype,
+                            date=self.cleaned_data['date'],
+                            timezone=self.user.timezone)
+        caffeine.save()

@@ -30,6 +30,7 @@ from registration.backends.default.views import (
 from .forms import (
     CoffeestatsRegistrationForm,
     SettingsForm,
+    SubmitCaffeineForm,
 )
 
 from .models import (
@@ -246,8 +247,33 @@ class OnTheRunOldView(RedirectView):
             'token': user.token})
 
 
-class SubmitCaffeineView(TemplateView):
-    template_name = "submitcaffeine.html"
+class SubmitCaffeineView(LoginRequiredMixin, FormView):
+    template_name = "submit_caffeine.html"
+    form_class = SubmitCaffeineForm
+    ctype = None
+
+    def post(self, *args, **kwargs):
+        self.ctype = kwargs.pop('drink')
+        return super(SubmitCaffeineView, self).post(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(SubmitCaffeineView, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user,
+            'ctype': self.ctype,
+        })
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super(SubmitCaffeineView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        # TODO: implement proper handling of invalid submissions
+        return super(SubmitCaffeineView, self).form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('profile')
 
 
 class DeleteCaffeineView(TemplateView):

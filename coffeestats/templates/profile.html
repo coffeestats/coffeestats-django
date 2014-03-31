@@ -40,19 +40,20 @@
   <h2>{% trans "Coffee or Mate?" %}</h2>
   {% if form.non_field_errors %}
   {{ form.non_field_errors }}
-  {% endif %}
+  {% endif %}{% spaceless %}
   <form action="{% url "submit_caffeine" "coffee" %}" method="post" id="coffeeform">
     <input type="submit" value="{% trans "Coffee!" %}" class="left" />
-    <input type="text" id="id_coffeetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <input type="text" id="id_coffeetime" name="date" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
-  <form action="{% url "submit_caffeine" "mate" %}" method="post" id="mate">
+  <form action="{% url "submit_caffeine" "mate" %}" method="post" id="mateform" class="clear">
     <input type="submit" value="{% trans "Mate!" %}" class="left" />
-    <input type="text" id="id_matetime" name="caffeinetime" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <input type="text" id="id_matetime" name="date" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
+  {% endspaceless %}
 </div>
 {% if entries %}
 <div class="white-box">
@@ -141,11 +142,11 @@ var lineChartData;
 
 var doughnutData = [
     {
-      value: {{ coffees }},
+      value: {{ coffees|default:0 }},
       color: todaycolor
     },
     {
-      value: {{ mate }},
+      value: {{ mate|default:0 }},
       color: matecolor
     }
 ];

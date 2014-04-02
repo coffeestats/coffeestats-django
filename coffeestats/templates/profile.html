@@ -38,9 +38,14 @@
 {% if ownprofile %}
 <div class="white-box update">
   <h2>{% trans "Coffee or Mate?" %}</h2>
-  {% if form.non_field_errors %}
-  {{ form.non_field_errors }}
-  {% endif %}{% spaceless %}
+  {% if messages|messagetags:'registerdrink' %}
+  <ul class="flash-messages" id="registerdrink-flash">{% spaceless %}
+    {% for message in messages|messagetags:'registerdrink' %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  {% endspaceless %}</ul>
+  {% endif %}
+  {% spaceless %}
   <form action="{% url "submit_caffeine" "coffee" %}" method="post" id="coffeeform">
     <input type="submit" value="{% trans "Coffee!" %}" class="left" />
     <input type="text" id="id_coffeetime" name="date" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
@@ -61,7 +66,7 @@
   <table>
     {% for entry in entries %}
     <tr>
-      <td>{% blocktrans with entrytype=entry.format_type entrytime=entry.entrytime|date:"Y-m-d H:i:s" entrytimezone=entry.timezone %}{{ entrytype }} at {{ entrytime }} {{ entrytimezone }}{% endblocktrans %}</td>
+      <td>{% blocktrans with entrytype=entry.format_type entrytime=entry.date|date:"Y-m-d H:i:s" entrytimezone=entry.timezone %}{{ entrytype }} at {{ entrytime }} {{ entrytimezone }}{% endblocktrans %}</td>
       <td><a href="{% url "delete_caffeine" entry.id %}" data-cid="{{ entry.id }}" class="deletecaffeine"> <img src="{% static "images/nope.png" %}" alt="{% trans "delete" %}" /></a></td>
     </tr>
     {% endfor %}

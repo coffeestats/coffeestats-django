@@ -24,14 +24,14 @@
   </head>
 
   <body>
-    <ul class="flash-messages" id="system-flash">
+    <ul class="flash-messages" id="system-flash">{% spaceless %}
     {% if messages %}
       {% for message in messages %}
-      <li{% if message.tags %} class="flash-{{ message.tags }}"{% endif %}>{{ message }} <a href="#" class="close">X</a></li>
+      {% if 'registerdrink' not in message.tags %}<li class="{{ message.tags }}">{{ message }} <a href="#" class="close">X</a></li>{% endif %}
       {% endfor %}
     {% endif %}
     {% block extra_system_flash %}{% endblock extra_system_flash %}
-    </ul>
+    {% endspaceless %}</ul>
     <div id="wrapper">
       <div id="header">
         {% if user.is_authenticated %}

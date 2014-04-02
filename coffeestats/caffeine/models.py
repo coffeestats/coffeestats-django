@@ -6,6 +6,7 @@ from django.db import (
     connection,
     models,
 )
+from django.conf import settings
 from django.utils import timezone
 from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
@@ -283,6 +284,16 @@ class CaffeineManager(models.Manager):
             result[DRINK_TYPES._triples[ctype][1]][
                 result['labels'].index(wday)] = value
         return result
+
+    def find_recent_caffeine(self, user, date, ctype):
+        caffeines = self.filter(
+            user=user, ctype=ctype,
+            date__gte=(date - timedelta(
+                minutes=settings.MINIMUM_DRINK_DISTANCE)))
+        try:
+            return caffeines.latest('date')
+        except Caffeine.DoesNotExist:
+            return False
 
 
 class Caffeine(models.Model):

@@ -17,7 +17,10 @@ from django.views.generic import (
     View,
 )
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import FormView
+from django.views.generic.edit import (
+    BaseFormView,
+    FormView,
+)
 
 from django.contrib import messages
 
@@ -247,8 +250,7 @@ class OnTheRunOldView(RedirectView):
             'token': user.token})
 
 
-class SubmitCaffeineView(LoginRequiredMixin, FormView):
-    template_name = "submit_caffeine.html"
+class SubmitCaffeineView(LoginRequiredMixin, BaseFormView):
     form_class = SubmitCaffeineForm
     ctype = None
 
@@ -269,8 +271,11 @@ class SubmitCaffeineView(LoginRequiredMixin, FormView):
         return super(SubmitCaffeineView, self).form_valid(form)
 
     def form_invalid(self, form):
-        # TODO: implement proper handling of invalid submissions
-        return super(SubmitCaffeineView, self).form_invalid(form)
+        for error in form.non_field_errors():
+            messages.add_message(
+                self.request, messages.ERROR, error,
+                extra_tags='registerdrink')
+        return HttpResponseRedirect(reverse('profile'))
 
     def get_success_url(self):
         return reverse('profile')

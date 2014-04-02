@@ -22,3 +22,8 @@ def ontherunurl(context, user=None):
     return request.build_absolute_uri(reverse('ontherun', kwargs={
         'username': user.username,
         'token': user.token}))
+
+
+@register.filter
+def messagetags(value, tag):
+    return [message for message in value if tag in message.tags]

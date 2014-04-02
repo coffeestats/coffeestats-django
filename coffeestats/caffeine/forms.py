@@ -109,3 +109,21 @@ class SubmitCaffeineForm(forms.ModelForm):
                             date=self.cleaned_data['date'],
                             timezone=self.user.timezone)
         caffeine.save()
+
+    def clean(self):
+        cleaned_data = super(SubmitCaffeineForm, self).clean()
+        recent_caffeine = Caffeine.objects.find_recent_caffeine(
+            self.user, cleaned_data['date'], self.ctype)
+        if recent_caffeine:
+            raise forms.ValidationError(
+                _('Your last %(drink)s was less than %(minutes)d minutes '
+                  'ago at %(date)s %(timezone)s'),
+                code='drinkfrequency',
+                params={
+                    'drink': DRINK_TYPES[self.ctype][1],
+                    'minutes': settings.MINIMUM_DRINK_DISTANCE,
+                    'date': recent_caffeine.date,
+                    'timezone': self.user.timezone
+                }
+            )
+        return cleaned_data

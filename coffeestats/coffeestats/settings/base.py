@@ -7,6 +7,7 @@ from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 import os
 from django.core.exceptions import ImproperlyConfigured
+from django.contrib.messages import constants as message_constants
 
 
 def get_env_variable(var_name):
@@ -228,6 +229,15 @@ LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'caffeine.User'
 ACCOUNT_ACTIVATION_DAYS = 2
 EMAIL_CHANGE_ACTION_VALIDITY = 2
+MINIMUM_DRINK_DISTANCE = 5
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'flash-debug',
+    message_constants.INFO: 'flash-info',
+    message_constants.SUCCESS: 'flash-success',
+    message_constants.WARNING: 'flash-warning',
+    message_constants.ERROR: 'flash-error',
+}
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS

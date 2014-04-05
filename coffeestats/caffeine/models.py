@@ -79,6 +79,12 @@ class CaffeineUserManager(BaseUserManager):
             '''.format(DRINK_TYPES.coffee, DRINK_TYPES.mate, count))
         return users
 
+    def recently_joined(self, count=5):
+        return self.order_by('-date_joined')[:count]
+
+    def longest_joined(self, count=5):
+        return self.order_by('date_joined')[:count]
+
 
 class User(AbstractUser):
     """
@@ -309,6 +315,42 @@ class CaffeineManager(models.Manager):
             return caffeines.latest('date')
         except Caffeine.DoesNotExist:
             return False
+
+    def latest_caffeine_activity(self, count=10):
+        return self.order_by('-date').select_related('user')[:count].all()
+
+    def top_consumers_total(self, ctype, count=10):
+        q = self.filter(ctype=ctype).select_related('user').values_list(
+            'user').annotate(caffeine_count=models.Count('id')).order_by(
+            '-caffeine_count')[:count]
+        users = User.objects.in_bulk([user for user, caffeine_count in q])
+        result = []
+        for user_id, caffeine_count in q:
+            result.append({'user': users[user_id],
+                           'caffeine_count': caffeine_count})
+        return result
+
+    def top_consumers_average(self, ctype, count=10):
+        result = []
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT c.user_id,
+                   COUNT(c.id) / (DATEDIFF(
+                       CURRENT_DATE, MIN(c.date)) + 1) AS average
+            FROM   caffeine_caffeine c JOIN caffeine_user u ON
+                   c.user_id = u.id
+            WHERE  c.ctype = {0:d}
+            GROUP BY c.user_id
+            ORDER BY average DESC
+            LIMIT {1:d}
+            """.format(ctype, count))
+        q = cursor.fetchall()
+        users = User.objects.in_bulk([row[0] for row in q])
+        for user_id, average in q:
+            result.append({'user': users[user_id],
+                           'average': average})
+        return result
 
 
 class Caffeine(models.Model):

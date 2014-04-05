@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+{% block content %}
+<div class="white-box fullWidth">
+  <h2>{% trans "Explore!" %}</h2>
+  <p>{% trans "You are not the only human at this site! Great, isn't it? Let's see the stats of some other guys." %}</p>
+</div>
+<div><!--space--></div>
+<div class="white-box">
+  <h2>{% trans "Caffeine Activity" %}</h2>
+  <ul class="userlist">
+    {% for activity in activities %}
+    <li>{% include "includes/profilelink.html" with profileuser=activity.user %} {{ activity }}</li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="white-box">
+  <h2>{% trans "Get in touch with each other!" %}</h2>
+  <div id="random_users">
+    {% for user in users %}
+    <div class="usercard">
+      {% include "includes/profilelink.html" with profileuser=user %}<br />
+      Name: {{ user }}<br />
+      Location: {{ user.location }}<br />
+      Coffees total: {{ user.coffees }}<br />
+      Mate total: {{ user.mate }}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="clearfix">&nbsp;</div>
+  <p><a href="#" id="more-users">More users</a></p>
+</div>
+<div class="white-box" id="ranks">
+  <h2>{% trans "Caffeine Ranking" %}</h2>
+  <div class="rankbox">
+    <h3>{% trans "Top coffee drinkers" %}</h3>
+    <ol class="ranklist">
+      {% for item in topcoffee %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with coffeecount=item.caffeine_count %}{{ coffeecount }} Coffees{% endblocktrans %}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="rankbox">
+    <h3>{% trans "Top mate drinkers" %}</h3>
+    <ol class="ranklist">
+      {% for item in topmate %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with matecount=item.caffeine_count %}{{ matecount }} Mate{% endblocktrans %}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+  <div class="rankbox">
+    <h3>{% trans "Top daily coffee average" %}</h3>
+    <ol class="ranklist">
+      {% for item in topcoffeeavg %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="rankbox">
+    <h3>{% trans "Top daily mate average" %}</h3>
+    <ol class="ranklist">
+      {% for item in topmateavg %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+</div>
+<div class="white-box">
+  <h2>{% trans "Newest vs. Oldest members" %}</h2>
+  <div class="rankbox">
+    <h3>{% trans "Joined recently" %}</h3>
+    <ul class="userlist">
+      {% for user in recentlyjoined %}
+      <li>{% include "includes/profilelink.html" with profileuser=user %} - {{ user.date_joined|naturaltime }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="rankbox">
+    <h3>{% trans "Veterans" %}</h3>
+    <ul class="userlist">
+      {% for user in longestjoined %}
+      <li>{% include "includes/profilelink.html" with profileuser=user %} - {{ user.date_joined|naturaltime }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#more-users').click(function(event) {
+    $.getJSON('{% url "apiv1:random_users" %}?count=4', function(data) {
+      $('#random_users > div').remove();
+      for (var i=0; i < data.length; i++) {
+        $('#random_users').append(
+          '<div class="usercard"><a href="' + data[i].profile + '">' + data[i].username + '</a><br />' +
+          'Name: ' + data[i].name + '<br />' +
+          'Locaton: ' + data[i].location + '<br />' +
+          'Coffees total: ' + data[i].coffees + '<br />' +
+          'Mate total: ' + data[i].mate + '</div>');
+        }
+    });
+    return false;
+  });
+});
+</script>
+{% endblock extra_js %}

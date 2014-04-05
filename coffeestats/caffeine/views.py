@@ -53,6 +53,23 @@ class AboutView(LoginRequiredMixin, TemplateView):
 class ExploreView(LoginRequiredMixin, TemplateView):
     template_name = 'explore.html'
 
+    def get_context_data(self, **kwargs):
+        context_data = super(ExploreView, self).get_context_data(**kwargs)
+        context_data.update({
+            'activities': Caffeine.objects.latest_caffeine_activity(10),
+            'users': User.objects.random_users(4),
+            'topcoffee': Caffeine.objects.top_consumers_total(
+                DRINK_TYPES.coffee, 10),
+            'topcoffeeavg': Caffeine.objects.top_consumers_average(
+                DRINK_TYPES.coffee, 10),
+            'topmate': Caffeine.objects.top_consumers_total(
+                DRINK_TYPES.mate, 10),
+            'topmateavg': Caffeine.objects.top_consumers_average(
+                DRINK_TYPES.mate, 10),
+            'recentlyjoined': User.objects.recently_joined(5),
+            'longestjoined': User.objects.longest_joined(5)})
+        return context_data
+
 
 class ExportActivityView(LoginRequiredMixin, View):
     def get(self, request):

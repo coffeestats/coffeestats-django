@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^', include('caffeine.urls')),
+    url(r'^api/v1/', include('caffeine_api_v1.urls', 'apiv1')),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

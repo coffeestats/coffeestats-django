@@ -217,6 +217,7 @@ DJANGO_APPS = (
 LOCAL_APPS = (
     'registration',
     'caffeine',
+    'caffeine_api_v1',
 )
 
 AUTHENTICATION_BACKENDS = (

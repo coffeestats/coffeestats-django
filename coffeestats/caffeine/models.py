@@ -67,6 +67,18 @@ class CaffeineUserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
+    def random_users(self, count=4):
+        users = self.raw(
+            '''
+            SELECT u.*,
+            (SELECT COUNT(id) FROM caffeine_caffeine
+             WHERE u.id=user_id AND ctype={0:d}) AS coffees,
+            (SELECT COUNT(id) FROM caffeine_caffeine
+             WHERE u.id=user_id AND ctype={1:d}) AS mate
+            FROM caffeine_user u ORDER BY RAND() LIMIT {2:d}
+            '''.format(DRINK_TYPES.coffee, DRINK_TYPES.mate, count))
+        return users
+
 
 class User(AbstractUser):
     """
@@ -85,6 +97,9 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return "/profile/?u=%s" % urlquote(self.username)
+
+    def __unicode__(self):
+        return self.get_full_name()
 
 
 def hour_result_dict():

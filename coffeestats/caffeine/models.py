@@ -315,7 +315,11 @@ class Caffeine(models.Model):
         ordering = ['-date']
 
     def __unicode__(self):
-        return "%s at %s" % (DRINK_TYPES[self.ctype][1], self.date)
+        return (
+            "%s at %s %s" % (
+                DRINK_TYPES[self.ctype][1],
+                self.date,
+                self.timezone or "")).strip()
 
     def format_type(self):
         return DRINK_TYPES[self.ctype][1]

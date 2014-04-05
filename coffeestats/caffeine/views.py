@@ -19,6 +19,7 @@ from django.views.generic import (
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import (
     BaseFormView,
+    DeleteView,
     FormView,
 )
 
@@ -281,5 +282,32 @@ class SubmitCaffeineView(LoginRequiredMixin, BaseFormView):
         return reverse('profile')
 
 
-class DeleteCaffeineView(TemplateView):
-    template_name = "deletecaffeine.html"
+class DeleteCaffeineView(DeleteView):
+    """
+    View for deleting caffeine instances.
+
+    """
+    model = Caffeine
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        """
+        Make sure that only own caffeine can be deleted.
+
+        :param queryset queryset: the original query set or None
+
+        """
+        if queryset is None:
+            queryset = self.get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return super(DeleteCaffeineView, self).get_object(queryset)
+
+    def get_success_url(self):
+        """
+        Return the success URL and add a message about the successful deletion.
+
+        """
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            _('Entry deleted successfully!'))
+        return super(DeleteCaffeineView, self).get_success_url()

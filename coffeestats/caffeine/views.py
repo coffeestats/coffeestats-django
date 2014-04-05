@@ -282,7 +282,7 @@ class SubmitCaffeineView(LoginRequiredMixin, BaseFormView):
         return reverse('profile')
 
 
-class DeleteCaffeineView(DeleteView):
+class DeleteCaffeineView(LoginRequiredMixin, DeleteView):
     """
     View for deleting caffeine instances.
 

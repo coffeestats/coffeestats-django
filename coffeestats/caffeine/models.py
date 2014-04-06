@@ -1,7 +1,10 @@
 from hashlib import md5
 from datetime import timedelta
 from calendar import monthrange
+from StringIO import StringIO
+import csv
 
+from django.core.mail import EmailMessage
 from django.db import (
     connection,
     models,
@@ -106,6 +109,18 @@ class User(AbstractUser):
 
     def __unicode__(self):
         return self.get_full_name()
+
+    def export_csv(self):
+        subject = _('Your caffeine records')
+        body = _('Attached is your caffeine track record.')
+        email = EmailMessage(subject, body, to=[self.email])
+        now = timezone.now().strftime('%Y-%m-%d %H:%M')
+        for drink in ('coffee', 'mate'):
+            email.attachments.append(
+                ('%s-%s.csv' % (drink, now),
+                 Caffeine.objects.get_csv_data(drink, self),
+                 'text/cvs'))
+        email.send()
 
 
 def total_result_dict():
@@ -477,6 +492,25 @@ class CaffeineManager(models.Manager):
             result.append({'user': users[user_id],
                            'average': average})
         return result
+
+    def get_csv_data(self, drinktype, user):
+        """
+        Get user records for a specific drink type in CSV format.
+
+        :param str drinktype: drink type
+        :param User user: user instance
+        :return: list of records in CSV format
+        """
+        csvbuf = StringIO()
+        writer = csv.writer(csvbuf)
+        writer.writerow(['Timestamp'])
+        for row in self.filter(user=user,
+                               ctype=getattr(DRINK_TYPES, drinktype)
+                               ).order_by('date'):
+            writer.writerow([row.date])
+        retval = csvbuf.getvalue()
+        csvbuf.close()
+        return retval
 
 
 class Caffeine(models.Model):

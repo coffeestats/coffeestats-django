@@ -73,10 +73,19 @@ class ExploreView(LoginRequiredMixin, TemplateView):
         return context_data
 
 
-class ExportActivityView(LoginRequiredMixin, View):
-    def get(self, request):
-        # TODO: perform the export
-        return HttpResponseRedirect(reverse_lazy('settings'))
+class ExportActivityView(LoginRequiredMixin, RedirectView):
+    permanent = False
+    url = reverse_lazy('settings')
+
+    def get_redirect_url(self, *args, **kwargs):
+        self.request.user.export_csv()
+        messages.add_message(
+            self.request, messages.INFO,
+            _('Your data has been exported. You will receive an email '
+              'with two CSV files with your coffee and mate registrations '
+              'attached.'))
+        return super(ExportActivityView, self).get_redirect_url(
+            *args, **kwargs)
 
 
 class DeleteAccountView(LoginRequiredMixin, View):

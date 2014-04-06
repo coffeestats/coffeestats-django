@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+{% block content %}
+<div class="white-box fullWidth">
+  <p>{% trans "You have not defined your timezone yet. Now is a good time to select it." %}</p>
+  <p>{% blocktrans %}Detected timezone: <span id="timezoneinfo">Not detected yet</span>{% endblocktrans %}</p>
+  <form action="{% url "selecttimezone" %}?next={{ request.GET.next|urlencode }}" method="post" class="inlineform">
+    {{ form.timezone.errors }}
+    <select name="timezone" id="tzselect" autofocus class="left">
+      {% for tz in tzlist %}
+      <option>{{ tz }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" name="submit" value="{% trans "Select timezone" %}" class="left" />
+    {% csrf_token %}
+  </form>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static "js/jstz-1.0.4.min.js" %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var tz = jstz.determine();
+    var tzname = tz.name();
+    $('#timezoneinfo').text(tzname);
+    var tzselect = $('#tzselect');
+    for (var i=0; i < tzselect[0].options.length; i++) {
+        if (tzselect[0].options[i].text === tzname) {
+            tzselect[0].selectedIndex = i;
+            break;
+        }
+    }
+});
+</script>
+{% endblock extra_js %}

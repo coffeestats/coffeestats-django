@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import override as override_timezone
 
 from registration.forms import RegistrationFormUniqueEmail
 from captcha.fields import ReCaptchaField
@@ -92,6 +93,24 @@ class SettingsForm(forms.ModelForm):
             self.instance.set_password(
                 self.cleaned_data['password2'])
         return cleaned_data
+
+
+class SelectTimeZoneForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['timezone']
+
+    def clean_timezone(self):
+        timezone = self.cleaned_data['timezone']
+        if timezone:
+            try:
+                with override_timezone(timezone):
+                    return timezone
+            except:
+                raise forms.ValidationError(
+                    _("Invalid time zone name"))
+        raise forms.ValidationError(
+            _("Time zone must not be empty."))
 
 
 class SubmitCaffeineForm(forms.ModelForm):

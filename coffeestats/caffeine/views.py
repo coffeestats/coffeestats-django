@@ -20,6 +20,7 @@ from django.views.generic.edit import (
     BaseFormView,
     DeleteView,
     FormView,
+    UpdateView,
 )
 
 from django.contrib import messages
@@ -29,9 +30,11 @@ from registration.backends.default.views import (
     ActivationView,
     RegistrationView,
 )
+from pytz import common_timezones
 
 from .forms import (
     CoffeestatsRegistrationForm,
+    SelectTimeZoneForm,
     SettingsForm,
     SubmitCaffeineForm,
 )
@@ -369,3 +372,29 @@ class DeleteCaffeineView(LoginRequiredMixin, DeleteView):
             self.request, messages.SUCCESS,
             _('Entry deleted successfully!'))
         return super(DeleteCaffeineView, self).get_success_url()
+
+
+class SelectTimeZoneView(UpdateView):
+    form_class = SelectTimeZoneForm
+    template_name = 'selecttimezone.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SelectTimeZoneView, self).get_context_data(**kwargs)
+        context.update({
+            'tzlist': common_timezones
+        })
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            _('Your time zone has been set to %(timezone)s successfully.') % {
+                'timezone': form.cleaned_data['timezone']})
+        return super(SelectTimeZoneView, self).form_valid(form)
+
+    def get_success_url(self):
+        return self.request.GET['next']
+
+    def get_object(self):
+        return self.request.user

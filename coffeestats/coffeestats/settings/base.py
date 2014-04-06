@@ -185,6 +185,8 @@ MIDDLEWARE_CLASSES = (
     # uncomment next line to enable translation to browser locale
     #'django.middleware.locale.LocaleMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # middleware to redirect user to set timezone
+    'caffeine.middleware.EnforceTimezoneMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
 

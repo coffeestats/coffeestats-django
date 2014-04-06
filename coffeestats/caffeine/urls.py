@@ -19,6 +19,7 @@ from .views import (
     RegistrationClosedView,
     SettingsView,
     SubmitCaffeineView,
+    SubmitCaffeineOnTheRunView,
     DeleteCaffeineView,
 )
 
@@ -50,6 +51,9 @@ urlpatterns = patterns(
     url(r'^(?P<drink>(coffee|mate))/submit/$',
         SubmitCaffeineView.as_view(),
         name='submit_caffeine'),
+    url(r'^(?P<drink>(coffee|mate))/submit/(?P<username>\w+)/(?P<token>\w+)/$',
+        SubmitCaffeineOnTheRunView.as_view(),
+        name='submit_caffeine_otr'),
     url(r'^action/confirm/(?P<code>\w+)/$',
         ConfirmActionView.as_view(),
         name='confirm_action'),

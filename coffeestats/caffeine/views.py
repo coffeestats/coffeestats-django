@@ -283,35 +283,55 @@ class OnTheRunOldView(RedirectView):
             'token': user.token})
 
 
-class SubmitCaffeineView(LoginRequiredMixin, BaseFormView):
+class BaseSubmitCaffeineView(BaseFormView):
     form_class = SubmitCaffeineForm
-    ctype = None
-
-    def post(self, *args, **kwargs):
-        self.ctype = kwargs.pop('drink')
-        return super(SubmitCaffeineView, self).post(*args, **kwargs)
-
-    def get_form_kwargs(self):
-        kwargs = super(SubmitCaffeineView, self).get_form_kwargs()
-        kwargs.update({
-            'user': self.request.user,
-            'ctype': self.ctype,
-        })
-        return kwargs
+    http_method_names = ['post']
 
     def form_valid(self, form):
-        form.save()
-        return super(SubmitCaffeineView, self).form_valid(form)
+        caffeine = form.save()
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            _('Your %(caffeine)s has been registered') % {
+                'caffeine': caffeine},
+            extra_tags='registerdrink')
+        return super(BaseSubmitCaffeineView, self).form_valid(form)
 
     def form_invalid(self, form):
         for error in form.non_field_errors():
             messages.add_message(
                 self.request, messages.ERROR, error,
                 extra_tags='registerdrink')
-        return HttpResponseRedirect(reverse('profile'))
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class SubmitCaffeineView(LoginRequiredMixin, BaseSubmitCaffeineView):
+    def get_form_kwargs(self):
+        kwargs = super(SubmitCaffeineView, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user,
+            'ctype': self.kwargs['drink'],
+        })
+        return kwargs
 
     def get_success_url(self):
         return reverse('profile')
+
+
+class SubmitCaffeineOnTheRunView(BaseSubmitCaffeineView):
+    def get_form_kwargs(self):
+        user = get_object_or_404(
+            User, username=self.kwargs['username'], token=self.kwargs['token'])
+        kwargs = super(SubmitCaffeineOnTheRunView, self).get_form_kwargs()
+        kwargs.update({
+            'user': user,
+            'ctype': self.kwargs['drink'],
+        })
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy('ontherun', kwargs={
+            'username': self.kwargs['username'],
+            'token': self.kwargs['token']})
 
 
 class DeleteCaffeineView(LoginRequiredMixin, DeleteView):

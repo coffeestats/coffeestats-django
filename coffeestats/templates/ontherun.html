@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n staticfiles caffeine %}
+{% block content %}
+<div class="white-box fullWidth">
+  <h2>{% trans "On the run?" %}</h2>
+  <center>
+  {% if messages|messagetags:'registerdrink' %}
+  <ul class="flash-messages" id="registerdrink-flash">{% spaceless %}
+    {% for message in messages|messagetags:'registerdrink' %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  {% endspaceless %}</ul>
+  {% endif %}
+  {% spaceless %}
+  <form action="{% url "submit_caffeine_otr" "coffee" username token %}" method="post" id="coffeeform" class="otrblockform">
+    <input type="submit" value="{% trans "Coffee!" %}" /><br />
+    <input type="hidden" id="id_coffeetime" name="date" />
+    {% csrf_token %}
+  </form>
+  <form action="{% url "submit_caffeine_otr" "mate" username token %}" method="post" id="mateform" class="otrblockform">
+    <input type="submit" value="{% trans "Mate!" %}" /><br />
+    <input type="hidden" id="id_matetime" name="date" />
+    {% csrf_token %}
+  </form>
+  {% endspaceless %}
+  </center>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
+<script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#coffeeform').submit(function(event) {
+        return sanitize_datetime('input#id_coffeetime');
+    });
+    $('#mateform').submit(function(event) {
+        return sanitize_datetime('input#id_matetime');
+    });
+});
+</script>
+{% endblock extra_js %}

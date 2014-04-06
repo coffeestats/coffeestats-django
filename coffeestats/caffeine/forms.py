@@ -109,6 +109,7 @@ class SubmitCaffeineForm(forms.ModelForm):
                             date=self.cleaned_data['date'],
                             timezone=self.user.timezone)
         caffeine.save()
+        return caffeine
 
     def clean(self):
         cleaned_data = super(SubmitCaffeineForm, self).clean()

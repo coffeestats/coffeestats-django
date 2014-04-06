@@ -7,8 +7,8 @@ from django.db import (
     models,
 )
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils import timezone
-from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import (
     AbstractUser,
@@ -102,7 +102,7 @@ class User(AbstractUser):
     objects = CaffeineUserManager()
 
     def get_absolute_url(self):
-        return "/profile/?u=%s" % urlquote(self.username)
+        return reverse("public", kwargs={'username': self.username})
 
     def __unicode__(self):
         return self.get_full_name()

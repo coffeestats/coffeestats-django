@@ -5,7 +5,6 @@ from django.http import (
     HttpResponse,
     HttpResponseBadRequest,
 )
-from django.utils.http import urlquote_plus
 from django.contrib.auth.decorators import login_required
 
 from caffeine.models import User
@@ -22,8 +21,7 @@ def random_users(request):
             'name': user.get_full_name(),
             'location': user.location,
             'profile': request.build_absolute_uri(
-                reverse('profile')) + '?u=' + urlquote_plus(
-                user.username),
+                reverse('public', kwargs={'username': user.username})),
             'coffees': user.coffees,
             'mate': user.mate})
     return HttpResponse(json.dumps(data), content_type="text/json")

@@ -16,6 +16,7 @@ from .views import (
     OnTheRunView,
     OverallView,
     ProfileView,
+    PublicProfileView,
     RegistrationClosedView,
     SettingsView,
     SubmitCaffeineView,
@@ -61,4 +62,6 @@ urlpatterns = patterns(
         DeleteCaffeineView.as_view(),
         name='delete_caffeine'),
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
+    url(r'^profile/(?P<username>\w+)/$', PublicProfileView.as_view(),
+        name='public'),
 )

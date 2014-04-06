@@ -5,7 +5,6 @@ from django.core.urlresolvers import (
 )
 from django.http import (
     HttpResponseBadRequest,
-    HttpResponseNotFound,
     HttpResponseRedirect,
 )
 from django.template.loader import render_to_string
@@ -110,27 +109,19 @@ class OverallView(LoginRequiredMixin, TemplateView):
         return context_data
 
 
-class ProfileView(TemplateView):
+class PublicProfileView(TemplateView):
     template_name = 'profile.html'
-    profileuser = None
     ownprofile = False
-
-    def get(self, request, *args, **kwargs):
-        if 'u' in request.GET:
-            username = request.GET['u']
-            try:
-                self.profileuser = User.objects.get(username=username)
-            except User.DoesNotExist:
-                return HttpResponseNotFound(_('No profile found'))
-        elif request.user.is_authenticated():
-            self.profileuser = request.user
-            self.ownprofile = True
-        else:
-            return HttpResponseBadRequest(_('Invalid request!'))
-        return super(ProfileView, self).get(request, *args, **kwargs)
+    profileuser = None
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
+        context = super(PublicProfileView, self).get_context_data(**kwargs)
+        if 'username' in self.kwargs:
+            self.profileuser = get_object_or_404(
+                User, username=self.kwargs['username'])
+        else:
+            self.profileuser = self.request.user
+
         total = Caffeine.objects.total_caffeine_for_user(self.profileuser)
         todaydata = Caffeine.objects.hourly_caffeine_for_user(
             self.profileuser)
@@ -154,12 +145,27 @@ class ProfileView(TemplateView):
             'todaydata': todaydata,
             'yeardata': yeardata,
         })
-        if self.ownprofile:
-            entries = Caffeine.objects.latest_caffeine_for_user(
-                self.profileuser)
-            context.update({
-                'entries': entries,
-            })
+        return context
+
+
+class ProfileView(PublicProfileView):
+    ownprofile = True
+
+    def get(self, request, *args, **kwargs):
+        if 'u' in request.GET:
+            return HttpResponseRedirect(reverse('public', kwargs={
+                'username': request.GET['u']}))
+        if not request.user.is_authenticated():
+            return HttpResponseBadRequest(_('Invalid request!'))
+        return super(ProfileView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        entries = Caffeine.objects.latest_caffeine_for_user(
+            self.profileuser)
+        context.update({
+            'entries': entries,
+        })
         return context
 
 

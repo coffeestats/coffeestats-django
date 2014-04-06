@@ -22,7 +22,7 @@
   <div class="pagelinks">
     <div class="left">
       {% if ownprofile %}
-      <a class="btn secondary left" href="{% publicurl %}">{% trans "public profile" %}</a>
+      <a class="btn secondary left" href="{% url "public" username=profileuser.username %}">{% trans "public profile" %}</a>
       <a class="btn secondary left" href="{% url "ontherun" username=profileuser.username token=profileuser.token %}">{% trans "on-the-run" %}</a>
       {% endif %}
     </div>

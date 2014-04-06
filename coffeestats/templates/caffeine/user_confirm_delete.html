@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="white-box fullWidth">
+  <h2>{% trans "Confirm deletion of your account" %}</h2>
+  <p>{% blocktrans with username=object.username %}Do you really want to delete your coffeestats.org account {{ username }} and all your caffeine submissions?{% endblocktrans %}</p>
+  <p>{% trans "Please be aware that there is no way to restore your data later." %}</p>
+  <form action="{{ request.path }}" method="post" class="inlineform">
+    <input type="submit" name="submit" value="{% trans "Yes!" %}" class="left" />
+    <a href="{% url "settings" %}" class="btn secondary left">{% trans "No, cancel" %}</a>
+    {% csrf_token %}
+  </form>
+</div>
+{% endblock %}

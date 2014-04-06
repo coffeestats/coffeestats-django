@@ -16,9 +16,9 @@ from .models import (
 
 
 class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
-    firstname = forms.CharField(label=_("First name"))
-    lastname = forms.CharField(label=_("Last name"))
-    location = forms.CharField(label=_("Location"))
+    firstname = forms.CharField(label=_("First name"), required=False)
+    lastname = forms.CharField(label=_("Last name"), required=False)
+    location = forms.CharField(label=_("Location"), required=False)
     captcha = ReCaptchaField()
 
     def clean_username(self):

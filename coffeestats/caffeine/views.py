@@ -23,6 +23,7 @@ from django.views.generic.edit import (
     UpdateView,
 )
 
+from django.contrib.auth import logout
 from django.contrib import messages
 
 from braces.views import LoginRequiredMixin
@@ -88,10 +89,20 @@ class ExportActivityView(LoginRequiredMixin, RedirectView):
             *args, **kwargs)
 
 
-class DeleteAccountView(LoginRequiredMixin, View):
-    def get(self, request):
-        # TODO: perform deletion
-        return HttpResponseRedirect(reverse_lazy('settings'))
+class DeleteAccountView(LoginRequiredMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        logout(self.request)
+        messages.add_message(
+            self.request, messages.INFO,
+            _('Your account and all your caffeine submissions '
+              'have been deleted.'))
+        return super(DeleteAccountView, self).get_success_url()
+
+    def get_object(self):
+        return self.request.user
 
 
 class ImprintView(TemplateView):

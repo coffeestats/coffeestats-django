@@ -108,6 +108,13 @@ class User(AbstractUser):
         return self.get_full_name()
 
 
+def total_result_dict():
+    return {
+        DRINK_TYPES.mate: 0,
+        DRINK_TYPES.coffee: 0,
+    }
+
+
 def hour_result_dict():
     return {
         'labels': [unicode(i) for i in range(24)],
@@ -159,18 +166,26 @@ class CaffeineManager(models.Manager):
     """
     def total_caffeine_for_user(self, user):
         """
-        Return total coffees for user profile.
+        Return total caffeine for user profile.
 
         :param User user: user instance
         :return: result dictionary
         """
-        q = self.filter(user=user).values('ctype').annotate(
-            num_drinks=models.Count('ctype'))
-        result = {
-            DRINK_TYPES.mate: 0,
-            DRINK_TYPES.coffee: 0,
-        }
-        for item in q:
+        result = total_result_dict()
+        for item in self.filter(user=user).values('ctype').annotate(
+                num_drinks=models.Count('ctype')):
+            result[item['ctype']] = item['num_drinks']
+        return result
+
+    def total_caffeine(self):
+        """
+        Return total caffeine for all users.
+
+        :return: result dictionary
+        """
+        result = total_result_dict()
+        for item in self.values('ctype').annotate(
+                num_drinks=models.Count('ctype')):
             result[item['ctype']] = item['num_drinks']
         return result
 
@@ -209,6 +224,28 @@ class CaffeineManager(models.Manager):
             result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
         return result
 
+    def hourly_caffeine(self):
+        """
+        Return series of hourly coffees and mate on current day for all users.
+
+        :return: result dictionary
+        """
+        result = hour_result_dict()
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT ctype, COUNT(id) AS value,
+                   DATE_FORMAT(date, '%%H') AS hour
+            FROM   caffeine_caffeine
+            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m-%%d') =
+                   DATE_FORMAT(date, '%%Y-%%m-%%d')
+            GROUP BY hour, ctype
+            """)
+        for ctype, value, hour in cursor.fetchall():
+            result['maxvalue'] = max(value, result['maxvalue'])
+            result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
+        return result
+
     def daily_caffeine_for_user(self, user):
         """
         Return series of daily coffees and mate in current month for user
@@ -234,10 +271,32 @@ class CaffeineManager(models.Manager):
             result[DRINK_TYPES._triples[ctype][1]][int(day) - 1] = value
         return result
 
+    def daily_caffeine(self):
+        """
+        Return series of daily coffees and mate in current month for all users.
+
+        :return: result dictionary
+        """
+        result = month_result_dict(timezone.now())
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT ctype, COUNT(id) AS value,
+                   DATE_FORMAT(date, '%%d') AS day
+            FROM   caffeine_caffeine
+            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m') =
+                   DATE_FORMAT(date, '%%Y-%%m')
+            GROUP BY day, ctype
+            """)
+        for ctype, value, day in cursor.fetchall():
+            result['maxvalue'] = max(value, result['maxvalue'])
+            result[DRINK_TYPES._triples[ctype][1]][int(day) - 1] = value
+        return result
+
     def monthly_caffeine_for_user(self, user):
         """
-        Return a series of monthly coffees and mate in current month for user
-        profile.
+        Return a series of monthly coffees and mate in the current month for
+        user profile.
 
         :param User user: user instance
         :return: result dictionary
@@ -254,6 +313,29 @@ class CaffeineManager(models.Manager):
                    AND user_id = {0:d}
             GROUP BY month, ctype
             """.format(user.id))
+        for ctype, value, month in cursor.fetchall():
+            result['maxvalue'] = max(value, result['maxvalue'])
+            result[DRINK_TYPES._triples[ctype][1]][int(month) - 1] = value
+        return result
+
+    def monthly_caffeine_overall(self):
+        """
+        Return a series of monthly coffees and mate in the current month for
+        all users.
+
+        :return: result dictionary
+        """
+        result = year_result_dict()
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT ctype, COUNT(id) AS value,
+                   DATE_FORMAT(date, '%%m') AS month
+            FROM   caffeine_caffeine
+            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y') =
+                   DATE_FORMAT(date, '%%Y')
+            GROUP BY month, ctype
+            """)
         for ctype, value, month in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(month) - 1] = value
@@ -282,6 +364,27 @@ class CaffeineManager(models.Manager):
             result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
         return result
 
+    def hourly_caffeine_overall(self):
+        """
+        Return a series of hourly caffeinated drinks for the whole lifetime of
+        the site.
+
+        :return: result dictionary
+        """
+        result = hour_result_dict()
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT ctype, COUNT(id) AS value,
+                   DATE_FORMAT(date, '%%H') AS hour
+            FROM   caffeine_caffeine
+            GROUP BY hour, ctype
+            """)
+        for ctype, value, hour in cursor.fetchall():
+            result['maxvalue'] = max(value, result['maxvalue'])
+            result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
+        return result
+
     def weekdaily_caffeine_for_user_overall(self, user):
         """
         Return a series of caffeinated drinks per weekday for the whole
@@ -304,6 +407,29 @@ class CaffeineManager(models.Manager):
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][
                 result['labels'].index(wday)] = value
+        return result
+
+    def weekdaily_caffeine_overall(self):
+        """
+        Return a series of caffeinated drinks per weekday for the whole
+        lifetime of the site.
+
+        :return: result dictionary
+        """
+        result = weekdaily_result_dict()
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT ctype, COUNT(id) AS value,
+                   DATE_FORMAT(date, '%%a') AS wday
+            FROM   caffeine_caffeine
+            GROUP BY wday, ctype
+            """)
+        for ctype, value, wday in cursor.fetchall():
+            if wday is not None:
+                result['maxvalue'] = max(value, result['maxvalue'])
+                result[DRINK_TYPES._triples[ctype][1]][
+                    result['labels'].index(wday)] = value
         return result
 
     def find_recent_caffeine(self, user, date, ctype):

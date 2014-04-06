@@ -94,6 +94,21 @@ class IndexView(LoginRequiredMixin, TemplateView):
 class OverallView(LoginRequiredMixin, TemplateView):
     template_name = 'overall.html'
 
+    def get_context_data(self, **kwargs):
+        total = Caffeine.objects.total_caffeine()
+
+        context_data = super(OverallView, self).get_context_data(**kwargs)
+        context_data.update({
+            'coffees': total[DRINK_TYPES.coffee],
+            'mate': total[DRINK_TYPES.mate],
+            'todaydata': Caffeine.objects.hourly_caffeine(),
+            'monthdata': Caffeine.objects.daily_caffeine(),
+            'yeardata': Caffeine.objects.monthly_caffeine_overall(),
+            'byhourdata': Caffeine.objects.hourly_caffeine_overall(),
+            'byweekdaydata': Caffeine.objects.weekdaily_caffeine_overall(),
+        })
+        return context_data
+
 
 class ProfileView(TemplateView):
     template_name = 'profile.html'

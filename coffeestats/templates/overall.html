@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="white-box fullWidth">
+  <h2>{% trans "Overall Statistics" %}</h2>
+  <p>{% blocktrans %}We love stats. On overall statistics we started making awesome graphs examining the daily coffee consumption of anyone using coffeestats.org. There are different approaches to visualize this. At least a few of them are listed below.{% endblocktrans %}</p>
+  <p>{% trans "Hint: Yellow will always be Mate." %}</p>
+</div>
+<div><!--space--></div>
+<div class="white-box">
+  <h2>{% trans "Caffeine today" %}</h2>
+  <canvas id="coffeetoday" width="590" height="240" ></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine this month" %}</h2>
+  <canvas id="coffeemonth" width="590" height="240" ></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Coffees vs. Mate" %}</h2>
+  <canvas id="coffeevsmate" width="590" height="240" ></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine this year" %}</h2>
+  <canvas id="coffeeyear" width="590" height="240" ></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine by hour (overall)" %}</h2>
+  <canvas id="coffeebyhour" width="590" height="240" ></canvas>
+</div>
+<div class="white-box">
+  <h2>{% trans "Caffeine by weekday (overall)" %}</h2>
+  <canvas id="coffeebyweekday" width="590" height="240" ></canvas>
+</div>
+{% endblock content %}
+{% block extra_js %}
+{% include "includes/js_charting.html" %}
+<script type="text/javascript">
+var todaycolor = "#E64545";
+var monthcolor = "#FF9900";
+var monthcoffeecolor = "#FFB84D";
+var pointcolor = "#FFF";
+var byhourcoffeecolor = "#FF9999";
+var byweekdaycoffeecolor = "#99FF99";
+var yearcolor = "#3399FF";
+var hourcolor = "#FF6666";
+var weekdaycolor = "#A3CC52";
+var matecolor = "#FFCC00";
+var matelightcolor = "#FFE066";
+var barChartData;
+var lineChartData;
+
+var doughnutData = [
+    {
+      value: {{ coffees|default:0 }},
+      color: todaycolor
+    },
+    {
+      value: {{ mate|default:0 }},
+      color: matecolor
+    }
+];
+new Chart(document.getElementById("coffeevsmate").getContext("2d")).Doughnut(doughnutData);
+
+barChartData = {
+  labels: ['{{ todaydata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: todaycolor,
+    strokeColor: todaycolor,
+    data: [{{ todaydata.coffee|join:", " }}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matecolor,
+    data: [{{ todaydata.mate|join:", "}}],
+  },
+  ]
+};
+drawBarChart('coffeetoday', barChartData, {{ todaydata.maxvalue|default:1 }});
+
+lineChartData = {
+  labels: ['{{ monthdata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: monthcolor,
+    strokeColor: monthcoffeecolor,
+    pointColor: monthcoffeecolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ monthdata.coffee|join:", " }}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matelightcolor,
+    pointColor: matelightcolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ montdata.mate|join:", " }}],
+  },
+  ]
+};
+drawLineChart('coffeemonth', lineChartData, {{ monthdata.maxvalue|default:1 }});
+
+barChartData = {
+  labels: ['{{ yeardata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: yearcolor,
+    strokeColor: yearcolor,
+    data: [{{ yeardata.coffee|join:", " }}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matecolor,
+    data: [{{ yeardata.mate|join:", " }}],
+  },
+  ]
+};
+drawBarChart('coffeeyear', barChartData, {{ yeardata.maxvalue|default:1 }});
+
+lineChartData = {
+  labels: ['{{ byhourdata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: hourcolor,
+    strokeColor: byhourcoffeecolor,
+    pointColor: byhourcoffeecolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byhourdata.coffee|join:", "}}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matelightcolor,
+    pointColor: matelightcolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byhourdata.mate|join:", "}}],
+  },
+  ]
+};
+drawLineChart('coffeebyhour', lineChartData, {{ byhourdata.maxvalue|default:1 }});
+
+lineChartData = {
+  labels: ['{{ byweekdaydata.labels|join:"', '" }}'],
+  datasets: [
+  {
+    fillColor: weekdaycolor,
+    strokeColor: byweekdaycoffeecolor,
+    pointColor: byweekdaycoffeecolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byweekdaydata.coffee|join:", "}}],
+  },
+  {
+    fillColor: matecolor,
+    strokeColor: matelightcolor,
+    pointColor: matelightcolor,
+    pointStrokeColor: pointcolor,
+    data: [{{ byweekdaydata.mate|join:", "}}],
+  },
+  ]
+};
+drawLineChart('coffeebyweekday', lineChartData, {{ byweekdaydata.maxvalue|default:1 }});
+</script>
+{% endblock extra_js %}

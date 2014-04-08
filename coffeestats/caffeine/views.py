@@ -302,11 +302,18 @@ class ConfirmActionView(SingleObjectMixin, View):
 class OnTheRunView(TemplateView):
     template_name = "ontherun.html"
 
+    def get_context_data(self, *args, **kwargs):
+        get_object_or_404(
+            User, username=self.kwargs['username'],
+            token=self.kwargs['token'])
+        return super(OnTheRunView, self).get_context_data(*args, **kwargs)
+
 
 class OnTheRunOldView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         user = get_object_or_404(
-            User, username=self.request.GET['u'], token=self.request.GET['t'])
+            User, username=self.request.GET.get('u'),
+            token=self.request.GET.get('t'))
         return reverse('ontherun', kwargs={
             'username': user.username,
             'token': user.token})

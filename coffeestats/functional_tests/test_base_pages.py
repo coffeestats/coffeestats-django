@@ -27,10 +27,15 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(len(form_inputs), 5)
 
         # the input fields contain placeholders
-        self.assertEqual(login_box.find_element_by_id(
-            'id_username').get_attribute('placeholder'), 'Username')
+        username_field = login_box.find_element_by_id('id_username')
+        self.assertEqual(
+            username_field.get_attribute('placeholder'), 'Username')
         self.assertEqual(login_box.find_element_by_id(
             'id_password').get_attribute('placeholder'), 'Password')
+
+        # check that the username field has the focus
+        self.assertEqual(self.selenium.switch_to.active_element,
+                         username_field)
 
         # there is a "Login" button
         login_button = login_box.find_element_by_name('submit')

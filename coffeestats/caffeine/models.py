@@ -31,6 +31,10 @@ ACTION_TYPES = Choices(
     (0, 'change_email', _('Change email')),
 )
 
+WEEKDAY_LABELS = (
+    _('Mon'), _('Tue'), _('Wed'), _('Thu'), _('Fri'), _('Sat'), _('Sun')
+)
+
 
 class CaffeineUserManager(BaseUserManager):
 
@@ -168,8 +172,7 @@ def _year_result_dict():
 
 def _weekdaily_result_dict():
     result = {
-        'labels': [_('Mon'), _('Tue'), _('Wed'), _('Thu'), _('Fri'),
-                   _('Sat'), _('Sun')]
+        'labels': WEEKDAY_LABELS,
     }
     result.update({
         'coffee': [0 for i in range(len(result['labels']))],
@@ -236,9 +239,9 @@ class CaffeineManager(models.Manager):
             FROM   caffeine_caffeine
             WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m-%%d') =
                    DATE_FORMAT(date, '%%Y-%%m-%%d')
-                   AND user_id = {0:d}
+                   AND user_id = %s
             GROUP BY hour, ctype
-            """.format(user.id))
+            """, [user.id])
         for ctype, value, hour in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
@@ -260,7 +263,7 @@ class CaffeineManager(models.Manager):
             WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m-%%d') =
                    DATE_FORMAT(date, '%%Y-%%m-%%d')
             GROUP BY hour, ctype
-            """)
+            """, [])
         for ctype, value, hour in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
@@ -283,9 +286,9 @@ class CaffeineManager(models.Manager):
             FROM   caffeine_caffeine
             WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m') =
                    DATE_FORMAT(date, '%%Y-%%m')
-                   AND user_id = {0:d}
+                   AND user_id = %s
             GROUP BY day, ctype
-            """.format(user.id))
+            """, [user.id])
         for ctype, value, day in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(day) - 1] = value
@@ -307,7 +310,7 @@ class CaffeineManager(models.Manager):
             WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m') =
                    DATE_FORMAT(date, '%%Y-%%m')
             GROUP BY day, ctype
-            """)
+            """, [])
         for ctype, value, day in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(day) - 1] = value
@@ -330,9 +333,9 @@ class CaffeineManager(models.Manager):
             FROM   caffeine_caffeine
             WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y') =
                    DATE_FORMAT(date, '%%Y')
-                   AND user_id = {0:d}
+                   AND user_id = %s
             GROUP BY month, ctype
-            """.format(user.id))
+            """, [user.id])
         for ctype, value, month in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(month) - 1] = value
@@ -355,7 +358,7 @@ class CaffeineManager(models.Manager):
             WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y') =
                    DATE_FORMAT(date, '%%Y')
             GROUP BY month, ctype
-            """)
+            """, [])
         for ctype, value, month in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(month) - 1] = value
@@ -376,9 +379,9 @@ class CaffeineManager(models.Manager):
             SELECT ctype, COUNT(id) AS value,
                    DATE_FORMAT(date, '%%H') AS hour
             FROM   caffeine_caffeine
-            WHERE  user_id = {0:d}
+            WHERE  user_id = %s
             GROUP BY hour, ctype
-            """.format(user.id))
+            """, [user.id])
         for ctype, value, hour in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
@@ -399,7 +402,7 @@ class CaffeineManager(models.Manager):
                    DATE_FORMAT(date, '%%H') AS hour
             FROM   caffeine_caffeine
             GROUP BY hour, ctype
-            """)
+            """, [])
         for ctype, value, hour in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][int(hour)] = value
@@ -420,9 +423,9 @@ class CaffeineManager(models.Manager):
             SELECT ctype, COUNT(id) AS value,
                    DATE_FORMAT(date, '%%a') AS wday
             FROM   caffeine_caffeine
-            WHERE  user_id = {0:d}
+            WHERE  user_id = %s
             GROUP BY wday, ctype
-            """.format(user.id))
+            """, [user.id])
         for ctype, value, wday in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
             result[DRINK_TYPES._triples[ctype][1]][
@@ -444,7 +447,7 @@ class CaffeineManager(models.Manager):
                    DATE_FORMAT(date, '%%a') AS wday
             FROM   caffeine_caffeine
             GROUP BY wday, ctype
-            """)
+            """, [])
         for ctype, value, wday in cursor.fetchall():
             if wday is not None:
                 result['maxvalue'] = max(value, result['maxvalue'])

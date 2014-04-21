@@ -128,14 +128,14 @@ class User(AbstractUser):
         email.send()
 
 
-def total_result_dict():
+def _total_result_dict():
     return {
         DRINK_TYPES.mate: 0,
         DRINK_TYPES.coffee: 0,
     }
 
 
-def hour_result_dict():
+def _hour_result_dict():
     return {
         'labels': [unicode(i) for i in range(24)],
         'coffee': [0 for i in range(24)],
@@ -144,7 +144,7 @@ def hour_result_dict():
     }
 
 
-def month_result_dict(date):
+def _month_result_dict(date):
     result = {
         'labels': [unicode(i + 1) for i in range(monthrange(
             date.year, date.month)[1])],
@@ -157,7 +157,7 @@ def month_result_dict(date):
     return result
 
 
-def year_result_dict():
+def _year_result_dict():
     return {
         'labels': [unicode(i + 1) for i in range(12)],
         'coffee': [0 for i in range(12)],
@@ -166,7 +166,7 @@ def year_result_dict():
     }
 
 
-def weekdaily_result_dict():
+def _weekdaily_result_dict():
     result = {
         'labels': [_('Mon'), _('Tue'), _('Wed'), _('Thu'), _('Fri'),
                    _('Sat'), _('Sun')]
@@ -191,7 +191,7 @@ class CaffeineManager(models.Manager):
         :param User user: user instance
         :return: result dictionary
         """
-        result = total_result_dict()
+        result = _total_result_dict()
         for item in self.filter(user=user).values('ctype').annotate(
                 num_drinks=models.Count('ctype')):
             result[item['ctype']] = item['num_drinks']
@@ -203,7 +203,7 @@ class CaffeineManager(models.Manager):
 
         :return: result dictionary
         """
-        result = total_result_dict()
+        result = _total_result_dict()
         for item in self.values('ctype').annotate(
                 num_drinks=models.Count('ctype')):
             result[item['ctype']] = item['num_drinks']
@@ -227,7 +227,7 @@ class CaffeineManager(models.Manager):
         :param User user: user instance
         :return: result dictionary
         """
-        result = hour_result_dict()
+        result = _hour_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -250,7 +250,7 @@ class CaffeineManager(models.Manager):
 
         :return: result dictionary
         """
-        result = hour_result_dict()
+        result = _hour_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -274,7 +274,7 @@ class CaffeineManager(models.Manager):
         :param User user: user instance
         :return: result dictionary
         """
-        result = month_result_dict(timezone.now())
+        result = _month_result_dict(timezone.now())
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -297,7 +297,7 @@ class CaffeineManager(models.Manager):
 
         :return: result dictionary
         """
-        result = month_result_dict(timezone.now())
+        result = _month_result_dict(timezone.now())
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -321,7 +321,7 @@ class CaffeineManager(models.Manager):
         :param User user: user instance
         :return: result dictionary
         """
-        result = year_result_dict()
+        result = _year_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -345,7 +345,7 @@ class CaffeineManager(models.Manager):
 
         :return: result dictionary
         """
-        result = year_result_dict()
+        result = _year_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -369,7 +369,7 @@ class CaffeineManager(models.Manager):
         :param User user: user instance
         :return: result dictionary
         """
-        result = hour_result_dict()
+        result = _hour_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -391,7 +391,7 @@ class CaffeineManager(models.Manager):
 
         :return: result dictionary
         """
-        result = hour_result_dict()
+        result = _hour_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -413,7 +413,7 @@ class CaffeineManager(models.Manager):
         :param User user: user instance
         :return: result dictionary
         """
-        result = weekdaily_result_dict()
+        result = _weekdaily_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -436,7 +436,7 @@ class CaffeineManager(models.Manager):
 
         :return: result dictionary
         """
-        result = weekdaily_result_dict()
+        result = _weekdaily_result_dict()
         cursor = connection.cursor()
         cursor.execute(
             """

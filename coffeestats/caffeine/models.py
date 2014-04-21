@@ -124,7 +124,7 @@ class User(AbstractUser):
             email.attachments.append(
                 ('%s-%s.csv' % (drink, now),
                  Caffeine.objects.get_csv_data(drink, self),
-                 'text/cvs'))
+                 'text/csv'))
         email.send()
 
 

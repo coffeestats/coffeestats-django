@@ -1,6 +1,8 @@
 from hashlib import md5
 from datetime import timedelta
 
+from django.core import mail
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
 
@@ -66,3 +68,39 @@ class CaffeineUserManagerTest(TestCase):
         users = [u.username for u in User.objects.longest_joined()]
         self.assertEqual(len(users), 5)
         self.assertEqual(users, ['test10', 'test9', 'test8', 'test7', 'test6'])
+
+
+class UserTest(TestCase):
+
+    def test_manager_is_caffeineusermanager(self):
+        self.assertIsInstance(User.objects, CaffeineUserManager)
+
+    def test_get_absolute_url(self):
+        user = User.objects.create(username='testuser')
+        self.assertEqual(user.get_absolute_url(), reverse(
+            'public', kwargs={'username': 'testuser'}))
+
+    def test___unicode__(self):
+        user = User.objects.create(username='testuser')
+        self.assertEqual(unicode(user), '')
+
+        user = User.objects.create(username='testuser2', first_name='Test',
+                                   last_name='User', token='foo')
+        self.assertEqual(unicode(user), 'Test User')
+
+    def test_export_csv(self):
+        user = User.objects.create(username='testuser',
+                                   email='testuser@bla.com')
+        user.export_csv()
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Your caffeine records')
+        self.assertEqual(mail.outbox[0].body,
+                         'Attached is your caffeine track record.')
+        self.assertEqual(mail.outbox[0].recipients()[0], 'testuser@bla.com')
+        self.assertEqual(len(mail.outbox[0].attachments), 2)
+        self.assertRegexpMatches(mail.outbox[0].attachments[0][0],
+                                 r'^coffee-.+\.csv$')
+        self.assertRegexpMatches(mail.outbox[0].attachments[1][0],
+                                 r'^mate-.+\.csv$')
+        self.assertEqual(mail.outbox[0].attachments[0][2], 'text/csv')
+        self.assertEqual(mail.outbox[0].attachments[1][2], 'text/csv')

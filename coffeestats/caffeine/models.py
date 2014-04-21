@@ -33,6 +33,26 @@ ACTION_TYPES = Choices(
 
 
 class CaffeineUserManager(BaseUserManager):
+
+    def _create_user(self, username, email, password, **kwargs):
+        if not username:
+            raise ValueError(_("User must have a username."))
+        if not email:
+            raise ValueError(_("User must have an email address."))
+
+        user = self.model(
+            username=username,
+            email=self.normalize_email(email),
+            **kwargs)
+        if password is not None:
+            user.set_password(password)
+            # on the run token
+            # TODO: use something better for API authentication
+            user.token = md5(username + password).hexdigest()
+        user.date_joined = timezone.now()
+        user.save(using=self.db)
+        return user
+
     def create_user(self, username, email, password=None):
         """
         Creates and saves a User with the given user name, email addresse and
@@ -44,20 +64,7 @@ class CaffeineUserManager(BaseUserManager):
         :returns: User instance
 
         """
-        if not username:
-            raise ValueError(_("User must have a username."))
-        if not email:
-            raise ValueError(_("User must have an email address."))
-        user = self.model(
-            username=username,
-            email=self.normalize_email(email))
-        user.set_password(password)
-        # on the run token
-        # TODO: use something better for API authentication
-        user.token = md5(username + password).hexdigest()
-        user.date_joined = timezone.now()
-        user.save(using=self.db)
-        return user
+        return self._create_user(username, email, password)
 
     def create_superuser(self, username, email, password):
         """
@@ -65,10 +72,8 @@ class CaffeineUserManager(BaseUserManager):
         and password.
 
         """
-        user = self.create_user(username, email, password)
-        user.is_admin = True
-        user.save(using=self.db)
-        return user
+        return self._create_user(
+            username, email, password, is_superuser=True, is_staff=True)
 
     def random_users(self, count=4):
         users = self.raw(

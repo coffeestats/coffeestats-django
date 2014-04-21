@@ -7,7 +7,13 @@ from django.test import TestCase
 from django.utils import timezone
 
 
-from caffeine.models import CaffeineUserManager, User
+from caffeine.models import (
+    Caffeine,
+    CaffeineManager,
+    CaffeineUserManager,
+    DRINK_TYPES,
+    User,
+)
 
 
 class CaffeineUserManagerTest(TestCase):
@@ -104,3 +110,39 @@ class UserTest(TestCase):
                                  r'^mate-.+\.csv$')
         self.assertEqual(mail.outbox[0].attachments[0][2], 'text/csv')
         self.assertEqual(mail.outbox[0].attachments[1][2], 'text/csv')
+
+
+class CaffeineTest(TestCase):
+
+    def test_manager_is_caffeinemanager(self):
+        self.assertIsInstance(Caffeine.objects, CaffeineManager)
+
+    def test___unicode___without_timezone(self):
+        user = User.objects.create(username='testuser')
+        caff = Caffeine.objects.create(ctype=DRINK_TYPES.coffee,
+                                       date=timezone.now(),
+                                       user=user)
+        self.assertRegexpMatches(
+            unicode(caff),
+            r'^%s at \d{4}-\d{2}-\d{2} [^ ]+$' % (
+                DRINK_TYPES[DRINK_TYPES.coffee][1],)
+        )
+
+    def test___unicode___with_timezone(self):
+        user = User.objects.create(username='testuser')
+        caff = Caffeine.objects.create(ctype=DRINK_TYPES.mate,
+                                       date=timezone.now(),
+                                       user=user, timezone='GMT')
+        self.assertRegexpMatches(
+            unicode(caff),
+            r'^%s at \d{4}-\d{2}-\d{2} [^ ]+ GMT$' % (
+                DRINK_TYPES[DRINK_TYPES.mate][1],)
+        )
+
+    def test_format_type(self):
+        user = User.objects.create(username='testuser')
+        caff = Caffeine.objects.create(ctype=DRINK_TYPES.coffee,
+                                       date=timezone.now(),
+                                       user=user)
+        self.assertEqual(caff.format_type(),
+                         DRINK_TYPES[DRINK_TYPES.coffee][1])

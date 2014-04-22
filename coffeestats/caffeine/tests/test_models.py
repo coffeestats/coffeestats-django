@@ -10,6 +10,9 @@ from django.utils import timezone
 
 
 from caffeine.models import (
+    ACTION_TYPES,
+    Action,
+    ActionManager,
     Caffeine,
     CaffeineManager,
     CaffeineUserManager,
@@ -527,3 +530,31 @@ class CaffeineTest(TestCase):
                                        user=user)
         self.assertEqual(caff.format_type(),
                          DRINK_TYPES[DRINK_TYPES.coffee])
+
+
+class ActionManagerTest(TestCase):
+
+    def test_create_action(self):
+        user = User.objects.create(username='testuser')
+        for actiontype in list(ACTION_TYPES):
+            action = Action.objects.create_action(
+                user, actiontype[0], 'test', 10)
+            self.assertEqual(len(action.code), 32)
+            self.assertLessEqual(
+                action.validuntil,
+                timezone.now() + timedelta(10))
+
+
+class ActionTest(TestCase):
+
+    def test_manager_is_actionmanager(self):
+        self.assertIsInstance(Action.objects, ActionManager)
+
+    def test___unicode__(self):
+        action = Action.objects.create_action(
+            User.objects.create(username='testuser'),
+            ACTION_TYPES.change_email, 'test', 10)
+        self.assertRegexpMatches(
+            unicode(action),
+            r'^%s valid until \d{4}-\d{2}-\d{2} [0-9:.]+$' % (
+                ACTION_TYPES[ACTION_TYPES.change_email]))

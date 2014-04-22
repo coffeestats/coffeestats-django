@@ -91,7 +91,7 @@ class UserTest(TestCase):
 
     def test___unicode__(self):
         user = User.objects.create(username='testuser')
-        self.assertEqual(unicode(user), '')
+        self.assertEqual(unicode(user), 'testuser')
 
         user = User.objects.create(username='testuser2', first_name='Test',
                                    last_name='User', token='foo')
@@ -135,9 +135,7 @@ class CaffeineManagerTest(TestCase):
         for day in range(1, monthrange(now.year, now.month)[1] + 1):
             labels += [unicode(day)]
             for hour, drinktype in [
-                (hour, [drinktype[0]
-                        for drinktype
-                        in DRINK_TYPES][hour % len(DRINK_TYPES)])
+                (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                 for hour in range(10, 18)
             ]:
                 caffeinetime = datetime(
@@ -154,9 +152,7 @@ class CaffeineManagerTest(TestCase):
                 for n in range(5)
             ]:
                 for hour, drinktype in [
-                    (hour, [drinktype[0]
-                            for drinktype
-                            in DRINK_TYPES][hour % len(DRINK_TYPES)])
+                    (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                     for hour in range(10, 18)
                 ]:
                     caffeinetime = datetime(
@@ -168,8 +164,7 @@ class CaffeineManagerTest(TestCase):
         for user, drinktype in [
             (User.objects.create(username='test{}'.format(usernum + 1),
                                  token='foo{}'.format(usernum)),
-             [drinktype[0]
-              for drinktype in DRINK_TYPES][usernum % len(DRINK_TYPES)])
+             list(DRINK_TYPES)[usernum % len(DRINK_TYPES)][0])
                 for usernum in range(usercount)]:
             now = datetime.now()
 
@@ -196,7 +191,7 @@ class CaffeineManagerTest(TestCase):
             for _ in range(number)
         ]:
             caffeinetime = now - timeoffset
-            ctype = random.choice([drinktype[0] for drinktype in DRINK_TYPES])
+            ctype = random.choice(list(DRINK_TYPES))[0]
             user = random.choice(users)
             Caffeine.objects.create(date=caffeinetime, user=user, ctype=ctype)
             drinks[ctype]['month'][caffeinetime.month - 1] += 1
@@ -389,12 +384,11 @@ class CaffeineManagerTest(TestCase):
 
     def test_latest_caffeine_activity(self):
         users = self._create_users(5)
-        now = datetime.now()
+        now = timezone.now()
         drinks = [
             Caffeine.objects.create(
                 user=random.choice(users),
-                ctype=random.choice(
-                    [drinktype[0] for drinktype in DRINK_TYPES]),
+                ctype=random.choice(list(DRINK_TYPES))[0],
                 date=now - timedelta(seconds=random.randrange(86400))
             )
             for _ in range(20)
@@ -409,8 +403,33 @@ class CaffeineManagerTest(TestCase):
             ref)
 
     def test_top_consumers_total(self):
-        # TODO: implement test
-        pass
+        users = self._create_users(20)
+        matecount = 1
+        coffeecount = 20
+        now = timezone.now()
+        for user in users:
+            for _ in range(coffeecount):
+                Caffeine.objects.create(
+                    user=user, ctype=DRINK_TYPES.coffee,
+                    date=now - timedelta(
+                        days=random.randrange(100),
+                        seconds=random.randrange(86400)))
+            coffeecount -= 1
+            for _ in range(matecount):
+                Caffeine.objects.create(
+                    user=user, ctype=DRINK_TYPES.mate,
+                    date=now - timedelta(
+                        days=random.randrange(100),
+                        seconds=random.randrange(86400)))
+            matecount += 1
+        toptotal = Caffeine.objects.top_consumers_total(DRINK_TYPES.coffee)
+        self.assertEqual([item['user'] for item in toptotal],
+                         users[:10])
+        self.assertEqual([item['caffeine_count'] for item in toptotal],
+                         range(20, 10, -1))
+        toptotal = Caffeine.objects.top_consumers_total(DRINK_TYPES.mate)
+        self.assertEqual([item['user'] for item in toptotal],
+                         list(reversed(users[-10:])))
 
     def test_top_consumers_average(self):
         # TODO: implement test

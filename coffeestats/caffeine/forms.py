@@ -140,7 +140,7 @@ class SubmitCaffeineForm(forms.ModelForm):
                   'ago at %(date)s %(timezone)s'),
                 code='drinkfrequency',
                 params={
-                    'drink': DRINK_TYPES[self.ctype][1],
+                    'drink': DRINK_TYPES[self.ctype],
                     'minutes': settings.MINIMUM_DRINK_DISTANCE,
                     'date': recent_caffeine.date,
                     'timezone': self.user.timezone

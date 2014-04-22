@@ -117,7 +117,7 @@ class User(AbstractUser):
         return reverse("public", kwargs={'username': self.username})
 
     def __unicode__(self):
-        return self.get_full_name()
+        return self.get_full_name() or self.username
 
     def export_csv(self):
         subject = _('Your caffeine records')
@@ -559,7 +559,7 @@ class ActionManager(models.Manager):
         action = self.model(user=user, atype=actiontype, data=data)
         action.validuntil = timezone.now() + timedelta(validdays)
         action.code = md5(user.username +
-                          ACTION_TYPES[actiontype][1] +
+                          ACTION_TYPES[actiontype] +
                           data +
                           action.validuntil.strftime(
                               "%Y%m%d%H%M%S%f")).hexdigest()
@@ -587,5 +587,5 @@ class Action(models.Model):
         ordering = ['-validuntil']
 
     def __unicode__(self):
-        return "%s valid until %s" % (ACTION_TYPES[self.atype][1],
+        return "%s valid until %s" % (ACTION_TYPES[self.atype],
                                       self.validuntil)

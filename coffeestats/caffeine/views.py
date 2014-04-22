@@ -49,6 +49,14 @@ from .models import (
 )
 
 
+EXPORT_SUCCESS_MESSAGE = _(
+    'Your data has been exported. You will receive an email with two CSV '
+    'files with your coffee and mate registrations attached.'
+)
+DELETE_ACCOUNT_MESSAGE = _(
+    'Your account and all your caffeine submissions have been deleted.')
+
+
 class AboutView(LoginRequiredMixin, TemplateView):
     template_name = 'about.html'
 
@@ -82,9 +90,7 @@ class ExportActivityView(LoginRequiredMixin, RedirectView):
         self.request.user.export_csv()
         messages.add_message(
             self.request, messages.INFO,
-            _('Your data has been exported. You will receive an email '
-              'with two CSV files with your coffee and mate registrations '
-              'attached.'))
+            EXPORT_SUCCESS_MESSAGE)
         return super(ExportActivityView, self).get_redirect_url(
             *args, **kwargs)
 
@@ -97,8 +103,7 @@ class DeleteAccountView(LoginRequiredMixin, DeleteView):
         logout(self.request)
         messages.add_message(
             self.request, messages.INFO,
-            _('Your account and all your caffeine submissions '
-              'have been deleted.'))
+            DELETE_ACCOUNT_MESSAGE)
         return super(DeleteAccountView, self).get_success_url()
 
     def get_object(self):

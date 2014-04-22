@@ -542,12 +542,12 @@ class Caffeine(models.Model):
     def __unicode__(self):
         return (
             "%s at %s %s" % (
-                DRINK_TYPES[self.ctype][1],
+                DRINK_TYPES[self.ctype],
                 self.date,
                 self.timezone or "")).strip()
 
     def format_type(self):
-        return DRINK_TYPES[self.ctype][1]
+        return DRINK_TYPES[self.ctype]
 
 
 class ActionManager(models.Manager):

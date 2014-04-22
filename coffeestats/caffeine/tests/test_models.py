@@ -135,7 +135,9 @@ class CaffeineManagerTest(TestCase):
         for day in range(1, monthrange(now.year, now.month)[1] + 1):
             labels += [unicode(day)]
             for hour, drinktype in [
-                (hour, DRINK_TYPES[hour % len(DRINK_TYPES)][0])
+                (hour, [drinktype[0]
+                        for drinktype
+                        in DRINK_TYPES][hour % len(DRINK_TYPES)])
                 for hour in range(10, 18)
             ]:
                 caffeinetime = datetime(
@@ -151,20 +153,23 @@ class CaffeineManagerTest(TestCase):
                 random.randrange(monthrange(now.year, month)[1]) + 1
                 for n in range(5)
             ]:
-               for hour, drinktype in [
-                   (hour, DRINK_TYPES[hour % len(DRINK_TYPES)][0])
-                   for hour in range(10, 18)
-               ]:
-                   caffeinetime = datetime(
-                       now.year, month, day, hour)
-                   Caffeine.objects.create(ctype=drinktype,
-                                           date=caffeinetime, user=user)
+                for hour, drinktype in [
+                    (hour, [drinktype[0]
+                            for drinktype
+                            in DRINK_TYPES][hour % len(DRINK_TYPES)])
+                    for hour in range(10, 18)
+                ]:
+                    caffeinetime = datetime(
+                        now.year, month, day, hour)
+                    Caffeine.objects.create(ctype=drinktype,
+                                            date=caffeinetime, user=user)
 
     def _generate_random_caffeine_multiple(self, usercount, caffeineperuser):
         for user, drinktype in [
             (User.objects.create(username='test{}'.format(usernum + 1),
                                  token='foo{}'.format(usernum)),
-             DRINK_TYPES[usernum % len(DRINK_TYPES)][0])
+             [drinktype[0]
+              for drinktype in DRINK_TYPES][usernum % len(DRINK_TYPES)])
                 for usernum in range(usercount)]:
             now = datetime.now()
 
@@ -181,8 +186,7 @@ class CaffeineManagerTest(TestCase):
                 'month': 12 * [0],
                 'hour': 24 * [0],
                 'wday': 7 * [0]
-            })
-             for drinktype in DRINK_TYPES])
+            }) for drinktype in DRINK_TYPES])
         maxval = {
             'month': 1, 'hour': 1, 'wday': 1}
 
@@ -192,7 +196,7 @@ class CaffeineManagerTest(TestCase):
             for _ in range(number)
         ]:
             caffeinetime = now - timeoffset
-            ctype = random.choice(DRINK_TYPES)[0]
+            ctype = random.choice([drinktype[0] for drinktype in DRINK_TYPES])
             user = random.choice(users)
             Caffeine.objects.create(date=caffeinetime, user=user, ctype=ctype)
             drinks[ctype]['month'][caffeinetime.month - 1] += 1
@@ -389,8 +393,9 @@ class CaffeineManagerTest(TestCase):
         drinks = [
             Caffeine.objects.create(
                 user=random.choice(users),
-                ctype=random.choice(DRINK_TYPES)[0],
-                date= now - timedelta(seconds=random.randrange(86400))
+                ctype=random.choice(
+                    [drinktype[0] for drinktype in DRINK_TYPES]),
+                date=now - timedelta(seconds=random.randrange(86400))
             )
             for _ in range(20)
         ]
@@ -400,8 +405,7 @@ class CaffeineManagerTest(TestCase):
         ]
         self.assertEqual(
             [drink.id for drink in
-             Caffeine.objects.latest_caffeine_activity()
-            ],
+             Caffeine.objects.latest_caffeine_activity()],
             ref)
 
     def test_top_consumers_total(self):
@@ -430,7 +434,7 @@ class CaffeineTest(TestCase):
         self.assertRegexpMatches(
             unicode(caff),
             r'^%s at \d{4}-\d{2}-\d{2} [^ ]+$' % (
-                DRINK_TYPES[DRINK_TYPES.coffee][1],)
+                DRINK_TYPES[DRINK_TYPES.coffee],)
         )
 
     def test___unicode___with_timezone(self):
@@ -441,7 +445,7 @@ class CaffeineTest(TestCase):
         self.assertRegexpMatches(
             unicode(caff),
             r'^%s at \d{4}-\d{2}-\d{2} [^ ]+ GMT$' % (
-                DRINK_TYPES[DRINK_TYPES.mate][1],)
+                DRINK_TYPES[DRINK_TYPES.mate],)
         )
 
     def test_format_type(self):
@@ -450,4 +454,4 @@ class CaffeineTest(TestCase):
                                        date=timezone.now(),
                                        user=user)
         self.assertEqual(caff.format_type(),
-                         DRINK_TYPES[DRINK_TYPES.coffee][1])
+                         DRINK_TYPES[DRINK_TYPES.coffee])

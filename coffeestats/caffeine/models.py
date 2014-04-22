@@ -127,7 +127,8 @@ class User(AbstractUser):
         for drink in ('coffee', 'mate'):
             email.attachments.append(
                 ('%s-%s.csv' % (drink, now),
-                 Caffeine.objects.get_csv_data(drink, self),
+                 Caffeine.objects.get_csv_data(
+                     getattr(DRINK_TYPES, drink), self),
                  'text/csv'))
         email.send()
 
@@ -489,11 +490,11 @@ class CaffeineManager(models.Manager):
                        CURRENT_DATE, MIN(c.date)) + 1) AS average
             FROM   caffeine_caffeine c JOIN caffeine_user u ON
                    c.user_id = u.id
-            WHERE  c.ctype = {0:d}
+            WHERE  c.ctype = %s
             GROUP BY c.user_id
             ORDER BY average DESC
-            LIMIT {1:d}
-            """.format(ctype, count))
+            LIMIT %s
+            """, [ctype, count])
         q = cursor.fetchall()
         users = User.objects.in_bulk([row[0] for row in q])
         for user_id, average in q:
@@ -513,8 +514,7 @@ class CaffeineManager(models.Manager):
         writer = csv.writer(csvbuf)
         writer.writerow(['Timestamp'])
         for row in self.filter(user=user,
-                               ctype=getattr(DRINK_TYPES, drinktype)
-                               ).order_by('date'):
+                               ctype=drinktype).order_by('date'):
             writer.writerow([row.date])
         retval = csvbuf.getvalue()
         csvbuf.close()

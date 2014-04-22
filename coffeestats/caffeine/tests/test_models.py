@@ -430,14 +430,67 @@ class CaffeineManagerTest(TestCase):
         toptotal = Caffeine.objects.top_consumers_total(DRINK_TYPES.mate)
         self.assertEqual([item['user'] for item in toptotal],
                          list(reversed(users[-10:])))
+        self.assertEqual([item['caffeine_count'] for item in toptotal],
+                         range(20, 10, -1))
 
     def test_top_consumers_average(self):
-        # TODO: implement test
-        pass
+        users = self._create_users(20)
+        matecount = 2
+        coffeecount = 21
+        now = timezone.now()
+        td = timedelta(days=30)
+        for user in users:
+            for num in range(coffeecount):
+                Caffeine.objects.create(
+                    user=user, ctype=DRINK_TYPES.coffee,
+                    date=now - (num * td / coffeecount))
+            coffeecount -= 1
+            for num in range(matecount):
+                Caffeine.objects.create(
+                    user=user, ctype=DRINK_TYPES.mate,
+                    date=now - (num * td / matecount))
+            matecount += 1
+        topavg = Caffeine.objects.top_consumers_average(DRINK_TYPES.coffee)
+        self.assertEqual([item['user'] for item in topavg],
+                         users[:10])
+        averages = [item['average'] for item in topavg]
+        self.assertTrue(averages, sorted(averages, reverse=True))
+        topavg = Caffeine.objects.top_consumers_average(DRINK_TYPES.mate)
+        self.assertEqual([item['user'] for item in topavg],
+                         list(reversed(users[-10:])))
+        averages = [item['average'] for item in topavg]
+        self.assertTrue(averages, sorted(averages, reverse=True))
 
     def test_get_csv_data(self):
-        # TODO: implement test
-        pass
+        user = User.objects.create()
+        td = timedelta(days=1)
+        now = timezone.now()
+        coffees = sorted([
+            Caffeine.objects.create(
+                user=user, ctype=DRINK_TYPES.coffee,
+                date=now - 30 * td / (random.randrange(30) + 1))
+            for _ in range(20)
+        ], key=lambda x: x.date)
+        mate = sorted([
+            Caffeine.objects.create(
+                user=user, ctype=DRINK_TYPES.mate,
+                date=now - 30 * td / (random.randrange(30) + 1))
+            for _ in range(20)
+        ], key=lambda x: x.date)
+        csvdata = Caffeine.objects.get_csv_data(DRINK_TYPES.coffee, user)
+        lines = csvdata.split("\r\n")
+        self.assertEqual(lines[0], 'Timestamp')
+        self.assertEqual(lines[1:-1],
+                         [coffee.date.strftime('%Y-%m-%d %H:%M:%S')
+                          for coffee in coffees])
+        self.assertEqual(lines[-1], '')
+        csvdata = Caffeine.objects.get_csv_data(DRINK_TYPES.mate, user)
+        lines = csvdata.split("\r\n")
+        self.assertEqual(lines[0], 'Timestamp')
+        self.assertEqual(lines[1:-1],
+                         [mateitem.date.strftime('%Y-%m-%d %H:%M:%S')
+                          for mateitem in mate])
+        self.assertEqual(lines[-1], '')
 
 
 class CaffeineTest(TestCase):

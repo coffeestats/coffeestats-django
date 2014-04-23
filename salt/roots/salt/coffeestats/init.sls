@@ -4,7 +4,7 @@ nginx:
   service:
     - running
     - require:
-      - service.running: uwsgi
+      - service: uwsgi
       - pkg: nginx
 
 mysql-server:
@@ -61,18 +61,18 @@ coffeestats-venv:
 
 coffeestats-requires:
   cmd.run:
-    - name: . /home/vagrant/coffeestats-venv/bin/activate ; pip install -r requirements/local.txt
+    - name: /home/vagrant/coffeestats-venv/bin/pip install -r requirements/local.txt
     - user: vagrant
     - group: vagrant
     - cwd: /vagrant
     - require:
       - file: /home/vagrant/coffeestats-venv
-      - pkg.installed: python-dev
-      - pkg.installed: libmysqlclient-dev
+      - pkg: python-dev
+      - pkg: libmysqlclient-dev
 
 coffeestats-static:
   cmd.run:
-    - name: . /home/vagrant/coffeestats-venv/bin/activate ; python manage.py collectstatic --noinput
+    - name: . /home/vagrant/csdev.sh ; /home/vagrant/coffeestats-venv/bin/python manage.py collectstatic --noinput
     - user: vagrant
     - group: vagrant
     - cwd: /vagrant/coffeestats
@@ -107,25 +107,25 @@ coffeestats-db:
   mysql_database.present:
     - name: {{ pillar['database']['database'] }}
     - require:
-      - service.running: mysql
-      - pkg.installed: python-mysqldb
+      - service: mysql
+      - pkg: python-mysqldb
   mysql_user.present:
     - host: localhost
     - name: {{ pillar['database']['user'] }}
     - password: {{ pillar['database']['password'] }}
     - require:
-      - service.running: mysql
-      - pkg.installed: python-mysqldb
+      - service: mysql
+      - pkg: python-mysqldb
   mysql_grants.present:
     - grant: all privileges
     - database: {{ pillar['database']['database'] }}.*
     - user: {{ pillar['database']['user'] }}
     - host: localhost
     - require:
-      - mysql_database.present: {{ pillar['database']['database'] }}
-      - mysql_user.present: {{ pillar['database']['user'] }}
+      - mysql_database: {{ pillar['database']['database'] }}
+      - mysql_user: {{ pillar['database']['user'] }}
   cmd.run:
-    - name: . /home/vagrant/csdev.sh; . /home/vagrant/coffeestats-venv/bin/activate ; python manage.py syncdb --noinput ; python manage.py migrate --noinput
+    - name: . /home/vagrant/csdev.sh; /home/vagrant/coffeestats-venv/bin/python manage.py syncdb --migrate --noinput
     - cwd: /vagrant/coffeestats
     - user: vagrant
     - group: vagrant
@@ -133,7 +133,16 @@ coffeestats-db:
       - cmd: coffeestats-requires
       - file: /home/vagrant/csdev.sh
       - file: /home/vagrant/coffeestats-venv
-      - mysql_grants.present: coffeestats-db
+      - mysql_grants: coffeestats-db
+
+coffeestats-test-db:
+  mysql_grants.present:
+    - grant: all privileges
+    - database: test_{{ pillar['database']['database'] }}.*
+    - user: {{ pillar['database']['user'] }}
+    - host: localhost
+    - require:
+      - mysql_user: {{ pillar['database']['user'] }}
 
 /etc/nginx/sites-available/default:
   file.managed:

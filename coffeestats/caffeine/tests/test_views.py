@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings
 from django.core import mail
 from django.test import TestCase
 from django.contrib import messages
@@ -308,3 +309,23 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
         response = self.client.post(
             '/auth/register/', data=self.TEST_POST_DATA, follow=True)
         self.assertRedirects(response, '/auth/login/?next=/')
+
+
+class RegistrationClosedViewTest(CaffeineViewTest):
+
+    def setUp(self):
+        settings.REGISTRATION_OPEN = False
+        super(RegistrationClosedViewTest, self).setUp()
+
+    def tearDown(self):
+        super(RegistrationClosedViewTest, self).tearDown()
+        settings.REGISTRATION_OPEN = True
+
+    def test_registration_redirects_to_registration_closed(self):
+        response = self.client.get('/auth/register/')
+        self.assertRedirects(response, '/auth/register/closed')
+
+    def test_renders_registration_closed_template(self):
+        response = self.client.get('/auth/register/closed')
+        self.assertTemplateUsed(
+            response, 'registration/registration_closed.html')

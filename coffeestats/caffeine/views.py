@@ -50,13 +50,15 @@ from .models import (
 
 
 ACTIVATION_SUCCESS_MESSAGE = _('Your account has been activated successfully.')
-REGISTRATION_SUCCESS_MESSAGE = _('You got it. Yes we hate CAPTCHAs too.')
 DELETE_ACCOUNT_MESSAGE = _(
     'Your account and all your caffeine submissions have been deleted.')
 EXPORT_SUCCESS_MESSAGE = _(
     'Your data has been exported. You will receive an email with two CSV '
     'files with your coffee and mate registrations attached.'
 )
+REGISTRATION_SUCCESS_MESSAGE = _('You got it. Yes we hate CAPTCHAs too.')
+REGISTRATION_MAILINFO_MESSAGE = _(
+    'We have sent you an email with a link to activate your account')
 
 
 class AboutView(LoginRequiredMixin, TemplateView):
@@ -221,9 +223,7 @@ class CaffeineRegistrationView(RegistrationView):
         messages.add_message(
             request, messages.SUCCESS, REGISTRATION_SUCCESS_MESSAGE)
         messages.add_message(
-            request, messages.INFO,
-            _('We have sent you an email with a link to activate your '
-              'account'))
+            request, messages.INFO, REGISTRATION_MAILINFO_MESSAGE)
         return reverse_lazy('home')
 
     def register(self, request, **cleaned_data):

@@ -1,20 +1,27 @@
+import os
+
 from django.core import mail
-from django.http import HttpRequest
 from django.test import TestCase
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
+from registration.models import RegistrationProfile
+
+from caffeine.forms import (
+    CoffeestatsRegistrationForm,
+)
 from caffeine.views import (
+    ACTIVATION_SUCCESS_MESSAGE,
     DELETE_ACCOUNT_MESSAGE,
     EXPORT_SUCCESS_MESSAGE,
-    ACTIVATION_SUCCESS_MESSAGE,
+    REGISTRATION_MAILINFO_MESSAGE,
+    REGISTRATION_SUCCESS_MESSAGE,
 )
-from registration.models import RegistrationProfile
 
 
 User = get_user_model()
-
+os.environ['RECAPTCHA_TESTING'] = 'True'
 
 HASHED_DEFAULT_PASSWORD = make_password('test1234')
 
@@ -238,3 +245,66 @@ class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
             regprofile.activation_key), follow=True)
         self.assertMessageCount(response, 1)
         self.assertMessageContains(response, ACTIVATION_SUCCESS_MESSAGE)
+
+
+class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    TEST_POST_DATA = {
+        'username': 'testuser',
+        'email': 'test@bla.com',
+        'password1': 'test1234',
+        'password2': 'test1234',
+        'firstname': 'Test',
+        'lastname': 'User',
+        'location': 'Testino',
+        'recaptcha_response_field': 'PASSED'
+    }
+
+    def test_get_renders_registration_template(self):
+        response = self.client.get('/auth/register/')
+        self.assertTemplateUsed(
+            response, 'registration/registration_form.html')
+
+    def test_get_context_has_form(self):
+        response = self.client.get('/auth/register/')
+        self.assertIn('form', response.context)
+        self.assertIsInstance(
+            response.context['form'], CoffeestatsRegistrationForm)
+
+    def test_empty_post_renders_errors(self):
+        response = self.client.post('/auth/register/', data={})
+        self.assertIn('errorlist', response.content)
+
+    def test_successful_post_creates_inactive_user(self):
+        self.client.post('/auth/register/', data=self.TEST_POST_DATA)
+        user = User.objects.get(username=self.TEST_POST_DATA['username'])
+        self.assertFalse(user.is_active)
+        self.assertEqual(user.first_name, self.TEST_POST_DATA['firstname'])
+        self.assertEqual(user.last_name, self.TEST_POST_DATA['lastname'])
+        self.assertEqual(user.location, self.TEST_POST_DATA['location'])
+
+    def test_successful_post_creates_registration_profile(self):
+        self.client.post('/auth/register/', data=self.TEST_POST_DATA)
+        self.assertEqual(len(RegistrationProfile.objects.all()), 1)
+
+    def test_successful_post_sends_email(self):
+        self.client.post('/auth/register/', data=self.TEST_POST_DATA)
+        regprofile = RegistrationProfile.objects.all()[0]
+        self.assertEqual(len(mail.outbox), 1)
+        firstmail = mail.outbox[0]
+        self.assertEquals(firstmail.to, [self.TEST_POST_DATA['email']])
+        self.assertIn(regprofile.activation_key, firstmail.body)
+
+    def test_successful_post_creates_messages(self):
+        response = self.client.post(
+            '/auth/register/', data=self.TEST_POST_DATA, follow=True)
+        self.assertMessageCount(response, 2)
+        self.assertMessageContains(
+            response, REGISTRATION_SUCCESS_MESSAGE, messages.SUCCESS)
+        self.assertMessageContains(
+            response, REGISTRATION_MAILINFO_MESSAGE, messages.INFO)
+
+    def test_redirects_to_home(self):
+        response = self.client.post(
+            '/auth/register/', data=self.TEST_POST_DATA, follow=True)
+        self.assertRedirects(response, '/auth/login/?next=/')

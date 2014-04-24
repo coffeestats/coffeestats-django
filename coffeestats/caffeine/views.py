@@ -49,12 +49,14 @@ from .models import (
 )
 
 
+ACTIVATION_SUCCESS_MESSAGE = _('Your account has been activated successfully.')
+REGISTRATION_SUCCESS_MESSAGE = _('You got it. Yes we hate CAPTCHAs too.')
+DELETE_ACCOUNT_MESSAGE = _(
+    'Your account and all your caffeine submissions have been deleted.')
 EXPORT_SUCCESS_MESSAGE = _(
     'Your data has been exported. You will receive an email with two CSV '
     'files with your coffee and mate registrations attached.'
 )
-DELETE_ACCOUNT_MESSAGE = _(
-    'Your account and all your caffeine submissions have been deleted.')
 
 
 class AboutView(LoginRequiredMixin, TemplateView):
@@ -200,8 +202,7 @@ class ProfileView(PublicProfileView):
 class CaffeineActivationView(ActivationView):
     def get_success_url(self, request, user):
         messages.add_message(
-            request, messages.SUCCESS,
-            _('Your account has been activated successfully.'))
+            request, messages.SUCCESS, ACTIVATION_SUCCESS_MESSAGE)
         return reverse_lazy('home')
 
 
@@ -218,8 +219,7 @@ class CaffeineRegistrationView(RegistrationView):
 
     def get_success_url(self, request, user):
         messages.add_message(
-            request, messages.SUCCESS,
-            _('You got it. Yes we hate CAPTCHAs too.'))
+            request, messages.SUCCESS, REGISTRATION_SUCCESS_MESSAGE)
         messages.add_message(
             request, messages.INFO,
             _('We have sent you an email with a link to activate your '

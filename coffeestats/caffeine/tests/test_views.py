@@ -1,25 +1,37 @@
 from django.core import mail
+from django.http import HttpRequest
 from django.test import TestCase
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 
 from caffeine.views import (
     DELETE_ACCOUNT_MESSAGE,
     EXPORT_SUCCESS_MESSAGE,
+    ACTIVATION_SUCCESS_MESSAGE,
 )
+from registration.models import RegistrationProfile
 
 
 User = get_user_model()
 
 
+HASHED_DEFAULT_PASSWORD = make_password('test1234')
+
+
 class CaffeineViewTest(TestCase):
 
-    def _do_login(self):
-        user = User.objects.create_user(
+    def _create_testuser(self):
+        user = User.objects.create(
             username='testuser', email='test@bla.com',
-            password='test1234')
+            password=HASHED_DEFAULT_PASSWORD, token='testfoo'
+        )
         user.timezone = 'Europe/Berlin'
         user.save()
+        return user
+
+    def _do_login(self):
+        self._create_testuser()
         return self.client.login(username='testuser', password='test1234')
 
 
@@ -119,3 +131,110 @@ class DeleteAccountViewTest(MessagesTestMixin, CaffeineViewTest):
             response, DELETE_ACCOUNT_MESSAGE, messages.INFO)
         self.assertFalse(self.client.login(
             username='testuser', password='test1234'))
+
+
+class ImprintViewTest(TestCase):
+
+    def test_renders_imprint_template(self):
+        response = self.client.get('/imprint/')
+        self.assertTemplateUsed(response, 'imprint.html')
+
+
+class IndexViewTest(CaffeineViewTest):
+
+    def test_redirects_to_login(self):
+        response = self.client.get('/')
+        self.assertRedirects(
+            response, '/auth/login/?next=/')
+
+    def test_renders_index_template(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'index.html')
+
+
+class OverallViewTest(CaffeineViewTest):
+
+    def test_redirects_to_login(self):
+        response = self.client.get('/overall/')
+        self.assertRedirects(
+            response, '/auth/login/?next=/overall/')
+
+    def test_renders_overall_template(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/overall/')
+        self.assertTemplateUsed(response, 'overall.html')
+
+    def test_context_items(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/overall/')
+        for item in ('coffees', 'mate', 'todaydata', 'monthdata', 'yeardata',
+                     'byhourdata', 'byweekdaydata'):
+            self.assertIn(item, response.context)
+
+
+class ProfileViewsTest(CaffeineViewTest):
+    """
+    Test case for both ProfileView and PublicProfileView.
+
+    """
+
+    def test_bad_request_for_anonymous(self):
+        response = self.client.get('/profile/')
+        self.assertEqual(response.status_code, 400)
+
+    def test_notfound_for_missing_user(self):
+        response = self.client.get('/profile/testuser/')
+        self.assertEqual(response.status_code, 404)
+
+    def test_redirects_to_public_for_parameter(self):
+        self._create_testuser()
+        response = self.client.get('/profile/?u=testuser')
+        self.assertRedirects(response, '/profile/testuser/')
+
+    def test_renders_profile_template_for_ownprofile(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/profile/')
+        self.assertTemplateUsed(response, 'profile.html')
+
+    def test_renders_profile_template_for_parameter(self):
+        self._create_testuser()
+        response = self.client.get('/profile/testuser/')
+        self.assertTemplateUsed(response, 'profile.html')
+
+    def test_context_items_public(self):
+        self._create_testuser()
+        response = self.client.get('/profile/testuser/')
+        for item in ('byhourdata', 'byweekdaydata', 'coffees', 'mate',
+                     'monthdata', 'ownprofile', 'profileuser', 'todaydata',
+                     'yeardata'):
+            self.assertIn(item, response.context)
+        self.assertNotIn('entries', response.context)
+        self.assertFalse(response.context['ownprofile'])
+
+    def test_context_items_own(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/profile/')
+        for item in ('byhourdata', 'byweekdaydata', 'coffees', 'mate',
+                     'monthdata', 'ownprofile', 'profileuser', 'todaydata',
+                     'yeardata', 'entries'):
+            self.assertIn(item, response.context)
+        self.assertTrue(response.context['ownprofile'])
+
+
+class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    def test_redirects_to_home(self):
+        user = self._create_testuser()
+        regprofile = RegistrationProfile.objects.create_profile(user)
+        response = self.client.get('/auth/activate/{}/'.format(
+            regprofile.activation_key), follow=True)
+        self.assertRedirects(response, '/auth/login/?next=/')
+
+    def test_activation_success_message(self):
+        user = self._create_testuser()
+        regprofile = RegistrationProfile.objects.create_profile(user)
+        response = self.client.get('/auth/activate/{}/'.format(
+            regprofile.activation_key), follow=True)
+        self.assertMessageCount(response, 1)
+        self.assertMessageContains(response, ACTIVATION_SUCCESS_MESSAGE)

@@ -11,6 +11,7 @@ from registration.models import RegistrationProfile
 
 from caffeine.forms import (
     CoffeestatsRegistrationForm,
+    SettingsForm,
 )
 from caffeine.views import (
     ACTIVATION_SUCCESS_MESSAGE,
@@ -329,3 +330,30 @@ class RegistrationClosedViewTest(CaffeineViewTest):
         response = self.client.get('/auth/register/closed')
         self.assertTemplateUsed(
             response, 'registration/registration_closed.html')
+
+
+class SettingsViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    def test_redirects_to_login(self):
+        response = self.client.get('/settings/')
+        self.assertRedirects(
+            response, '/auth/login/?next=/settings/')
+
+    def test_renders_settings_templates(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/settings/')
+        self.assertTemplateUsed(response, 'settings.html')
+
+    def test_uses_settings_form(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/settings/')
+        self.assertIn('form', response.context)
+        self.assertIsInstance(response.context['form'], SettingsForm)
+
+    def test_form_user_is_login_user(self):
+        login_user = self._create_testuser()
+        self.assertTrue(self.client.login(
+            username=login_user.username, password='test1234'),
+            'login failed')
+        response = self.client.get('/settings/')
+        self.assertEquals(response.context['form'].instance, login_user)

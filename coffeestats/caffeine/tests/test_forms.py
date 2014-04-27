@@ -181,13 +181,6 @@ class SubmitCaffeineFormTest(TestCase):
             data={'date': timezone.now()})
         self.assertTrue(form.is_valid(), str(form.errors))
 
-    def save(self):
-        caffeine = Caffeine(user=self.user, ctype=self.ctype,
-                            date=self.cleaned_data['date'],
-                            timezone=self.user.timezone)
-        caffeine.save()
-        return caffeine
-
     def test_save_with_passed_data(self):
         caffeine = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee, data={'date': timezone.now()}

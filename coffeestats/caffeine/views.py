@@ -59,6 +59,12 @@ EXPORT_SUCCESS_MESSAGE = _(
 REGISTRATION_SUCCESS_MESSAGE = _('You got it. Yes we hate CAPTCHAs too.')
 REGISTRATION_MAILINFO_MESSAGE = _(
     'We have sent you an email with a link to activate your account')
+SETTINGS_EMAIL_CHANGE_MESSAGE = _(
+    'We sent an email with a link that you need to open to confirm the '
+    'change of your email address.'
+)
+SETTINGS_PASSWORD_CHANGE_SUCCESS = _('Successfully changed your password!')
+SETTINGS_SUCCESS_MESSAGE = _('Successfully updated your profile information!')
 
 
 class AboutView(LoginRequiredMixin, TemplateView):
@@ -269,20 +275,19 @@ class SettingsView(LoginRequiredMixin, FormView):
         form.instance.email_user(subject, body, settings.DEFAULT_FROM_EMAIL)
         messages.add_message(
             self.request, messages.INFO,
-            _('We sent an email with a link that you need to open to '
-              'confirm the change of your email address.'))
+            SETTINGS_EMAIL_CHANGE_MESSAGE)
 
     def form_valid(self, form):
         messages.add_message(
             self.request, messages.SUCCESS,
-            _('Successfully updated your profile information!'))
+            SETTINGS_SUCCESS_MESSAGE)
         if form.email_action:
             self.send_email_change_mail(form)
         form.save()
         if form.password_set:
             messages.add_message(
                 self.request, messages.SUCCESS,
-                _('Successfully changed your password!'))
+                SETTINGS_PASSWORD_CHANGE_SUCCESS)
         return super(SettingsView, self).form_valid(form)
 
 

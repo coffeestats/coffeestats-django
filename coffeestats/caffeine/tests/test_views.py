@@ -19,13 +19,17 @@ from caffeine.views import (
     EXPORT_SUCCESS_MESSAGE,
     REGISTRATION_MAILINFO_MESSAGE,
     REGISTRATION_SUCCESS_MESSAGE,
+    SETTINGS_EMAIL_CHANGE_MESSAGE,
+    SETTINGS_PASSWORD_CHANGE_SUCCESS,
+    SETTINGS_SUCCESS_MESSAGE,
 )
 
 
 User = get_user_model()
 os.environ['RECAPTCHA_TESTING'] = 'True'
 
-HASHED_DEFAULT_PASSWORD = make_password('test1234')
+_TEST_PASSWORD = 'test1234'
+_HASHED_DEFAULT_PASSWORD = make_password(_TEST_PASSWORD)
 
 
 class CaffeineViewTest(TestCase):
@@ -33,7 +37,7 @@ class CaffeineViewTest(TestCase):
     def _create_testuser(self):
         user = User.objects.create(
             username='testuser', email='test@bla.com',
-            password=HASHED_DEFAULT_PASSWORD, token='testfoo'
+            password=_HASHED_DEFAULT_PASSWORD, token='testfoo'
         )
         user.timezone = 'Europe/Berlin'
         user.save()
@@ -41,7 +45,7 @@ class CaffeineViewTest(TestCase):
 
     def _do_login(self):
         self._create_testuser()
-        return self.client.login(username='testuser', password='test1234')
+        return self.client.login(username='testuser', password=_TEST_PASSWORD)
 
 
 class MessagesTestMixin(object):
@@ -139,7 +143,7 @@ class DeleteAccountViewTest(MessagesTestMixin, CaffeineViewTest):
         self.assertMessageContains(
             response, DELETE_ACCOUNT_MESSAGE, messages.INFO)
         self.assertFalse(self.client.login(
-            username='testuser', password='test1234'))
+            username='testuser', password=_TEST_PASSWORD))
 
 
 class ImprintViewTest(TestCase):
@@ -254,8 +258,8 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
     TEST_POST_DATA = {
         'username': 'testuser',
         'email': 'test@bla.com',
-        'password1': 'test1234',
-        'password2': 'test1234',
+        'password1': _TEST_PASSWORD,
+        'password2': _TEST_PASSWORD,
         'firstname': 'Test',
         'lastname': 'User',
         'location': 'Testino',
@@ -353,7 +357,46 @@ class SettingsViewTest(MessagesTestMixin, CaffeineViewTest):
     def test_form_user_is_login_user(self):
         login_user = self._create_testuser()
         self.assertTrue(self.client.login(
-            username=login_user.username, password='test1234'),
+            username=login_user.username, password=_TEST_PASSWORD),
             'login failed')
         response = self.client.get('/settings/')
         self.assertEquals(response.context['form'].instance, login_user)
+
+    def test_email_change_sends_email(self):
+        login_user = self._create_testuser()
+        self.assertTrue(self.client.login(
+            username=login_user.username, password=_TEST_PASSWORD),
+            'login failed')
+        self.client.post('/settings/', data={
+            'email': 'test@example.org',
+        })
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to[0], login_user.email)
+        self.assertIn('test@example.org', mail.outbox[0].body)
+
+    def test_email_change_message(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.post('/settings/', data={
+            'email': 'test@example.org',
+        }, follow=True)
+        self.assertMessageCount(response, 2)
+        self.assertMessageContains(response, SETTINGS_SUCCESS_MESSAGE,
+                                   messages.SUCCESS)
+        self.assertMessageContains(response, SETTINGS_EMAIL_CHANGE_MESSAGE,
+                                   messages.INFO)
+
+    def test_password_change_message(self):
+        login_user = self._create_testuser()
+        self.assertTrue(self.client.login(
+            username=login_user.username, password=_TEST_PASSWORD),
+            'login failed')
+        response = self.client.post('/settings/', data={
+            'email': login_user.email,
+            'password1': 'test5432',
+            'password2': 'test5432',
+        }, follow=True)
+        self.assertMessageCount(response, 2)
+        self.assertMessageContains(response, SETTINGS_SUCCESS_MESSAGE,
+                                   messages.SUCCESS)
+        self.assertMessageContains(response, SETTINGS_PASSWORD_CHANGE_SUCCESS,
+                                   messages.SUCCESS)

@@ -13,9 +13,14 @@ from caffeine.forms import (
     CoffeestatsRegistrationForm,
     SettingsForm,
 )
+from caffeine.models import (
+    Action,
+    ACTION_TYPES,
+)
 from caffeine.views import (
     ACTIVATION_SUCCESS_MESSAGE,
     DELETE_ACCOUNT_MESSAGE,
+    EMAIL_CHANGE_SUCCESS_MESSAGE,
     EXPORT_SUCCESS_MESSAGE,
     REGISTRATION_MAILINFO_MESSAGE,
     REGISTRATION_SUCCESS_MESSAGE,
@@ -400,3 +405,32 @@ class SettingsViewTest(MessagesTestMixin, CaffeineViewTest):
                                    messages.SUCCESS)
         self.assertMessageContains(response, SETTINGS_PASSWORD_CHANGE_SUCCESS,
                                    messages.SUCCESS)
+
+
+class ConfirmActionViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    def _create_action_confirm_request(self, data='bla@fasel.com'):
+        user = self._create_testuser()
+        action = Action.objects.create_action(
+            user, ACTION_TYPES.change_email, data, 1)
+        response = self.client.get(
+            '/action/confirm/{}/'.format(action.code), follow=True
+        )
+        return user, action, response
+
+    def test_redirects_to_home(self):
+        _, _, response = self._create_action_confirm_request()
+        self.assertRedirects(response, '/auth/login/?next=/')
+
+    def test_action_is_deleted_after_access(self):
+        _, action, _ = self._create_action_confirm_request()
+        self.assertEqual(len(Action.objects.all()), 0)
+
+    def test_user_email_changed_after_access(self):
+        user, _, _ = self._create_action_confirm_request('bla@fasel.com')
+        self.assertEqual(User.objects.get(pk=user.pk).email, 'bla@fasel.com')
+
+    def test_email_change_message(self):
+        _, _, response = self._create_action_confirm_request()
+        self.assertMessageCount(response, 1)
+        self.assertMessageContains(response, EMAIL_CHANGE_SUCCESS_MESSAGE)

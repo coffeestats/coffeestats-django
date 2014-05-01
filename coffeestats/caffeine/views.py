@@ -52,6 +52,8 @@ from .models import (
 ACTIVATION_SUCCESS_MESSAGE = _('Your account has been activated successfully.')
 DELETE_ACCOUNT_MESSAGE = _(
     'Your account and all your caffeine submissions have been deleted.')
+EMAIL_CHANGE_SUCCESS_MESSAGE = _(
+    'Your email address has been changed successfully.')
 EXPORT_SUCCESS_MESSAGE = _(
     'Your data has been exported. You will receive an email with two CSV '
     'files with your coffee and mate registrations attached.'
@@ -303,7 +305,7 @@ class ConfirmActionView(SingleObjectMixin, View):
             user.email = data
             messages.add_message(
                 request, messages.SUCCESS,
-                _('Your email address has been changed successfully.'))
+                EMAIL_CHANGE_SUCCESS_MESSAGE)
             user.save()
             action.delete()
         return HttpResponseRedirect(reverse_lazy('home'))

@@ -13,6 +13,7 @@ from registration.models import RegistrationProfile
 
 from caffeine.forms import (
     CoffeestatsRegistrationForm,
+    EMPTY_TIMEZONE_ERROR,
     SettingsForm,
 )
 from caffeine.models import (
@@ -29,6 +30,7 @@ from caffeine.views import (
     EXPORT_SUCCESS_MESSAGE,
     REGISTRATION_MAILINFO_MESSAGE,
     REGISTRATION_SUCCESS_MESSAGE,
+    SELECT_TIMEZONE_SUCCESS_MESSAGE,
     SETTINGS_EMAIL_CHANGE_MESSAGE,
     SETTINGS_PASSWORD_CHANGE_SUCCESS,
     SETTINGS_SUCCESS_MESSAGE,
@@ -642,3 +644,80 @@ class DeleteCaffeineViewTest(MessagesTestMixin, CaffeineViewTest):
         self.assertMessageCount(response, 1)
         self.assertMessageContains(
             response, DELETE_CAFFEINE_SUCCESS_MESSAGE, messages.SUCCESS)
+
+
+class SelectTimeZoneViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    def setUp(self):
+        super(SelectTimeZoneViewTest, self).setUp()
+        self.url = '/selecttimezone/'
+        self.user = self._create_testuser()
+
+    def test_redirects_to_login(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(
+            response,
+            '/auth/login/?next={}'.format(self.url))
+
+    def test_redirects_to_profile(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(self.url, data={
+            'timezone': 'Europe/Berlin'}
+        )
+        self.assertRedirects(response, '/profile/')
+
+    def test_redirects_to_next(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(
+            '{}?next=/settings/'.format(self.url),
+            data={'timezone': 'Europe/Berlin'}
+        )
+        self.assertRedirects(response, '/settings/')
+
+    def test_avoids_redirect_loop(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(
+            '{}?next={}'.format(self.url, self.url),
+            data={'timezone': 'Europe/Berlin'}
+        )
+        self.assertRedirects(response, '/profile/')
+
+    def test_no_timezone_error(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(self.url, data={})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('form', response.context)
+        self.assertIn('timezone', response.context['form'].errors)
+        self.assertEqual(
+            response.context['form'].errors['timezone'][0],
+            EMPTY_TIMEZONE_ERROR)
+
+    def test_tzlist_in_context(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.get(self.url)
+        self.assertIn('tzlist', response.context)
+
+    def test_render_selecttimezone_template(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'selecttimezone.html')
+
+    def test_render_timezone_changed(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        self.client.post(self.url, data={
+            'timezone': 'Europe/London'})
+        self.assertEqual(
+            User.objects.get(username=self.user.username).timezone,
+            'Europe/London'
+        )
+
+    def test_success_message(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(self.url, data={
+            'timezone': 'Europe/London'}, follow=True)
+        self.assertMessageCount(response, 1)
+        self.assertMessageContains(
+            response,
+            SELECT_TIMEZONE_SUCCESS_MESSAGE % {
+                'timezone': 'Europe/London'}
+        )

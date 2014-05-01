@@ -66,6 +66,8 @@ SETTINGS_EMAIL_CHANGE_MESSAGE = _(
     'We sent an email with a link that you need to open to confirm the '
     'change of your email address.'
 )
+SELECT_TIMEZONE_SUCCESS_MESSAGE = _(
+    'Your time zone has been set to %(timezone)s successfully.')
 SETTINGS_PASSWORD_CHANGE_SUCCESS = _('Successfully changed your password!')
 SETTINGS_SUCCESS_MESSAGE = _('Successfully updated your profile information!')
 SUBMIT_CAFFEINE_SUCCESS_MESSAGE = _('Your %(caffeine)s has been registered')
@@ -415,7 +417,7 @@ class DeleteCaffeineView(LoginRequiredMixin, DeleteView):
         return super(DeleteCaffeineView, self).get_success_url()
 
 
-class SelectTimeZoneView(UpdateView):
+class SelectTimeZoneView(LoginRequiredMixin, UpdateView):
     form_class = SelectTimeZoneForm
     template_name = 'selecttimezone.html'
 
@@ -430,12 +432,15 @@ class SelectTimeZoneView(UpdateView):
         form.save()
         messages.add_message(
             self.request, messages.SUCCESS,
-            _('Your time zone has been set to %(timezone)s successfully.') % {
+            SELECT_TIMEZONE_SUCCESS_MESSAGE % {
                 'timezone': form.cleaned_data['timezone']})
         return super(SelectTimeZoneView, self).form_valid(form)
 
     def get_success_url(self):
-        return self.request.GET['next']
+        success_url = self.request.GET.get('next', reverse('profile'))
+        if success_url == reverse('selecttimezone'):
+            success_url = reverse('profile')
+        return success_url
 
     def get_object(self):
         return self.request.user

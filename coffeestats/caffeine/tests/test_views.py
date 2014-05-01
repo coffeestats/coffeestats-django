@@ -24,14 +24,15 @@ from caffeine.models import (
 from caffeine.views import (
     ACTIVATION_SUCCESS_MESSAGE,
     DELETE_ACCOUNT_MESSAGE,
+    DELETE_CAFFEINE_SUCCESS_MESSAGE,
     EMAIL_CHANGE_SUCCESS_MESSAGE,
     EXPORT_SUCCESS_MESSAGE,
     REGISTRATION_MAILINFO_MESSAGE,
     REGISTRATION_SUCCESS_MESSAGE,
     SETTINGS_EMAIL_CHANGE_MESSAGE,
     SETTINGS_PASSWORD_CHANGE_SUCCESS,
-    SUBMIT_CAFFEINE_SUCCESS_MESSAGE,
     SETTINGS_SUCCESS_MESSAGE,
+    SUBMIT_CAFFEINE_SUCCESS_MESSAGE,
 )
 
 
@@ -583,3 +584,61 @@ class SubmitCaffeineOnTheRunView(MessagesTestMixin, CaffeineViewTest):
         self.assertMessageCount(response, 1)
         self.assertMessageContains(
             response, "", messages.ERROR)
+
+
+class DeleteCaffeineViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    def setUp(self):
+        super(DeleteCaffeineViewTest, self).setUp()
+        self.user = self._create_testuser()
+        self.caffeine = Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, date=timezone.now(), user=self.user)
+        self.delete_url = '/delete/{}/'.format(self.caffeine.id)
+
+    def test_redirects_to_login(self):
+        response = self.client.get(self.delete_url)
+        self.assertRedirects(
+            response,
+            '/auth/login/?next={}'.format(self.delete_url))
+
+    def test_render_delete_caffeine_template(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.get(self.delete_url)
+        self.assertTemplateUsed(
+            response, 'caffeine/caffeine_confirm_delete.html')
+
+    def test_404_for_not_existing_caffeine(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(
+            '/delete/{}/'.format(self.caffeine.id + 1))
+        self.assertEqual(response.status_code, 404)
+
+    def test_redirects_to_profile_after_delete(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(self.delete_url)
+        self.assertRedirects(response, '/profile/')
+
+    def test_can_delete_own_caffeine(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        self.client.post(self.delete_url)
+        self.assertEqual(len(Caffeine.objects.filter(user=self.user)), 0)
+
+    def test_cannot_delete_other_users_caffeine(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        mateguy = User.objects.create_user(
+            username='mateguy', email='mrmate@example.org')
+        othercaffeine = Caffeine.objects.create(
+            user=mateguy, ctype=DRINK_TYPES.mate, date=timezone.now()
+        )
+        self.assertEqual(len(Caffeine.objects.filter(user=mateguy)), 1)
+        response = self.client.post(
+            '/delete/{}/'.format(othercaffeine.id))
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(len(Caffeine.objects.filter(user=mateguy)), 1)
+
+    def test_success_message(self):
+        self.assertTrue(self._do_login(self.user), 'login failed')
+        response = self.client.post(self.delete_url, follow=True)
+        self.assertMessageCount(response, 1)
+        self.assertMessageContains(
+            response, DELETE_CAFFEINE_SUCCESS_MESSAGE, messages.SUCCESS)

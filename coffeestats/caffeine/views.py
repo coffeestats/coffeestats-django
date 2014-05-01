@@ -52,6 +52,7 @@ from .models import (
 ACTIVATION_SUCCESS_MESSAGE = _('Your account has been activated successfully.')
 DELETE_ACCOUNT_MESSAGE = _(
     'Your account and all your caffeine submissions have been deleted.')
+DELETE_CAFFEINE_SUCCESS_MESSAGE = _('Entry deleted successfully!')
 EMAIL_CHANGE_SUCCESS_MESSAGE = _(
     'Your email address has been changed successfully.')
 EXPORT_SUCCESS_MESSAGE = _(
@@ -410,8 +411,7 @@ class DeleteCaffeineView(LoginRequiredMixin, DeleteView):
 
         """
         messages.add_message(
-            self.request, messages.SUCCESS,
-            _('Entry deleted successfully!'))
+            self.request, messages.SUCCESS, DELETE_CAFFEINE_SUCCESS_MESSAGE)
         return super(DeleteCaffeineView, self).get_success_url()
 
 

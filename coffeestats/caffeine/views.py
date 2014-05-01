@@ -67,6 +67,7 @@ SETTINGS_EMAIL_CHANGE_MESSAGE = _(
 )
 SETTINGS_PASSWORD_CHANGE_SUCCESS = _('Successfully changed your password!')
 SETTINGS_SUCCESS_MESSAGE = _('Successfully updated your profile information!')
+SUBMIT_CAFFEINE_SUCCESS_MESSAGE = _('Your %(caffeine)s has been registered')
 
 
 class AboutView(LoginRequiredMixin, TemplateView):
@@ -339,16 +340,17 @@ class BaseSubmitCaffeineView(BaseFormView):
         caffeine = form.save()
         messages.add_message(
             self.request, messages.SUCCESS,
-            _('Your %(caffeine)s has been registered') % {
+            SUBMIT_CAFFEINE_SUCCESS_MESSAGE % {
                 'caffeine': caffeine},
             extra_tags='registerdrink')
         return super(BaseSubmitCaffeineView, self).form_valid(form)
 
     def form_invalid(self, form):
-        for error in form.non_field_errors():
-            messages.add_message(
-                self.request, messages.ERROR, error,
-                extra_tags='registerdrink')
+        for field in form.errors:
+            for error in form.errors[field]:
+                messages.add_message(
+                    self.request, messages.ERROR, error,
+                    extra_tags='registerdrink')
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -357,7 +359,7 @@ class SubmitCaffeineView(LoginRequiredMixin, BaseSubmitCaffeineView):
         kwargs = super(SubmitCaffeineView, self).get_form_kwargs()
         kwargs.update({
             'user': self.request.user,
-            'ctype': self.kwargs['drink'],
+            'ctype': getattr(DRINK_TYPES, self.kwargs['drink']),
         })
         return kwargs
 
@@ -372,7 +374,7 @@ class SubmitCaffeineOnTheRunView(BaseSubmitCaffeineView):
         kwargs = super(SubmitCaffeineOnTheRunView, self).get_form_kwargs()
         kwargs.update({
             'user': user,
-            'ctype': self.kwargs['drink'],
+            'ctype': getattr(DRINK_TYPES, self.kwargs['drink']),
         })
         return kwargs
 

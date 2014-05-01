@@ -1,8 +1,10 @@
 import os
+from datetime import timedelta
 
 from django.conf import settings
 from django.core import mail
 from django.test import TestCase
+from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
@@ -16,6 +18,8 @@ from caffeine.forms import (
 from caffeine.models import (
     Action,
     ACTION_TYPES,
+    Caffeine,
+    DRINK_TYPES,
 )
 from caffeine.views import (
     ACTIVATION_SUCCESS_MESSAGE,
@@ -26,6 +30,7 @@ from caffeine.views import (
     REGISTRATION_SUCCESS_MESSAGE,
     SETTINGS_EMAIL_CHANGE_MESSAGE,
     SETTINGS_PASSWORD_CHANGE_SUCCESS,
+    SUBMIT_CAFFEINE_SUCCESS_MESSAGE,
     SETTINGS_SUCCESS_MESSAGE,
 )
 
@@ -48,9 +53,10 @@ class CaffeineViewTest(TestCase):
         user.save()
         return user
 
-    def _do_login(self):
-        self._create_testuser()
-        return self.client.login(username='testuser', password=_TEST_PASSWORD)
+    def _do_login(self, user=None, password=_TEST_PASSWORD):
+        if user is None:
+            user = self._create_testuser()
+        return self.client.login(username=user.username, password=password)
 
 
 class MessagesTestMixin(object):
@@ -491,3 +497,46 @@ class OnTheRunOldViewTest(CaffeineViewTest):
         response = self.client.get(
             '/ontherun/?u={}&t=wrongtoken'.format(user.username))
         self.assertEqual(response.status_code, 404)
+
+
+class SubmitCaffeineViewTest(MessagesTestMixin, CaffeineViewTest):
+
+    def test_redirects_to_login(self):
+        response = self.client.post('/coffee/submit/')
+        self.assertRedirects(
+            response,
+            '/auth/login/?next=/coffee/submit/')
+
+    def test_does_not_support_get(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/coffee/submit/')
+        self.assertEqual(response.status_code, 405)
+
+    def test_redirects_to_profile(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.post('/coffee/submit/')
+        self.assertRedirects(response, '/profile/')
+
+    def test_success_message(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.post(
+            '/coffee/submit/', data={'date': timezone.now()}, follow=True)
+        self.assertMessageCount(response, 1)
+        coffee = Caffeine.objects.all()[0]
+        self.assertMessageContains(
+            response, SUBMIT_CAFFEINE_SUCCESS_MESSAGE % {
+                'caffeine': coffee,
+            }, messages.SUCCESS
+        )
+
+    def test_error_message(self):
+        user = self._create_testuser()
+        self.assertTrue(self._do_login(user), 'login failed')
+        Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, user=user,
+            date=timezone.now() - timedelta(minutes=3))
+        response = self.client.post(
+            '/coffee/submit/', data={'date': timezone.now()}, follow=True)
+        self.assertMessageCount(response, 1)
+        self.assertMessageContains(
+            response, "", messages.ERROR)

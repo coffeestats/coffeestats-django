@@ -1,0 +1,5 @@
+[run]
+source = coffeestats,caffeine,caffeine_api_v1
+
+[report]
+omit = */migrations/*

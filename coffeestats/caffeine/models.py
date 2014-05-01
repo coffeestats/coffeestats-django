@@ -123,7 +123,7 @@ class User(AbstractUser):
         subject = _('Your caffeine records')
         body = _('Attached is your caffeine track record.')
         email = EmailMessage(subject, body, to=[self.email])
-        now = timezone.now().strftime('%Y-%m-%d %H:%M')
+        now = timezone.now().strftime(settings.CAFFEINE_DATETIME_FORMAT)
         for drink in ('coffee', 'mate'):
             email.attachments.append(
                 ('%s-%s.csv' % (drink, now),
@@ -543,7 +543,7 @@ class Caffeine(models.Model):
         return (
             "%s at %s %s" % (
                 DRINK_TYPES[self.ctype],
-                self.date,
+                self.date.strftime(settings.CAFFEINE_DATETIME_FORMAT),
                 self.timezone or "")).strip()
 
     def format_type(self):

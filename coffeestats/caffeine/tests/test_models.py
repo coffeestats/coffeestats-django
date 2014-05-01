@@ -3,6 +3,7 @@ from calendar import monthrange
 from datetime import datetime, timedelta
 import random
 
+from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -483,16 +484,16 @@ class CaffeineManagerTest(TestCase):
         csvdata = Caffeine.objects.get_csv_data(DRINK_TYPES.coffee, user)
         lines = csvdata.split("\r\n")
         self.assertEqual(lines[0], 'Timestamp')
-        self.assertEqual(lines[1:-1],
-                         [coffee.date.strftime('%Y-%m-%d %H:%M:%S')
-                          for coffee in coffees])
+        self.assertEqual(lines[1:-1], [
+            coffee.date.strftime(settings.CAFFEINE_DATETIME_FORMAT)
+            for coffee in coffees])
         self.assertEqual(lines[-1], '')
         csvdata = Caffeine.objects.get_csv_data(DRINK_TYPES.mate, user)
         lines = csvdata.split("\r\n")
         self.assertEqual(lines[0], 'Timestamp')
-        self.assertEqual(lines[1:-1],
-                         [mateitem.date.strftime('%Y-%m-%d %H:%M:%S')
-                          for mateitem in mate])
+        self.assertEqual(lines[1:-1], [
+            mateitem.date.strftime(settings.CAFFEINE_DATETIME_FORMAT)
+            for mateitem in mate])
         self.assertEqual(lines[-1], '')
 
 

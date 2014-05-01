@@ -23,6 +23,30 @@ from caffeine.models import (
     User,
 )
 
+API_ERROR_AUTH_REQUIRED = _('API operation requires authentication')
+API_ERROR_FUTURE_DATETIME = _('You can not enter dates in the future!')
+API_ERROR_INVALID_BEVERAGE = _(
+    "`beverage' contains an invalid value. Acceptable values are `coffee'"
+    " and `mate'."
+)
+API_ERROR_INVALID_CREDENTIALS = _('Invalid username or API token')
+API_ERROR_INVALID_DATETIME = _(
+    'No valid date/time information. Expected format YYYY-mm-dd HH:MM:ss'
+)
+API_ERROR_MISSING_PARAM_BEVERAGE = _(
+    "`beverage' field missing. You must specify one of `coffee' or `mate'."
+)
+API_ERROR_MISSING_PARAM_COUNT = 'missing parameter "count"'
+API_ERROR_MISSING_PARAM_TIME = _(
+    "`time' field is missing. You must specify the time YYYY-mm-dd HH:MM "
+    "(and optionally :SS)"
+)
+API_ERROR_NO_USERNAME = _('No username was given')
+API_ERROR_NO_TOKEN = _('No API token was given')
+API_WARNING_TIMEZONE_NOT_SET = _(
+    'Your timezone is not set, please set it form the web interface!'
+)
+
 
 def json_response(func):
     @wraps(func, assigned=available_attrs(func))
@@ -39,14 +63,11 @@ def api_token_required(func):
     def inner(request, *args, **kwargs):
         messages = {'success': False}
         if not request.POST.get('u'):
-            messages.setdefault('errors', []).append(
-                _('No username was given'))
+            messages.setdefault('error', []).append(API_ERROR_NO_USERNAME)
         if not request.POST.get('t'):
-            messages.setdefault('errors', []).append(
-                _('No API token was given'))
-        if 'errors' in messages:
-            messages['errors'].append(
-                _('API operation requres authentication'))
+            messages.setdefault('error', []).append(API_ERROR_NO_TOKEN)
+        if 'error' in messages:
+            messages['error'].append(API_ERROR_AUTH_REQUIRED)
             return HttpResponseForbidden(
                 json.dumps(messages), 'text/json')
         user = None
@@ -55,14 +76,13 @@ def api_token_required(func):
                 username=request.POST.get('u'),
                 token=request.POST.get('t'))
         except:
-            messages.setdefault('errors', []).append(
-                _('Invalid username or API token'))
+            messages.setdefault('error', []).append(
+                API_ERROR_INVALID_CREDENTIALS)
             return HttpResponseBadRequest(
                 json.dumps(messages), 'text/json')
         if not user.timezone:
             messages.setdefault('warning', []).append(
-                _('Your timezone is not set, please set it form the '
-                  'web interface!'))
+                API_WARNING_TIMEZONE_NOT_SET)
         kwargs['userinfo'] = user
         kwargs['messages'] = messages
         return func(request, *args, **kwargs)
@@ -74,7 +94,7 @@ def api_token_required(func):
 @json_response
 def random_users(request):
     if 'count' not in request.GET:
-        return HttpResponseBadRequest('missing parameter "count"')
+        return HttpResponseBadRequest(API_ERROR_MISSING_PARAM_COUNT)
     data = []
     for user in User.objects.random_users(int(request.GET['count'])):
         data.append({
@@ -88,6 +108,18 @@ def random_users(request):
     return data
 
 
+def _parse_drinktime(drinktime, messages):
+    try:
+        time = datetime.strptime(drinktime, '%Y-%m-%d %H:%M:%S')
+    except ValueError:
+        try:
+            time = datetime.strptime(drinktime, '%Y-%m-%d %H:%M')
+        except ValueError:
+            time = None
+            messages.setdefault('error', []).append(API_ERROR_INVALID_DATETIME)
+    return time
+
+
 @csrf_exempt
 @require_POST
 @api_token_required
@@ -97,32 +129,21 @@ def add_drink(request, userinfo, messages, *args, **kwargs):
     drinktime = request.POST.get('time')
     if not ctype:
         messages.setdefault('error', []).append(
-            _("`beverage' field missing. You must specify one of `coffee' or "
-              "`mate'."))
-    if getattr(DRINK_TYPES, ctype) is None:
+            API_ERROR_MISSING_PARAM_BEVERAGE)
+    elif not hasattr(DRINK_TYPES, ctype):
         messages.setdefault('error', []).append(
-            _("`beverage' contains an invalid value. Acceptable values are "
-              "`coffee' and `mate'."))
+            API_ERROR_INVALID_BEVERAGE)
     if not drinktime:
         messages.setdefault('error', []).append(
-            _("`time' field is missing. You must specify the time "
-              "YYYY-mm-dd HH:MM (and optionally :SS)"))
+            API_ERROR_MISSING_PARAM_TIME)
     else:
-        try:
-            time = datetime.strptime(drinktime, '%Y-%m-%d %H:%M:%S')
-        except ValueError:
-            time = datetime.strptime(drinktime, '%Y-%m-%d %H:%M')
-        except ValueError:
-            messages.setdefault('error', []).append(
-                _('No valid date/time information. Expected format YYYY-mm-dd '
-                  'HH:MM:ss'))
-        if time > datetime.now():
-            messages.setdefault('error', []).append(
-                _('You can not enter dates in the future!'))
+        time = _parse_drinktime(drinktime, messages)
+        if time is not None and time > datetime.now():
+            messages.setdefault('error', []).append(API_ERROR_FUTURE_DATETIME)
     if 'error' in messages:
         return HttpResponseBadRequest(json.dumps(messages), 'text/json')
     data = {'date': time}
-    form = SubmitCaffeineForm(userinfo, ctype, data)
+    form = SubmitCaffeineForm(userinfo, getattr(DRINK_TYPES, ctype), data)
     form.date = time
     if not form.is_valid():
         for key in form.errors:

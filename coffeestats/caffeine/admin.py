@@ -11,6 +11,8 @@ from .models import (
     User,
 )
 
+PASSWORD_MISMATCH_ERROR = _("Passwords don't match")
+
 
 class UserCreationForm(forms.ModelForm):
     """
@@ -35,7 +37,7 @@ class UserCreationForm(forms.ModelForm):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError(_("Passwords don't match"))
+            raise forms.ValidationError(PASSWORD_MISMATCH_ERROR)
         return password2
 
     def save(self, commit=True):

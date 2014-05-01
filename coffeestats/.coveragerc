@@ -2,4 +2,4 @@
 source = coffeestats,caffeine,caffeine_api_v1
 
 [report]
-omit = */migrations/*,*/tests/*.py,coffeestats/settings/local.py,coffeestats/settings/production.py,coffeestats/wsgi.py
+omit = */migrations/*,*/tests/*.py,*/tests.py,coffeestats/settings/local.py,coffeestats/settings/production.py

@@ -540,3 +540,46 @@ class SubmitCaffeineViewTest(MessagesTestMixin, CaffeineViewTest):
         self.assertMessageCount(response, 1)
         self.assertMessageContains(
             response, "", messages.ERROR)
+
+
+class SubmitCaffeineOnTheRunView(MessagesTestMixin, CaffeineViewTest):
+
+    def test_does_not_support_get(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/coffee/submit/{}/{}/'.format(user.username, user.token))
+        self.assertEqual(response.status_code, 405)
+
+    def test_redirects_to_ontherun(self):
+        user = self._create_testuser()
+        response = self.client.post(
+            '/coffee/submit/{}/{}/'.format(user.username, user.token),
+            data={'date': timezone.now()})
+        self.assertRedirects(
+            response,
+            '/ontherun/{}/{}/'.format(user.username, user.token))
+
+    def test_success_message(self):
+        user = self._create_testuser()
+        response = self.client.post(
+            '/coffee/submit/{}/{}/'.format(user.username, user.token),
+            data={'date': timezone.now()}, follow=True)
+        self.assertMessageCount(response, 1)
+        coffee = Caffeine.objects.all()[0]
+        self.assertMessageContains(
+            response, SUBMIT_CAFFEINE_SUCCESS_MESSAGE % {
+                'caffeine': coffee,
+            }, messages.SUCCESS
+        )
+
+    def test_error_message(self):
+        user = self._create_testuser()
+        Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, user=user,
+            date=timezone.now() - timedelta(minutes=3))
+        response = self.client.post(
+            '/coffee/submit/{}/{}/'.format(user.username, user.token),
+            data={'date': timezone.now()}, follow=True)
+        self.assertMessageCount(response, 1)
+        self.assertMessageContains(
+            response, "", messages.ERROR)

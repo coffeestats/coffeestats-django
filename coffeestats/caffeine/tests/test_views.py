@@ -434,3 +434,24 @@ class ConfirmActionViewTest(MessagesTestMixin, CaffeineViewTest):
         _, _, response = self._create_action_confirm_request()
         self.assertMessageCount(response, 1)
         self.assertMessageContains(response, EMAIL_CHANGE_SUCCESS_MESSAGE)
+
+
+class OnTheRunViewTest(CaffeineViewTest):
+
+    def test_renders_ontherun_template(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/{}/{}/'.format(user.username, user.token))
+        self.assertTemplateUsed(response, 'ontherun.html')
+
+    def test_404_for_wrong_user(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/wronguser/{}/'.format(user.token))
+        self.assertEqual(response.status_code, 404)
+
+    def test_404_for_wrong_token(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/{}/wrongpass/'.format(user.username))
+        self.assertEqual(response.status_code, 404)

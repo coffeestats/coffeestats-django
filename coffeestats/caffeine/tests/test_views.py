@@ -455,3 +455,39 @@ class OnTheRunViewTest(CaffeineViewTest):
         response = self.client.get(
             '/ontherun/{}/wrongpass/'.format(user.username))
         self.assertEqual(response.status_code, 404)
+
+    def test_contains_submit_caffeine_links(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/{}/{}/'.format(user.username, user.token))
+        self.assertIn(
+            '/coffee/submit/{}/{}/'.format(user.username, user.token),
+            response.content)
+        self.assertIn(
+            '/mate/submit/{}/{}/'.format(user.username, user.token),
+            response.content)
+
+
+class OnTheRunOldViewTest(CaffeineViewTest):
+
+    def test_redirects_to_ontherun(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/?u={}&t={}'.format(user.username, user.token))
+        self.assertRedirects(
+            response,
+            '/ontherun/{}/{}/'.format(user.username, user.token),
+            status_code=301
+        )
+
+    def test_404_for_wrong_user(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/?u=wronguser&t={}'.format(user.token))
+        self.assertEqual(response.status_code, 404)
+
+    def test_404_for_wrong_token(self):
+        user = self._create_testuser()
+        response = self.client.get(
+            '/ontherun/?u={}&t=wrongtoken'.format(user.username))
+        self.assertEqual(response.status_code, 404)

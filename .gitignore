@@ -44,3 +44,4 @@ coffeestats/assets/
 .sass-cache/
 tags
 .coverage
+docs/_build/

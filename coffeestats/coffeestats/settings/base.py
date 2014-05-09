@@ -64,12 +64,12 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': get_env_variable('COFFEESTATS_MYSQL_DATABASE'),
-        'USER': get_env_variable('COFFEESTATS_MYSQL_USER'),
-        'PASSWORD': get_env_variable('COFFEESTATS_MYSQL_PASSWORD'),
-        'HOST': get_env_variable('COFFEESTATS_MYSQL_HOSTNAME'),
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': get_env_variable('COFFEESTATS_PGSQL_DATABASE'),
+        'USER': get_env_variable('COFFEESTATS_PGSQL_USER'),
+        'PASSWORD': get_env_variable('COFFEESTATS_PGSQL_PASSWORD'),
+        'HOST': get_env_variable('COFFEESTATS_PGSQL_HOSTNAME'),
+        'PORT': get_env_variable('COFFEESTATS_PGSQL_PORT'),
     }
 }
 ########## END DATABASE CONFIGURATION

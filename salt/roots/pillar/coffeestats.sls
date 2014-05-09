@@ -2,6 +2,7 @@ database:
   user: coffeestats
   password: s3cr3t
   database: coffeestats
+  port: 5432
 
 #recaptcha:
 #  publickey:

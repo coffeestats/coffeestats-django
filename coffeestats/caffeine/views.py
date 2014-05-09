@@ -10,6 +10,7 @@ from django.http import (
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
+from django.views.decorators.http import require_GET
 from django.views.generic import (
     RedirectView,
     TemplateView,
@@ -24,6 +25,7 @@ from django.views.generic.edit import (
 )
 
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from braces.views import LoginRequiredMixin
@@ -32,6 +34,8 @@ from registration.backends.default.views import (
     RegistrationView,
 )
 from pytz import common_timezones
+
+from core.utils import json_response
 
 from .forms import (
     CoffeestatsRegistrationForm,
@@ -444,3 +448,20 @@ class SelectTimeZoneView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+@require_GET
+@login_required
+@json_response
+def random_users(request):
+    data = []
+    for user in User.objects.random_users(int(request.GET.get('count', 5))):
+        data.append({
+            'username': user.username,
+            'name': user.get_full_name(),
+            'location': user.location,
+            'profile': request.build_absolute_uri(
+                reverse('public', kwargs={'username': user.username})),
+            'coffees': user.coffees,
+            'mate': user.mate})
+    return data

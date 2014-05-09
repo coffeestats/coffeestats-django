@@ -92,13 +92,13 @@
 <script type="text/javascript">
 $(document).ready(function() {
   $('#more-users').click(function(event) {
-    $.getJSON('{% url "apiv1:random_users" %}?count=4', function(data) {
+    $.getJSON('{% url "random_users" %}?count=4', function(data) {
       $('#random_users > div').remove();
       for (var i=0; i < data.length; i++) {
         $('#random_users').append(
           '<div class="usercard"><a href="' + data[i].profile + '">' + data[i].username + '</a><br />' +
           'Name: ' + data[i].name + '<br />' +
-          'Locaton: ' + data[i].location + '<br />' +
+          'Location: ' + data[i].location + '<br />' +
           'Coffees total: ' + data[i].coffees + '<br />' +
           'Mate total: ' + data[i].mate + '</div>');
         }

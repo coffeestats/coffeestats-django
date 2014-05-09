@@ -1,8 +1,10 @@
+import json
 import os
 from datetime import timedelta
 
 from django.conf import settings
 from django.core import mail
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
 from django.contrib import messages
@@ -721,3 +723,58 @@ class SelectTimeZoneViewTest(MessagesTestMixin, CaffeineViewTest):
             SELECT_TIMEZONE_SUCCESS_MESSAGE % {
                 'timezone': 'Europe/London'}
         )
+
+
+class RandomUsersTest(TestCase):
+
+    def setUp(self):
+        super(RandomUsersTest, self).setUp()
+        self.user = User.objects.create(
+            username='testuser', email='test@example.org',
+            password=_HASHED_DEFAULT_PASSWORD, token='testtoken')
+        self.user.timezone = 'Europe/Berlin'
+        self.user.save()
+
+    def _do_login(self):
+        self.assertTrue(self.client.login(
+            username=self.user.username, password=_TEST_PASSWORD),
+            'login failed')
+
+    def test_requires_login(self):
+        myurl = reverse('random_users')
+        response = self.client.get(myurl)
+        self.assertRedirects(response, '{}?next={}'.format(
+            reverse('auth_login'), myurl))
+
+    def test_missing_count_yields_fife_users(self):
+        for num in range(10):
+            User.objects.create(
+                username='test{}'.format(num + 1),
+                token='testtoken{}'.format(num + 1),
+                date_joined=timezone.now() - timedelta(days=num))
+        self._do_login()
+
+        response = self.client.get(reverse('random_users'))
+        self.assertEqual(response['content-type'], 'text/json')
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 5)
+
+    def test_get_random_users(self):
+        for num in range(10):
+            User.objects.create(
+                username='test{}'.format(num + 1),
+                token='testtoken{}'.format(num + 1),
+                date_joined=timezone.now() - timedelta(days=num))
+        self._do_login()
+
+        response = self.client.get(
+            '{}?count=4'.format(reverse('random_users')))
+        self.assertEqual(response['content-type'], 'text/json')
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 4)
+        for item in data:
+            self.assertTrue(item['username'].startswith('test'))
+            for key in (
+                'username', 'name', 'location', 'profile', 'coffees', 'mate'
+            ):
+                self.assertIn(key, item)

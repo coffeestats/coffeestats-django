@@ -4,18 +4,15 @@ from functools import wraps
 
 from django.core.urlresolvers import reverse
 from django.http import (
-    HttpResponse,
     HttpResponseBadRequest,
     HttpResponseForbidden,
 )
-from django.views.decorators.http import (
-    require_GET,
-    require_POST,
-)
+from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import available_attrs
 from django.utils.translation import ugettext as _
-from django.contrib.auth.decorators import login_required
+
+from core.utils import json_response
 
 from caffeine.forms import SubmitCaffeineForm
 from caffeine.models import (
@@ -36,7 +33,6 @@ API_ERROR_INVALID_DATETIME = _(
 API_ERROR_MISSING_PARAM_BEVERAGE = _(
     "`beverage' field missing. You must specify one of `coffee' or `mate'."
 )
-API_ERROR_MISSING_PARAM_COUNT = 'missing parameter "count"'
 API_ERROR_MISSING_PARAM_TIME = _(
     "`time' field is missing. You must specify the time YYYY-mm-dd HH:MM "
     "(and optionally :SS)"
@@ -46,16 +42,6 @@ API_ERROR_NO_TOKEN = _('No API token was given')
 API_WARNING_TIMEZONE_NOT_SET = _(
     'Your timezone is not set, please set it form the web interface!'
 )
-
-
-def json_response(func):
-    @wraps(func, assigned=available_attrs(func))
-    def inner(request, *args, **kwargs):
-        result = func(request, *args, **kwargs)
-        if isinstance(result, HttpResponse):
-            return result
-        return HttpResponse(json.dumps(result), content_type="text/json")
-    return inner
 
 
 def api_token_required(func):
@@ -89,14 +75,13 @@ def api_token_required(func):
     return inner
 
 
-@login_required
-@require_GET
+@csrf_exempt
+@require_POST
+@api_token_required
 @json_response
-def random_users(request):
-    if 'count' not in request.GET:
-        return HttpResponseBadRequest(API_ERROR_MISSING_PARAM_COUNT)
+def random_users(request, **_):
     data = []
-    for user in User.objects.random_users(int(request.GET['count'])):
+    for user in User.objects.random_users(int(request.POST.get('count', 5))):
         data.append({
             'username': user.username,
             'name': user.get_full_name(),

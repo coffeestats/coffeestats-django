@@ -67,4 +67,6 @@ urlpatterns = patterns(
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
     url(r'^profile/(?P<username>\w+)/$', PublicProfileView.as_view(),
         name='public'),
+    url(r'^random-users$', 'caffeine.views.random_users',
+        name='random_users'),
 )

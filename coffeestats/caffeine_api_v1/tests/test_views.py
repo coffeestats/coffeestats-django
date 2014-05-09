@@ -13,6 +13,8 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
+from core.utils import json_response
+
 from caffeine.models import (
     Caffeine,
     DRINK_TYPES,
@@ -24,13 +26,11 @@ from caffeine_api_v1.views import (
     API_ERROR_INVALID_CREDENTIALS,
     API_ERROR_INVALID_DATETIME,
     API_ERROR_MISSING_PARAM_BEVERAGE,
-    API_ERROR_MISSING_PARAM_COUNT,
     API_ERROR_MISSING_PARAM_TIME,
     API_ERROR_NO_TOKEN,
     API_ERROR_NO_USERNAME,
     API_WARNING_TIMEZONE_NOT_SET,
     api_token_required,
-    json_response,
 )
 
 
@@ -38,29 +38,6 @@ User = get_user_model()
 
 _TEST_PASSWORD = 'test1234'
 _HASHED_DEFAULT_PASSWORD = make_password(_TEST_PASSWORD)
-
-
-class JsonResponseTest(TestCase):
-
-    def test_wrap_plain_function(self):
-        def testfun(request):
-            return ['bla']
-        respfun = json_response(testfun)
-        result = respfun(HttpRequest)
-        self.assertIsInstance(result, HttpResponse)
-        self.assertEqual(result['content-type'], 'text/json')
-        self.assertEqual(
-            json.loads(respfun(HttpRequest()).content),
-            ['bla']
-        )
-
-    def test_wrap_httpresponse(self):
-        testresp = HttpResponse('foo')
-
-        def testfun(request):
-            return testresp
-        respfun = json_response(testfun)
-        self.assertEqual(respfun(HttpRequest()), testresp)
 
 
 class ApiTokenRequiredTest(TestCase):
@@ -160,22 +137,25 @@ class RandomUsersTest(TestCase):
         self.user.timezone = 'Europe/Berlin'
         self.user.save()
 
-    def _do_login(self):
-        self.assertTrue(self.client.login(
-            username=self.user.username, password=_TEST_PASSWORD),
-            'login failed')
-
-    def test_requires_login(self):
+    def test_requires_authentication(self):
         myurl = reverse('apiv1:random_users')
-        response = self.client.get(myurl)
-        self.assertRedirects(response, '{}?next={}'.format(
-            reverse('auth_login'), myurl))
+        response = self.client.post(myurl)
+        self.assertEqual(response.status_code, 403)
 
-    def test_missing_count(self):
-        self._do_login()
-        response = self.client.get(reverse('apiv1:random_users'))
-        self.assertIsInstance(response, HttpResponseBadRequest)
-        self.assertEqual(response.content, API_ERROR_MISSING_PARAM_COUNT)
+    def test_missing_count_yields_five_users(self):
+        for num in range(10):
+            User.objects.create(
+                username='test{}'.format(num + 1),
+                token='testtoken{}'.format(num + 1),
+                date_joined=timezone.now() - timedelta(days=num))
+
+        response = self.client.post(reverse('apiv1:random_users'), data={
+            'u': self.user.username,
+            't': self.user.token,
+        })
+        self.assertEqual(response['content-type'], 'text/json')
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 5)
 
     def test_get_random_users(self):
         for num in range(10):
@@ -183,10 +163,15 @@ class RandomUsersTest(TestCase):
                 username='test{}'.format(num + 1),
                 token='testtoken{}'.format(num + 1),
                 date_joined=timezone.now() - timedelta(days=num))
-        self._do_login()
 
-        response = self.client.get(
-            '{}?count=4'.format(reverse('apiv1:random_users')))
+        response = self.client.post(
+            reverse('apiv1:random_users'),
+            data={
+                'u': self.user.username,
+                't': self.user.token,
+                'count': 4,
+            }
+        )
         self.assertEqual(response['content-type'], 'text/json')
         data = json.loads(response.content)
         self.assertEqual(len(data), 4)

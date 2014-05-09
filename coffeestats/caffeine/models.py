@@ -87,7 +87,7 @@ class CaffeineUserManager(BaseUserManager):
              WHERE u.id=user_id AND ctype={0:d}) AS coffees,
             (SELECT COUNT(id) FROM caffeine_caffeine
              WHERE u.id=user_id AND ctype={1:d}) AS mate
-            FROM caffeine_user u ORDER BY RAND() LIMIT {2:d}
+            FROM caffeine_user u ORDER BY RANDOM() LIMIT {2:d}
             '''.format(DRINK_TYPES.coffee, DRINK_TYPES.mate, count))
         return users
 
@@ -196,9 +196,16 @@ class CaffeineManager(models.Manager):
         :return: result dictionary
         """
         result = _total_result_dict()
-        for item in self.filter(user=user).values('ctype').annotate(
-                num_drinks=models.Count('ctype')):
-            result[item['ctype']] = item['num_drinks']
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT COUNT(ctype), ctype
+            FROM caffeine_caffeine
+            WHERE user_id = %s
+            GROUP BY ctype
+            """, [user.id])
+        for ctcount, ctype in cursor.fetchall():
+            result[ctype] = ctcount
         return result
 
     def total_caffeine(self):
@@ -208,9 +215,15 @@ class CaffeineManager(models.Manager):
         :return: result dictionary
         """
         result = _total_result_dict()
-        for item in self.values('ctype').annotate(
-                num_drinks=models.Count('ctype')):
-            result[item['ctype']] = item['num_drinks']
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            SELECT COUNT(ctype), ctype
+            FROM caffeine_caffeine
+            GROUP BY ctype
+            """, [])
+        for ctcount, ctype in cursor.fetchall():
+            result[ctype] = ctcount
         return result
 
     def latest_caffeine_for_user(self, user, count=10):
@@ -236,10 +249,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%H') AS hour
+                   date_part('hour', date) AS hour
             FROM   caffeine_caffeine
-            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m-%%d') =
-                   DATE_FORMAT(date, '%%Y-%%m-%%d')
+            WHERE  date_trunc('day', CURRENT_TIMESTAMP) =
+                   date_trunc('day', date)
                    AND user_id = %s
             GROUP BY hour, ctype
             """, [user.id])
@@ -259,10 +272,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%H') AS hour
+                   date_part('hour', date) AS hour
             FROM   caffeine_caffeine
-            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m-%%d') =
-                   DATE_FORMAT(date, '%%Y-%%m-%%d')
+            WHERE  date_trunc('day', CURRENT_TIMESTAMP) =
+                   date_trunc('day', date)
             GROUP BY hour, ctype
             """, [])
         for ctype, value, hour in cursor.fetchall():
@@ -283,10 +296,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%d') AS day
+                   date_part('day', date) AS day
             FROM   caffeine_caffeine
-            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m') =
-                   DATE_FORMAT(date, '%%Y-%%m')
+            WHERE  date_trunc('month', CURRENT_TIMESTAMP) =
+                   date_trunc('month', date)
                    AND user_id = %s
             GROUP BY day, ctype
             """, [user.id])
@@ -306,10 +319,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%d') AS day
+                   date_part('day', date) AS day
             FROM   caffeine_caffeine
-            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y-%%m') =
-                   DATE_FORMAT(date, '%%Y-%%m')
+            WHERE  date_trunc('month', CURRENT_TIMESTAMP) =
+                   date_trunc('month', date)
             GROUP BY day, ctype
             """, [])
         for ctype, value, day in cursor.fetchall():
@@ -330,10 +343,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%m') AS month
+                   date_part('month', date) AS month
             FROM   caffeine_caffeine
-            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y') =
-                   DATE_FORMAT(date, '%%Y')
+            WHERE  date_trunc('year', CURRENT_TIMESTAMP) =
+                   date_trunc('year', date)
                    AND user_id = %s
             GROUP BY month, ctype
             """, [user.id])
@@ -354,10 +367,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%m') AS month
+                   date_part('month', date) AS month
             FROM   caffeine_caffeine
-            WHERE  DATE_FORMAT(CURRENT_TIMESTAMP, '%%Y') =
-                   DATE_FORMAT(date, '%%Y')
+            WHERE  date_trunc('year', CURRENT_TIMESTAMP) =
+                   date_trunc('year', date)
             GROUP BY month, ctype
             """, [])
         for ctype, value, month in cursor.fetchall():
@@ -378,7 +391,7 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%H') AS hour
+                   date_part('hour', date) AS hour
             FROM   caffeine_caffeine
             WHERE  user_id = %s
             GROUP BY hour, ctype
@@ -400,7 +413,7 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%H') AS hour
+                   date_part('hour', date) AS hour
             FROM   caffeine_caffeine
             GROUP BY hour, ctype
             """, [])
@@ -422,15 +435,14 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%a') AS wday
+                   date_part('isodow', date)::int AS wday
             FROM   caffeine_caffeine
             WHERE  user_id = %s
             GROUP BY wday, ctype
             """, [user.id])
         for ctype, value, wday in cursor.fetchall():
             result['maxvalue'] = max(value, result['maxvalue'])
-            result[DRINK_TYPES._triples[ctype][1]][
-                result['labels'].index(wday)] = value
+            result[DRINK_TYPES._triples[ctype][1]][wday - 1] = value
         return result
 
     def weekdaily_caffeine_overall(self):
@@ -445,15 +457,14 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT ctype, COUNT(id) AS value,
-                   DATE_FORMAT(date, '%%a') AS wday
+                   date_part('isodow', date)::int AS wday
             FROM   caffeine_caffeine
             GROUP BY wday, ctype
             """, [])
         for ctype, value, wday in cursor.fetchall():
             if wday is not None:
                 result['maxvalue'] = max(value, result['maxvalue'])
-                result[DRINK_TYPES._triples[ctype][1]][
-                    result['labels'].index(wday)] = value
+                result[DRINK_TYPES._triples[ctype][1]][wday - 1] = value
         return result
 
     def find_recent_caffeine(self, user, date, ctype):
@@ -486,8 +497,10 @@ class CaffeineManager(models.Manager):
         cursor.execute(
             """
             SELECT c.user_id,
-                   COUNT(c.id) / (DATEDIFF(
-                       CURRENT_DATE, MIN(c.date)) + 1) AS average
+                   COUNT(c.id) /
+                   (date_part(
+                       'day',
+                       (CURRENT_DATE - MIN(c.date))) + 1) AS average
             FROM   caffeine_caffeine c JOIN caffeine_user u ON
                    c.user_id = u.id
             WHERE  c.ctype = %s
@@ -515,7 +528,8 @@ class CaffeineManager(models.Manager):
         writer.writerow(['Timestamp'])
         for row in self.filter(user=user,
                                ctype=drinktype).order_by('date'):
-            writer.writerow([row.date])
+            writer.writerow([
+                row.date.strftime(settings.CAFFEINE_DATETIME_FORMAT)])
         retval = csvbuf.getvalue()
         csvbuf.close()
         return retval

@@ -5,6 +5,14 @@
 
 .. include:: ../README.rst
 
+License
+=======
+
+Coffeestats is licensed under the terms of the MIT license:
+
+.. include:: ../LICENSE.txt
+   :literal:
+
 Welcome to coffeestats's documentation!
 =======================================
 

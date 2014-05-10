@@ -1,8 +1,11 @@
 .. index:: API
 .. index:: REST
 
+.. _rest-api-v1_0:
+
+********************
 REST API version 1.0
-====================
+********************
 
 Coffeestats provides a small REST API to be used by third party applications.
 The API is described with some example `curl`_ calls below.
@@ -11,7 +14,7 @@ The API is described with some example `curl`_ calls below.
 
 
 Base URI
---------
+========
 
 The API is hosted at /api/v1/ and provides several resources that are described
 in detail :ref:`below <section-resources>`.
@@ -25,7 +28,7 @@ in detail :ref:`below <section-resources>`.
 .. _rest authentication:
 
 Authentication
---------------
+==============
 
 The username and the user's on-the-run token are used for API call
 authentication. You can see both used as GET parameters for the bookmarkable
@@ -44,10 +47,10 @@ detailed resource descriptions.
 .. _section-resources:
 
 Resources
----------
+=========
 
 random-users
-^^^^^^^^^^^^
+------------
 
 .. index:: random-users
 
@@ -80,7 +83,7 @@ random-users
    ]
 
 add-drink
-^^^^^^^^^
+---------
 
 .. index:: add-drink
 

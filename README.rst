@@ -7,10 +7,10 @@ PHP uglyness.
 .. _Django: https://www.djangoproject.com/
 .. _coffeestats: https://github.com/coffeestats/coffeestats/
 
-.. image:: https://travis-ci.org/jandd/coffeestats-django.svg?branch=master
-   :target: https://travis-ci.org/jandd/coffeestats-django
-.. image:: https://coveralls.io/repos/jandd/coffeestats-django/badge.png?branch=master
-   :target: https://coveralls.io/r/jandd/coffeestats-django?branch=master
+.. image:: https://travis-ci.org/coffeestats/coffeestats-django.svg?branch=master
+   :target: https://travis-ci.org/coffeestats/coffeestats-django
+.. image:: https://coveralls.io/repos/coffeestats/coffeestats-django/badge.png?branch=master
+   :target: https://coveralls.io/r/coffeestats/coffeestats-django?branch=master
 
 Coffeestats is the software running at https://coffeestats.org/. Coffeestats
 allows registered users to track their caffeine usage (currently coffee and

@@ -1,3 +1,7 @@
+"""
+Django admin classes for the caffeine app.
+
+"""
 from django import forms
 from django.utils.translation import ugettext as _
 

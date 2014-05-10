@@ -15,12 +15,22 @@ Florian hosted coffeestats on an `OpenBSD`_ machine.
 During the `Chemnitzer-Linux Tage 2014`_ Jan Dittberner decided to do a
 reimplementation of Coffeestats in `Django`_.
 
-.. _Chemnitzer-Linux Tage 2014: http://chemnitzer.linux-tage.de/2014/
+.. _Chemnitzer-Linux Tage 2014: http://chemnitzer.linux-tage.de/2014/de/info/
 .. _Clemens Lang: https://neverpanic.de/
-.. _Django: http://djangoproject.com/
+.. _Django: https://www.djangoproject.com/
 .. _Florian Baumann: http://noqqe.de/
 .. _Github: https://github.com/coffeestats/coffeestats/
-.. _Jan Dittberner: http://jan.dittberner.info/
+.. _Jan Dittberner: https://jan.dittberner.info/
 .. _Jeremias Arnstadt: http://www.art-ifact.de/
 .. _OpenBSD: http://www.openbsd.org/
 .. _SASS: http://sass-lang.com/
+
+
+Contributors
+------------
+
+Here is a (hopefully) complete list of contributors:
+
+.. include:: ../CONTRIBUTORS.txt
+
+Please tell us if you think we missing to acknowledge your contribution.

@@ -38,7 +38,7 @@ class BaseCoffeeStatsPageTestMixin(object):
 
         expected_footer_links = [
             (u'coffeestats.org', u'{}/'.format(self.server_url)),
-            (u'Jan Dittberner', u'http://jan.dittberner.info/'),
+            (u'Jan Dittberner', u'https://jan.dittberner.info/'),
             (u'Florian Baumann', u'http://noqqe.de/'),
             (u'Imprint', u'{}/imprint/'.format(self.server_url))
         ]

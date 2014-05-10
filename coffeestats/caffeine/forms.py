@@ -1,3 +1,7 @@
+"""
+Forms for coffeestats.
+
+"""
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -25,6 +29,11 @@ EMPTY_TIMEZONE_ERROR = _("Time zone must not be empty.")
 
 
 class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
+    """
+    This is the form for registering new users.
+
+    """
+
     firstname = forms.CharField(label=_("First name"), required=False)
     lastname = forms.CharField(label=_("Last name"), required=False)
     location = forms.CharField(label=_("Location"), required=False)
@@ -55,6 +64,11 @@ class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
 
 
 class SettingsForm(forms.ModelForm):
+    """
+    This is the form for changing a user's settings.
+
+    """
+
     password1 = forms.CharField(required=False)
     password2 = forms.CharField(required=False)
     password_set = False
@@ -101,6 +115,10 @@ class SettingsForm(forms.ModelForm):
 
 
 class SelectTimeZoneForm(forms.ModelForm):
+    """
+    This is the form for selecting a user's time zone.
+
+    """
     class Meta:
         model = User
         fields = ['timezone']
@@ -124,6 +142,11 @@ class SelectTimeZoneForm(forms.ModelForm):
 
 
 class SubmitCaffeineForm(forms.ModelForm):
+    """
+    This is the form for new caffeine submissions.
+
+    """
+
     class Meta:
         model = Caffeine
         fields = ['date']

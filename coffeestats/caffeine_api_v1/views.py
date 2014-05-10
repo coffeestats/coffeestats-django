@@ -45,6 +45,10 @@ API_WARNING_TIMEZONE_NOT_SET = _(
 
 
 def api_token_required(func):
+    """
+    Decorator to force authentication with an on-the-run token.
+
+    """
     @wraps(func, assigned=available_attrs(func))
     def inner(request, *args, **kwargs):
         messages = {'success': False}
@@ -80,6 +84,13 @@ def api_token_required(func):
 @api_token_required
 @json_response
 def random_users(request, **_):
+    """
+    Return a list of random user data.
+
+    :param HttpRequest request: POST request
+    :return: list of users
+
+    """
     data = []
     for user in User.objects.random_users(int(request.POST.get('count', 5))):
         data.append({
@@ -110,6 +121,16 @@ def _parse_drinktime(drinktime, messages):
 @api_token_required
 @json_response
 def add_drink(request, userinfo, messages, *args, **kwargs):
+    """
+    Submit a caffeinated beverage.
+
+    :param HttpRequest request: POST request
+    :param User userinfo: :py:class:`caffeine.models.User`
+    :param dict messages: message dictionary
+    :return: messages array or :py:class:`django.http.HttpResponseBadRequest`
+
+    """
+
     ctype = request.POST.get('beverage')
     drinktime = request.POST.get('time')
     if not ctype:

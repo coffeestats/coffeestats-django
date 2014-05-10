@@ -1,3 +1,7 @@
+"""
+Custom authentication backend for coffeestats.
+
+"""
 from passlib.hash import bcrypt
 import logging
 

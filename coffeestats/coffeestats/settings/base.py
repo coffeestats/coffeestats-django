@@ -84,6 +84,8 @@ LANGUAGE_CODE = 'en-us'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
+SITES_DOMAIN_NAME = get_env_variable('COFFEESTATS_DOMAIN_NAME')
+SITES_SITE_NAME = get_env_variable('COFFEESTATS_SITE_NAME')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True

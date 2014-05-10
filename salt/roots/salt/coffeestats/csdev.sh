@@ -12,3 +12,4 @@ export COFFEESTATS_RECAPTCHA_PUBLICKEY={{ salt['pillar.get']('recaptcha:publicke
 export COFFEESTATS_SITE_ADMINMAIL={{ pillar['general']['adminemail'] }}
 export COFFEESTATS_SITE_NAME="{{ pillar['general']['sitename'] }}"
 export COFFEESTATS_SITE_SECRET={{ pillar['general']['sitesecret'] }}
+export COFFEESTATS_DOMAIN_NAME={{ pillar['general']['domainname'] }}

@@ -1,12 +1,12 @@
 Django==1.6.5
-bpython==0.12
+bpython==0.13
 django-braces==1.4.0
 django-model-utils==2.0.3
 django-recaptcha==1.0
 django-registration==1.0
 logutils==0.3.3
-psycopg2==2.5.2
+psycopg2==2.5.3
 South==0.8.4
 passlib==1.6.2
 py-bcrypt==0.4
-pytz==2014.2
+pytz==2014.3

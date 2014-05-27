@@ -2,8 +2,16 @@
 
 .footer {
   clear: both;
-
+  background: $white;
+  height: 28px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   .footertext {
     font-size: small;
+    margin: 0 auto;
+    width: 960px;
+    text-align: center;
+    padding: 7px 0;
   }
 }

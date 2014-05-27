@@ -45,7 +45,8 @@ body {
   color: black;
   font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
   font-size: 14px;
-  font-weight: normal; }
+  font-weight: normal;
+  padding-top: 55px; }
 
 a {
   color: #584a4a !important; }
@@ -295,36 +296,52 @@ ul.userlist {
 
 /* WRAPPER */
 #wrapper {
-  padding: 0;
-  margin: 0 auto;
-  width: 80%; }
+  padding: 0; }
 
 /* HEADER */
 #header {
   height: 58px;
   width: 100%;
-  background: white; }
+  background: white;
+  margin-bottom: 35px;
+  position: fixed;
+  top: 0; }
   #header .headerWrapper {
-    padding: 10px 10px 10px 100px;
     margin: 0 auto;
+    width: 960px;
+    height: 49px;
     color: #584a4a;
     background-image: url("/static/images/logo.png");
     background-repeat: no-repeat;
-    background-position: left center; }
+    background-position: left center;
+    background-size: auto 42px; }
     #header .headerWrapper h1 {
       font-family: 'Amaranth', sans-serif;
-      font-size: 48px;
+      display: inline-block;
+      font-size: 25px;
       margin-bottom: 1px;
-      max-width: 32%; }
+      margin-top: 8px;
+      margin-left: 47px;
+      max-width: 32%;
+      line-height: 43px; }
     #header .headerWrapper p {
       margin-top: 0;
       max-width: 32%; }
 
 /* FOOTER */
 .footer {
-  clear: both; }
+  clear: both;
+  background: white;
+  height: 28px;
+  position: fixed;
+  bottom: 0;
+  width: 100%; }
   .footer .footertext {
-    font-size: small; }
+    font-size: small;
+    margin: 0 auto;
+    width: 960px;
+    text-align: center;
+    padding: 7px 0; }
 
 /* NAVIGATION */
 #navigation {
@@ -369,13 +386,14 @@ ul.userlist {
 
 /* CONTENT */
 #content {
-  padding: 0;
-  margin: 0; }
+  padding: 35px 0 35px 0;
+  margin: 0 auto;
+  width: 960px; }
   #content h2 {
     padding: 0 0 10px 0;
     margin: 0;
     font-size: 16px;
-    font-weight: bold; }
+    font-weight: 300; }
   #content h3 {
     padding: 0 0 10px 0;
     margin: 0;

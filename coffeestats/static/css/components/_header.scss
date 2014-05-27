@@ -4,18 +4,27 @@
   height: 58px;
   width: 100%;
   background: $white;
+  margin-bottom: 35px;
+  position: fixed;
+  top:0;
   .headerWrapper {
-    padding: 10px 10px 10px 100px;
     margin: 0 auto;
+    width: 960px;
+    height: 49px;
     color: $font-header;
     background-image: url('/static/images/logo.png');
     background-repeat: no-repeat;
     background-position: left center;
+    background-size: auto 42px;
     h1 {
       font-family: 'Amaranth', sans-serif;
-      font-size: 48px;
+      display: inline-block;
+      font-size: 25px;
       margin-bottom: 1px;
+      margin-top: 8px;
+      margin-left: 47px;
       max-width: 32%;
+      line-height: 43px;
     }
     p {
       margin-top: 0;

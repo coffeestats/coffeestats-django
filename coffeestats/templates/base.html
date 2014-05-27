@@ -40,7 +40,6 @@
           <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
           {% endif %}
           <h1><a href="/">coffeestats.org</a></h1>
-          <p>{% trans "... about what keeps you awake at night." %}</p>
         </div>
       </div>
       <div id="content">
@@ -56,13 +55,12 @@
         </div>
         {% endif %}
         {% block content %}{% endblock %}
-
-        <div class="footer">
+      </div>
+      <div class="footer">
           {% url "imprint" as imprinturl %}
           <p class="footertext">{% blocktrans %}<a href="/">coffeestats.org</a> is a project by <a href="https://jan.dittberner.info/">Jan Dittberner</a> &amp; <a href="http://noqqe.de/">Florian Baumann</a>.
           See <a href="{{ imprinturl }}">Imprint</a>.{% endblocktrans %}</p>
         </div>
-      </div>
     </div>
     <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
     <script type="text/javascript">

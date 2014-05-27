@@ -42,7 +42,10 @@ urlpatterns = patterns(
 
 if settings.DEBUG:
     import debug_toolbar
+    from django.contrib.staticfiles.views import serve as serve_static
+    from django.views.decorators.cache import never_cache
     urlpatterns += patterns(
         '',
         url(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r'^static/(?P<path>.*)$', never_cache(serve_static)),
     )

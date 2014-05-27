@@ -1,0 +1,67 @@
+
+li {
+    &.flash-success,
+    &.flash-info,
+    &.flash-warning,
+    &.flash-error {
+        list-style-type: none;
+        padding: 10px 10px 10px 25px;
+        margin-bottom: 5pt;
+        border: 1px solid $text-color;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: 5px center;
+
+        .close {
+            float: right;
+            font-size: 16px;
+            font-weight: bold;
+            color: $text-color;
+            text-shadow: 0 1px 0 $button-secondary-shadow;
+            opacity: 0.2;
+        }
+    }
+}
+
+ul.errorlist li {
+    list-style-type: none;
+    padding: 2px;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    padding: 10px 10px 10px 25px;
+}
+
+li.flash-success {
+    background-image: url('/static/images/info.png');
+    color: $success-color;
+    background-color: $success-background;
+    border-color: $success-border;
+}
+li.flash-info {
+    background-image: url('/static/images/info.png');
+    color: $info-color;
+    background-color: $info-background;
+    border-color: $info-border;
+}
+li.flash-warning {
+    background-image: url('/static/images/alert.png');
+    color: $warning-color;
+    background-color: $warning-background;
+    border-color: $warning-border;
+}
+li.flash-error, ul.errorlist li {
+    background-image: url('/static/images/alert.png');
+    color: $error-color;
+    background-color: $error-background;
+    border-color: $error-border;
+}
+
+ul.flash-messages, ul.errorlist {
+    margin:0px;
+    padding:0px;
+}
+
+ul.userlist {
+  list-style: none;
+  padding: 0;
+}

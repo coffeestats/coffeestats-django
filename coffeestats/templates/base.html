@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}coffeestats.org{% endblock title %}</title>
     <link rel="shortcut icon" href="{% static "images/favicon.png" %}" type="image/x-icon">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Amaranth' rel='stylesheet' type='text/css'>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -34,11 +35,13 @@
     {% endspaceless %}</ul>
     <div id="wrapper">
       <div id="header">
-        {% if user.is_authenticated %}
-        <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
-        {% endif %}
-        <h1><a href="/">coffeestats.org</a></h1>
-        <p>{% trans "... about what keeps you awake at night." %}</p>
+        <div class="headerWrapper">
+          {% if user.is_authenticated %}
+          <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
+          {% endif %}
+          <h1><a href="/">coffeestats.org</a></h1>
+          <p>{% trans "... about what keeps you awake at night." %}</p>
+        </div>
       </div>
       <div id="content">
         {% if user.is_authenticated %}

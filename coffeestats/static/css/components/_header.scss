@@ -1,0 +1,25 @@
+/* HEADER */
+
+#header {
+  height: 58px;
+  width: 100%;
+  background: $white;
+  .headerWrapper {
+    padding: 10px 10px 10px 100px;
+    margin: 0 auto;
+    color: $font-header;
+    background-image: url('/static/images/logo.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    h1 {
+      font-family: 'Amaranth', sans-serif;
+      font-size: 48px;
+      margin-bottom: 1px;
+      max-width: 32%;
+    }
+    p {
+      margin-top: 0;
+      max-width: 32%;
+    }
+  }
+}

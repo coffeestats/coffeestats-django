@@ -1,0 +1,49 @@
+/* colors */
+
+$body-background-color: #cac8bb;
+$white: #fff;
+
+$text-color: #000000;
+$link-color: #584a4a;
+$font-header: $link-color;
+
+$button-background: #7f7665;
+$button-border: #615a4f;
+$button-color: #fff;
+$button-hover-background: #5a5348;
+$button-shadow: #9e9482;
+$button-text-shadow: #524c42;
+
+$button-secondary-background: #f7f3e5;
+$button-secondary-border: #b6aa97;
+$button-secondary-color: $button-secondary-border;
+$button-secondary-shadow: #fff;
+$button-secondary-text-shadow: $button-secondary-shadow;
+
+$input-background: $button-secondary-background;
+$input-border: #d8ccb3;
+$input-color: #4f4b42;
+$input-shadow: $button-secondary-shadow;
+
+$white-box-shadow: rgba(0, 0, 0, 0.13);
+$white-box-background: #fff;
+
+$navigation-border-right: #a3a3a3;
+$navigation-box-shadow: #fff;
+$navigation-link-hover-background: #ece7dd;
+
+$error-color: #b94a48;
+$error-background: #f2dede;
+$error-border: #eed3d7;
+
+$warning-color: #c09853;
+$warning-background: #fcf8e3;
+$warning-border: #fbeed5;
+
+$info-color: #3a87ad;
+$info-background: #d9edf7;
+$info-border: #bce8f1;
+
+$success-color: #468847;
+$success-background: #dff0d8;
+$success-border: #d6e9c6;

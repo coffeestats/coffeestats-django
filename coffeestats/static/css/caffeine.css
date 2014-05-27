@@ -7,37 +7,43 @@
     Date: March 27th, 2014
     Version: 1.4
 */
+.clearfix {
+  clear: both;
+  height: 0; }
+
+.right,
+.rightfloated {
+  float: right; }
+
+.left,
+.leftform {
+  float: left; }
+
+.clear {
+  clear: both; }
+
+/* apply a natural box layout model to all elements */
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.rightfloated {
+  float: right; }
+
 /* colors */
-/* FONTS */
-@font-face {
-  font-family: Droid Sans;
-  font-style: normal;
-  font-weight: normal;
-  src: url("/static/fonts/DroidSans.ttf"); }
-
-@font-face {
-  font-family: Droid Sans;
-  font-style: normal;
-  font-weight: bold;
-  src: url("/static/fonts/DroidSans-Bold.ttf"); }
-
-@font-face {
-  font-family: Harabara;
-  font-style: normal;
-  src: url("/static/fonts/Harabara.ttf"); }
-
 /* GENERAL */
 body {
   padding: 0;
   margin: 0;
-  background: url("/static/images/background.jpg") no-repeat center center fixed;
+  background: url("/static/images/bg-landingpage.jpg") no-repeat center center fixed;
   background-color: #cac8bb;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   color: black;
-  font-family: Droid Sans, Helvetica, Verdana, Arial, sans-serif;
+  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal; }
 
@@ -48,7 +54,16 @@ a.btn, input {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   margin: 2px 0;
-  font-family: Droid Sans, Helvetica, Verdana, Arial, sans-serif; }
+  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif; }
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: inherit; }
+  a:hover {
+    text-decoration: underline; }
+  a img {
+    border: none; }
 
 input[type=submit],
 button,
@@ -97,15 +112,30 @@ input[type=password] {
   color: #4f4b42;
   min-height: 25px; }
 
-.right {
-  float: right; }
+strong {
+  font-weight: bold; }
 
-.left,
-.leftform {
-  float: left; }
+#system-flash .flash-messages {
+  background: transparent;
+  position: absolute;
+  top: 0px;
+  width: 60%; }
 
-.clear {
-  clear: both; }
+.usercard,
+.rankbox {
+  width: 45%;
+  margin-right: 5%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  float: left;
+  display: inline-block; }
+  .usercard div.left,
+  .rankbox div.left {
+    display: inline-block; }
+    .usercard div.left input,
+    .rankbox div.left input {
+      display: inline-block;
+      width: 94%; }
 
 .white-box {
   padding: 20px;
@@ -117,7 +147,8 @@ input[type=password] {
   -moz-box-sizing: border-box;
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.13);
   border-radius: 4px;
-  min-height: 115px; }
+  min-height: 115px;
+  /* REGISTER */ }
   .white-box.update {
     min-height: 317px; }
   .white-box.today {
@@ -128,6 +159,16 @@ input[type=password] {
   .white-box:nth-child(odd) {
     float: right;
     margin: 0 0 2% 0; }
+  .white-box.fullWidth div.left {
+    width: 33%; }
+    .white-box.fullWidth div.left b {
+      display: inline-block;
+      margin-bottom: 10px; }
+    .white-box.fullWidth div.left input {
+      width: 80%; }
+  .white-box.fullWidth #recaptcha_widget_div {
+    float: left;
+    margin-top: 23px; }
   .white-box p {
     line-height: 24px; }
   .white-box canvas {
@@ -188,6 +229,15 @@ form.otrblockform input[type=submit] {
   padding: 30px;
   font-size: 2em; }
 
+.inlineform select {
+  padding: 10px;
+  font-size: 1.35em;
+  border: none;
+  background-color: #f7f3e5;
+  color: #4f4b42;
+  min-height: 22px;
+  line-height: 22px; }
+
 li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
   list-style-type: none;
   padding: 10px 10px 10px 25px;
@@ -239,56 +289,9 @@ ul.flash-messages, ul.errorlist {
   margin: 0px;
   padding: 0px; }
 
-#system-flash .flash-messages {
-  background: transparent;
-  position: absolute;
-  top: 0px;
-  width: 60%; }
-
-.usercard, .rankbox {
-  width: 45%;
-  margin-right: 5%;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  float: left;
-  display: inline-block; }
-  .usercard div.left, .rankbox div.left {
-    display: inline-block; }
-    .usercard div.left input, .rankbox div.left input {
-      display: inline-block;
-      width: 94%; }
-
-.rightfloated {
-  float: right; }
-
-.clearfix {
-  clear: both;
-  height: 0; }
-
 ul.userlist {
   list-style: none;
   padding: 0; }
-
-a {
-  text-decoration: none;
-  font-weight: bold;
-  color: inherit; }
-  a:hover {
-    text-decoration: underline; }
-  a img {
-    border: none; }
-
-strong {
-  font-weight: bold; }
-
-.inlineform select {
-  padding: 10px;
-  font-size: 1.35em;
-  border: none;
-  background-color: #f7f3e5;
-  color: #4f4b42;
-  min-height: 22px;
-  line-height: 22px; }
 
 /* WRAPPER */
 #wrapper {
@@ -298,20 +301,24 @@ strong {
 
 /* HEADER */
 #header {
-  padding: 10px 10px 10px 100px;
-  margin: 0;
-  color: #584a4a;
-  background-image: url("/static/images/logo.png");
-  background-repeat: no-repeat;
-  background-position: left center; }
-  #header h1 {
-    font-family: "Harabara";
-    font-size: 48px;
-    margin-bottom: 1px;
-    max-width: 32%; }
-  #header p {
-    margin-top: 0;
-    max-width: 32%; }
+  height: 58px;
+  width: 100%;
+  background: white; }
+  #header .headerWrapper {
+    padding: 10px 10px 10px 100px;
+    margin: 0 auto;
+    color: #584a4a;
+    background-image: url("/static/images/logo.png");
+    background-repeat: no-repeat;
+    background-position: left center; }
+    #header .headerWrapper h1 {
+      font-family: 'Amaranth', sans-serif;
+      font-size: 48px;
+      margin-bottom: 1px;
+      max-width: 32%; }
+    #header .headerWrapper p {
+      margin-top: 0;
+      max-width: 32%; }
 
 /* FOOTER */
 .footer {
@@ -374,18 +381,6 @@ strong {
     margin: 0;
     font-size: 14px;
     font-weight: bold; }
-
-/* REGISTER */
-.white-box.fullWidth div.left {
-  width: 33%; }
-  .white-box.fullWidth div.left b {
-    display: inline-block;
-    margin-bottom: 10px; }
-  .white-box.fullWidth div.left input {
-    width: 80%; }
-.white-box.fullWidth #recaptcha_widget_div {
-  float: left;
-  margin-top: 23px; }
 
 /* Responsive */
 @media screen and (max-width: 1250px) {
@@ -464,3 +459,24 @@ strong {
       margin-bottom: 10px; }
     .white-box.fullWidth .left input {
       width: 97%; } }
+#system-flash .flash-messages {
+  background: transparent;
+  position: absolute;
+  top: 0px;
+  width: 60%; }
+
+.usercard,
+.rankbox {
+  width: 45%;
+  margin-right: 5%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  float: left;
+  display: inline-block; }
+  .usercard div.left,
+  .rankbox div.left {
+    display: inline-block; }
+    .usercard div.left input,
+    .rankbox div.left input {
+      display: inline-block;
+      width: 94%; }

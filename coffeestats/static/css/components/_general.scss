@@ -1,0 +1,118 @@
+/* GENERAL */
+
+body {
+  padding: 0;
+  margin: 0;
+  background: url("/static/images/bg-landingpage.jpg") no-repeat center center fixed;
+  background-color: $body-background-color;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: $text-color;
+  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+a {
+  color: $link-color !important;
+}
+
+a.btn, input {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 2px 0;
+  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: inherit;
+  &:hover {
+    text-decoration: underline;
+  }
+  img {
+    border: none;
+  }
+}
+
+input[type=submit],
+button,
+a.btn {
+  background: $button-background;
+  padding: 10px;
+  font-size: 1.35em;
+  color: $button-color !important;
+  text-shadow: 1px 1px 0 $button-text-shadow;
+  min-height: 25px;
+  border: 1px solid $button-border;
+  box-shadow: 0 1px 0 $button-shadow inset;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration:none !important;
+  font-weight: normal !important;
+
+  &:hover {
+    background: $button-hover-background;
+  }
+
+  &.secondary {
+    color: $button-secondary-color !important;
+    text-shadow: 1px 1px 0 $button-secondary-text-shadow;
+    background: $button-secondary-background;
+    box-shadow: 0 1px 0 $button-secondary-shadow inset;
+    border: 1px solid $button-secondary-border;
+
+    &:hover {
+      background: $button-hover-background !important;
+      box-shadow: 0 1px 0 $button-shadow inset;
+      text-shadow: 1px 1px 0 $button-text-shadow !important;
+      color: $button-color !important;
+    }
+  }
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+  padding: 10px;
+  font-size: 1.35em;
+  border: 1px solid $input-border;
+  background-color: $input-background;
+  box-shadow: 0 1px 0 $input-shadow inset;
+  color: $input-color;
+  min-height: 25px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+#system-flash .flash-messages {
+    background: transparent;
+    position: absolute;
+    top: 0px;
+    width: 60%;
+}
+
+.usercard,
+.rankbox {
+  width: 45%;
+  margin-right: 5%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  float: left;
+  display:inline-block;
+
+  div.left {
+    display:inline-block;
+
+    input {
+      display:inline-block;
+      width:94%;
+    }
+  }
+}

@@ -1,0 +1,98 @@
+.white-box {
+  padding: 20px;
+  margin: 0 2% 2% 0;
+  background-color: $white-box-background;
+  float: left;
+  width: 48%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-shadow: 1px 1px 12px $white-box-shadow;
+  border-radius: 4px;
+  min-height: 115px;
+
+  &.update {
+    min-height: 317px;
+  }
+  &.today {
+    min-height: 318px;
+  }
+
+  &.fullWidth {
+    width: 100%;
+    margin: 0 0 2% 0;
+  }
+
+  &:nth-child(odd) {
+    float: right;
+    margin: 0 0 2% 0;
+  }
+
+  /* REGISTER */
+  &.fullWidth {
+    div.left {
+      width: 33%;
+
+      b {
+        display: inline-block;
+        margin-bottom:10px;
+      }
+
+      input {
+        width:80%;
+      }
+    }
+
+    #recaptcha_widget_div {
+      float: left;
+      margin-top:23px;
+    }
+  }
+
+  p {
+    line-height: 24px;
+  }
+  canvas {
+    width:100% !important;
+    height: auto !important;
+  }
+  h2 {
+    font-size: 2.4em !important;
+    color: rgb(194, 185, 185);
+  }
+
+  .pagelinks {
+    display:inline-block;
+    width: 100%;
+
+    div.left {
+      width: 50%;
+
+      a.btn {
+        width: 94%;
+        margin-bottom: 10px;
+        display: block;
+      }
+    }
+    div.right {
+      margin-right: 21px;
+    }
+  }
+
+  .profilelist {
+    padding-left:0;
+
+    li {
+      list-style: none;
+      margin: 7px 0;
+    }
+  }
+
+  p {
+    margin: 14px 0;
+    clear: both;
+  }
+}
+
+.white-box-center {
+    text-align: center;
+}

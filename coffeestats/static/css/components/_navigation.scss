@@ -1,0 +1,58 @@
+/* NAVIGATION */
+
+#navigation {
+  margin: 0 auto 18px;
+  width:50%;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    li {
+      margin: 0 0 0 -3px;
+      display: inline-block;
+      border-right: 1px solid $navigation-border-right;
+      box-shadow: 1px 0 0 $navigation-box-shadow;
+
+      &:last-child {
+        border-right: 0;
+        box-shadow: 0 0 0 $navigation-box-shadow;
+      }
+
+      a {
+        display: inline-block;
+        font-weight: normal;
+        color: $text-color;
+        background-repeat: no-repeat;
+        padding: 10px 10px 10px 32px;
+        background-position: 8px 9px;
+
+        &:hover {
+          text-decoration: none;
+          background-color: $navigation-link-hover-background;
+        }
+
+        &.navindex {
+          background-image: url('/static/images/home.png');
+        }
+        &.navplusone {
+          background-image: url('/static/images/tag.png');
+        }
+        &.navprofile {
+          background-image: url('/static/images/profile.png');
+        }
+        &.navexplore {
+          background-image: url('/static/images/list.png');
+        }
+        &.navoverall {
+          background-image: url('/static/images/flask.png');
+        }
+        &.navabout {
+          background-image: url('/static/images/user-4.png');
+        }
+        &.navlogout {
+          background-image: url('/static/images/out.png');
+        }
+      }
+    }
+  }
+}

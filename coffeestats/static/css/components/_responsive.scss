@@ -1,0 +1,141 @@
+/* Responsive */
+
+@media screen and (max-width: 1250px) {
+  #wrapper {
+
+    #navigation {
+      width: 58%;
+    }
+
+    .white-box {
+      margin: 0 1% 2% 0;
+    }
+
+    .white-box:nth-child(odd) {
+      margin: 0 0 2% 1%;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  /* iPhone, Android rules here */
+  #wrapper {
+    padding: 0px;
+    width: 94%;
+    margin: 0 auto;
+
+    #header {
+
+      #account {
+        font-size: 1.4em;
+      }
+
+      p {
+        max-width:85%;
+      }
+    }
+
+    #navigation {
+      width: 100%;
+
+      ul li a {
+        padding: 10px 10px 10px 30px;
+        font-size: 1.4em;
+        background-position: 8px 14px;
+      }
+    }
+
+    .white-box, .white-box:nth-child(odd) {
+        margin: 24px 0px 0px;
+    }
+
+    .white-box {
+      width: 92%;
+      float: none !important;
+      display: inline-block;
+
+      h2 {
+        font-size: 4em !important;
+      }
+
+      p {
+        line-height: 1.5em;
+        font-size: 1.5em;
+      }
+
+      form {
+        .left, .leftform {
+          clear:both;
+          width: 100% !important;
+        }
+
+        .leftform {
+          margin:5pt 0;
+
+          #recaptcha_widget_div {
+              margin:0;
+          }
+        }
+
+        &.otrblockform input {
+            margin:5pt 0;
+            width:98.8%;
+        }
+
+        &.coffeeform {
+            #email {
+                width:100%;
+            }
+        }
+      }
+
+      .profilelist {
+        font-size: 1.4em;
+      }
+
+      input[type=submit],
+      a.btn {
+        font-size: 1.85em;
+        padding: 16px 14px;;
+      }
+
+      input[type=text],
+      input[type=email],
+      input[type=password] {
+        font-size: 1.85em;
+        padding: 16px 14px;
+      }
+
+      table,
+      li,
+      .usercard,
+      .rankbox {
+        font-size: 1.4em;
+      }
+
+      h3 {
+        font-size: 1.4em;
+      }
+    }
+  }
+
+  /* REGISTER */
+
+  .white-box.fullWidth {
+    .left {
+      width: 100%;
+      float: none !important;
+      display: block;
+      margin-top: 24px;
+
+      b {
+        display: inline-block;
+        margin-bottom:10px;
+      }
+
+      input {
+        width:97%;
+      }
+    }
+  }
+}

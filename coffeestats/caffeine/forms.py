@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import override as override_timezone
 
 from registration.forms import RegistrationFormUniqueEmail
-from captcha.fields import ReCaptchaField
 
 from .models import (
     ACTION_TYPES,
@@ -37,7 +36,6 @@ class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
     firstname = forms.CharField(label=_("First name"), required=False)
     lastname = forms.CharField(label=_("Last name"), required=False)
     location = forms.CharField(label=_("Location"), required=False)
-    captcha = ReCaptchaField()
 
     def clean_username(self):
         """

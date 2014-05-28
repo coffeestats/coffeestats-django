@@ -63,7 +63,7 @@ EXPORT_SUCCESS_MESSAGE = _(
     'Your data has been exported. You will receive an email with two CSV '
     'files with your coffee and mate registrations attached.'
 )
-REGISTRATION_SUCCESS_MESSAGE = _('You got it. Yes we hate CAPTCHAs too.')
+REGISTRATION_SUCCESS_MESSAGE = _('You got it.')
 REGISTRATION_MAILINFO_MESSAGE = _(
     'We have sent you an email with a link to activate your account')
 SETTINGS_EMAIL_CHANGE_MESSAGE = _(

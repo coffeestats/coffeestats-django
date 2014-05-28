@@ -312,14 +312,3 @@ INSTALLED_APPS += (
 # Don't need to use South when setting up a test database.
 SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
-
-########## DJANGO-RECAPTCHA CONFIGURATION
-INSTALLED_APPS += (
-    # recaptcha support
-    'captcha',
-)
-
-RECAPTCHA_PUBLIC_KEY = get_env_variable('COFFEESTATS_RECAPTCHA_PUBLICKEY')
-RECAPTCHA_PRIVATE_KEY = get_env_variable('COFFEESTATS_RECAPTCHA_PRIVATEKEY')
-RECAPTCHA_USE_SSL = True
-########## END DJANGO-RECAPTCHA CONFIGURATION

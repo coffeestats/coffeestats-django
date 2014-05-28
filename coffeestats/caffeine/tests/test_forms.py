@@ -1,5 +1,4 @@
 from datetime import timedelta
-import os
 
 from django.conf import settings
 from django.test import TestCase
@@ -26,7 +25,6 @@ from caffeine.models import (
 
 
 User = get_user_model()
-os.environ['RECAPTCHA_TESTING'] = 'True'
 
 
 class CoffeestatsRegistrationFormTest(TestCase):
@@ -36,8 +34,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser',
                   'email': 'test@bla.com',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertTrue(form.is_valid(), str(form.errors))
         self.assertEqual(form.clean_username(), 'testuser')
@@ -48,8 +45,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser',
                   'email': 'test@example.org',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['username'], [DUPLICATE_USER_ERROR])
@@ -59,8 +55,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser',
                   'email': 'test@bla.com',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertTrue(form.is_valid(), str(form.errors))
         self.assertEqual(form.clean_email(), 'test@bla.com')
@@ -71,8 +66,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser2',
                   'email': 'test@bla.com',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['email'], [DUPLICATE_EMAIL_ERROR])

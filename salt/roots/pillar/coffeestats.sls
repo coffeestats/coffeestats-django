@@ -4,10 +4,6 @@ database:
   database: coffeestats
   port: 5432
 
-#recaptcha:
-#  publickey:
-#  privatekey:
-#
 #piwik:
 #  host:
 #  siteid:

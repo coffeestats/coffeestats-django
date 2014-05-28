@@ -222,9 +222,6 @@ strong {
       margin-bottom: 10px; }
     .white-box.fullWidth div.left input {
       width: 80%; }
-  .white-box.fullWidth #recaptcha_widget_div {
-    float: left;
-    margin-top: 23px; }
   .white-box p {
     line-height: 24px; }
   .white-box canvas {
@@ -545,8 +542,6 @@ nav {
         width: 100% !important; }
       #wrapper .white-box form .leftform {
         margin: 5pt 0; }
-        #wrapper .white-box form .leftform #recaptcha_widget_div {
-          margin: 0; }
       #wrapper .white-box form.otrblockform input {
         margin: 5pt 0;
         width: 98.8%; }

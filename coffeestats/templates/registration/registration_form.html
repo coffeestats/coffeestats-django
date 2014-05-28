@@ -10,7 +10,7 @@
 {% block content %}
 <div class="white-box fullWidth">
   <h2>{% trans "Register" %}</h2>
-  <p>{% trans "Fill these fields with your data, write down what reCAPTCHA says u and click Register!" %}</p>
+  <p>{% trans "Fill these fields with your data and click Register!" %}</p>
   <form action="{% url "registration_register" %}" method="post">
     <div class="leftform">
       <h3>{% trans "General" %}</h3>
@@ -32,10 +32,6 @@
       <input type="text" name="lastname" id="lastname" maxlength="20" placeholder="{{ form.lastname.label }}" class="register_field_standard" {% if form.lastname.value %}value="{{ form.lastname.value }}"{% endif %}/>
       {{ form.location.errors }}
       <input type="text" name="location" id="location" maxlength="20" placeholder="{{ form.location.label }}" class="register_field_standard" {% if form.location.value %}value="{{ form.location.value }}"{% endif %} />
-    </div>
-    <div class="leftform">
-      {{ form.captcha.errors }}
-      {{ form.captcha }}
     </div>
     <p><input type="submit" value="{% trans "Register!" %}" class="register_button_standard" /></p>
     {% csrf_token %}

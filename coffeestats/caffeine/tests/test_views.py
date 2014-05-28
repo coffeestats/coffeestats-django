@@ -1,5 +1,4 @@
 import json
-import os
 from datetime import timedelta
 
 from django.conf import settings
@@ -41,7 +40,6 @@ from caffeine.views import (
 
 
 User = get_user_model()
-os.environ['RECAPTCHA_TESTING'] = 'True'
 
 _TEST_PASSWORD = 'test1234'
 _HASHED_DEFAULT_PASSWORD = make_password(_TEST_PASSWORD)
@@ -278,8 +276,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
         'password2': _TEST_PASSWORD,
         'firstname': 'Test',
         'lastname': 'User',
-        'location': 'Testino',
-        'recaptcha_response_field': 'PASSED'
+        'location': 'Testino'
     }
 
     def test_get_renders_registration_template(self):

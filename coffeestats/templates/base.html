@@ -40,6 +40,31 @@
           <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
           {% endif %}
           <h1><a href="/">coffeestats.org</a></h1>
+          <nav class="right">
+            <ul>
+              <li>
+                <span>{% trans "Login" %}</span>
+                <ul class="loginBox">
+                  <li>
+                      <form action="{% url "auth_login" %}" method="post" class="inlineform" id="login">
+                        {% csrf_token %}
+                        {{ form.username.errors }}
+                        {{ form.password.errors }}
+                        <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %} autofocus>
+                        <label alt="{% trans "Username" %}" placeholder="{% trans "Username" %}"></label>
+                        <input type="password" required name="password" id="id_password" placeholder="{% trans "Password" %}" />
+                        <label alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
+                        {% url "auth_password_reset" as passwordreset_url %}
+                      {% blocktrans %}<a href="{{ passwordreset_url }}" class="right">Forgot your password?</a>{% endblocktrans %}
+                        <input type="submit" name="submit" value="{% trans "Login" %}"/>
+                        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+                      </form>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="{% url "registration_register" %}" class="btn">{% trans "Register" %}</a></li>
+            </ul>
+          </nav>
         </div>
       </div>
       <div id="content">

@@ -21,8 +21,6 @@ a {
 }
 
 a.btn, input {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
   margin: 2px 0;
   font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
 }
@@ -43,10 +41,9 @@ input[type=submit],
 button,
 a.btn {
   background: $button-background;
-  padding: 10px;
+  padding: 5px 10px;
   font-size: 1.35em;
   color: $button-color !important;
-  text-shadow: 1px 1px 0 $button-text-shadow;
   min-height: 25px;
   border: 1px solid $button-border;
   box-shadow: 0 1px 0 $button-shadow inset;
@@ -79,13 +76,12 @@ a.btn {
 input[type=text],
 input[type=email],
 input[type=password] {
-  padding: 10px;
-  font-size: 1.35em;
-  border: 1px solid $input-border;
+  //padding: 10px;
+  /*font-size: 1.35em;
   background-color: $input-background;
-  box-shadow: 0 1px 0 $input-shadow inset;
-  color: $input-color;
-  min-height: 25px;
+  color: $input-color;*/
+  $height: 3em;
+  @include adaptive-placeholder($height, 0);
 }
 
 strong {

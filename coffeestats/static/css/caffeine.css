@@ -42,18 +42,16 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  color: black;
+  color: #4b4b4b;
   font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   padding-top: 55px; }
 
 a {
-  color: #584a4a !important; }
+  color: #796c67 !important; }
 
 a.btn, input {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
   margin: 2px 0;
   font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif; }
 
@@ -69,11 +67,10 @@ a {
 input[type=submit],
 button,
 a.btn {
-  background: #7f7665;
-  padding: 10px;
+  background: #796c67;
+  padding: 5px 10px;
   font-size: 1.35em;
   color: white !important;
-  text-shadow: 1px 1px 0 #524c42;
   min-height: 25px;
   border: 1px solid #615a4f;
   box-shadow: 0 1px 0 #9e9482 inset;
@@ -105,13 +102,71 @@ a.btn {
 input[type=text],
 input[type=email],
 input[type=password] {
-  padding: 10px;
-  font-size: 1.35em;
-  border: 1px solid #d8ccb3;
-  background-color: #f7f3e5;
-  box-shadow: 0 1px 0 white inset;
-  color: #4f4b42;
-  min-height: 25px; }
+  /*font-size: 1.35em;
+  background-color: $input-background;
+  color: $input-color;*/
+  box-sizing: border-box;
+  width: 100%;
+  height: -webkit-calc(3em + 2px);
+  height: calc(3em + 2px);
+  margin: 0 0 1em;
+  padding: 1em;
+  border: 1px solid #796c67;
+  border-radius: 0;
+  background: white;
+  resize: none;
+  outline: none; }
+  input[type=text][required]:focus,
+  input[type=email][required]:focus,
+  input[type=password][required]:focus {
+    border-color: #796c67; }
+    input[type=text][required]:focus + label[placeholder]:before,
+    input[type=email][required]:focus + label[placeholder]:before,
+    input[type=password][required]:focus + label[placeholder]:before {
+      color: #796c67; }
+  input[type=text][required]:focus + label[placeholder]:before, input[type=text][required]:valid + label[placeholder]:before,
+  input[type=email][required]:focus + label[placeholder]:before,
+  input[type=email][required]:valid + label[placeholder]:before,
+  input[type=password][required]:focus + label[placeholder]:before,
+  input[type=password][required]:valid + label[placeholder]:before {
+    transition-duration: .2s;
+    transform: translate(0, -1.2em) scale(0.9, 0.9);
+    -webkit-transform: translate(0, -1.2em) scale(0.9, 0.9);
+    color: #796c67; }
+  input[type=text][required]:invalid + label[placeholder][alt]:before,
+  input[type=email][required]:invalid + label[placeholder][alt]:before,
+  input[type=password][required]:invalid + label[placeholder][alt]:before {
+    content: attr(alt); }
+  input[type=text][required] + label[placeholder],
+  input[type=email][required] + label[placeholder],
+  input[type=password][required] + label[placeholder] {
+    display: block;
+    pointer-events: none;
+    line-height: 1em;
+    margin-top: -webkit-calc(-3em + 7px);
+    margin-top: calc(-3em + 7px);
+    margin-bottom: -webkit-calc((3em - 1em) - 8px);
+    margin-bottom: calc((3em - 1em) - 8px); }
+    input[type=text][required] + label[placeholder]:before,
+    input[type=email][required] + label[placeholder]:before,
+    input[type=password][required] + label[placeholder]:before {
+      content: attr(placeholder);
+      display: inline-block;
+      margin: 0;
+      margin-left: -webkit-calc(1em - 0.6em);
+      margin-left: calc(1em - 0.6em);
+      margin-right: -webkit-calc(1em - 0.6em);
+      margin-right: calc(1em - 0.6em);
+      padding: 0 2px;
+      color: #d4d2d2;
+      font-weight: 400;
+      white-space: nowrap;
+      transition: .3s ease-in-out;
+      -webkit-transition: .3s ease-in-out;
+      background-image: linear-gradient(to bottom, white, white);
+      background-size: 100% 12px;
+      background-repeat: no-repeat;
+      background-position: center; }
 
 strong {
   font-weight: bold; }
@@ -234,8 +289,8 @@ form.otrblockform input[type=submit] {
   padding: 10px;
   font-size: 1.35em;
   border: none;
-  background-color: #f7f3e5;
-  color: #4f4b42;
+  background-color: #f9f9f9;
+  color: #4b4b4b;
   min-height: 22px;
   line-height: 22px; }
 
@@ -243,7 +298,7 @@ li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
   list-style-type: none;
   padding: 10px 10px 10px 25px;
   margin-bottom: 5pt;
-  border: 1px solid black;
+  border: 1px solid #4b4b4b;
   border-radius: 4px;
   background-repeat: no-repeat;
   background-position: 5px center; }
@@ -251,7 +306,7 @@ li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
     float: right;
     font-size: 16px;
     font-weight: bold;
-    color: black;
+    color: #4b4b4b;
     text-shadow: 0 1px 0 white;
     opacity: 0.2; }
 
@@ -296,37 +351,85 @@ ul.userlist {
 
 /* WRAPPER */
 #wrapper {
-  padding: 0; }
+  padding: 0 0 30px;
+  display: inline-block;
+  width: 100%; }
 
 /* HEADER */
 #header {
-  height: 58px;
-  width: 100%;
-  background: white;
-  margin-bottom: 35px;
   position: fixed;
-  top: 0; }
+  top: 0;
+  margin-bottom: 35px;
+  width: 100%;
+  height: 58px;
+  background: white; }
   #header .headerWrapper {
     margin: 0 auto;
     width: 960px;
     height: 49px;
-    color: #584a4a;
     background-image: url("/static/images/logo.png");
-    background-repeat: no-repeat;
     background-position: left center;
-    background-size: auto 42px; }
+    background-size: auto 42px;
+    background-repeat: no-repeat;
+    color: #796c67; }
     #header .headerWrapper h1 {
-      font-family: 'Amaranth', sans-serif;
       display: inline-block;
-      font-size: 25px;
-      margin-bottom: 1px;
       margin-top: 8px;
+      margin-bottom: 1px;
       margin-left: 47px;
       max-width: 32%;
+      font-size: 25px;
+      font-family: 'Amaranth', sans-serif;
       line-height: 43px; }
-    #header .headerWrapper p {
-      margin-top: 0;
-      max-width: 32%; }
+    #header .headerWrapper nav {
+      height: 58px; }
+      #header .headerWrapper nav .btn {
+        color: white;
+        font-weight: 300;
+        font-size: 15px; }
+      #header .headerWrapper nav ul,
+      #header .headerWrapper nav li {
+        list-style: none; }
+      #header .headerWrapper nav > ul {
+        margin-top: 10px; }
+        #header .headerWrapper nav > ul > li {
+          float: right; }
+          #header .headerWrapper nav > ul > li:first-child {
+            position: relative;
+            margin-left: 6px;
+            height: 48px; }
+          #header .headerWrapper nav > ul > li:hover, #header .headerWrapper nav > ul > li.hover {
+            position: relative;
+            border-bottom: 3px solid #796c67;
+            cursor: pointer; }
+            #header .headerWrapper nav > ul > li:hover .loginBox, #header .headerWrapper nav > ul > li.hover .loginBox {
+              position: absolute;
+              right: 0;
+              display: inline-block;
+              margin-top: 12px;
+              padding: 10px 10px 46px;
+              width: 262px;
+              border-right: 1px solid #eeeded;
+              border-left: 1px solid #eeeded;
+              background: white; }
+              #header .headerWrapper nav > ul > li:hover .loginBox input, #header .headerWrapper nav > ul > li.hover .loginBox input {
+                display: block;
+                width: 100%; }
+                #header .headerWrapper nav > ul > li:hover .loginBox input[type=submit], #header .headerWrapper nav > ul > li.hover .loginBox input[type=submit] {
+                  position: absolute;
+                  bottom: 0;
+                  left: -0.5%;
+                  margin-bottom: 0;
+                  width: 101%;
+                  height: 36px; }
+              #header .headerWrapper nav > ul > li:hover .loginBox a, #header .headerWrapper nav > ul > li.hover .loginBox a {
+                font-size: 10px; }
+          #header .headerWrapper nav > ul > li span {
+            display: inline-block;
+            margin-left: 0px;
+            padding: 8px 10px 10px; }
+          #header .headerWrapper nav > ul > li ul {
+            display: none; }
 
 /* FOOTER */
 .footer {
@@ -362,7 +465,7 @@ ul.userlist {
       #navigation ul li a {
         display: inline-block;
         font-weight: normal;
-        color: black;
+        color: #4b4b4b;
         background-repeat: no-repeat;
         padding: 10px 10px 10px 32px;
         background-position: 8px 9px; }

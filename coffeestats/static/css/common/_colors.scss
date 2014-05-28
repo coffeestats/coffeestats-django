@@ -3,11 +3,14 @@
 $body-background-color: #cac8bb;
 $white: #fff;
 
-$text-color: #000000;
-$link-color: #584a4a;
+$text-color: #4b4b4b;
+$link-color: #796c67;
 $font-header: $link-color;
+$placeholder: #d4d2d2;
 
-$button-background: #7f7665;
+$loginBoxBorder: #eeeded;
+
+$button-background: #796c67;
 $button-border: #615a4f;
 $button-color: #fff;
 $button-hover-background: #5a5348;
@@ -20,9 +23,9 @@ $button-secondary-color: $button-secondary-border;
 $button-secondary-shadow: #fff;
 $button-secondary-text-shadow: $button-secondary-shadow;
 
-$input-background: $button-secondary-background;
-$input-border: #d8ccb3;
-$input-color: #4f4b42;
+$input-background: #f9f9f9;
+$input-border: #e6d3c5;
+$input-color: #4b4b4b;
 $input-shadow: $button-secondary-shadow;
 
 $white-box-shadow: rgba(0, 0, 0, 0.13);

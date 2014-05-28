@@ -52,7 +52,7 @@
                         {{ form.password.errors }}
                         <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %} autofocus>
                         <label alt="{% trans "Username" %}" placeholder="{% trans "Username" %}"></label>
-                        <input type="password" required name="password" id="id_password" placeholder="{% trans "Password" %}" />
+                        <input type="password" required name="password" id="id_password"/>
                         <label alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
                         {% url "auth_password_reset" as passwordreset_url %}
                       {% blocktrans %}<a href="{{ passwordreset_url }}" class="right">Forgot your password?</a>{% endblocktrans %}

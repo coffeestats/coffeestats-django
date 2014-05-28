@@ -38,8 +38,7 @@
         <div class="headerWrapper">
           {% if user.is_authenticated %}
           <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
-          {% endif %}
-          <h1><a href="/">coffeestats.org</a></h1>
+          {% else %}
           <nav class="right">
             <ul>
               <li>
@@ -65,6 +64,8 @@
               <li><a href="{% url "registration_register" %}" class="btn">{% trans "Register" %}</a></li>
             </ul>
           </nav>
+          {% endif %}
+          <h1><a href="/">coffeestats.org</a></h1>
         </div>
       </div>
       <div id="content">

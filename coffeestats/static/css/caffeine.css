@@ -381,55 +381,73 @@ ul.userlist {
       font-size: 25px;
       font-family: 'Amaranth', sans-serif;
       line-height: 43px; }
-    #header .headerWrapper nav {
-      height: 58px; }
-      #header .headerWrapper nav .btn {
-        color: white;
-        font-weight: 300;
-        font-size: 15px; }
-      #header .headerWrapper nav ul,
-      #header .headerWrapper nav li {
-        list-style: none; }
-      #header .headerWrapper nav > ul {
-        margin-top: 10px; }
-        #header .headerWrapper nav > ul > li {
-          float: right; }
-          #header .headerWrapper nav > ul > li:first-child {
-            position: relative;
-            margin-left: 6px;
-            height: 48px; }
-          #header .headerWrapper nav > ul > li:hover, #header .headerWrapper nav > ul > li.hover {
-            position: relative;
-            border-bottom: 3px solid #796c67;
-            cursor: pointer; }
-            #header .headerWrapper nav > ul > li:hover .loginBox, #header .headerWrapper nav > ul > li.hover .loginBox {
+
+nav {
+  height: 58px; }
+  nav .btn {
+    color: white;
+    font-weight: 300;
+    font-size: 15px; }
+  nav ul,
+  nav li {
+    list-style: none; }
+  nav > ul {
+    margin-top: 10px; }
+    nav > ul > li {
+      float: right; }
+      nav > ul > li:first-child {
+        position: relative;
+        margin-left: 6px; }
+      nav > ul > li:hover, nav > ul > li.hover {
+        position: relative;
+        cursor: pointer; }
+        nav > ul > li:hover .loginBox, nav > ul > li.hover .loginBox {
+          position: absolute;
+          right: 0;
+          display: inline-block;
+          padding: 10px 10px 46px;
+          width: 262px;
+          border-right: 1px solid #eeeded;
+          border-left: 1px solid #eeeded;
+          background: white; }
+          nav > ul > li:hover .loginBox input, nav > ul > li.hover .loginBox input {
+            display: block;
+            width: 100%; }
+            nav > ul > li:hover .loginBox input[type=submit], nav > ul > li.hover .loginBox input[type=submit] {
               position: absolute;
-              right: 0;
-              display: inline-block;
-              margin-top: 12px;
-              padding: 10px 10px 46px;
-              width: 262px;
-              border-right: 1px solid #eeeded;
-              border-left: 1px solid #eeeded;
-              background: white; }
-              #header .headerWrapper nav > ul > li:hover .loginBox input, #header .headerWrapper nav > ul > li.hover .loginBox input {
-                display: block;
-                width: 100%; }
-                #header .headerWrapper nav > ul > li:hover .loginBox input[type=submit], #header .headerWrapper nav > ul > li.hover .loginBox input[type=submit] {
-                  position: absolute;
-                  bottom: 0;
-                  left: -0.5%;
-                  margin-bottom: 0;
-                  width: 101%;
-                  height: 36px; }
-              #header .headerWrapper nav > ul > li:hover .loginBox a, #header .headerWrapper nav > ul > li.hover .loginBox a {
-                font-size: 10px; }
-          #header .headerWrapper nav > ul > li span {
-            display: inline-block;
-            margin-left: 0px;
-            padding: 8px 10px 10px; }
-          #header .headerWrapper nav > ul > li ul {
-            display: none; }
+              bottom: 0;
+              left: -0.5%;
+              margin-bottom: 0;
+              width: 101%;
+              height: 36px;
+              font-weight: 300 !important; }
+          nav > ul > li:hover .loginBox a, nav > ul > li.hover .loginBox a {
+            font-size: 10px; }
+        nav > ul > li:hover span, nav > ul > li.hover span {
+          border-bottom: 3px solid #796c67;
+          padding-bottom: 19px; }
+      nav > ul > li span {
+        display: inline-block;
+        margin-left: 0px;
+        padding: 8px 10px 10px; }
+      nav > ul > li ul {
+        display: none; }
+
+/* CONTENT */
+#content {
+  padding: 35px 0 35px 0;
+  margin: 0 auto;
+  width: 960px; }
+  #content h2 {
+    padding: 0 0 10px 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 300; }
+  #content h3 {
+    padding: 0 0 10px 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold; }
 
 /* FOOTER */
 .footer {
@@ -486,22 +504,6 @@ ul.userlist {
           background-image: url("/static/images/user-4.png"); }
         #navigation ul li a.navlogout {
           background-image: url("/static/images/out.png"); }
-
-/* CONTENT */
-#content {
-  padding: 35px 0 35px 0;
-  margin: 0 auto;
-  width: 960px; }
-  #content h2 {
-    padding: 0 0 10px 0;
-    margin: 0;
-    font-size: 16px;
-    font-weight: 300; }
-  #content h3 {
-    padding: 0 0 10px 0;
-    margin: 0;
-    font-size: 14px;
-    font-weight: bold; }
 
 /* Responsive */
 @media screen and (max-width: 1250px) {

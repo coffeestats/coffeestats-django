@@ -1,58 +1,82 @@
 /* NAVIGATION */
 
-#navigation {
-  margin: 0 auto 18px;
-  width:50%;
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    li {
-      margin: 0 0 0 -3px;
-      display: inline-block;
-      border-right: 1px solid $navigation-border-right;
-      box-shadow: 1px 0 0 $navigation-box-shadow;
-
-      &:last-child {
-        border-right: 0;
-        box-shadow: 0 0 0 $navigation-box-shadow;
+nav.mainNav {
+      height: 58px;
+      .btn {
+        color: $white;
+        font-weight: 300;
+        font-size: 15px;
+      }
+      ul,
+      li {
+        list-style: none;
       }
 
-      a {
-        display: inline-block;
-        font-weight: normal;
-        color: $text-color;
-        background-repeat: no-repeat;
-        padding: 10px 10px 10px 32px;
-        background-position: 8px 9px;
+      > ul {
+        margin-top: 10px;
+        > li {
+          float: left;
+          &:first-child {
+            position: relative;
+            margin-left: 6px;
+          }
+          &:hover,
+          &.hover {
+            position: relative;
+            .settingsBox {
+              position: absolute;
+              right: 0;
+              display: inline-block;
+              padding: 0 0 36px;
+              width: 153px;
+              border-right: 1px solid $loginBoxBorder;
+              border-left: 1px solid $loginBoxBorder;
+              background: $white;
 
-        &:hover {
-          text-decoration: none;
-          background-color: $navigation-link-hover-background;
-        }
+              .btn {
+                position: absolute;
+                bottom: 0;
+                left: -0.5%;
+                margin-bottom: 0;
+                width: 101%;
+                height: 36px;
+                font-weight: 300 !important;
+              }
 
-        &.navindex {
-          background-image: url('/static/images/home.png');
-        }
-        &.navplusone {
-          background-image: url('/static/images/tag.png');
-        }
-        &.navprofile {
-          background-image: url('/static/images/profile.png');
-        }
-        &.navexplore {
-          background-image: url('/static/images/list.png');
-        }
-        &.navoverall {
-          background-image: url('/static/images/flask.png');
-        }
-        &.navabout {
-          background-image: url('/static/images/user-4.png');
-        }
-        &.navlogout {
-          background-image: url('/static/images/out.png');
+              a.subNavLink {
+                display: block;
+                width: 100%;
+                text-align: center;
+                font-weight: 300;
+                padding: 8px 10px;
+                text-decoration: none;
+                font-size: 16px;
+                &:first-child {
+                  border-bottom: 1px solid $subnavigation-border;
+                }
+                &:hover {
+                   background: $subnavigation-bg;
+                }
+              }
+            }
+             span,
+             > a {
+                border-bottom: 3px solid $button-background;
+                cursor: pointer;
+              }
+          }
+          span,
+          > a {
+            display: inline-block;
+            margin-left: 0px;
+            padding: 8px 10px 17px;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 16px;
+          }
+          ul {
+            display: none;
+          }
         }
       }
     }
-  }
-}

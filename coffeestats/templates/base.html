@@ -37,9 +37,27 @@
       <div id="header">
         <div class="headerWrapper">
           {% if user.is_authenticated %}
-          <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
+          <nav class="right mainNav">
+            <ul>
+              <li><a href="{% url "home" %}" class="navindex">{% trans "Home" %}</a></li>
+              <li><a href="{% url "profile" %}" class="navprofile">{% trans "Profile" %}</a></li>
+              <li><a href="{% url "explore" %}" class="navexplore">{% trans "Explore" %}</a></li>
+              <li><a href="{% url "overall" %}" class="navoverall">{% trans "Overall Stats" %}</a></li>
+              <li>
+                <span class="settings">{% trans "Settings" %}</span>
+                <ul class="settingsBox">
+                  <li>
+                      {% if user.is_staff %}<a href="{% url "admin:index" %}" class="subNavLink">{% trans "Admin site" %}</a> / {% endif %}
+                      <a href="{% url "about" %}" class="subNavLink">{% trans "About" %}</a>
+                      <a href="{% url "settings" %}" class="subNavLink">{% trans "Settings" %}</a>
+                      <a href="{% url "auth_logout" %}" class="btn">{% trans "Logout" %}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
           {% else %}
-          <nav class="right">
+          <nav class="right login">
             <ul>
               <li>
                 <span>{% trans "Login" %}</span>
@@ -69,17 +87,6 @@
         </div>
       </div>
       <div id="content">
-        {% if user.is_authenticated %}
-        <div id="navigation">
-          <ul>
-            <li><a href="{% url "home" %}" class="navindex">{% trans "Home" %}</a></li>
-            <li><a href="{% url "profile" %}" class="navprofile">{% trans "Profile" %}</a></li>
-            <li><a href="{% url "explore" %}" class="navexplore">{% trans "Explore" %}</a></li>
-            <li><a href="{% url "overall" %}" class="navoverall">{% trans "Overall Stats" %}</a></li>
-            <li><a href="{% url "about" %}" class="navabout">{% trans "About" %}</a></li>
-          </ul>
-        </div>
-        {% endif %}
         {% block content %}{% endblock %}
       </div>
       <div class="footer">

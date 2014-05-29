@@ -379,26 +379,26 @@ ul.userlist {
       font-family: 'Amaranth', sans-serif;
       line-height: 43px; }
 
-nav {
+nav.login {
   height: 58px; }
-  nav .btn {
+  nav.login .btn {
     color: white;
     font-weight: 300;
     font-size: 15px; }
-  nav ul,
-  nav li {
+  nav.login ul,
+  nav.login li {
     list-style: none; }
-  nav > ul {
+  nav.login > ul {
     margin-top: 10px; }
-    nav > ul > li {
+    nav.login > ul > li {
       float: right; }
-      nav > ul > li:first-child {
+      nav.login > ul > li:first-child {
         position: relative;
         margin-left: 6px; }
-      nav > ul > li:hover, nav > ul > li.hover {
+      nav.login > ul > li:hover, nav.login > ul > li.hover {
         position: relative;
         cursor: pointer; }
-        nav > ul > li:hover .loginBox, nav > ul > li.hover .loginBox {
+        nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
           position: absolute;
           right: 0;
           display: inline-block;
@@ -407,10 +407,10 @@ nav {
           border-right: 1px solid #eeeded;
           border-left: 1px solid #eeeded;
           background: white; }
-          nav > ul > li:hover .loginBox input, nav > ul > li.hover .loginBox input {
+          nav.login > ul > li:hover .loginBox input, nav.login > ul > li.hover .loginBox input {
             display: block;
             width: 100%; }
-            nav > ul > li:hover .loginBox input[type=submit], nav > ul > li.hover .loginBox input[type=submit] {
+            nav.login > ul > li:hover .loginBox input[type=submit], nav.login > ul > li.hover .loginBox input[type=submit] {
               position: absolute;
               bottom: 0;
               left: -0.5%;
@@ -418,16 +418,16 @@ nav {
               width: 101%;
               height: 36px;
               font-weight: 300 !important; }
-          nav > ul > li:hover .loginBox a, nav > ul > li.hover .loginBox a {
+          nav.login > ul > li:hover .loginBox a, nav.login > ul > li.hover .loginBox a {
             font-size: 10px; }
-        nav > ul > li:hover span, nav > ul > li.hover span {
+        nav.login > ul > li:hover span, nav.login > ul > li.hover span {
           border-bottom: 3px solid #796c67;
           padding-bottom: 19px; }
-      nav > ul > li span {
+      nav.login > ul > li span {
         display: inline-block;
         margin-left: 0px;
         padding: 8px 10px 10px; }
-      nav > ul > li ul {
+      nav.login > ul > li ul {
         display: none; }
 
 /* CONTENT */
@@ -462,45 +462,68 @@ nav {
     padding: 7px 0; }
 
 /* NAVIGATION */
-#navigation {
-  margin: 0 auto 18px;
-  width: 50%; }
-  #navigation ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none; }
-    #navigation ul li {
-      margin: 0 0 0 -3px;
-      display: inline-block;
-      border-right: 1px solid #a3a3a3;
-      box-shadow: 1px 0 0 white; }
-      #navigation ul li:last-child {
-        border-right: 0;
-        box-shadow: 0 0 0 white; }
-      #navigation ul li a {
+nav.mainNav {
+  height: 58px; }
+  nav.mainNav .btn {
+    color: white;
+    font-weight: 300;
+    font-size: 15px; }
+  nav.mainNav ul,
+  nav.mainNav li {
+    list-style: none; }
+  nav.mainNav > ul {
+    margin-top: 10px; }
+    nav.mainNav > ul > li {
+      float: left; }
+      nav.mainNav > ul > li:first-child {
+        position: relative;
+        margin-left: 6px; }
+      nav.mainNav > ul > li:hover, nav.mainNav > ul > li.hover {
+        position: relative; }
+        nav.mainNav > ul > li:hover .settingsBox, nav.mainNav > ul > li.hover .settingsBox {
+          position: absolute;
+          right: 0;
+          display: inline-block;
+          padding: 0 0 36px;
+          width: 153px;
+          border-right: 1px solid #eeeded;
+          border-left: 1px solid #eeeded;
+          background: white; }
+          nav.mainNav > ul > li:hover .settingsBox .btn, nav.mainNav > ul > li.hover .settingsBox .btn {
+            position: absolute;
+            bottom: 0;
+            left: -0.5%;
+            margin-bottom: 0;
+            width: 101%;
+            height: 36px;
+            font-weight: 300 !important; }
+          nav.mainNav > ul > li:hover .settingsBox a.subNavLink, nav.mainNav > ul > li.hover .settingsBox a.subNavLink {
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-weight: 300;
+            padding: 8px 10px;
+            text-decoration: none;
+            font-size: 16px; }
+            nav.mainNav > ul > li:hover .settingsBox a.subNavLink:first-child, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:first-child {
+              border-bottom: 1px solid #d7d2c7; }
+            nav.mainNav > ul > li:hover .settingsBox a.subNavLink:hover, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:hover {
+              background: #f4eedf; }
+        nav.mainNav > ul > li:hover span,
+        nav.mainNav > ul > li:hover > a, nav.mainNav > ul > li.hover span,
+        nav.mainNav > ul > li.hover > a {
+          border-bottom: 3px solid #796c67;
+          cursor: pointer; }
+      nav.mainNav > ul > li span,
+      nav.mainNav > ul > li > a {
         display: inline-block;
-        font-weight: normal;
-        color: #4b4b4b;
-        background-repeat: no-repeat;
-        padding: 10px 10px 10px 32px;
-        background-position: 8px 9px; }
-        #navigation ul li a:hover {
-          text-decoration: none;
-          background-color: #ece7dd; }
-        #navigation ul li a.navindex {
-          background-image: url("/static/images/home.png"); }
-        #navigation ul li a.navplusone {
-          background-image: url("/static/images/tag.png"); }
-        #navigation ul li a.navprofile {
-          background-image: url("/static/images/profile.png"); }
-        #navigation ul li a.navexplore {
-          background-image: url("/static/images/list.png"); }
-        #navigation ul li a.navoverall {
-          background-image: url("/static/images/flask.png"); }
-        #navigation ul li a.navabout {
-          background-image: url("/static/images/user-4.png"); }
-        #navigation ul li a.navlogout {
-          background-image: url("/static/images/out.png"); }
+        margin-left: 0px;
+        padding: 8px 10px 17px;
+        text-decoration: none;
+        font-weight: 300;
+        font-size: 16px; }
+      nav.mainNav > ul > li ul {
+        display: none; }
 
 /* Responsive */
 @media screen and (max-width: 1250px) {

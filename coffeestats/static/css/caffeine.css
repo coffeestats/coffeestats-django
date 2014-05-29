@@ -686,12 +686,16 @@ nav.mainNav {
  * ClockPicker v0.0.6 for jQuery (http://weareoutman.github.io/clockpicker/)
  * Copyright 2014 Wang Shenwei.
  * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/master/LICENSE)
- * 
+ *
  * Bootstrap v3.1.1 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /* Picked from bootstrap: .popover, .btn, .text-primary */
+.clockpicker {
+  display: inline-block;
+  width: 20%; }
+
 .popover {
   position: absolute;
   top: 0;
@@ -1010,6 +1014,8 @@ nav.mainNav {
   -moz-border-radius: 4px;
   border-radius: 4px;
   direction: ltr;
+  width: 30%;
+  float: left;
   /*.dow {
 		border-top: 1px solid #ddd !important;
 	}*/ }

@@ -215,8 +215,7 @@ strong {
   width: 49%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.13);
-  border-radius: 4px;
+  border-radius: 3px;
   min-height: 115px;
   /* REGISTER */ }
   .white-box.update {

@@ -20,6 +20,13 @@ nav.mainNav {
             position: relative;
             margin-left: 6px;
           }
+          &.active {
+            span,
+             > a {
+                border-bottom: 3px solid $button-background;
+                cursor: pointer;
+              }
+          }
           &:hover,
           &.hover {
             position: relative;

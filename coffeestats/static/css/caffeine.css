@@ -492,6 +492,10 @@ nav.mainNav {
       nav.mainNav > ul > li:first-child {
         position: relative;
         margin-left: 6px; }
+      nav.mainNav > ul > li.active span,
+      nav.mainNav > ul > li.active > a {
+        border-bottom: 3px solid #796c67;
+        cursor: pointer; }
       nav.mainNav > ul > li:hover, nav.mainNav > ul > li.hover {
         position: relative; }
         nav.mainNav > ul > li:hover .settingsBox, nav.mainNav > ul > li.hover .settingsBox {
@@ -540,80 +544,144 @@ nav.mainNav {
         display: none; }
 
 /* Responsive */
+/*
 @media screen and (max-width: 1250px) {
-  #wrapper #navigation {
-    width: 58%; }
-  #wrapper .white-box {
-    margin: 0 1% 2% 0; }
-  #wrapper .white-box:nth-child(odd) {
-    margin: 0 0 2% 1%; } }
+  #wrapper {
+
+    #navigation {
+      width: 58%;
+    }
+
+    .white-box {
+      margin: 0 1% 2% 0;
+    }
+
+    .white-box:nth-child(odd) {
+      margin: 0 0 2% 1%;
+    }
+  }
+}
+
 @media screen and (max-width: 1000px) {
   /* iPhone, Android rules here */
-  #wrapper {
+/*  #wrapper {
     padding: 0px;
     width: 94%;
-    margin: 0 auto; }
-    #wrapper #header #account {
-      font-size: 1.4em; }
-    #wrapper #header p {
-      max-width: 85%; }
-    #wrapper #navigation {
-      width: 100%; }
-      #wrapper #navigation ul li a {
+    margin: 0 auto;
+
+    #header {
+
+      #account {
+        font-size: 1.4em;
+      }
+
+      p {
+        max-width:85%;
+      }
+    }
+
+    #navigation {
+      width: 100%;
+
+      ul li a {
         padding: 10px 10px 10px 30px;
         font-size: 1.4em;
-        background-position: 8px 14px; }
-    #wrapper .white-box, #wrapper .white-box:nth-child(odd) {
-      margin: 24px 0px 0px; }
-    #wrapper .white-box {
+        background-position: 8px 14px;
+      }
+    }
+
+    .white-box, .white-box:nth-child(odd) {
+        margin: 24px 0px 0px;
+    }
+
+    .white-box {
       width: 92%;
       float: none !important;
-      display: inline-block; }
-      #wrapper .white-box h2 {
-        font-size: 4em !important; }
-      #wrapper .white-box p {
+      display: inline-block;
+
+      h2 {
+        font-size: 4em !important;
+      }
+
+      p {
         line-height: 1.5em;
-        font-size: 1.5em; }
-      #wrapper .white-box form .left, #wrapper .white-box form .leftform {
-        clear: both;
-        width: 100% !important; }
-      #wrapper .white-box form .leftform {
-        margin: 5pt 0; }
-      #wrapper .white-box form.otrblockform input {
-        margin: 5pt 0;
-        width: 98.8%; }
-      #wrapper .white-box form.coffeeform #email {
-        width: 100%; }
-      #wrapper .white-box .profilelist {
-        font-size: 1.4em; }
-      #wrapper .white-box input[type=submit],
-      #wrapper .white-box a.btn {
+        font-size: 1.5em;
+      }
+
+      form {
+        .left, .leftform {
+          clear:both;
+          width: 100% !important;
+        }
+
+        .leftform {
+          margin:5pt 0;
+        }
+
+        &.otrblockform input {
+            margin:5pt 0;
+            width:98.8%;
+        }
+
+        &.coffeeform {
+            #email {
+                width:100%;
+            }
+        }
+      }
+
+      .profilelist {
+        font-size: 1.4em;
+      }
+
+      input[type=submit],
+      a.btn {
         font-size: 1.85em;
-        padding: 16px 14px; }
-      #wrapper .white-box input[type=text],
-      #wrapper .white-box input[type=email],
-      #wrapper .white-box input[type=password] {
+        padding: 16px 14px;;
+      }
+
+      input[type=text],
+      input[type=email],
+      input[type=password] {
         font-size: 1.85em;
-        padding: 16px 14px; }
-      #wrapper .white-box table,
-      #wrapper .white-box li,
-      #wrapper .white-box .usercard,
-      #wrapper .white-box .rankbox {
-        font-size: 1.4em; }
-      #wrapper .white-box h3 {
-        font-size: 1.4em; }
+        padding: 16px 14px;
+      }
+
+      table,
+      li,
+      .usercard,
+      .rankbox {
+        font-size: 1.4em;
+      }
+
+      h3 {
+        font-size: 1.4em;
+      }
+    }
+  }
 
   /* REGISTER */
-  .white-box.fullWidth .left {
-    width: 100%;
-    float: none !important;
-    display: block;
-    margin-top: 24px; }
-    .white-box.fullWidth .left b {
-      display: inline-block;
-      margin-bottom: 10px; }
-    .white-box.fullWidth .left input {
-      width: 97%; } }
+/*
+  .white-box.fullWidth {
+    .left {
+      width: 100%;
+      float: none !important;
+      display: block;
+      margin-top: 24px;
+
+      b {
+        display: inline-block;
+        margin-bottom:10px;
+      }
+
+      input {
+        width:97%;
+      }
+    }
+  }
+}
+
+*/
 #system-flash .flash-messages {
   background: transparent;
   position: absolute;

@@ -502,6 +502,7 @@ nav.mainNav {
           position: absolute;
           right: 0;
           display: inline-block;
+          margin-top: 48px;
           padding: 0 0 36px;
           width: 153px;
           border-right: 1px solid #eeeded;
@@ -517,11 +518,11 @@ nav.mainNav {
             font-weight: 300 !important; }
           nav.mainNav > ul > li:hover .settingsBox a.subNavLink, nav.mainNav > ul > li.hover .settingsBox a.subNavLink {
             display: block;
+            padding: 8px 10px;
             width: 100%;
             text-align: center;
-            font-weight: 300;
-            padding: 8px 10px;
             text-decoration: none;
+            font-weight: 300;
             font-size: 16px; }
             nav.mainNav > ul > li:hover .settingsBox a.subNavLink:first-child, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:first-child {
               border-bottom: 1px solid #d7d2c7; }

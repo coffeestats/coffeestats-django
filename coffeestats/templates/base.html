@@ -38,23 +38,22 @@
         <div class="headerWrapper">
           {% if user.is_authenticated %}
           <nav class="right mainNav">
-            <ul>
-              <li><a href="{% url "home" %}" class="navindex">{% trans "Home" %}</a></li>
-              <li><a href="{% url "profile" %}" class="navprofile">{% trans "Profile" %}</a></li>
-              <li><a href="{% url "explore" %}" class="navexplore">{% trans "Explore" %}</a></li>
-              <li><a href="{% url "overall" %}" class="navoverall">{% trans "Overall Stats" %}</a></li>
-              <li>
-                <span class="settings">{% trans "Settings" %}</span>
-                <ul class="settingsBox">
-                  <li>
-                      {% if user.is_staff %}<a href="{% url "admin:index" %}" class="subNavLink">{% trans "Admin site" %}</a> / {% endif %}
-                      <a href="{% url "about" %}" class="subNavLink">{% trans "About" %}</a>
-                      <a href="{% url "settings" %}" class="subNavLink">{% trans "Settings" %}</a>
-                      <a href="{% url "auth_logout" %}" class="btn">{% trans "Logout" %}</a>
-                  </li>
+            <ul>{% spaceless %}
+              {% for item in navitems %}
+              <li{% if item.is_active %} class="active"{% endif %}>
+                {% if not item.children %}
+                <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
+                {% else %}
+                <span class="{{ item.css_class }}">{{ item.title }}</span>
+                <ul class="subNav {{ item.children_css_class }}">
+                  {% for itemchild in item.children %}
+                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
+                  {% endfor %}
                 </ul>
+                {% endif %}
               </li>
-            </ul>
+              {% endfor %}
+            {% endspaceless %}</ul>
           </nav>
           {% else %}
           <nav class="right login">

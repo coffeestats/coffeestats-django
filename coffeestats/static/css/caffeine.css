@@ -116,30 +116,42 @@ input[type=password] {
   background: white;
   resize: none;
   outline: none; }
-  input[type=text][required]:focus,
+  input[type=text][required]:focus, input[type=text][name]:focus,
   input[type=email][required]:focus,
-  input[type=password][required]:focus {
+  input[type=email][name]:focus,
+  input[type=password][required]:focus,
+  input[type=password][name]:focus {
     border-color: #796c67; }
-    input[type=text][required]:focus + label[placeholder]:before,
+    input[type=text][required]:focus + label[placeholder]:before, input[type=text][name]:focus + label[placeholder]:before,
     input[type=email][required]:focus + label[placeholder]:before,
-    input[type=password][required]:focus + label[placeholder]:before {
+    input[type=email][name]:focus + label[placeholder]:before,
+    input[type=password][required]:focus + label[placeholder]:before,
+    input[type=password][name]:focus + label[placeholder]:before {
       color: #796c67; }
-  input[type=text][required]:focus + label[placeholder]:before, input[type=text][required]:valid + label[placeholder]:before,
+  input[type=text][required]:focus + label[placeholder]:before, input[type=text][required]:valid + label[placeholder]:before, input[type=text][name]:focus + label[placeholder]:before, input[type=text][name]:valid + label[placeholder]:before,
   input[type=email][required]:focus + label[placeholder]:before,
   input[type=email][required]:valid + label[placeholder]:before,
+  input[type=email][name]:focus + label[placeholder]:before,
+  input[type=email][name]:valid + label[placeholder]:before,
   input[type=password][required]:focus + label[placeholder]:before,
-  input[type=password][required]:valid + label[placeholder]:before {
+  input[type=password][required]:valid + label[placeholder]:before,
+  input[type=password][name]:focus + label[placeholder]:before,
+  input[type=password][name]:valid + label[placeholder]:before {
     transition-duration: .2s;
     transform: translate(0, -1.2em) scale(0.9, 0.9);
     -webkit-transform: translate(0, -1.2em) scale(0.9, 0.9);
     color: #796c67; }
-  input[type=text][required]:invalid + label[placeholder][alt]:before,
+  input[type=text][required]:invalid + label[placeholder][alt]:before, input[type=text][name]:invalid + label[placeholder][alt]:before,
   input[type=email][required]:invalid + label[placeholder][alt]:before,
-  input[type=password][required]:invalid + label[placeholder][alt]:before {
+  input[type=email][name]:invalid + label[placeholder][alt]:before,
+  input[type=password][required]:invalid + label[placeholder][alt]:before,
+  input[type=password][name]:invalid + label[placeholder][alt]:before {
     content: attr(alt); }
-  input[type=text][required] + label[placeholder],
+  input[type=text][required] + label[placeholder], input[type=text][name] + label[placeholder],
   input[type=email][required] + label[placeholder],
-  input[type=password][required] + label[placeholder] {
+  input[type=email][name] + label[placeholder],
+  input[type=password][required] + label[placeholder],
+  input[type=password][name] + label[placeholder] {
     display: block;
     pointer-events: none;
     line-height: 1em;
@@ -147,9 +159,11 @@ input[type=password] {
     margin-top: calc(-3em + 7px);
     margin-bottom: -webkit-calc((3em - 1em) - 8px);
     margin-bottom: calc((3em - 1em) - 8px); }
-    input[type=text][required] + label[placeholder]:before,
+    input[type=text][required] + label[placeholder]:before, input[type=text][name] + label[placeholder]:before,
     input[type=email][required] + label[placeholder]:before,
-    input[type=password][required] + label[placeholder]:before {
+    input[type=email][name] + label[placeholder]:before,
+    input[type=password][required] + label[placeholder]:before,
+    input[type=password][name] + label[placeholder]:before {
       content: attr(placeholder);
       display: inline-block;
       margin: 0;

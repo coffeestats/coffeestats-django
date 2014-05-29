@@ -19,7 +19,8 @@
   //
   // Following block controls all the color change
   //
-  &[required] {
+  &[required],
+  &[name] {
     &:focus {
       border-color: $button-background;
       + label {

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load i18n staticfiles caffeine %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static "css/datepicker.css" %}" />
+<link rel="stylesheet" href="{% static "css/jquery-clockpicker.css" %}" />
+{% endblock %}
 {% block content %}
 <div class="white-box">
   {% if ownprofile %}
@@ -48,13 +52,29 @@
   {% spaceless %}
   <form action="{% url "submit_caffeine" "coffee" %}" method="post" id="coffeeform">
     <input type="submit" value="{% trans "Coffee!" %}" class="left" />
-    <input type="text" id="id_coffeetime" name="date" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <div class="datepicker">
+      <input type="text" id="id_coffeedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control" />
+    </div>
+    <div class="input-group clockpicker">
+      <input type="text" id="id_coffeetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-time"></span>
+      </span>
+    </div>
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
   <form action="{% url "submit_caffeine" "mate" %}" method="post" id="mateform" class="clear">
     <input type="submit" value="{% trans "Mate!" %}" class="left" />
-    <input type="text" id="id_matetime" name="date" placeholder="{% now "Y-m-d H:i" %}" class="datetime_field left" />
+    <div class="datepicker">
+      <input type="text" id="id_matedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control" />
+    </div>
+    <div class="input-group clockpicker">
+      <input type="text" id="id_matetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-time"></span>
+      </span>
+    </div>
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
@@ -101,6 +121,8 @@
 {% endblock content %}
 {% block extra_js %}
 {% if ownprofile %}
+<script type="text/javascript" src="{% static "js/bootstrap-datepicker.js" %}"></script>
+<script type="text/javascript" src="{% static "js/jquery-clockpicker.js" %}"></script>
 <script type="text/javascript" src="{% static "js/jsqr-0.2-min.js" %}"></script>
 <script type="text/javascript">
 function drawQR(data, canvasid) {
@@ -259,14 +281,26 @@ drawLineChart('coffeebyweekday', lineChartData, {{ byweekdaydata.maxvalue|defaul
 <script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+    $('.clockpicker').clockpicker({
+      autoclose: true,
+      default: 'now',
+    });
+    $('.datepicker input').datepicker({
+      format: 'yyyy-mm-dd',
+      todayBtn: 'linked',
+      calendarWeeks: true,
+      autoclose: true,
+      todayHighlight: true,
+    });
+
     $('img.toggle').click(function(event) {
         $('#' + $(this).attr('data-toggle')).toggle();
     });
     $('#coffeeform').submit(function(event) {
-        return sanitize_datetime('input#id_coffeetime');
+        return sanitize_datetime('input#id_coffeedate', 'input#id_coffeetime');
     });
     $('#mateform').submit(function(event) {
-        return sanitize_datetime('input#id_matetime');
+        return sanitize_datetime('input#id_matedate', 'input#id_matetime');
     });
 });
 </script>

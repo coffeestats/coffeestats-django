@@ -3,7 +3,7 @@
   margin: 0 2% 2% 0;
   background-color: $white-box-background;
   float: left;
-  width: 48%;
+  width: 49%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-shadow: 1px 1px 12px $white-box-shadow;
@@ -22,7 +22,7 @@
     margin: 0 0 2% 0;
   }
 
-  &:nth-child(odd) {
+  &:nth-child(even) {
     float: right;
     margin: 0 0 2% 0;
   }

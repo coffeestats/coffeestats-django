@@ -212,7 +212,7 @@ strong {
   margin: 0 2% 2% 0;
   background-color: white;
   float: left;
-  width: 48%;
+  width: 49%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.13);
@@ -226,7 +226,7 @@ strong {
   .white-box.fullWidth {
     width: 100%;
     margin: 0 0 2% 0; }
-  .white-box:nth-child(odd) {
+  .white-box:nth-child(even) {
     float: right;
     margin: 0 0 2% 0; }
   .white-box.fullWidth div.left {

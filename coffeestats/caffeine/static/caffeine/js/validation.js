@@ -1,10 +1,13 @@
+/* global $, gettext */
+
 var emailpat = /^([A-Za-z0-9._%+-]+)@([^@]+)$/;
 var usernamepat = /^[a-z][a-z0-9_-]{1,29}$/;
 
 function sanitize_not_empty(fieldspec, message) {
+  "use strict";
   var nefield = $(fieldspec);
   var nevalue = $.trim(nefield.val());
-  if (nevalue.length == 0) {
+  if (nevalue.length === 0) {
     alert(message);
     nefield.focus();
     return false;
@@ -24,10 +27,11 @@ function emailfieldvalidation(event) {
 }
 
 function sanitize_email(fieldspec, mandatory) {
+  "use strict";
   mandatory = typeof mandatory !== 'undefined' ? mandatory : true;
   var emfield = $(fieldspec);
   var emvalue = $.trim(emfield.val());
-  if ((emvalue.length == 0) && mandatory) {
+  if ((emvalue.length === 0) && mandatory) {
     alert(gettext('Email address must not be empty!'));
     emfield.focus();
     return false;
@@ -52,6 +56,7 @@ function pwfieldvalidation(event) {
 }
 
 function sanitize_password(pwfieldspec, repfieldspec, allowempty) {
+  "use strict";
   allowempty = typeof allowempty !== 'undefined' ? allowempty : false;
   var pwfield = $(pwfieldspec);
   var repfield = $(repfieldspec);
@@ -81,6 +86,7 @@ function sanitize_password(pwfieldspec, repfieldspec, allowempty) {
 }
 
 function sanitize_string(fieldspec, mandatory, fieldname) {
+  "use strict";
   mandatory = typeof mandatory !== 'undefined' ? mandatory : true;
   fieldname = typeof fieldname !== 'undefined' ? fieldname : 'Field';
   var stfield = $(fieldspec);
@@ -105,6 +111,7 @@ function usernamefieldvalidation(event) {
 }
 
 function sanitize_username(fieldspec) {
+  "use strict";
   var unfield = $(fieldspec);
   var unvalue = $.trim(unfield.val());
   if (unvalue.length == 0) {
@@ -122,46 +129,68 @@ function sanitize_username(fieldspec) {
 }
 
 function pad(n) {
+  "use strict";
   return n<10 ? '0'+n : n;
 }
 
-function coffeetime(d) {
+function coffeedate(d) {
+  "use strict";
   return d.getFullYear() + '-' +
-    pad(d.getMonth() + 1) +'-' +
-    pad(d.getDate()) + ' ' +
-    pad(d.getHours()) + ':' +
+    pad(d.getMonth() + 1) + '-' +
+    pad(d.getDate());
+}
+
+function coffeetime(d) {
+  "use strict";
+  return pad(d.getHours()) + ':' +
     pad(d.getMinutes()) +':' +
     pad(d.getSeconds());
 }
 
-var datetimepat = /^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})\ ([0-9]{1,2}):([0-9]{1,2})(|:([0-9]{1,2}))$/;
+var datepat = /^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})$/;
+var timepat = /^([0-9]{1,2}):([0-9]{1,2})(|:([0-9]{1,2}))$/;
 
-function sanitize_datetime(fieldspec) {
-  var dtfield = $(fieldspec);
-  var dtval = $.trim(dtfield.val());
+function sanitize_datetime(datefieldspec, timefieldspec) {
+  "use strict";
+  var dfield = $(datefieldspec);
+  var tfield = $(timefieldspec);
+  var dval = $.trim(dfield.val());
+  var tval = $.trim(tfield.val());
   var now = new Date();
-  if (dtval.length == 0) {
-    dtval = coffeetime(now);
-    dtfield.val(dtval);
+  if (dval.length === 0) {
+    dval = coffeedate(now);
+    dfield.val(dval);
   }
-  var matches = datetimepat.exec(dtval);
-  if (matches !== null) {
+  if (tval.length === 0) {
+    tval = coffeetime(now);
+    tfield.val(tval);
+  }
+  var dmatches = datepat.exec(dval);
+  var tmatches = timepat.exec(tval);
+
+  if (dmatches !== null && tmatches !== null) {
     var year, month, day, hour, minute, second;
-    year = parseInt(matches[1]);
-    month = parseInt(matches[2]);
-    day = parseInt(matches[3]);
-    hour = parseInt(matches[4]);
-    minute = parseInt(matches[5]);
-    second = (matches[6] != "") ? parseInt(matches[7]) : 0;
+    year = parseInt(dmatches[1]);
+    month = parseInt(dmatches[2]);
+    day = parseInt(dmatches[3]);
+    hour = parseInt(tmatches[1]);
+    minute = parseInt(tmatches[2]);
+    second = (tmatches[3] !== "") ? parseInt(tmatches[4]) : 0;
     var entered = new Date(year, month -1 , day, hour, minute, second);
     if (entered.getTime() <= now.getTime()) {
-      dtfield.val(dtval);
+      dfield.val(dval);
+      tfield.val(tval);
       return true;
     }
     alert(gettext('You can not enter dates in the future!'));
   } else {
-    alert(gettext('No valid date/time information. Expected format YYYY-mm-dd HH:MM:ss'));
+    if (dmatches === null) {
+      alert(gettext('No valid date information. Expected format YYYY-mm-dd'));
+    }
+    if (tmatches === null) {
+      alert(gettext('No valid time information. Expected format HH:MM:ss'));
+    }
   }
-  dtfield.focus();
+  dfield.focus();
   return false;
 }

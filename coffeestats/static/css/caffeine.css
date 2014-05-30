@@ -1050,9 +1050,9 @@ nav.mainNav {
   float: left;
   padding: 2px 0;
   width: 30%;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   direction: ltr;
   position: relative;
   /*.dow {
@@ -1149,63 +1149,8 @@ nav.mainNav {
     color: #999999;
     cursor: default; }
 .datepicker table tr td.today {
-  border-color: #fdf59a #fdf59a #fbed50;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  background-color: #fde19a;
-  background-image: -moz-linear-gradient(top, #fdd49a, #fdf59a);
-  background-image: -ms-linear-gradient(top, #fdd49a, #fdf59a);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdd49a), to(#fdf59a));
-  background-image: -webkit-linear-gradient(top, #fdd49a, #fdf59a);
-  background-image: -o-linear-gradient(top, #fdd49a, #fdf59a);
-  background-image: linear-gradient(top, #fdd49a, #fdf59a);
-  background-repeat: repeat-x;
-  color: #000;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdd49a', endColorstr='#fdf59a', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-  .datepicker table tr td.today:hover {
-    border-color: #fdf59a #fdf59a #fbed50;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #fde19a;
-    background-image: -moz-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: -ms-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdd49a), to(#fdf59a));
-    background-image: -webkit-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: -o-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: linear-gradient(top, #fdd49a, #fdf59a);
-    background-repeat: repeat-x;
-    color: #000;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdd49a', endColorstr='#fdf59a', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-  .datepicker table tr td.today.disabled {
-    border-color: #fdf59a #fdf59a #fbed50;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #fde19a;
-    background-image: -moz-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: -ms-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdd49a), to(#fdf59a));
-    background-image: -webkit-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: -o-linear-gradient(top, #fdd49a, #fdf59a);
-    background-image: linear-gradient(top, #fdd49a, #fdf59a);
-    background-repeat: repeat-x;
-    color: #000;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdd49a', endColorstr='#fdf59a', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td.today.disabled:hover {
-      background-color: #fde19a;
-      background-image: -moz-linear-gradient(top, #fdd49a, #fdf59a);
-      background-image: -ms-linear-gradient(top, #fdd49a, #fdf59a);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdd49a), to(#fdf59a));
-      background-image: -webkit-linear-gradient(top, #fdd49a, #fdf59a);
-      background-image: -o-linear-gradient(top, #fdd49a, #fdf59a);
-      background-image: linear-gradient(top, #fdd49a, #fdf59a);
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdd49a', endColorstr='#fdf59a', GradientType=0);
-      border-color: #fdf59a #fdf59a #fbed50;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-      color: #000; }
-  .datepicker table tr td.today:hover, .datepicker table tr td.today.disabled:hover, .datepicker table tr td.today:active, .datepicker table tr td.today:hover:active {
-    background-color: #fdf59a; }
+  background-color: #796c67;
+  color: white; }
   .datepicker table tr td.today.disabled:active, .datepicker table tr td.today.disabled:hover:active {
     background-color: #fdf59a; }
   .datepicker table tr td.today.active, .datepicker table tr td.today:hover.active {
@@ -1689,13 +1634,10 @@ nav.mainNav {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  color: #333333;
+  color: #4b4b4b;
   list-style: none;
   font-size: 13px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
   line-height: 20px;
   *border-right-width: 2px;
   *border-bottom-width: 2px; }

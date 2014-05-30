@@ -52,12 +52,11 @@
     <input type="submit" value="{% trans "Coffee!" %}" class="left" />
     <div class="datepicker">
       <input type="text" id="id_coffeedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control" />
+      <span class="icon coffeestats-calendar"></span>
     </div>
     <div class="input-group clockpicker">
       <input type="text" id="id_coffeetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-time"></span>
-      </span>
+        <span class="icon coffeestats-clock"></span>
     </div>
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
@@ -66,12 +65,11 @@
     <input type="submit" value="{% trans "Mate!" %}" class="left" />
     <div class="datepicker">
       <input type="text" id="id_matedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control" />
+      <span class="icon coffeestats-calendar"></span>
     </div>
     <div class="input-group clockpicker">
       <input type="text" id="id_matetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
-      <span class="input-group-addon">
-        <span class="glyphicon glyphicon-time"></span>
-      </span>
+      <span class="icon coffeestats-clock"></span>
     </div>
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}

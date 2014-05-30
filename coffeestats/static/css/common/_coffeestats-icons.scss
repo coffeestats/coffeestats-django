@@ -1,0 +1,37 @@
+@font-face {
+	font-family: "Coffeestats";
+	src: url("./fonts/coffeestats.eot");
+	src: url("./fonts/coffeestats.eot#iefix") format("embedded-opentype"),
+	url("./fonts/coffeestats.woff") format("woff"),
+	url("./fonts/coffeestats.ttf") format("truetype"),
+	url("./fonts/coffeestats.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+.icon {
+	display: inline;
+	position: absolute;
+	right: 4px;
+	margin-top: 10px;
+}
+.icon:before, .icon:before,
+.icon:after, .icon:after {
+	font-family: Coffeestats;
+    font-size: 16px;
+	font-style: normal;
+	color: $placeholder;
+}
+.coffeestats-calendar:before {
+	content: "\e000";
+	font-size: 14px;
+	margin-right: 3px;
+}
+.coffeestats-clock:before {
+	content: "\e001";
+}
+.coffeestats-lock:before {
+	content: "\e002";
+}
+.coffeestats-user:before {
+	content: "\e003";
+}

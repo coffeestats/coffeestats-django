@@ -32,6 +32,39 @@
   float: right; }
 
 /* colors */
+@font-face {
+  font-family: "Coffeestats";
+  src: url("./fonts/coffeestats.eot");
+  src: url("./fonts/coffeestats.eot#iefix") format("embedded-opentype"), url("./fonts/coffeestats.woff") format("woff"), url("./fonts/coffeestats.ttf") format("truetype"), url("./fonts/coffeestats.svg") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+.icon {
+  display: inline;
+  position: absolute;
+  right: 4px;
+  margin-top: 10px; }
+
+.icon:before, .icon:before,
+.icon:after, .icon:after {
+  font-family: Coffeestats;
+  font-size: 16px;
+  font-style: normal;
+  color: #d4d2d2; }
+
+.coffeestats-calendar:before {
+  content: "\e000";
+  font-size: 14px;
+  margin-right: 3px; }
+
+.coffeestats-clock:before {
+  content: "\e001"; }
+
+.coffeestats-lock:before {
+  content: "\e002"; }
+
+.coffeestats-user:before {
+  content: "\e003"; }
+
 /* GENERAL */
 body {
   padding: 0;
@@ -696,7 +729,10 @@ nav.mainNav {
   display: inline-block;
   width: 18%;
   padding: 2px 0;
-  margin: 0 0 0 8px; }
+  margin: 0 0 0 8px;
+  position: relative; }
+  .clockpicker input {
+    padding-right: 22px; }
 
 .popover {
   position: absolute;
@@ -1014,9 +1050,12 @@ nav.mainNav {
   -moz-border-radius: 4px;
   border-radius: 4px;
   direction: ltr;
+  position: relative;
   /*.dow {
     border-top: 1px solid #ddd !important;
   }*/ }
+  .datepicker input {
+    padding-right: 22px; }
 
 .datepicker-inline {
   width: 220px; }

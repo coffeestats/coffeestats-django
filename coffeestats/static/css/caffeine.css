@@ -405,7 +405,9 @@ ul.userlist {
   margin-bottom: 35px;
   width: 100%;
   height: 58px;
-  background: white; }
+  background: white;
+  z-index: 999;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); }
   #header .headerWrapper {
     margin: 0 auto;
     width: 960px;
@@ -732,7 +734,8 @@ nav.mainNav {
   margin: 0 0 0 8px;
   position: relative; }
   .clockpicker input {
-    padding-right: 22px; }
+    padding-right: 22px;
+    margin-bottom: 0; }
 
 .popover {
   position: absolute;
@@ -885,7 +888,7 @@ nav.mainNav {
   width: 100%; }
 
 .text-primary {
-  color: #428bca; }
+  color: #796c67; }
 
 /*!
  * ClockPicker v{package.version} for Bootstrap (http://weareoutman.github.io/clockpicker/)
@@ -957,7 +960,7 @@ nav.mainNav {
 
 .clockpicker-tick {
   border-radius: 50%;
-  color: #666;
+  color: #4b4b4b;
   line-height: 26px;
   text-align: center;
   width: 26px;
@@ -965,8 +968,9 @@ nav.mainNav {
   position: absolute;
   cursor: pointer; }
   .clockpicker-tick.active, .clockpicker-tick:hover {
-    background-color: #c0e5f7;
-    background-color: rgba(0, 149, 221, 0.25); }
+    background-color: #796c67;
+    background-color: #796c67;
+    color: white; }
 
 .clockpicker-button {
   background-image: none;
@@ -1018,17 +1022,17 @@ nav.mainNav {
 
 .clockpicker-canvas-bearing, .clockpicker-canvas-fg {
   stroke: none;
-  fill: #0095dd; }
+  fill: #796c67; }
 
 .clockpicker-canvas-bg {
   stroke: none;
-  fill: #c0e5f7; }
+  fill: #bcb6b3; }
 
 .clockpicker-canvas-bg-trans {
-  fill: rgba(0, 149, 221, 0.25); }
+  fill: #bcb6b3; }
 
 .clockpicker-canvas line {
-  stroke: #0095dd;
+  stroke: #796c67;
   stroke-width: 1;
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/ }
@@ -1055,7 +1059,8 @@ nav.mainNav {
     border-top: 1px solid #ddd !important;
   }*/ }
   .datepicker input {
-    padding-right: 22px; }
+    padding-right: 22px;
+    margin-bottom: 0; }
 
 .datepicker-inline {
   width: 220px; }

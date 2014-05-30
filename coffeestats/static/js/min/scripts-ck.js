@@ -1,1 +1,1 @@
-$(document).ready(function(){var e={init:function(){e.equalHeightsBoxes()},equalHeightsBoxes:function(){$(".white-box").equalHeights()}};e.init()});
+$(document).ready(function(){var i={init:function(){i.equalHeightsBoxes()},equalHeightsBoxes:function(){$(".white-box").not(".fullWidth").equalHeights()}};i.init()});

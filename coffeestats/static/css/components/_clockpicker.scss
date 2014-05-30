@@ -18,6 +18,7 @@
   position: relative;
   input {
     padding-right: 22px;
+    margin-bottom: 0;
   }
 }
 
@@ -203,7 +204,7 @@
 }
 
 .text-primary {
-  color: #428bca;
+  color: $button-background;
 }
 
 /*!
@@ -292,7 +293,7 @@
 
 .clockpicker-tick {
   border-radius: 50%;
-  color: #666;
+  color: $input-color;
   line-height: 26px;
   text-align: center;
   width: 26px;
@@ -300,8 +301,9 @@
   position: absolute;
   cursor: pointer;
   &.active, &:hover {
-    background-color: rgb(192, 229, 247);
-    background-color: rgba(0, 149, 221, 0.25);
+    background-color: $button-background;
+    background-color: $button-background;
+    color: $white;
   }
 }
 
@@ -364,20 +366,20 @@
 
 .clockpicker-canvas-bearing, .clockpicker-canvas-fg {
   stroke: none;
-  fill: rgb(0, 149, 221);
+  fill: $button-background;
 }
 
 .clockpicker-canvas-bg {
   stroke: none;
-  fill: rgb(192, 229, 247);
+  fill: $clockpicker-canvas-bg;
 }
 
 .clockpicker-canvas-bg-trans {
-  fill: rgba(0, 149, 221, 0.25);
+  fill: $clockpicker-canvas-bg;
 }
 
 .clockpicker-canvas line {
-  stroke: rgb(0, 149, 221);
+  stroke: $button-background;
   stroke-width: 1;
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/

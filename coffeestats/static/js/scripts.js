@@ -5,7 +5,7 @@ $(document).ready(function(){
 	    },
 
 		equalHeightsBoxes : function() {
-			$('.white-box').equalHeights();
+			$('.white-box').not('.fullWidth').equalHeights();
 		}
 	}
 	coffeestats.init();

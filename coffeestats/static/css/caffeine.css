@@ -60,10 +60,13 @@
   content: "\e001"; }
 
 .coffeestats-lock:before {
-  content: "\e002"; }
+  content: "\e003"; }
 
 .coffeestats-user:before {
-  content: "\e003"; }
+  content: "\e004"; }
+
+.coffeestats-settings:before {
+  content: "\e002"; }
 
 /* GENERAL */
 body {
@@ -567,6 +570,8 @@ nav.mainNav {
         nav.mainNav > ul > li.hover > a {
           border-bottom: 3px solid #796c67;
           cursor: pointer; }
+        nav.mainNav > ul > li:hover span.settings:before, nav.mainNav > ul > li.hover span.settings:before {
+          color: #796c67; }
       nav.mainNav > ul > li span,
       nav.mainNav > ul > li > a {
         display: inline-block;
@@ -575,6 +580,23 @@ nav.mainNav {
         text-decoration: none;
         font-weight: 300;
         font-size: 16px; }
+      nav.mainNav > ul > li > span.settings {
+        display: inline;
+        padding-bottom: 14px; }
+        nav.mainNav > ul > li > span.settings span {
+          display: none;
+          text-indent: -4000px;
+          height: 0;
+          width: 0;
+          margin: 0;
+          padding: 0; }
+        nav.mainNav > ul > li > span.settings:before {
+          font-family: Coffeestats;
+          font-size: 23px;
+          line-height: 35px;
+          font-style: normal;
+          color: #d4d2d2;
+          content: "\e002"; }
       nav.mainNav > ul > li ul {
         display: none; }
 

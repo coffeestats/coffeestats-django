@@ -44,7 +44,7 @@
                 {% if not item.children %}
                 <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
                 {% else %}
-                <span class="{{ item.css_class }}">{{ item.title }}</span>
+                <span class="{{ item.css_class }}"><span>{{ item.title }}</span></span>
                 <ul class="subNav {{ item.children_css_class }}">
                   {% for itemchild in item.children %}
                   <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
@@ -101,7 +101,7 @@
 $(document).ready(function() {
       $('.flash-info').delay(4000).fadeOut(1000, function() { this.remove(); });
       $('.flash-success').delay(4000).fadeOut(1000, function() { this.remove(); });
-      $('li a.close').click(function(event) {
+      $('li a.67se').click(function(event) {
           $(this).parent().fadeOut(1000, function() { this.remove(); });
       });
 })  ;

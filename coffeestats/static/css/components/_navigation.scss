@@ -72,6 +72,11 @@ nav.mainNav {
                 border-bottom: 3px solid $button-background;
                 cursor: pointer;
               }
+            span.settings {
+                &:before {
+                  color: $button-background;
+                }
+              }
           }
           span,
           > a {
@@ -82,6 +87,28 @@ nav.mainNav {
             font-weight: 300;
             font-size: 16px;
           }
+          > span.settings {
+              display: inline;
+              padding-bottom: 14px;
+
+              span {
+                display: none;
+                text-indent: -4000px;
+                height: 0;
+                width: 0;
+                margin: 0;
+                padding: 0;
+              }
+
+              &:before {
+                font-family: Coffeestats;
+                font-size: 23px;
+                line-height: 35px;
+                font-style: normal;
+                color: $placeholder;
+                content: "\e002";
+              }
+            }
           ul {
             display: none;
           }

@@ -114,4 +114,13 @@ nav.mainNav {
           }
         }
       }
+      @media #{$moblet-smaller} {
+        display: none;
+      }
     }
+nav.mainNavMobile {
+  display: none;
+  @media #{$moblet-smaller} {
+    display: block;
+  }
+}

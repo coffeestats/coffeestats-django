@@ -8,8 +8,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}coffeestats.org{% endblock title %}</title>
-    <link rel="shortcut icon" href="{% static "images/favicon.png" %}" type="image/x-icon">
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Amaranth' rel='stylesheet' type='text/css'>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -55,6 +53,18 @@
               {% endfor %}
             {% endspaceless %}</ul>
           </nav>
+          <nav class="right mainNavMobile">
+            <span class="menuIndicator">Show Navigation</span>
+            <ul>{% spaceless %}
+              {% for item in navitems %}
+              <li{% if item.is_active %} class="active"{% endif %}>
+                {% if not item.children %}
+                <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
+                {% endif %}
+              </li>
+              {% endfor %}
+            {% endspaceless %}</ul>
+          </nav>
           {% else %}
           <nav class="right login">
             <ul>
@@ -94,6 +104,8 @@
           See <a href="{{ imprinturl }}">Imprint</a>.{% endblocktrans %}</p>
         </div>
     </div>
+    <link rel="shortcut icon" href="{% static "images/favicon.png" %}" type="image/x-icon">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Amaranth' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.equalheights.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>

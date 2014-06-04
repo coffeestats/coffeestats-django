@@ -245,15 +245,25 @@ strong {
 
 .white-box {
   padding: 10px;
-  margin: 0 2% 2% 0;
   background-color: white;
   float: left;
-  width: 49%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border-radius: 3px;
   min-height: 115px;
   /* REGISTER */ }
+  @media screen and (min-width: 874px) {
+    .white-box {
+      margin: 0 2% 2% 0;
+      width: 49%; } }
+  @media screen and (max-width: 873px) {
+    .white-box {
+      width: 100%;
+      float: none !important;
+      margin: 2% auto 0;
+      display: inline-block; }
+      .white-box:nth-child(even), .white-box:nth-child(odd) {
+        margin: 2% auto 0 !important; } }
   .white-box.update {
     min-height: 317px; }
   .white-box.today {
@@ -413,13 +423,20 @@ ul.userlist {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); }
   #header .headerWrapper {
     margin: 0 auto;
-    width: 960px;
     height: 49px;
     background-image: url("/static/images/logo.png");
-    background-position: left center;
     background-size: auto 42px;
     background-repeat: no-repeat;
     color: #796c67; }
+    @media screen and (min-width: 874px) {
+      #header .headerWrapper {
+        width: 960px;
+        background-position: left center; } }
+    @media screen and (max-width: 873px) {
+      #header .headerWrapper {
+        width: 100%;
+        padding: 0 10px;
+        background-position: 10px center; } }
     #header .headerWrapper h1 {
       display: inline-block;
       margin-top: 8px;
@@ -484,8 +501,18 @@ nav.login {
 /* CONTENT */
 #content {
   padding: 35px 0 35px 0;
-  margin: 0 auto;
-  width: 960px; }
+  margin: 0 auto; }
+  @media screen and (min-width: 874px) {
+    #content {
+      width: 960px;
+      padding: 35px 10px 35px; } }
+  @media screen and (max-width: 873px) {
+    #content {
+      width: 100%;
+      padding: 35px 10px 35px; } }
+  @media screen and (max-width: 440x), screen and (max-device-width: 440px) {
+    #content {
+      width: 100%; } }
   #content h2 {
     padding: 0 0 10px 0;
     margin: 0;
@@ -506,11 +533,22 @@ nav.login {
   bottom: 0;
   width: 100%; }
   .footer .footertext {
-    font-size: small;
     margin: 0 auto;
     width: 960px;
     text-align: center;
     padding: 7px 0; }
+    @media screen and (min-width: 874px) {
+      .footer .footertext {
+        font-size: small;
+        width: 960px; } }
+    @media screen and (max-width: 873px) {
+      .footer .footertext {
+        font-size: small;
+        width: 100%; } }
+    @media screen and (max-width: 440x), screen and (max-device-width: 440px) {
+      .footer .footertext {
+        width: 100%;
+        font-size: 11px !important; } }
 
 /* NAVIGATION */
 nav.mainNav {
@@ -599,6 +637,15 @@ nav.mainNav {
           content: "\e002"; }
       nav.mainNav > ul > li ul {
         display: none; }
+  @media screen and (max-width: 625px) {
+    nav.mainNav {
+      display: none; } }
+
+nav.mainNavMobile {
+  display: none; }
+  @media screen and (max-width: 625px) {
+    nav.mainNavMobile {
+      display: block; } }
 
 /* Responsive */
 /*

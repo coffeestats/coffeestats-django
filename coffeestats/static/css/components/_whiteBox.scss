@@ -1,13 +1,28 @@
 .white-box {
   padding: 10px;
-  margin: 0 2% 2% 0;
   background-color: $white-box-background;
   float: left;
-  width: 49%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border-radius: 3px;
   min-height: 115px;
+
+  @media #{$desktop} {
+    margin: 0 2% 2% 0;
+    width: 49%;
+  }
+
+  @media #{$moblet} {
+    width: 100%;
+    float: none !important;
+    margin: 2% auto 0;
+    display: inline-block;
+
+    &:nth-child(even),
+    &:nth-child(odd) {
+      margin: 2% auto 0 !important;
+    }
+  }
 
   &.update {
     min-height: 317px;

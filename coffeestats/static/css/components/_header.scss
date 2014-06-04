@@ -11,13 +11,23 @@
   box-shadow: 0 0 3px $header-shadow;
   .headerWrapper {
     margin: 0 auto;
-    width: 960px;
     height: 49px;
     background-image: url('/static/images/logo.png');
-    background-position: left center;
     background-size: auto 42px;
     background-repeat: no-repeat;
     color: $font-header;
+
+    @media #{$desktop} {
+      width: 960px;
+      background-position: left center;
+    }
+
+    @media #{$moblet} {
+      width: 100%;
+      padding: 0 10px;
+      background-position: 10px center;
+    }
+
     h1 {
       display: inline-block;
       margin-top: 8px;

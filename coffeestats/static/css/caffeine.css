@@ -60,13 +60,16 @@
   content: "\e001"; }
 
 .coffeestats-lock:before {
-  content: "\e003"; }
+  content: "\e004"; }
 
 .coffeestats-user:before {
-  content: "\e004"; }
+  content: "\e005"; }
 
 .coffeestats-settings:before {
   content: "\e002"; }
+
+.coffeestats-menu:before {
+  content: "\e003"; }
 
 /* GENERAL */
 body {
@@ -317,12 +320,25 @@ form {
   form.coffeeform #email {
     width: 98%; }
 
-form .left,
-form .leftform {
-  width: 48%; }
-  form .left:nth-child(odd),
-  form .leftform:nth-child(odd) {
-    margin-right: 2%; }
+@media screen and (min-width: 874px) {
+  form .left,
+  form .leftform {
+    width: 48%; } }
+@media screen and (max-width: 873px) {
+  form .left,
+  form .leftform {
+    width: 48%; } }
+@media screen and (max-width: 440x), screen and (max-device-width: 440px) {
+  form .left,
+  form .leftform {
+    width: 47% !important; } }
+@media screen and (max-width: 320px), screen and (max-device-width: 320px) {
+  form .left,
+  form .leftform {
+    width: 47% !important; } }
+form .left:nth-child(odd),
+form .leftform:nth-child(odd) {
+  margin-right: 2%; }
 
 .fullWidth form .leftform {
   width: 30%; }
@@ -475,6 +491,9 @@ nav.login {
           border-right: 1px solid #eeeded;
           border-left: 1px solid #eeeded;
           background: white; }
+          @media screen and (max-width: 873px) {
+            nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
+              width: 320px !important; } }
           nav.login > ul > li:hover .loginBox input, nav.login > ul > li.hover .loginBox input {
             display: block;
             width: 100%; }
@@ -645,7 +664,44 @@ nav.mainNavMobile {
   display: none; }
   @media screen and (max-width: 625px) {
     nav.mainNavMobile {
-      display: block; } }
+      display: block; }
+      nav.mainNavMobile > ul {
+        margin: 0; }
+      nav.mainNavMobile li {
+        list-style: none; }
+      nav.mainNavMobile li.menuIndicator {
+        display: block; }
+        nav.mainNavMobile li.menuIndicator span span {
+          text-indent: -300000px;
+          display: inline-block;
+          width: 0;
+          margin-right: 10px; }
+        nav.mainNavMobile li.menuIndicator ul {
+          display: none; }
+        nav.mainNavMobile li.menuIndicator .icon:before {
+          font-size: 35px; }
+        nav.mainNavMobile li.menuIndicator:hover ul, nav.mainNavMobile li.menuIndicator.hover ul {
+          display: inline-block;
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 38px;
+          padding: 20px 0 0 0; }
+          nav.mainNavMobile li.menuIndicator:hover ul li a, nav.mainNavMobile li.menuIndicator.hover ul li a {
+            display: block;
+            padding: 8px 10px;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 16px;
+            background: white; }
+            nav.mainNavMobile li.menuIndicator:hover ul li a:first-child, nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
+              border-bottom: 1px solid #d7d2c7; }
+            nav.mainNavMobile li.menuIndicator:hover ul li a:hover, nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
+              background: #f4eedf; }
+        nav.mainNavMobile li.menuIndicator:hover .icon:before, nav.mainNavMobile li.menuIndicator.hover .icon:before {
+          color: #796c67; } }
 
 /* Responsive */
 /*

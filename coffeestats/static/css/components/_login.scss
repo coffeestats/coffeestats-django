@@ -32,6 +32,10 @@ nav.login {
               border-left: 1px solid $loginBoxBorder;
               background: $white;
 
+              @media #{$moblet} {
+                width: 320px !important;
+              }
+
               input {
                 display: block;
                 width: 100%;

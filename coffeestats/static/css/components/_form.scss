@@ -10,7 +10,18 @@ form {
 
 form .left,
 form .leftform {
-  width: 48%;
+  @media #{$desktop} {
+    width: 48%;
+  }
+  @media #{$moblet} {
+    width: 48%;
+  }
+  @media #{$mobile} {
+    width: 47% !important;
+  }
+  @media #{$mobile-small} {
+    width: 47% !important;
+  }
 
   &:nth-child(odd) {
     margin-right: 2%;

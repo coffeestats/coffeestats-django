@@ -30,11 +30,15 @@
 	content: "\e001";
 }
 .coffeestats-lock:before {
-	content: "\e003";
+	content: "\e004";
 }
 .coffeestats-user:before {
-	content: "\e004";
+	content: "\e005";
 }
 .coffeestats-settings:before {
 	content: "\e002";
+}
+
+.coffeestats-menu:before {
+	content: "\e003";
 }

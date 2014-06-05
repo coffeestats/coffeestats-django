@@ -54,15 +54,20 @@
             {% endspaceless %}</ul>
           </nav>
           <nav class="right mainNavMobile">
-            <span class="menuIndicator">Show Navigation</span>
             <ul>{% spaceless %}
-              {% for item in navitems %}
-              <li{% if item.is_active %} class="active"{% endif %}>
-                {% if not item.children %}
-                <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
-                {% endif %}
+              <li class="menuIndicator">
+                <span class="icon coffeestats-menu"><span>Show Navigation</span></span>
+                <ul>
+                  {% for item in navitems %}
+                  <li{% if item.is_active %} class="active"{% endif %}>
+                    {% if not item.children %}
+                    <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
+                    {% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
               </li>
-              {% endfor %}
+
             {% endspaceless %}</ul>
           </nav>
           {% else %}

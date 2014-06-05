@@ -122,5 +122,63 @@ nav.mainNavMobile {
   display: none;
   @media #{$moblet-smaller} {
     display: block;
+    > ul {
+      margin: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+    li.menuIndicator {
+      display: block;
+      span span {
+        text-indent: -300000px;
+        display: inline-block;
+        width: 0;
+        margin-right: 10px;
+      }
+      ul {
+        display: none;
+      }
+
+      .icon:before {
+        font-size: 35px;
+      }
+      &:hover,
+      &.hover {
+        ul {
+          display: inline-block;
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 38px;
+          padding: 20px 0 0 0;
+
+          li {
+            a {
+                display: block;
+                padding: 8px 10px;
+                width: 100%;
+                text-align: center;
+                text-decoration: none;
+                font-weight: 300;
+                font-size: 16px;
+                background: $white;
+                &:first-child {
+                  border-bottom: 1px solid $subnavigation-border;
+                }
+                &:hover {
+                   background: $subnavigation-bg;
+                }
+            }
+          }
+        }
+
+        .icon:before {
+          color: $button-background;
+        }
+
+      }
+    }
   }
 }

@@ -41,8 +41,6 @@ def mainnav(request):
     retval = {}
     if request.user.is_authenticated():
         navitems = [
-            NavItem(request, reverse('home'),
-                    _('Home'), 'navindex'),
             NavItem(request, reverse('profile'),
                     _('Profile'), 'navprofile'),
             NavItem(request, reverse('explore'),

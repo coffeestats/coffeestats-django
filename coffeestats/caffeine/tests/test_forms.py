@@ -170,14 +170,17 @@ class SubmitCaffeineFormTest(TestCase):
         self.user.timezone = 'Europe/Berlin'
 
     def test_clean_no_previous(self):
+        now = timezone.now()
         form = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()})
         self.assertTrue(form.is_valid(), str(form.errors))
 
     def test_save_with_passed_data(self):
+        now = timezone.now()
         caffeine = SubmitCaffeineForm(
-            self.user, DRINK_TYPES.coffee, data={'date': timezone.now()}
+            self.user, DRINK_TYPES.coffee,
+            data={'date': now.date(), 'time': now.time()}
         ).save()
         self.assertLessEqual(caffeine.date, timezone.now())
         self.assertEqual(caffeine.ctype, DRINK_TYPES.coffee)
@@ -188,9 +191,10 @@ class SubmitCaffeineFormTest(TestCase):
         Caffeine.objects.create(
             user=self.user, ctype=DRINK_TYPES.coffee,
             date=timezone.now() - timedelta(minutes=10))
+        now = timezone.now()
         form = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()})
         self.assertTrue(form.is_valid(), str(form.errors))
 
     def test_clean_recent_previous(self):
@@ -198,13 +202,16 @@ class SubmitCaffeineFormTest(TestCase):
             user=self.user, ctype=DRINK_TYPES.coffee,
             date=timezone.now() - timedelta(
                 minutes=settings.MINIMUM_DRINK_DISTANCE - 1))
+        now = timezone.now()
         form = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()}
+        )
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors['date']), 1)
+        form_errors = form.non_field_errors()
+        self.assertEqual(len(form_errors), 1)
         self.assertRegexpMatches(
-            form.errors['date'][0],
+            form_errors[0],
             r'^Your last %(drink)s was less than %(minutes)d minutes ago' % {
                 'drink': DRINK_TYPES[DRINK_TYPES.coffee],
                 'minutes': settings.MINIMUM_DRINK_DISTANCE

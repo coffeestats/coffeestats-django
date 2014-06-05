@@ -1,7 +1,7 @@
 # Local development dependencies go here
 -r base.txt
 coverage==3.7.1
-django-debug-toolbar==1.1
+django-debug-toolbar==1.2.1
 Sphinx==1.2.2
 sphinxcontrib-httpdomain==1.2.1
 selenium==2.42.1

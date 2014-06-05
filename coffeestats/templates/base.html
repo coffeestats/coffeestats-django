@@ -85,9 +85,9 @@
                         {{ form.username.errors }}
                         {{ form.password.errors }}
                         <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %} autofocus>
-                        <label alt="{% trans "Username" %}" placeholder="{% trans "Username" %}"></label>
+                        <label for="username" alt="{% trans "Username" %}" placeholder="{% trans "Username" %}"></label>
                         <input type="password" required name="password" id="id_password"/>
-                        <label alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
+                        <label for="password" alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
                         {% url "auth_password_reset" as passwordreset_url %}
                       {% blocktrans %}<a href="{{ passwordreset_url }}" class="right">Forgot your password?</a>{% endblocktrans %}
                         <input type="submit" name="submit" value="{% trans "Login" %}"/>
@@ -100,7 +100,7 @@
             </ul>
           </nav>
           {% endif %}
-          <h1><a href="/">coffeestats.org</a></h1>
+          <h1><a href="{% url 'home' %}" title="{% trans '... about what keeps you awake at night' %}">coffeestats.org</a></h1>
         </div>
       </div>
       <div id="content">
@@ -118,6 +118,7 @@
     <script type="text/javascript" src="{% static "js/jquery.equalheights.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
     <script type="text/javascript">
+/* global $ */
 $(document).ready(function() {
       $('.flash-info').delay(4000).fadeOut(1000, function() { this.remove(); });
       $('.flash-success').delay(4000).fadeOut(1000, function() { this.remove(); });

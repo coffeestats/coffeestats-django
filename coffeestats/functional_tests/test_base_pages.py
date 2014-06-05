@@ -1,4 +1,5 @@
 from .base import BaseCoffeeStatsPageTestMixin, SeleniumTest
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
@@ -14,24 +15,53 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertRegexpMatches(self.selenium.current_url,
                                  r'/auth/login/\?next=/$')
 
-        # He sees 3 boxes
+        # He sees 2 boxes
         boxes = self.selenium.find_elements_by_css_selector('.white-box')
-        self.assertEqual(len(boxes), 3)
+        self.assertEqual(len(boxes), 2)
 
-        # The first box contains login form elements
-        login_box = boxes[0]
-        login_title = login_box.find_element_by_tag_name('h2')
-        self.assertEqual(login_title.text, 'Login')
+        # The first box is graphs
+        graphs_box = boxes[0]
+        graphs_title = graphs_box.find_element_by_tag_name('h2')
+        self.assertEqual(graphs_title.text, 'Graphs!')
+        graphs_box.find_element_by_tag_name('canvas')
+
+        # The second box is ...
+        whatis_box = boxes[1]
+        whatis_title = whatis_box.find_element_by_tag_name('h2')
+        self.assertEqual(whatis_title.text, 'What is coffeestats.org?')
+
+        # there is a navigation in the page header
+        header = self.selenium.find_element_by_id('header')
+        nav = header.find_element_by_tag_name('nav')
+
+        # nav contains Register and Login
+        register_link = nav.find_element_by_link_text('Register')
+        self.assertRegexpMatches(
+            register_link.get_attribute('href'),
+            r'/auth/register/$')
+
+        login_subnav = nav.find_element_by_tag_name('span')
+        action_chain = ActionChains(self.selenium)
+        action_chain.move_to_element(login_subnav).perform()
+
+        # now a login form is visible
+        login_box = nav.find_element_by_css_selector('ul.loginBox')
 
         form_inputs = login_box.find_elements_by_tag_name('input')
         self.assertEqual(len(form_inputs), 5)
 
         # the input fields contain placeholders
         username_field = login_box.find_element_by_id('id_username')
+        username_label = login_box.find_element_by_css_selector(
+            'label[for="username"]')
         self.assertEqual(
-            username_field.get_attribute('placeholder'), 'Username')
-        self.assertEqual(login_box.find_element_by_id(
-            'id_password').get_attribute('placeholder'), 'Password')
+            username_label.get_attribute('placeholder'), 'Username')
+
+        login_box.find_element_by_id('id_password')
+        password_label = login_box.find_element_by_css_selector(
+            'label[for="password"]')
+        self.assertEqual(
+            password_label.get_attribute('placeholder'), 'Password')
 
         # check that the username field has the focus
         self.assertEqual(self.selenium.switch_to.active_element,
@@ -41,29 +71,12 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         login_button = login_box.find_element_by_name('submit')
         self.assertEqual(login_button.get_attribute('value'), 'Login')
 
-        # there is a "Register" link
-        register_link = login_box.find_element_by_link_text('Register')
-        self.assertRegexpMatches(
-            register_link.get_attribute('href'),
-            r'/auth/register/$')
-
         # there is a "Password reset" link
         pwreset_link = login_box.find_element_by_link_text(
-            'Request a password reset')
+            'Forgot your password?')
         self.assertRegexpMatches(
             pwreset_link.get_attribute('href'),
             r'/auth/password/reset/$')
-
-        # The second box has some information about coffeestats
-        self.assertEqual(boxes[1].find_element_by_tag_name('h2').text,
-                         'What is coffeestats.org?')
-
-        # The third box tells something about graphs
-        graph_box = boxes[2]
-        self.assertEqual(graph_box.find_element_by_tag_name('h2').text,
-                         'Graphs!')
-        examplegraph = graph_box.find_element_by_id('coffeeexample')
-        self.assertEqual(examplegraph.tag_name, 'canvas')
 
         self.check_page_footer()
 

@@ -22,7 +22,7 @@
     {% block extra_css %}{% endblock extra_css %}
   </head>
 
-  <body>
+  <body class="{{ request.resolver_match.url_name }}">
     <ul class="flash-messages" id="system-flash">{% spaceless %}
     {% if messages %}
       {% for message in messages %}

@@ -91,7 +91,7 @@
                         {% url "auth_password_reset" as passwordreset_url %}
                       {% blocktrans %}<a href="{{ passwordreset_url }}" class="right">Forgot your password?</a>{% endblocktrans %}
                         <input type="submit" name="submit" value="{% trans "Login" %}"/>
-                        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+                        <input type="hidden" name="next" value="{% url 'home' as home_url %}{% if request.GET.next == home_url %}{% url 'profile' %}{% else %}{{ request.GET.next }}{% endif %}" />
                       </form>
                   </li>
                 </ul>

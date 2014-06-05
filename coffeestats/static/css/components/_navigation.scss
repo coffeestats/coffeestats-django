@@ -170,6 +170,13 @@ nav.mainNavMobile {
                 &:hover {
                    background: $subnavigation-bg;
                 }
+                &.btn {
+                  background: $button-background;
+                  margin: 0;
+                  &:first-child {
+                    border-bottom:0;
+                  }
+                }
             }
           }
         }

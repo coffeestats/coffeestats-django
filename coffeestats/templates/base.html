@@ -64,6 +64,9 @@
                     <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
                     {% endif %}
                   </li>
+                  {% for itemchild in item.children %}
+                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
+                  {% endfor %}
                   {% endfor %}
                 </ul>
               </li>

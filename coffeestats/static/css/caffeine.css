@@ -700,6 +700,11 @@ nav.mainNavMobile {
               border-bottom: 1px solid #d7d2c7; }
             nav.mainNavMobile li.menuIndicator:hover ul li a:hover, nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
               background: #f4eedf; }
+            nav.mainNavMobile li.menuIndicator:hover ul li a.btn, nav.mainNavMobile li.menuIndicator.hover ul li a.btn {
+              background: #796c67;
+              margin: 0; }
+              nav.mainNavMobile li.menuIndicator:hover ul li a.btn:first-child, nav.mainNavMobile li.menuIndicator.hover ul li a.btn:first-child {
+                border-bottom: 0; }
         nav.mainNavMobile li.menuIndicator:hover .icon:before, nav.mainNavMobile li.menuIndicator.hover .icon:before {
           color: #796c67; } }
 

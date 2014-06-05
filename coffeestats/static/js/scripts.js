@@ -12,20 +12,24 @@ $(document).ready(function(){
 		},
 
 		showNavigation : function() {
-			$('.menuIndicator').click(function(){
+			$('.menuIndicator').on( 'tapstart',function(){
 				$(this).toggleClass('hover');
 			});
 		},
 
 		showMenuDropdown : function() {
-			$('.mainNav li span.settings').click(function(){
+			$('.mainNav li span.settings').on( 'tapstart', function(){
 				$(this).parent('li').toggleClass('hover');
 			});
 		},
 		showLoginDropdown : function() {
-			$('.login li span').click(function(){
+			$('.login li span').on( 'tapstart',function(){
 				$(this).parent('li').toggleClass('hover');
 			});
+		},
+
+		isTouchDevice : function() {
+
 		}
 	}
 	coffeestats.init();

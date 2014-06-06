@@ -71,6 +71,36 @@
 .coffeestats-menu:before {
   content: "\e003"; }
 
+@font-face {
+  font-family: 'amaranthregular';
+  src: url("./fonts/amaranth-regular.eot");
+  src: url("./fonts/amaranth-regular.eot?#iefix") format("embedded-opentype"), url("./fonts/amaranth-regular.woff") format("woff"), url("./fonts/amaranth-regular.ttf") format("truetype"), url("./fonts/amaranth-regular.svg#amaranthregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'source_sans_probold';
+  src: url("./fonts/sourcesanspro-bold.eot");
+  src: url("./fonts/sourcesanspro-bold.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-bold.woff") format("woff"), url("./fonts/sourcesanspro-bold.ttf") format("truetype"), url("./fonts/sourcesanspro-bold.svg#source_sans_probold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'source_sans_proregular';
+  src: url("./fonts/sourcesanspro-regular.eot");
+  src: url("./fonts/sourcesanspro-regular.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-regular.woff") format("woff"), url("./fonts/sourcesanspro-regular.ttf") format("truetype"), url("./fonts/sourcesanspro-regular.svg#source_sans_proregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'source_sans_prolight';
+  src: url("./fonts/sourcesanspro-light.eot");
+  src: url("./fonts/sourcesanspro-light.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-light.woff") format("woff"), url("./fonts/sourcesanspro-light.ttf") format("truetype"), url("./fonts/sourcesanspro-light.svg#source_sans_prolight") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'source_sans_proextralight';
+  src: url("./fonts/sourcesanspro-extralight.eot");
+  src: url("./fonts/sourcesanspro-extralight.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-extralight.woff") format("woff"), url("./fonts/sourcesanspro-extralight.ttf") format("truetype"), url("./fonts/sourcesanspro-extralight.svg#source_sans_proextralight") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 /* GENERAL */
 body {
   padding: 0;
@@ -92,11 +122,11 @@ a {
 
 a.btn, input {
   margin: 2px 0;
-  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif; }
+  font-family: 'source_sans_proregular', Helvetica, Verdana, Arial, sans-serif; }
 
 a {
   text-decoration: none;
-  font-weight: bold;
+  font-family: 'source_sans_probold';
   color: inherit; }
   a:hover {
     text-decoration: underline; }
@@ -117,7 +147,7 @@ a.btn {
   display: inline-block;
   text-align: center;
   text-decoration: none !important;
-  font-weight: normal !important; }
+  font-family: 'source_sans_proregular' !important; }
   input[type=submit]:hover,
   button:hover,
   a.btn:hover {
@@ -377,7 +407,7 @@ li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
   li.flash-success .close, li.flash-info .close, li.flash-warning .close, li.flash-error .close {
     float: right;
     font-size: 16px;
-    font-weight: bold;
+    font-family: 'source_sans_probold';
     color: #4b4b4b;
     text-shadow: 0 1px 0 white;
     opacity: 0.2; }
@@ -460,14 +490,16 @@ ul.userlist {
       margin-left: 47px;
       max-width: 32%;
       font-size: 25px;
-      font-family: 'Amaranth', sans-serif;
+      font-family: 'amaranthregular', sans-serif;
       line-height: 43px; }
+      #header .headerWrapper h1 a {
+        font-family: 'amaranthregular', sans-serif; }
 
 nav.login {
   height: 58px; }
   nav.login .btn {
     color: white;
-    font-weight: 300;
+    font-family: 'source_sans_prolight';
     font-size: 15px; }
   nav.login ul,
   nav.login li {
@@ -504,7 +536,7 @@ nav.login {
               margin-bottom: 0;
               width: 101%;
               height: 36px;
-              font-weight: 300 !important; }
+              font-family: 'source_sans_prolight' !important; }
           nav.login > ul > li:hover .loginBox a, nav.login > ul > li.hover .loginBox a {
             font-size: 10px; }
         nav.login > ul > li:hover span, nav.login > ul > li.hover span {
@@ -577,7 +609,7 @@ nav.mainNav {
   height: 58px; }
   nav.mainNav .btn {
     color: white;
-    font-weight: 300;
+    font-family: 'source_sans_prolight';
     font-size: 15px; }
   nav.mainNav ul,
   nav.mainNav li {
@@ -612,14 +644,14 @@ nav.mainNav {
             margin-bottom: 0;
             width: 101%;
             height: 36px;
-            font-weight: 300 !important; }
+            font-family: 'source_sans_prolight' !important; }
           nav.mainNav > ul > li:hover .settingsBox a.subNavLink, nav.mainNav > ul > li.hover .settingsBox a.subNavLink {
             display: block;
             padding: 8px 10px;
             width: 100%;
             text-align: center;
             text-decoration: none;
-            font-weight: 300;
+            font-family: 'source_sans_prolight';
             font-size: 16px; }
             nav.mainNav > ul > li:hover .settingsBox a.subNavLink:first-child, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:first-child {
               border-bottom: 1px solid #d7d2c7; }
@@ -638,7 +670,7 @@ nav.mainNav {
         margin-left: 0px;
         padding: 8px 10px 17px;
         text-decoration: none;
-        font-weight: 300;
+        font-family: 'source_sans_prolight';
         font-size: 16px; }
       nav.mainNav > ul > li > span.settings {
         display: inline;
@@ -696,7 +728,7 @@ nav.mainNavMobile {
             width: 100%;
             text-align: center;
             text-decoration: none;
-            font-weight: 300;
+            font-family: 'source_sans_prolight';
             font-size: 16px;
             background: white; }
             nav.mainNavMobile li.menuIndicator:hover ul li a:first-child, nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
@@ -711,145 +743,6 @@ nav.mainNavMobile {
         nav.mainNavMobile li.menuIndicator:hover .icon:before, nav.mainNavMobile li.menuIndicator.hover .icon:before {
           color: #796c67; } }
 
-/* Responsive */
-/*
-@media screen and (max-width: 1250px) {
-  #wrapper {
-
-    #navigation {
-      width: 58%;
-    }
-
-    .white-box {
-      margin: 0 1% 2% 0;
-    }
-
-    .white-box:nth-child(odd) {
-      margin: 0 0 2% 1%;
-    }
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  /* iPhone, Android rules here */
-/*  #wrapper {
-    padding: 0px;
-    width: 94%;
-    margin: 0 auto;
-
-    #header {
-
-      #account {
-        font-size: 1.4em;
-      }
-
-      p {
-        max-width:85%;
-      }
-    }
-
-    #navigation {
-      width: 100%;
-
-      ul li a {
-        padding: 10px 10px 10px 30px;
-        font-size: 1.4em;
-        background-position: 8px 14px;
-      }
-    }
-
-    .white-box, .white-box:nth-child(odd) {
-        margin: 24px 0px 0px;
-    }
-
-    .white-box {
-      width: 92%;
-      float: none !important;
-      display: inline-block;
-
-      h2 {
-        font-size: 4em !important;
-      }
-
-      p {
-        line-height: 1.5em;
-        font-size: 1.5em;
-      }
-
-      form {
-        .left, .leftform {
-          clear:both;
-          width: 100% !important;
-        }
-
-        .leftform {
-          margin:5pt 0;
-        }
-
-        &.otrblockform input {
-            margin:5pt 0;
-            width:98.8%;
-        }
-
-        &.coffeeform {
-            #email {
-                width:100%;
-            }
-        }
-      }
-
-      .profilelist {
-        font-size: 1.4em;
-      }
-
-      input[type=submit],
-      a.btn {
-        font-size: 1.85em;
-        padding: 16px 14px;;
-      }
-
-      input[type=text],
-      input[type=email],
-      input[type=password] {
-        font-size: 1.85em;
-        padding: 16px 14px;
-      }
-
-      table,
-      li,
-      .usercard,
-      .rankbox {
-        font-size: 1.4em;
-      }
-
-      h3 {
-        font-size: 1.4em;
-      }
-    }
-  }
-
-  /* REGISTER */
-/*
-  .white-box.fullWidth {
-    .left {
-      width: 100%;
-      float: none !important;
-      display: block;
-      margin-top: 24px;
-
-      b {
-        display: inline-block;
-        margin-bottom:10px;
-      }
-
-      input {
-        width:97%;
-      }
-    }
-  }
-}
-
-*/
 /*!
  * ClockPicker v0.0.6 for jQuery (http://weareoutman.github.io/clockpicker/)
  * Copyright 2014 Wang Shenwei.

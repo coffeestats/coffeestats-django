@@ -35,8 +35,12 @@
       margin-left: 47px;
       max-width: 32%;
       font-size: 25px;
-      font-family: 'Amaranth', sans-serif;
+      font-family: 'amaranthregular', sans-serif;
       line-height: 43px;
+
+      a {
+        font-family: 'amaranthregular', sans-serif;
+      }
     }
   }
 }

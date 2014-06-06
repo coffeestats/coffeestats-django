@@ -22,12 +22,12 @@ a {
 
 a.btn, input {
   margin: 2px 0;
-  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
+  font-family: 'source_sans_proregular', Helvetica, Verdana, Arial, sans-serif;
 }
 
 a {
   text-decoration: none;
-  font-weight: bold;
+  font-family: 'source_sans_probold';
   color: inherit;
   &:hover {
     text-decoration: underline;
@@ -51,7 +51,7 @@ a.btn {
   display: inline-block;
   text-align: center;
   text-decoration:none !important;
-  font-weight: normal !important;
+  font-family: 'source_sans_proregular' !important;
 
   &:hover {
     background: $button-hover-background;

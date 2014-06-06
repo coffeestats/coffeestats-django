@@ -4,7 +4,7 @@ nav.mainNav {
       height: 58px;
       .btn {
         color: $white;
-        font-weight: 300;
+        font-family: 'source_sans_prolight';
         font-size: 15px;
       }
       ul,
@@ -48,7 +48,7 @@ nav.mainNav {
                 margin-bottom: 0;
                 width: 101%;
                 height: 36px;
-                font-weight: 300 !important;
+                font-family: 'source_sans_prolight' !important;
               }
 
               a.subNavLink {
@@ -57,7 +57,7 @@ nav.mainNav {
                 width: 100%;
                 text-align: center;
                 text-decoration: none;
-                font-weight: 300;
+                font-family: 'source_sans_prolight';
                 font-size: 16px;
                 &:first-child {
                   border-bottom: 1px solid $subnavigation-border;
@@ -84,7 +84,7 @@ nav.mainNav {
             margin-left: 0px;
             padding: 8px 10px 17px;
             text-decoration: none;
-            font-weight: 300;
+            font-family: 'source_sans_prolight';
             font-size: 16px;
           }
           > span.settings {
@@ -161,7 +161,7 @@ nav.mainNavMobile {
                 width: 100%;
                 text-align: center;
                 text-decoration: none;
-                font-weight: 300;
+                font-family: 'source_sans_prolight';
                 font-size: 16px;
                 background: $white;
                 &:first-child {

@@ -72,3 +72,18 @@ nav.login {
         }
       }
     }
+@-moz-document url-prefix() {
+  nav.login {
+    > ul {
+      > li {
+      &:hover,
+      &.hover {
+        .loginBox {
+          top: 48px
+        }
+      }
+    }
+    }
+
+  }
+}

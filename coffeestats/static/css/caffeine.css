@@ -517,6 +517,9 @@ nav.login {
       nav.login > ul > li ul {
         display: none; }
 
+@-moz-document url-prefix() {
+  nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
+    top: 48px; } }
 /* CONTENT */
 #content {
   padding: 35px 0 35px 0;

@@ -8,7 +8,10 @@ $(document).ready(function(){
 	    },
 
 		equalHeightsBoxes : function() {
-			$('.white-box').not('.fullWidth').equalHeights();
+			var explore = $('body.explore').length;
+			if(!explore) {
+				$('.white-box').not('.fullWidth').equalHeights();
+			}
 		},
 
 		showNavigation : function() {

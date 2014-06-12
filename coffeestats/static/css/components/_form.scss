@@ -14,13 +14,13 @@ form .leftform {
     width: 48%;
   }
   @media #{$moblet} {
-    width: 47%;
+    width: 40%;
   }
   @media #{$mobile} {
-    width: 47% !important;
+    width: 40% !important;
   }
   @media #{$mobile-small} {
-    width: 47% !important;
+    width: 40% !important;
   }
 
   &:nth-child(odd) {

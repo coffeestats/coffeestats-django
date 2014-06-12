@@ -11,7 +11,12 @@
 .datepicker {
   float: left;
   padding: 2px 0;
-  width: 30%;
+  @media #{$desktop} {
+    width: 30%;
+  }
+  @media #{$moblet} {
+    width: 32%;
+  }
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;

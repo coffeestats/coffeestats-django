@@ -195,14 +195,20 @@ Directory structure
          :file:`css`
             `Sass`_ sources as well as generated and hand-written CSS
 
-         :file:`fonts`
-            font files
+            :file:`common`
+               common styling like fonts, colors, icons and mediaqueries
+
+            :file:`components`
+               `Sass`_ components / pageareas which will be imported and compiled in the caffeine.scss
+
+            :file:`fonts`
+               font files
 
          :file:`images`
             icons and other image files
 
          :file:`js`
-            JavaScript libraries (app specific JavaScript code is kept in
+            JavaScript libraries and a common scripts.js (app specific JavaScript code is kept in
             :file:`static/<appname>/js` subdirectories of the corresponding apps)
 
       :file:`templates`
@@ -269,3 +275,5 @@ You can also run :program:`sass` before committing your changes on
    Please be aware that all changes in :file:`css/caffeine.css` you make
    manually will be overwritten the next time somebody runs Sass. You should
    always modify :file:`css/caffeine.scss` instead.
+
+SASS files which look like this: _filename.scss are for imports in other sass files. Sass won't generate own css files of them.

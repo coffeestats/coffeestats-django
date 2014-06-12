@@ -32,7 +32,7 @@ $(document).ready(function(){
 		},
 
 		profilePage : function() {
-			if($('.clockpicker').length == 1 && $('.datepicker').length == 1) {
+			if($('.clockpicker').length && $('.datepicker').length) {
 				$('.clockpicker').clockpicker({
 			      autoclose: true,
 			      default: 'now',

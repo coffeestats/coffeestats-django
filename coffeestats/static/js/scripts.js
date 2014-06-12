@@ -16,8 +16,8 @@ $(document).ready(function(){
 		},
 
 		showNavigation : function() {
-			$('.menuIndicator span').on( 'tapstart',function(){
-				$(this).parent('li').toggleClass('hover', 'inactive');
+			$('.menuIndicator').on( 'click',function(){
+				$(this).toggleClass('hover', 'inactive');
 			});
 		},
 

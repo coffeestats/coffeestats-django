@@ -725,14 +725,14 @@ nav.mainNavMobile {
           display: none; }
         nav.mainNavMobile li.menuIndicator .icon:before {
           font-size: 35px; }
-        nav.mainNavMobile li.menuIndicator:hover ul, nav.mainNavMobile li.menuIndicator.hover ul {
+        nav.mainNavMobile li.menuIndicator.hover ul {
           display: inline-block;
           width: 100%;
           position: absolute;
           left: 0;
           top: 38px;
           padding: 20px 0 0 0; }
-          nav.mainNavMobile li.menuIndicator:hover ul li a, nav.mainNavMobile li.menuIndicator.hover ul li a {
+          nav.mainNavMobile li.menuIndicator.hover ul li a {
             display: block;
             padding: 8px 10px;
             width: 100%;
@@ -741,18 +741,18 @@ nav.mainNavMobile {
             font-family: 'source_sans_prolight';
             font-size: 16px;
             background: white; }
-            nav.mainNavMobile li.menuIndicator:hover ul li a:first-child, nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
+            nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
               border-bottom: 1px solid #d7d2c7; }
-            nav.mainNavMobile li.menuIndicator:hover ul li a:hover, nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
+            nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
               background: #f4eedf; }
-            nav.mainNavMobile li.menuIndicator:hover ul li a.btn, nav.mainNavMobile li.menuIndicator.hover ul li a.btn {
+            nav.mainNavMobile li.menuIndicator.hover ul li a.btn {
               background: #796c67;
               margin: 0; }
-              nav.mainNavMobile li.menuIndicator:hover ul li a.btn:first-child, nav.mainNavMobile li.menuIndicator.hover ul li a.btn:first-child {
+              nav.mainNavMobile li.menuIndicator.hover ul li a.btn:first-child {
                 border-bottom: 0; }
-        nav.mainNavMobile li.menuIndicator:hover.inactive ul, nav.mainNavMobile li.menuIndicator.hover.inactive ul {
+        nav.mainNavMobile li.menuIndicator.hover.inactive ul {
           display: none !important; }
-        nav.mainNavMobile li.menuIndicator:hover .icon:before, nav.mainNavMobile li.menuIndicator.hover .icon:before {
+        nav.mainNavMobile li.menuIndicator.hover .icon:before {
           color: #796c67; } }
 
 /*!

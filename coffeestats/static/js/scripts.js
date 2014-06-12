@@ -10,9 +10,11 @@ $(document).ready(function(){
 
 		equalHeightsBoxes : function() {
 			var explore = $('body.explore').length;
-			if(!explore) {
-				$('.white-box').not('.fullWidth').equalHeights();
-			}
+			if (!window.matchMedia('(max-width: 873px)').matches) {
+		        if(!explore) {
+					$('.white-box').not('.fullWidth').equalHeights();
+				}
+		    }
 		},
 
 		showNavigation : function() {

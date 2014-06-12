@@ -25,7 +25,9 @@
   }
 
   &.update {
-    min-height: 317px;
+    @media #{$desktop} {
+      min-height: 317px;
+    }
   }
   &.today {
     min-height: 318px;

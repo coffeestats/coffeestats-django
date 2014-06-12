@@ -38,6 +38,10 @@
       font-family: 'amaranthregular', sans-serif;
       line-height: 43px;
 
+      @media #{$moblet} {
+        font-size: 22px !important;
+      }
+
       a {
         font-family: 'amaranthregular', sans-serif;
       }

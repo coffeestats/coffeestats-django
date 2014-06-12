@@ -499,6 +499,9 @@ ul.userlist {
       font-size: 25px;
       font-family: 'amaranthregular', sans-serif;
       line-height: 43px; }
+      @media screen and (max-width: 873px) {
+        #header .headerWrapper h1 {
+          font-size: 22px !important; } }
       #header .headerWrapper h1 a {
         font-family: 'amaranthregular', sans-serif; }
 
@@ -609,7 +612,7 @@ nav.login {
     @media screen and (max-width: 440x), screen and (max-device-width: 440px) {
       .footer .footertext {
         width: 100%;
-        font-size: 11px !important; } }
+        font-size: 10px !important; } }
 
 /* NAVIGATION */
 nav.mainNav {
@@ -1105,7 +1108,8 @@ nav.mainNavMobile {
 
 .datepicker-dropdown {
   top: 0;
-  left: 0; }
+  left: 0;
+  margin-top: 15px; }
   .datepicker-dropdown:before {
     position: absolute;
     display: inline-block;

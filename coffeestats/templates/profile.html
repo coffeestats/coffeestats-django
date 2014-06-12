@@ -50,26 +50,30 @@
   {% spaceless %}
   <form action="{% url "submit_caffeine" "coffee" %}" method="post" id="coffeeform">
     <input type="submit" value="{% trans "Coffee!" %}" class="left" />
-    <div class="datepicker">
-      <input type="text" id="id_coffeedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control" />
-      <span class="icon coffeestats-calendar"></span>
+    <div class="datepicker input-append date">
+      <input type="text" id="id_coffeedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control span2" />
+      <span class="add-on"><i class="icon coffeestats-calendar"></i></span>
     </div>
     <div class="input-group clockpicker" data-placement="left" data-align="top">
       <input type="text" id="id_coffeetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
+      <span class="input-group-addon">
         <span class="icon coffeestats-clock"></span>
+      </span>
     </div>
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
   </form>
   <form action="{% url "submit_caffeine" "mate" %}" method="post" id="mateform" class="clear">
     <input type="submit" value="{% trans "Mate!" %}" class="left" />
-    <div class="datepicker">
-      <input type="text" id="id_matedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control" />
-      <span class="icon coffeestats-calendar"></span>
+    <div class="datepicker input-append date">
+      <input type="text" id="id_coffeedate" name="date" placeholder="{% now "Y-m-d" %}" class="form-control span2" />
+      <span class="add-on"><i class="icon coffeestats-calendar"></i></span>
     </div>
-    <div class="input-group clockpicker">
-      <input type="text" id="id_matetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
-      <span class="icon coffeestats-clock"></span>
+    <div class="input-group clockpicker" data-placement="left" data-align="top">
+      <input type="text" id="id_coffeetime" name="time" placeholder="{% now "H:i" %}" class="form-control" />
+      <span class="input-group-addon">
+        <span class="icon coffeestats-clock"></span>
+      </span>
     </div>
     <input type="hidden" name="origin" value="{{ request.build_absolute_uri }}" />
     {% csrf_token %}
@@ -275,29 +279,4 @@ drawLineChart('coffeebyweekday', lineChartData, {{ byweekdaydata.maxvalue|defaul
 </script>
 <script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
 <script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.clockpicker').clockpicker({
-      autoclose: true,
-      default: 'now',
-    });
-    $('.datepicker input').datepicker({
-      format: 'yyyy-mm-dd',
-      todayBtn: 'linked',
-      calendarWeeks: true,
-      autoclose: true,
-      todayHighlight: true,
-    });
-
-    $('img.toggle').click(function(event) {
-        $('#' + $(this).attr('data-toggle')).toggle();
-    });
-    $('#coffeeform').submit(function(event) {
-        return sanitize_datetime('input#id_coffeedate', 'input#id_coffeetime');
-    });
-    $('#mateform').submit(function(event) {
-        return sanitize_datetime('input#id_matedate', 'input#id_matetime');
-    });
-});
-</script>
 {% endblock extra_js %}

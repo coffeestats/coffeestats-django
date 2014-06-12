@@ -144,6 +144,7 @@ nav.mainNavMobile {
       .icon:before {
         font-size: 35px;
       }
+
       &:hover,
       &.hover {
         ul {
@@ -178,6 +179,12 @@ nav.mainNavMobile {
                   }
                 }
             }
+          }
+        }
+
+        &.inactive {
+          ul {
+            display: none !important;
           }
         }
 

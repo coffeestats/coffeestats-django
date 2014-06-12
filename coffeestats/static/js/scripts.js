@@ -16,8 +16,8 @@ $(document).ready(function(){
 		},
 
 		showNavigation : function() {
-			$('.menuIndicator').on( 'tapstart',function(){
-				$(this).toggleClass('hover', 'inactive');
+			$('.menuIndicator span').on( 'tapstart',function(){
+				$(this).parent('li').toggleClass('hover', 'inactive');
 			});
 		},
 
@@ -32,39 +32,38 @@ $(document).ready(function(){
 			});
 		},
 
-		isTouchDevice : function() {
-
-		},
-
 		profilePage : function() {
-			$('.clockpicker').clockpicker({
-		      autoclose: true,
-		      default: 'now',
-		    });
-		    $('.datepicker').datepicker({
-		      format: 'yyyy-mm-dd',
-		      todayBtn: 'linked',
-		      calendarWeeks: true,
-		      autoclose: true,
-		      todayHighlight: true,
-		    });
+			if($('.clockpicker').length == 1 && $('.datepicker').length == 1) {
+				$('.clockpicker').clockpicker({
+			      autoclose: true,
+			      default: 'now',
+			    });
+			    $('.datepicker').datepicker({
+			      format: 'yyyy-mm-dd',
+			      todayBtn: 'linked',
+			      calendarWeeks: true,
+			      autoclose: true,
+			      todayHighlight: true,
+			    });
 
-		    $('img.toggle').click(function(event) {
-		        $('#' + $(this).attr('data-toggle')).toggle();
-		    });
-		    $('#coffeeform').submit(function(event) {
-		        return sanitize_datetime('input#id_coffeedate', 'input#id_coffeetime');
-		    });
-		    $('#mateform').submit(function(event) {
-		        return sanitize_datetime('input#id_matedate', 'input#id_matetime');
-		    });
+			    $('img.toggle').click(function(event) {
+			        $('#' + $(this).attr('data-toggle')).toggle();
+			    });
+			    $('#coffeeform').submit(function(event) {
+			        return sanitize_datetime('input#id_coffeedate', 'input#id_coffeetime');
+			    });
+			    $('#mateform').submit(function(event) {
+			        return sanitize_datetime('input#id_matedate', 'input#id_matetime');
+			    });
 
-		    $('.clockpicker').focusout(function(){
-			  $(this).clockpicker('hide');
-			});
-			$('.datepicker').focusout(function(){
-			  $(this).datepicker('hide');
-			});
+			    $('.clockpicker').focusout(function(){
+				  $(this).clockpicker('hide');
+				});
+				$('.datepicker').focusout(function(){
+				  $(this).datepicker('hide');
+				});
+			}
+
 		}
 	}
 	coffeestats.init();

@@ -1,63 +1,54 @@
 /* HEADER */
 
 #header {
-  position: fixed;
-  top:0;
-  margin-bottom: 35px;
-  width: 100%;
-  height: 58px;
-  background: $white;
-  z-index: 999;
-  box-shadow: 0 0 3px $header-shadow;
-  .headerWrapper {
-    margin: 0 auto;
-    height: 49px;
-    background-image: url('/static/images/logo.png');
-    background-size: auto 42px;
-    background-repeat: no-repeat;
-    color: $font-header;
-
-    @media #{$desktop} {
-      width: 960px;
-      background-position: left center;
+    position: fixed;
+    top: 0;
+    margin-bottom: 35px;
+    width: 100%;
+    height: 58px;
+    background: $white;
+    z-index: 999;
+    box-shadow: 0 0 3px $header-shadow;
+    .headerWrapper {
+        margin: 0 auto;
+        height: 49px;
+        background-image: url("/static/images/logo.png");
+        background-size: auto 42px;
+        background-repeat: no-repeat;
+        color: $font-header;
+        @media #{$desktop} {
+            width: 960px;
+            background-position: left center;
+        }
+        @media #{$moblet} {
+            width: 100%;
+            padding: 0 10px;
+            background-position: 10px center;
+        }
+        @media #{$mobile} {
+            background-size: auto 27px !important;
+        }
+        h1 {
+            display: inline-block;
+            margin-top: 8px;
+            margin-bottom: 1px;
+            margin-left: 47px;
+            max-width: 32%;
+            font-family: 'amaranthregular', sans-serif;
+            line-height: 43px;
+            @media #{$desktop} {
+                font-size: 25px;
+            }
+            @media #{$moblet} {
+                font-size: 22px;
+            }
+            @media #{$mobile} {
+                font-size: 18px;
+                line-height: 37px;
+            }
+            a {
+                font-family: 'amaranthregular', sans-serif;
+            }
+        }
     }
-
-    @media #{$moblet} {
-      width: 100%;
-      padding: 0 10px;
-      background-position: 10px center;
-    }
-    
-    @media #{$mobile} {
-      background-size: auto 27px !important;
-    }
-
-
-    h1 {
-      display: inline-block;
-      margin-top: 8px;
-      margin-bottom: 1px;
-      margin-left: 47px;
-      max-width: 32%;
-      font-family: 'amaranthregular', sans-serif;
-      line-height: 43px;
-      
-      @media #{$desktop} {
-        font-size: 25px;
-      }
-      
-      @media #{$moblet} {
-        font-size: 22px;
-      }
-      
-      @media #{$mobile} {
-        font-size: 18px;
-        line-height: 37px;
-      }
-
-      a {
-        font-family: 'amaranthregular', sans-serif;
-      }
-    }
-  }
 }

@@ -15,25 +15,25 @@
 // @media @desktop {}
 // }
 
-$all: 					"all";
-$screen: 				"screen";
-$print: 				"print";
-$mobile: 				"screen and (max-width: 440x), screen and (max-device-width: 440px)";
-$mobile-small: 			"screen and (max-width: 320px), screen and (max-device-width: 320px)";
-$mobile-portrait: 		"screen and (max-width: 640px) and (orientation: portrait), screen and (max-device-width: 640px) and (orientation: portrait)";
-$mobile-landscape: 		"screen and (max-width: 640px) and (orientation: landscape), screen and (max-device-width: 640px) and (orientation: landscape)";
-$tablet: 				"screen and (min-width: 641px) and (max-width: 1024px), screen and (min-device-width: 641px) and (max-device-width: 1024px)";
-$tablet-portrait: 		"screen and (min-width: 641px) and (max-width: 1024px) and (orientation: portrait)";
-$tablet-landscape: 		"screen and (min-width: 641px) and (max-width: 1024px) and (orientation: landscape)";
-$moblet: 				"screen and (max-width: 873px)";
-$moblet-smaller:		"screen and (max-width: 625px)";
-$moblet-portrait: 		"screen and (max-width: 1024px) and (orientation: portrait)";
-$desktop: 				"screen and (min-width: 874px)";
-$tabdesk: 				"screen and (min-width: 641px)";
-$portrait: 				"screen and (orientation: portrait)";
-$landscape: 			"screen and (orientation: landscape)";
+$all: "all";
+$screen: "screen";
+$print: "print";
+$mobile: "screen and (max-width: 480x), screen and (max-device-width: 480px)";
+$mobile-small: "screen and (max-width: 320px), screen and (max-device-width: 320px)";
+$mobile-portrait: "screen and (max-width: 640px) and (orientation: portrait), screen and (max-device-width: 640px) and (orientation: portrait)";
+$mobile-landscape: "screen and (max-width: 640px) and (orientation: landscape), screen and (max-device-width: 640px) and (orientation: landscape)";
+$tablet: "screen and (min-width: 641px) and (max-width: 1024px), screen and (min-device-width: 641px) and (max-device-width: 1024px)";
+$tablet-portrait: "screen and (min-width: 641px) and (max-width: 1024px) and (orientation: portrait)";
+$tablet-landscape: "screen and (min-width: 641px) and (max-width: 1024px) and (orientation: landscape)";
+$moblet: "screen and (max-width: 873px)";
+$moblet-smaller: "screen and (max-width: 625px)";
+$moblet-portrait: "screen and (max-width: 1024px) and (orientation: portrait)";
+$desktop: "screen and (min-width: 874px)";
+$tabdesk: "screen and (min-width: 641px)";
+$portrait: "screen and (orientation: portrait)";
+$landscape: "screen and (orientation: landscape)";
 
 // Retina Displays (high pixel ratio devices)
-$retina: 				"screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min--moz-device-pixel-ratio: 1.5), screen and (-o-min-device-pixel-ratio: 150/100), screen and (min-device-pixel-ratio: 1.5)";
+$retina: "screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min--moz-device-pixel-ratio: 1.5), screen and (-o-min-device-pixel-ratio: 150/100), screen and (min-device-pixel-ratio: 1.5)";
 
-$retina-moblet-portrait:"screen and (max-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5), screen and (max-width: 1024px) and (orientation: portrait) and (min--moz-device-pixel-ratio: 1.5), screen and (max-width: 1024px) and (orientation: portrait) and (-o-min-device-pixel-ratio: 150/100), screen and (max-width: 1024px) and (orientation: portrait) and (min-device-pixel-ratio: 1.5)";
+$retina-moblet-portrait: "screen and (max-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5), screen and (max-width: 1024px) and (orientation: portrait) and (min--moz-device-pixel-ratio: 1.5), screen and (max-width: 1024px) and (orientation: portrait) and (-o-min-device-pixel-ratio: 150/100), screen and (max-width: 1024px) and (orientation: portrait) and (min-device-pixel-ratio: 1.5)";

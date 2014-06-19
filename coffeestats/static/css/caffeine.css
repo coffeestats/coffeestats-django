@@ -366,7 +366,7 @@ form {
   form .left,
   form .leftform {
     width: 40%; } }
-@media screen and (max-width: 440x), screen and (max-device-width: 440px) {
+@media screen and (max-width: 480x), screen and (max-device-width: 480px) {
   form .left,
   form .leftform {
     width: 40% !important; } }
@@ -491,18 +491,27 @@ ul.userlist {
         width: 100%;
         padding: 0 10px;
         background-position: 10px center; } }
+    @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+      #header .headerWrapper {
+        background-size: auto 27px !important; } }
     #header .headerWrapper h1 {
       display: inline-block;
       margin-top: 8px;
       margin-bottom: 1px;
       margin-left: 47px;
       max-width: 32%;
-      font-size: 25px;
       font-family: 'amaranthregular', sans-serif;
       line-height: 43px; }
+      @media screen and (min-width: 874px) {
+        #header .headerWrapper h1 {
+          font-size: 25px; } }
       @media screen and (max-width: 873px) {
         #header .headerWrapper h1 {
-          font-size: 22px !important; } }
+          font-size: 22px; } }
+      @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+        #header .headerWrapper h1 {
+          font-size: 18px;
+          line-height: 37px; } }
       #header .headerWrapper h1 a {
         font-family: 'amaranthregular', sans-serif; }
 
@@ -575,7 +584,7 @@ nav.login {
     #content {
       width: 100%;
       padding: 35px 10px 35px; } }
-  @media screen and (max-width: 440x), screen and (max-device-width: 440px) {
+  @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
     #content {
       width: 100%; } }
   #content h2 {
@@ -610,10 +619,10 @@ nav.login {
       .footer .footertext {
         font-size: small;
         width: 100%; } }
-    @media screen and (max-width: 440x), screen and (max-device-width: 440px) {
+    @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
       .footer .footertext {
         width: 100%;
-        font-size: 10px !important; } }
+        font-size: 9px !important; } }
 
 /* NAVIGATION */
 nav.mainNav {

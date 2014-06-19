@@ -39,12 +39,20 @@
       margin-bottom: 1px;
       margin-left: 47px;
       max-width: 32%;
-      font-size: 25px;
       font-family: 'amaranthregular', sans-serif;
       line-height: 43px;
-
+      
+      @media #{$desktop} {
+        font-size: 25px;
+      }
+      
       @media #{$moblet} {
-        font-size: 22px !important;
+        font-size: 22px;
+      }
+      
+      @media #{$mobile} {
+        font-size: 18px;
+        line-height: 37px;
       }
 
       a {

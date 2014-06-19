@@ -27,6 +27,11 @@
       padding: 0 10px;
       background-position: 10px center;
     }
+    
+    @media #{$mobile} {
+      background-size: auto 27px !important;
+    }
+
 
     h1 {
       display: inline-block;

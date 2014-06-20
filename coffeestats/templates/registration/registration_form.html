@@ -10,32 +10,35 @@
 {% block content %}
 <div class="white-box fullWidth">
   <h2>{% trans "Register" %}</h2>
-  <p>{% trans "Fill these fields with your data, write down what reCAPTCHA says u and click Register!" %}</p>
+  <p>{% trans "Fill these fields with your data and click Register!" %}</p>
   <form action="{% url "registration_register" %}" method="post">
     <div class="leftform">
       <h3>{% trans "General" %}</h3>
       {{ form.username.errors }}
-      <input type="text" name="username" required pattern="[a-z][a-z0-9_-]{1,29}" id="id_username" maxlength="30" placeholder="{{ form.username.label }}" class="register_field_standard" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}autofocus/>
+      <input type="text" name="username" required pattern="[a-z][a-z0-9_-]{1,29}" id="id_username" maxlength="30" class="register_field_standard" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}autofocus/>
+      <label alt="{{ form.username.label }}" placeholder="{{ form.username.label }}"></label>
       {{ form.password1.errors }}
-      <input type="password" name="password1" required pattern=".{8,}" id="id_password1" maxlength="20" placeholder="{{ form.password1.label }}" class="register_field_standard" />
+      <input type="password" name="password1" required pattern=".{8,}" id="id_password1" maxlength="20" class="register_field_standard" />
+      <label alt="{{ form.password1.label }}" placeholder="{{ form.password1.label }}"></label>
       {{ form.password2.errors }}
-      <input type="password" name="password2" required pattern=".{8,}" id="id_password2" placeholder="{{ form.password2.label }}" class="register_field_standard" />
+      <input type="password" name="password2" required pattern=".{8,}" id="id_password2" class="register_field_standard" />
+      <label alt="{{ form.password2.label }}" placeholder="{{ form.password2.label }}"></label>
       {{ form.email.errors }}
-      <input type="email" name="email" id="id_email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required maxlength="128" placeholder="{{ form.email.label }}" class="register_field_standard" {% if form.email.value %}value="{{ form.email.value }}" {% endif %}/>
+      <input type="email" name="email" id="id_email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required maxlength="128" class="register_field_standard" {% if form.email.value %}value="{{ form.email.value }}" {% endif %}/>
+      <label alt="{{ form.email.label }}" placeholder="{{ form.email.label }}"></label>
     </div>
 
     <div class="leftform">
       <h3>{% trans "Additional" %}</h3>
       {{ form.firstname.errors }}
-      <input type="text" name="firstname" id="firstname" maxlength="20" placeholder="{{ form.firstname.label }}" class="register_field_standard" {% if form.firstname.value %}value="{{ form.firstname.value }}"{% endif %}/>
+      <input type="text" name="firstname" id="firstname" maxlength="20" class="register_field_standard" {% if form.firstname.value %}value="{{ form.firstname.value }}"{% endif %}/>
+      <label alt="{{ form.firstname.label }}" placeholder="{{ form.firstname.label }}"></label>
       {{ form.lastname.errors }}
-      <input type="text" name="lastname" id="lastname" maxlength="20" placeholder="{{ form.lastname.label }}" class="register_field_standard" {% if form.lastname.value %}value="{{ form.lastname.value }}"{% endif %}/>
+      <input type="text" name="lastname" id="lastname" maxlength="20" class="register_field_standard" {% if form.lastname.value %}value="{{ form.lastname.value }}"{% endif %}/>
+      <label alt="{{ form.lastname.label }}" placeholder="{{ form.lastname.label }}"></label>
       {{ form.location.errors }}
-      <input type="text" name="location" id="location" maxlength="20" placeholder="{{ form.location.label }}" class="register_field_standard" {% if form.location.value %}value="{{ form.location.value }}"{% endif %} />
-    </div>
-    <div class="leftform">
-      {{ form.captcha.errors }}
-      {{ form.captcha }}
+      <input type="text" name="location" id="location" maxlength="20" class="register_field_standard" {% if form.location.value %}value="{{ form.location.value }}"{% endif %} />
+      <label alt="{{ form.location.label }}" placeholder="{{ form.location.label }}"></label>
     </div>
     <p><input type="submit" value="{% trans "Register!" %}" class="register_button_standard" /></p>
     {% csrf_token %}

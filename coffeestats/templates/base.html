@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}coffeestats.org{% endblock title %}</title>
-    <link rel="shortcut icon" href="{% static "images/favicon.png" %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,7 +23,7 @@
     {% block extra_css %}{% endblock extra_css %}
   </head>
 
-  <body>
+  <body class="{{ request.resolver_match.url_name }}">
     <ul class="flash-messages" id="system-flash">{% spaceless %}
     {% if messages %}
       {% for message in messages %}
@@ -34,39 +34,95 @@
     {% endspaceless %}</ul>
     <div id="wrapper">
       <div id="header">
-        {% if user.is_authenticated %}
-        <div id="account" class="rightfloated">{% if user.is_staff %}<a href="{% url "admin:index" %}">{% trans "Admin site" %}</a> / {% endif %}<a href="{% url "settings" %}">{% trans "Settings" %}</a> / <a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></div>
-        {% endif %}
-        <h1><a href="/">coffeestats.org</a></h1>
-        <p>{% trans "... about what keeps you awake at night." %}</p>
+        <div class="headerWrapper">
+          {% if user.is_authenticated %}
+          <nav class="right mainNav">
+            <ul>{% spaceless %}
+              {% for item in navitems %}
+              <li{% if item.is_active %} class="active"{% endif %}>
+                {% if not item.children %}
+                <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
+                {% else %}
+                <span class="{{ item.css_class }}"><span>{{ item.title }}</span></span>
+                <ul class="subNav {{ item.children_css_class }}">
+                  {% for itemchild in item.children %}
+                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </li>
+              {% endfor %}
+            {% endspaceless %}</ul>
+          </nav>
+          <nav class="right mainNavMobile">
+            <ul>{% spaceless %}
+              <li class="menuIndicator">
+                <span class="icon coffeestats-menu"><span>Show Navigation</span></span>
+                <ul>
+                  {% for item in navitems %}
+                  <li{% if item.is_active %} class="active"{% endif %}>
+                    {% if not item.children %}
+                    <a href="{{ item.url }}" class="{{ item.css_class }}">{{ item.title }}</a>
+                    {% endif %}
+                  </li>
+                  {% for itemchild in item.children %}
+                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
+                  {% endfor %}
+                  {% endfor %}
+                </ul>
+              </li>
+
+            {% endspaceless %}</ul>
+          </nav>
+          {% else %}
+          <nav class="right login">
+            <ul>
+              <li>
+                <span>{% trans "Login" %}</span>
+                <ul class="loginBox">
+                  <li>
+                      <form action="{% url "auth_login" %}" method="post" class="inlineform" id="login">
+                        {% csrf_token %}
+                        {{ form.username.errors }}
+                        {{ form.password.errors }}
+                        <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %} autofocus>
+                        <label for="username" alt="{% trans "Username" %}" placeholder="{% trans "Username" %}"></label>
+                        <input type="password" required name="password" id="id_password"/>
+                        <label for="password" alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
+                        {% url "auth_password_reset" as passwordreset_url %}
+                      {% blocktrans %}<a href="{{ passwordreset_url }}" class="right">Forgot your password?</a>{% endblocktrans %}
+                        <input type="submit" name="submit" value="{% trans "Login" %}"/>
+                        <input type="hidden" name="next" value="{% url 'home' as home_url %}{% if request.GET.next == home_url %}{% url 'profile' %}{% else %}{{ request.GET.next }}{% endif %}" />
+                      </form>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="{% url "registration_register" %}" class="btn">{% trans "Register" %}</a></li>
+            </ul>
+          </nav>
+          {% endif %}
+          <h1><a href="{% url 'home' %}" title="{% trans '... about what keeps you awake at night' %}">coffeestats.org</a></h1>
+        </div>
       </div>
       <div id="content">
-        {% if user.is_authenticated %}
-        <div id="navigation">
-          <ul>
-            <li><a href="{% url "home" %}" class="navindex">{% trans "Home" %}</a></li>
-            <li><a href="{% url "profile" %}" class="navprofile">{% trans "Profile" %}</a></li>
-            <li><a href="{% url "explore" %}" class="navexplore">{% trans "Explore" %}</a></li>
-            <li><a href="{% url "overall" %}" class="navoverall">{% trans "Overall Stats" %}</a></li>
-            <li><a href="{% url "about" %}" class="navabout">{% trans "About" %}</a></li>
-          </ul>
-        </div>
-        {% endif %}
         {% block content %}{% endblock %}
-
-        <div class="footer">
+      </div>
+      <div class="footer">
           {% url "imprint" as imprinturl %}
           <p class="footertext">{% blocktrans %}<a href="/">coffeestats.org</a> is a project by <a href="https://jan.dittberner.info/">Jan Dittberner</a> &amp; <a href="http://noqqe.de/">Florian Baumann</a>.
           See <a href="{{ imprinturl }}">Imprint</a>.{% endblocktrans %}</p>
         </div>
-      </div>
     </div>
+    <link rel="shortcut icon" href="{% static "images/favicon.png" %}" type="image/x-icon">
     <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.equalheights.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
     <script type="text/javascript">
+/* global $ */
 $(document).ready(function() {
       $('.flash-info').delay(4000).fadeOut(1000, function() { this.remove(); });
       $('.flash-success').delay(4000).fadeOut(1000, function() { this.remove(); });
-      $('li a.close').click(function(event) {
+      $('li a.67se').click(function(event) {
           $(this).parent().fadeOut(1000, function() { this.remove(); });
       });
 })  ;

@@ -1,0 +1,28 @@
+/* FOOTER */
+
+.footer {
+    clear: both;
+    background: $white;
+    height: 28px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .footertext {
+        margin: 0 auto;
+        width: 960px;
+        text-align: center;
+        padding: 7px 0;
+        @media #{$desktop} {
+            font-size: small;
+            width: 960px;
+        }
+        @media #{$moblet} {
+            font-size: small;
+            width: 100%;
+        }
+        @media #{$mobile} {
+            width: 100%;
+            font-size: 9px !important;
+        }
+    }
+}

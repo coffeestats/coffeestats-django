@@ -28,8 +28,9 @@ class BaseCoffeeStatsPageTestMixin(object):
         self.assertEqual(homelink.get_attribute('href'),
                          '{}/'.format(self.server_url))
 
-        # the header contains the awesome slogan
-        self.assertIn('... about what keeps you awake at night', header.text)
+        # the title has the awesome slogan title
+        self.assertEqual(homelink.get_attribute('title'),
+                         '... about what keeps you awake at night')
 
     def check_page_footer(self):
         # the footer contains links to the home page, the authors' web sites

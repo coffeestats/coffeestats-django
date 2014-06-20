@@ -1,5 +1,4 @@
 from datetime import timedelta
-import os
 
 from django.conf import settings
 from django.test import TestCase
@@ -26,7 +25,6 @@ from caffeine.models import (
 
 
 User = get_user_model()
-os.environ['RECAPTCHA_TESTING'] = 'True'
 
 
 class CoffeestatsRegistrationFormTest(TestCase):
@@ -36,8 +34,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser',
                   'email': 'test@bla.com',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertTrue(form.is_valid(), str(form.errors))
         self.assertEqual(form.clean_username(), 'testuser')
@@ -48,8 +45,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser',
                   'email': 'test@example.org',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['username'], [DUPLICATE_USER_ERROR])
@@ -59,8 +55,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser',
                   'email': 'test@bla.com',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertTrue(form.is_valid(), str(form.errors))
         self.assertEqual(form.clean_email(), 'test@bla.com')
@@ -71,8 +66,7 @@ class CoffeestatsRegistrationFormTest(TestCase):
             data={'username': 'testuser2',
                   'email': 'test@bla.com',
                   'password1': 'test1234',
-                  'password2': 'test1234',
-                  'recaptcha_response_field': 'PASSED'}
+                  'password2': 'test1234'}
         )
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['email'], [DUPLICATE_EMAIL_ERROR])
@@ -176,14 +170,17 @@ class SubmitCaffeineFormTest(TestCase):
         self.user.timezone = 'Europe/Berlin'
 
     def test_clean_no_previous(self):
+        now = timezone.now()
         form = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()})
         self.assertTrue(form.is_valid(), str(form.errors))
 
     def test_save_with_passed_data(self):
+        now = timezone.now()
         caffeine = SubmitCaffeineForm(
-            self.user, DRINK_TYPES.coffee, data={'date': timezone.now()}
+            self.user, DRINK_TYPES.coffee,
+            data={'date': now.date(), 'time': now.time()}
         ).save()
         self.assertLessEqual(caffeine.date, timezone.now())
         self.assertEqual(caffeine.ctype, DRINK_TYPES.coffee)
@@ -194,9 +191,10 @@ class SubmitCaffeineFormTest(TestCase):
         Caffeine.objects.create(
             user=self.user, ctype=DRINK_TYPES.coffee,
             date=timezone.now() - timedelta(minutes=10))
+        now = timezone.now()
         form = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()})
         self.assertTrue(form.is_valid(), str(form.errors))
 
     def test_clean_recent_previous(self):
@@ -204,13 +202,16 @@ class SubmitCaffeineFormTest(TestCase):
             user=self.user, ctype=DRINK_TYPES.coffee,
             date=timezone.now() - timedelta(
                 minutes=settings.MINIMUM_DRINK_DISTANCE - 1))
+        now = timezone.now()
         form = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()}
+        )
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors['date']), 1)
+        form_errors = form.non_field_errors()
+        self.assertEqual(len(form_errors), 1)
         self.assertRegexpMatches(
-            form.errors['date'][0],
+            form_errors[0],
             r'^Your last %(drink)s was less than %(minutes)d minutes ago' % {
                 'drink': DRINK_TYPES[DRINK_TYPES.coffee],
                 'minutes': settings.MINIMUM_DRINK_DISTANCE

@@ -9,30 +9,14 @@
 {% endif %}
 {% block content %}
 <div class="white-box">
-  <h2>{% trans "Login" %}</h2>
-  <form action="{% url "auth_login" %}" method="post" class="inlineform" id="login">
-    {% csrf_token %}
-    {{ form.username.errors }}
-    <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}placeholder="{% trans "Username" %}" autofocus class="left" />
-    {{ form.password.errors }}
-    <input type="password" required name="password" id="id_password" placeholder="{% trans "Password" %}" class="left" />
-    <input type="submit" name="submit" value="{% trans "Login" %}" class="left" />
-    <a href="{% url "registration_register" %}" class="btn secondary left">{% trans "Register" %}</a>
-    <input type="hidden" name="next" value="{{ request.GET.next }}" />
-  </form>
-  {% url "auth_password_reset" as passwordreset_url %}
-  <p>{% blocktrans %}Forgot your password? <a href="{{ passwordreset_url }}">Request a password reset</a>.{% endblocktrans %}</p>
+  <h2>{% trans "Graphs!" %}</h2>
+  {% trans "Overall Coffee vs. Mate consumption" %}<br/><br/>
+  <canvas id="coffeeexample" width="590" height="240" ></canvas>
 </div>
 <div class="white-box">
   <h2>{% trans "What is coffeestats.org?" %}</h2>
   <p>{% trans "You like coffee, mate, graphs and nerdy statistics? Well, we do too!" %}</p>
   <p>{% blocktrans %}It's dead-simple: You enjoy your fix of coffee as usual and we keep track of it -- enabling us to present you with awesome statistics about your general coffee consumption. Why? Just because, of course!{% endblocktrans %}</p>
-</div>
-<div class="clear"></div>
-<div class="white-box">
-  <h2>{% trans "Graphs!" %}</h2>
-  {% trans "Overall Coffee vs. Mate consumption" %}<br/><br/>
-  <canvas id="coffeeexample" width="590" height="240" ></canvas>
 </div>
 {% endblock %}
 {% block extra_js %}

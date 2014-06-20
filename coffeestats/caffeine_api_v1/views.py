@@ -148,9 +148,10 @@ def add_drink(request, userinfo, messages, *args, **kwargs):
             messages.setdefault('error', []).append(API_ERROR_FUTURE_DATETIME)
     if 'error' in messages:
         return HttpResponseBadRequest(json.dumps(messages), 'text/json')
-    data = {'date': time}
+    data = {'date': time.date(), 'time': time.time()}
     form = SubmitCaffeineForm(userinfo, getattr(DRINK_TYPES, ctype), data)
-    form.date = time
+    form.date = time.date()
+    form.time = time.time()
     if not form.is_valid():
         for key in form.errors:
             messages.setdefault('error', []).extend(form.errors[key])

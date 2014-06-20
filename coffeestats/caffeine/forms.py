@@ -2,13 +2,14 @@
 Forms for coffeestats.
 
 """
+from datetime import datetime
+
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import override as override_timezone
 
 from registration.forms import RegistrationFormUniqueEmail
-from captcha.fields import ReCaptchaField
 
 from .models import (
     ACTION_TYPES,
@@ -37,7 +38,6 @@ class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
     firstname = forms.CharField(label=_("First name"), required=False)
     lastname = forms.CharField(label=_("Last name"), required=False)
     location = forms.CharField(label=_("Location"), required=False)
-    captcha = ReCaptchaField()
 
     def clean_username(self):
         """
@@ -146,10 +146,12 @@ class SubmitCaffeineForm(forms.ModelForm):
     This is the form for new caffeine submissions.
 
     """
+    date = forms.DateField()
+    time = forms.TimeField()
 
     class Meta:
         model = Caffeine
-        fields = ['date']
+        fields = []
 
     def __init__(self, user, ctype, *args, **kwargs):
         super(SubmitCaffeineForm, self).__init__(*args, **kwargs)
@@ -157,10 +159,11 @@ class SubmitCaffeineForm(forms.ModelForm):
         self.instance.user = user
         self.instance.timezone = user.timezone
 
-    def clean_date(self):
+    def clean(self):
+        self.instance.date = datetime.combine(
+            self.cleaned_data['date'], self.cleaned_data['time'])
         recent_caffeine = Caffeine.objects.find_recent_caffeine(
-            self.instance.user, self.cleaned_data['date'],
-            self.instance.ctype)
+            self.instance.user, self.instance.date, self.instance.ctype)
         if recent_caffeine:
             raise forms.ValidationError(
                 _('Your last %(drink)s was less than %(minutes)d minutes '
@@ -173,4 +176,4 @@ class SubmitCaffeineForm(forms.ModelForm):
                     'timezone': recent_caffeine.timezone
                 }
             )
-        return self.cleaned_data['date']
+        return super(SubmitCaffeineForm, self).clean()

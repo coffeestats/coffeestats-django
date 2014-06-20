@@ -1,0 +1,69 @@
+form {
+  margin: 14px 0;
+
+  &.coffeeform {
+      #email {
+          width:98%;
+      }
+  }
+}
+
+form .left,
+form .leftform {
+  @media #{$desktop} {
+    width: 48%;
+  }
+  @media #{$moblet} {
+    width: 40%;
+  }
+  @media #{$mobile} {
+    width: 40% !important;
+  }
+  @media #{$mobile-small} {
+    width: 40% !important;
+  }
+
+  &:nth-child(odd) {
+    margin-right: 2%;
+  }
+}
+
+.fullWidth form .leftform {
+  width: 30%;
+
+  &:nth-child(odd) {
+    margin-right:0;
+  }
+
+  &:nth-child(2) {
+    margin:0 2%;
+  }
+}
+
+.leftform {
+  display:inline-block;
+
+  input {
+    width: 100%;
+  }
+}
+
+form.otrblockform {
+  input[type=submit] {
+    width:50%;
+    padding: 30px;
+    font-size: 2em;
+  }
+}
+
+.inlineform {
+  select {
+    padding: 10px;
+    font-size: 1.35em;
+    border: none;
+    background-color: $input-background;
+    color: $input-color;
+    min-height: 22px;
+    line-height: 22px;
+  }
+}

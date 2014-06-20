@@ -1,0 +1,33 @@
+/* CONTENT */
+
+#content {
+  padding: 35px 0 35px 0;
+  margin: 0 auto;
+
+
+  @media #{$desktop} {
+    width: 960px;
+    padding: 35px 10px 35px;
+  }
+
+  @media #{$moblet} {
+    width: 100%;
+    padding: 35px 10px 35px;
+  }
+
+  @media #{$mobile} {
+    width: 100%;
+  }
+  h2 {
+    padding: 0 0 10px 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  h3 {
+    padding: 0 0 10px 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}

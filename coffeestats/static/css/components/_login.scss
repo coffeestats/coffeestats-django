@@ -1,0 +1,89 @@
+nav.login {
+      height: 58px;
+      .btn {
+        color: $white;
+        font-family: 'source_sans_prolight';
+        font-size: 15px;
+      }
+      ul,
+      li {
+        list-style: none;
+      }
+
+      > ul {
+        margin-top: 10px;
+        > li {
+          float: right;
+          &:first-child {
+            position: relative;
+            margin-left: 6px;
+          }
+          &:hover,
+          &.hover {
+            position: relative;
+            cursor: pointer;
+            .loginBox {
+              position: absolute;
+              right: 0;
+              display: inline-block;
+              padding: 10px 10px 46px;
+              width: 262px;
+              border-right: 1px solid $loginBoxBorder;
+              border-left: 1px solid $loginBoxBorder;
+              background: $white;
+
+              @media #{$moblet} {
+                width: 320px !important;
+              }
+
+              input {
+                display: block;
+                width: 100%;
+
+                &[type=submit] {
+                  position: absolute;
+                  bottom: 0;
+                  left: -0.5%;
+                  margin-bottom: 0;
+                  width: 101%;
+                  height: 36px;
+                  font-family: 'source_sans_prolight' !important;
+                }
+              }
+
+              a {
+                font-size: 10px;
+
+              }
+            }
+             span {
+                border-bottom: 3px solid $button-background;
+                padding-bottom: 19px;
+              }
+          }
+          span {
+            display: inline-block;
+            margin-left: 0px;
+            padding: 8px 10px 10px;
+          }
+          ul {
+            display: none;
+          }
+        }
+      }
+    }
+@-moz-document url-prefix() {
+  nav.login {
+    > ul {
+      > li {
+      &:hover,
+      &.hover {
+        .loginBox {
+          top: 48px
+        }
+      }
+    }
+    }
+
+  }
+}

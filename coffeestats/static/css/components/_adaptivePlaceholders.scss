@@ -1,0 +1,107 @@
+@mixin calc($property, $value) {
+  #{$property}: -webkit-calc(#{$value});
+  #{$property}:         calc(#{$value});
+}
+
+// First, pass in the important variables.
+@mixin adaptive-placeholder($height, $radius, $margin: 1em, $border: 1px) {
+  $borders: ($border * 2); // <- To avoid repeating below
+  box-sizing: border-box;  // <- Important for accurate sizing
+  width: 100%;             // <- Could be almost anything
+  @include calc(height, '#{$height} + #{$borders}');
+  margin: 0 0 $margin;
+  padding: $margin;
+  border: $border solid $button-background;
+  border-radius: $radius;
+  background: $white;
+  resize: none;  // <- For textareas
+  outline: none; // <- Because ugly
+  //
+  // Following block controls all the color change
+  //
+  &[required],
+  &[name] {
+    &:focus {
+      border-color: $button-background;
+      + label {
+        &[placeholder] {
+          &:before {
+            color: $button-background;
+          }
+        }
+      }
+    }
+    //
+    // Following block selects label directly adjacent toinput
+    //
+    &:focus,
+    &:valid {
+      + label {
+        &[placeholder] {
+          &:before {
+            transition-duration: .2s;
+            //
+            // Following lines move placeholder out of the way
+            //
+            transform: translate(0, ($margin * -1.2)) scale(.9, .9);
+            -webkit-transform: translate(0, ($margin * -1.2)) scale(.9, .9);
+            color: $button-background;
+          }
+        }
+      }
+    }
+    //
+    // Following block injects string from label's 'alt' attr.
+    // It comes before the other 'content' property so I can
+    // override it. Uses "invalid" pseudo-selector to know
+    // when to do that.
+    //
+    &:invalid {
+      + label {
+        &[placeholder] {
+          &[alt] {
+            &:before {
+              content: attr(alt); // Content property 1 of 2
+            }
+          }
+        }
+      }
+    }
+    + label {
+      &[placeholder] {
+        display: block;
+        pointer-events: none; // Allows clicking thru label
+        line-height: $margin;
+        // Following pulls label into position
+        @include calc(margin-top, '-#{$height} + 7px');
+        // Following offsets that above
+        @include calc(margin-bottom, '(#{$height} - #{$margin}) - 8px');
+        //
+        // Following ':before' is needed to switch between
+        // different strings.
+        //
+        &:before {
+          content: attr(placeholder); // Content property 2 of 2
+          display: inline-block;
+          margin: 0;
+          @include calc(margin-left, '#{$margin} - 0.6em');
+          @include calc(margin-right, '#{$margin} - 0.6em');
+          padding: 0 2px;
+          color: $placeholder;
+          font-weight: 400;
+          white-space: nowrap;
+          transition: .3s ease-in-out;
+          -webkit-transition: .3s ease-in-out;
+          //
+          // Following lines lets me use solid color as bkg img.
+          // This lets me size bkg to something more sublte
+          //
+          background-image: linear-gradient(to bottom, $white, $white);
+          background-size: 100% 12px;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
+  }
+}

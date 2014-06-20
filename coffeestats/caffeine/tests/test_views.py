@@ -1,5 +1,4 @@
 import json
-import os
 from datetime import timedelta
 
 from django.conf import settings
@@ -41,7 +40,6 @@ from caffeine.views import (
 
 
 User = get_user_model()
-os.environ['RECAPTCHA_TESTING'] = 'True'
 
 _TEST_PASSWORD = 'test1234'
 _HASHED_DEFAULT_PASSWORD = make_password(_TEST_PASSWORD)
@@ -278,8 +276,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
         'password2': _TEST_PASSWORD,
         'firstname': 'Test',
         'lastname': 'User',
-        'location': 'Testino',
-        'recaptcha_response_field': 'PASSED'
+        'location': 'Testino'
     }
 
     def test_get_renders_registration_template(self):
@@ -519,13 +516,20 @@ class SubmitCaffeineViewTest(MessagesTestMixin, CaffeineViewTest):
 
     def test_redirects_to_profile(self):
         self.assertTrue(self._do_login(), 'login failed')
-        response = self.client.post('/coffee/submit/')
+        now = timezone.now()
+        response = self.client.post(
+            '/coffee/submit/',
+            data={'date': now.date(), 'time': now.time()}
+        )
         self.assertRedirects(response, '/profile/')
 
     def test_success_message(self):
         self.assertTrue(self._do_login(), 'login failed')
+        now = timezone.now()
         response = self.client.post(
-            '/coffee/submit/', data={'date': timezone.now()}, follow=True)
+            '/coffee/submit/', data={
+                'date': now.date(), 'time': now.time()
+            }, follow=True)
         self.assertMessageCount(response, 1)
         coffee = Caffeine.objects.all()[0]
         self.assertMessageContains(
@@ -540,8 +544,10 @@ class SubmitCaffeineViewTest(MessagesTestMixin, CaffeineViewTest):
         Caffeine.objects.create(
             ctype=DRINK_TYPES.coffee, user=user,
             date=timezone.now() - timedelta(minutes=3))
+        now = timezone.now()
         response = self.client.post(
-            '/coffee/submit/', data={'date': timezone.now()}, follow=True)
+            '/coffee/submit/',
+            data={'date': now.date(), 'time': now.time()}, follow=True)
         self.assertMessageCount(response, 1)
         self.assertMessageContains(
             response, "", messages.ERROR)
@@ -557,18 +563,20 @@ class SubmitCaffeineOnTheRunView(MessagesTestMixin, CaffeineViewTest):
 
     def test_redirects_to_ontherun(self):
         user = self._create_testuser()
+        now = timezone.now()
         response = self.client.post(
             '/coffee/submit/{}/{}/'.format(user.username, user.token),
-            data={'date': timezone.now()})
+            data={'date': now.date(), 'time': now.time()})
         self.assertRedirects(
             response,
             '/ontherun/{}/{}/'.format(user.username, user.token))
 
     def test_success_message(self):
         user = self._create_testuser()
+        now = timezone.now()
         response = self.client.post(
             '/coffee/submit/{}/{}/'.format(user.username, user.token),
-            data={'date': timezone.now()}, follow=True)
+            data={'date': now.date(), 'time': now.time()}, follow=True)
         self.assertMessageCount(response, 1)
         coffee = Caffeine.objects.all()[0]
         self.assertMessageContains(
@@ -582,9 +590,10 @@ class SubmitCaffeineOnTheRunView(MessagesTestMixin, CaffeineViewTest):
         Caffeine.objects.create(
             ctype=DRINK_TYPES.coffee, user=user,
             date=timezone.now() - timedelta(minutes=3))
+        now = timezone.now()
         response = self.client.post(
             '/coffee/submit/{}/{}/'.format(user.username, user.token),
-            data={'date': timezone.now()}, follow=True)
+            data={'date': now.date(), 'time': now.time()}, follow=True)
         self.assertMessageCount(response, 1)
         self.assertMessageContains(
             response, "", messages.ERROR)

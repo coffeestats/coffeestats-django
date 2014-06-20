@@ -1,0 +1,197 @@
+/* NAVIGATION */
+
+nav.mainNav {
+      height: 58px;
+      .btn {
+        color: $white;
+        font-family: 'source_sans_prolight';
+        font-size: 15px;
+      }
+      ul,
+      li {
+        list-style: none;
+      }
+
+      > ul {
+        margin-top: 10px;
+        > li {
+          float: left;
+          &:first-child {
+            position: relative;
+            margin-left: 6px;
+          }
+          &.active {
+            span,
+             > a {
+                border-bottom: 3px solid $button-background;
+                cursor: pointer;
+              }
+          }
+          &:hover,
+          &.hover {
+            position: relative;
+            .settingsBox {
+              position: absolute;
+              right: 0;
+              display: inline-block;
+              margin-top: 48px;
+              padding: 0 0 36px;
+              width: 153px;
+              border-right: 1px solid $loginBoxBorder;
+              border-left: 1px solid $loginBoxBorder;
+              background: $white;
+
+              .btn {
+                position: absolute;
+                bottom: 0;
+                left: -0.5%;
+                margin-bottom: 0;
+                width: 101%;
+                height: 36px;
+                font-family: 'source_sans_prolight' !important;
+              }
+
+              a.subNavLink {
+                display: block;
+                padding: 8px 10px;
+                width: 100%;
+                text-align: center;
+                text-decoration: none;
+                font-family: 'source_sans_prolight';
+                font-size: 16px;
+                &:first-child {
+                  border-bottom: 1px solid $subnavigation-border;
+                }
+                &:hover {
+                   background: $subnavigation-bg;
+                }
+              }
+            }
+             span,
+             > a {
+                border-bottom: 3px solid $button-background;
+                cursor: pointer;
+              }
+            span.settings {
+                &:before {
+                  color: $button-background;
+                }
+              }
+          }
+          span,
+          > a {
+            display: inline-block;
+            margin-left: 0px;
+            padding: 8px 10px 17px;
+            text-decoration: none;
+            font-family: 'source_sans_prolight';
+            font-size: 16px;
+          }
+          > span.settings {
+              display: inline;
+              padding-bottom: 14px;
+
+              span {
+                display: none;
+                text-indent: -4000px;
+                height: 0;
+                width: 0;
+                margin: 0;
+                padding: 0;
+              }
+
+              &:before {
+                font-family: Coffeestats;
+                font-size: 23px;
+                line-height: 35px;
+                font-style: normal;
+                color: $placeholder;
+                content: "\e002";
+              }
+            }
+          ul {
+            display: none;
+          }
+        }
+      }
+      @media #{$moblet-smaller} {
+        display: none;
+      }
+    }
+nav.mainNavMobile {
+  display: none;
+  @media #{$moblet-smaller} {
+    display: block;
+    > ul {
+      margin: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+    li.menuIndicator {
+      display: block;
+      span span {
+        text-indent: -300000px;
+        display: inline-block;
+        width: 0;
+        margin-right: 10px;
+      }
+      ul {
+        display: none;
+      }
+
+      .icon:before {
+        font-size: 35px;
+      }
+
+      &.hover {
+        ul {
+          display: inline-block;
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 38px;
+          padding: 20px 0 0 0;
+
+          li {
+            a {
+                display: block;
+                padding: 8px 10px;
+                width: 100%;
+                text-align: center;
+                text-decoration: none;
+                font-family: 'source_sans_prolight';
+                font-size: 16px;
+                background: $white;
+                &:first-child {
+                  border-bottom: 1px solid $subnavigation-border;
+                }
+                &:hover {
+                   background: $subnavigation-bg;
+                }
+                &.btn {
+                  background: $button-background;
+                  margin: 0;
+                  &:first-child {
+                    border-bottom:0;
+                  }
+                }
+            }
+          }
+        }
+
+        &.inactive {
+          ul {
+            display: none !important;
+          }
+        }
+
+        .icon:before {
+          color: $button-background;
+        }
+
+      }
+    }
+  }
+}

@@ -511,7 +511,8 @@ ul.userlist {
       @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
         #header .headerWrapper h1 {
           font-size: 18px;
-          line-height: 37px; } }
+          line-height: 37px;
+          margin-left: 29px !important; } }
       #header .headerWrapper h1 a {
         font-family: 'amaranthregular', sans-serif; }
 

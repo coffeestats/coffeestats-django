@@ -3,7 +3,7 @@
 {% block content %}
 <div class="white-box">
   <h2>{% trans "About coffeestats.org" %}</h2>
-  <p>{% blocktrans %}Coffeestats.org was written with the help of two Mac OS X systems, a Debian GNU/Linux system and is proudly running on <a href="http://openbsd.org/">OpenBSD</a>. We want to thank the awesome Free Software community for all their software and art available under the <a href="http://creativecommons.org">CreativeCommons</a> license:{% endblocktrans %}</p>
+  <p>{% blocktrans %}Coffeestats.org was written with the help of two Mac OS X systems, a Debian GNU/Linux system and is proudly running on <a href="http://www.debian.org/">Debian GNU/Linux</a>. We want to thank the awesome Free Software community for all their software and art available under free licenses:{% endblocktrans %}</p>
   <ul>
     <li>{% blocktrans %}<a href="http://chartjs.org/">Chart.js</a> by Nick Downie{% endblocktrans %}</li>
     <li>{% blocktrans %}<a href="https://github.com/adobe/source-sans-pro">Source Sans Pro</a> by Adobe{% endblocktrans %}</li>
@@ -18,13 +18,13 @@
 <div class="white-box">
   <h2>{% trans "Changelog" %}</h2>
   <ul>
-    <li>{% blocktrans %}2014-04-xx reimplementation in <a href="http://www.djangoproject.com/">Django</a>{% endblocktrans %}</li>
+    <li>{% blocktrans %}2014-06-20 reimplementation in <a href="http://www.djangoproject.com/">Django</a>, new design by Jeremias{% endblocktrans %}</li>
     <li>{% trans "2014-02-20 REST API for adding drinks by Clemens" %}</li>
-    <li>{% trans "2013-05-23 New Design by Jeremias" %}</li>
+    <li>{% trans "2013-05-23 New design by Jeremias" %}</li>
     <li>{% trans "2013-05-07 Added nice social media icons to profile page" %}</li>
     <li>{% trans "2013-05-03 Public URL has changed (update your bookmarks!)" %}</li>
-    <li>{% trans "2013-04-28 Performance and Security improvments" %}</li>
-    <li>{% trans "2013-03-23 New Update page" %}</li>
+    <li>{% trans "2013-04-28 Performance and security improvments" %}</li>
+    <li>{% trans "2013-03-23 New update page" %}</li>
     <li>{% trans "2013-03-23 Using Chart.js for Graphs!" %}</li>
     <li>{% trans "2013-03-23 Added Mate to drinks" %}</li>
     <li>{% trans "2013-02-15 Added more Ranking stuff onto the explore page" %}</li>
@@ -44,14 +44,15 @@
   <ul>
     <li>{% blocktrans %}<a href="http://github.com/neverpanic">Clemens Lang</a> (implementing add-drink REST API){% endblocktrans %}</li>
     <li>{% blocktrans %}<a href="http://www.art-ifact.de/">Jeremias Arnstadt</a> (new design){% endblocktrans %}</li>
-    <li>{% blocktrans %}<a href="http://dittberner.info">Jan Dittberner</a> (massive code improvements in many cases, port to Django){% endblocktrans %}</li>
-    <li>{% blocktrans %}<a href="http://sotiriu.de">Nikolas Sotiriu</a> (testing the site for security flaws){% endblocktrans %}</li>
+    <li>{% blocktrans %}<a href="http://dittberner.info/">Jan Dittberner</a> (massive code improvements in many cases, port to Django){% endblocktrans %}</li>
+    <li>{% blocktrans %}<a href="http://sotiriu.de/">Nikolas Sotiriu</a> (testing the site for security flaws){% endblocktrans %}</li>
+    <li>{% blocktrans %}<a href="http://noqqe.org/">Florian Baumann</a> (project founder, source of inspiration, hosting until 2014-06-20){% endblocktrans %}</li>
   </ul>
 </div>
 <div class="white-box">
   <h2>{% trans "Contribution" %}</h2>
-  <p>{% blocktrans %}coffeestats.org is OpenSource. Feel free to <a href="https://github.com/coffeestats/coffeestats">contribute code</a>,
-    <a href="https://github.com/coffeestats/coffeestats/issues?state=open">share your ideas or report bugs</a>!{% endblocktrans %}</p>
+  <p>{% blocktrans %}coffeestats.org is OpenSource. Feel free to <a href="https://github.com/coffeestats/coffeestats-django">contribute code</a>,
+    <a href="https://github.com/coffeestats/coffeestats/issues-django?state=open">share your ideas or report bugs</a>!{% endblocktrans %}</p>
   <p>{% blocktrans %}Development / deployment documentation is at <a href="https://coffeestats.readthedocs.org">coffeestats.readthedocs.org</a>{% endblocktrans %}</p>
   <p>{% blocktrans %}Or show some love &lt;3{% endblocktrans %}</p>
   <p><div id='fb1dxpt'></div></p>

@@ -1,4 +1,4 @@
 # documentation dependencies go here
+-r base.txt
 Sphinx==1.2.2
 sphinxcontrib-httpdomain==1.2.1
-selenium==2.42.1

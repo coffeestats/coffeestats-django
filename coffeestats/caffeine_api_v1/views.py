@@ -40,7 +40,7 @@ API_ERROR_MISSING_PARAM_TIME = _(
 API_ERROR_NO_USERNAME = _('No username was given')
 API_ERROR_NO_TOKEN = _('No API token was given')
 API_WARNING_TIMEZONE_NOT_SET = _(
-    'Your timezone is not set, please set it form the web interface!'
+    'Your timezone is not set, please set it from the web interface!'
 )
 
 

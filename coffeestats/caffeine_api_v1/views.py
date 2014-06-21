@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 
 from django.core.urlresolvers import reverse
@@ -144,7 +144,7 @@ def add_drink(request, userinfo, messages, *args, **kwargs):
             API_ERROR_MISSING_PARAM_TIME)
     else:
         time = _parse_drinktime(drinktime, messages)
-        if time is not None and time > datetime.now():
+        if time is not None and time > datetime.now() + timedelta(minutes=1):
             messages.setdefault('error', []).append(API_ERROR_FUTURE_DATETIME)
     if 'error' in messages:
         return HttpResponseBadRequest(json.dumps(messages), 'text/json')

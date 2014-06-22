@@ -78,3 +78,8 @@ def mainnav(request):
         navitems.append(settingsnav)
         retval['navitems'] = navitems
     return retval
+
+
+def socialurls(request):
+    return {'social': {'googleplus': settings.GOOGLE_PLUS_URL,
+                       'twitter': settings.TWITTER_URL}}

@@ -161,6 +161,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'caffeine.context_processors.mainnav',
+    'caffeine.context_processors.socialurls',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders

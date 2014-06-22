@@ -46,7 +46,7 @@
                 <span class="{{ item.css_class }}"><span>{{ item.title }}</span></span>
                 <ul class="subNav {{ item.children_css_class }}">
                   {% for itemchild in item.children %}
-                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
+                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}"{% if itemchild.rel %} rel="{{ itemchild.rel }}"{% endif %}>{{ itemchild.title }}</a></li>
                   {% endfor %}
                 </ul>
                 {% endif %}

@@ -216,3 +216,12 @@ class SubmitCaffeineFormTest(TestCase):
                 'drink': DRINK_TYPES[DRINK_TYPES.coffee],
                 'minutes': settings.MINIMUM_DRINK_DISTANCE
             })
+
+    def test_clean_empty_date_and_time(self):
+        caffeine = SubmitCaffeineForm(
+            self.user, DRINK_TYPES.coffee,
+            data={'date': '', 'time': ''}).save()
+        self.assertLessEqual(caffeine.date, timezone.now())
+        self.assertEqual(caffeine.ctype, DRINK_TYPES.coffee)
+        self.assertEqual(caffeine.user, self.user)
+        self.assertEqual(caffeine.timezone, 'Europe/Berlin')

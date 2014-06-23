@@ -55,6 +55,9 @@ ADMINS = (
     ('Coffeestats Team', get_env_variable('COFFEESTATS_SITE_ADMINMAIL')),
 )
 
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
+DEFAULT_FROM_EMAIL = get_env_variable('COFFEESTATS_SITE_ADMINMAIL')
+
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 ########## END MANAGER CONFIGURATION

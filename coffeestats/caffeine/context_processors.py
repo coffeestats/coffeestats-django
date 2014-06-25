@@ -83,3 +83,10 @@ def mainnav(request):
 def socialurls(request):
     return {'social': {'googleplus': settings.GOOGLE_PLUS_URL,
                        'twitter': settings.TWITTER_URL}}
+
+
+def piwikdata(request):
+    return {
+        'piwik_host': settings.PIWIK_HOST,
+        'piwik_siteid': settings.PIWIK_SITEID,
+    }

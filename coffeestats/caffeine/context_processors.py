@@ -86,10 +86,7 @@ def socialurls(request):
 
 
 def piwikdata(request):
-    retval = {}
-    if settings.PIWIK_SITEID:
-        retval.update({
-            'piwik_host': settings.PIWIK_HOST,
-            'piwik_siteid': settings.PIWIK_SITEID,
-        })
-    return retval
+    return {
+        'piwik_host': settings.PIWIK_HOST,
+        'piwik_siteid': settings.PIWIK_SITEID,
+    }

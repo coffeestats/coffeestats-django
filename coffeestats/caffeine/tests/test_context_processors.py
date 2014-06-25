@@ -10,6 +10,7 @@ from caffeine.context_processors import (
     SubNav,
     SubNavItem,
     mainnav,
+    piwikdata,
     socialurls,
 )
 
@@ -105,3 +106,12 @@ class TestSocialUrlsContextProcessor(TestCase):
         self.assertIn('twitter', result['social'])
         self.assertEqual(result['social']['twitter'],
                          settings.TWITTER_URL)
+
+
+class TestPiwikdataContextProcessor(TestCase):
+    def test_piwikdata_is_dict(self):
+        request = HttpRequest()
+        result = piwikdata(request)
+        self.assertIsInstance(result, dict)
+        self.assertIn('piwik_host', result)
+        self.assertIn('piwik_siteid', result)

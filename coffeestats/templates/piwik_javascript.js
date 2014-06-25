@@ -6,7 +6,7 @@
   (function() {
     var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ piwik_host }}/";
     _paq.push(["setTrackerUrl", u+"piwik.php"]);
-    _paq.push(["setSiteId", "{{ piwik_siteid }} ?>"]);
+    _paq.push(["setSiteId", "{{ piwik_siteid }}"]);
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
   })();

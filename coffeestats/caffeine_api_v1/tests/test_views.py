@@ -1,6 +1,7 @@
 from datetime import timedelta
 import json
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import (
     HttpRequest,
@@ -279,6 +280,41 @@ class AddDrinkTest(TestCase):
             'u': self.user.username, 't': self.user.token,
             'beverage': 'coffee',
             'time': timezone.now().strftime('%Y-%m-%d %H:%M'),
+        })
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response['content-type'], 'text/json')
+        messages = json.loads(response.content)
+        self.assertIn('error', messages)
+        self.assertFalse(messages['success'])
+
+    def test_submit_older_caffeine(self):
+        Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, user=self.user,
+            date=timezone.now())
+        before = timezone.now() - timedelta(
+            minutes=settings.MINIMUM_DRINK_DISTANCE + 1)
+        response = self.client.post(self.url, data={
+            'u': self.user.username, 't': self.user.token,
+            'beverage': 'coffee',
+            'time': before.strftime('%Y-%m-%d %H:%M'),
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'], 'text/json')
+        messages = json.loads(response.content)
+        self.assertNotIn('error', messages)
+        self.assertTrue(messages['success'])
+        self.assertEqual(len(Caffeine.objects.all()), 2)
+
+    def test_form_validation_close_before_time(self):
+        Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, user=self.user,
+            date=timezone.now())
+        close_before = timezone.now() - timedelta(
+            minutes=settings.MINIMUM_DRINK_DISTANCE - 1)
+        response = self.client.post(self.url, data={
+            'u': self.user.username, 't': self.user.token,
+            'beverage': 'coffee',
+            'time': close_before.strftime('%Y-%m-%d %H:%M'),
         })
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response['content-type'], 'text/json')

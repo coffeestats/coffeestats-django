@@ -217,6 +217,36 @@ class SubmitCaffeineFormTest(TestCase):
                 'minutes': settings.MINIMUM_DRINK_DISTANCE
             })
 
+    def test_submit_older(self):
+        Caffeine.objects.create(
+            user=self.user, ctype=DRINK_TYPES.coffee,
+            date=timezone.now())
+        before = timezone.now() - timedelta(
+            minutes=settings.MINIMUM_DRINK_DISTANCE + 1)
+        form = SubmitCaffeineForm(
+            self.user, DRINK_TYPES.coffee,
+            data={'date': before.date(), 'time': before.time()})
+        self.assertTrue(form.is_valid(), str(form.errors))
+
+    def test_submit_close_older_fails(self):
+        Caffeine.objects.create(
+            user=self.user, ctype=DRINK_TYPES.coffee,
+            date=timezone.now())
+        close_before = timezone.now() - timedelta(
+            minutes=settings.MINIMUM_DRINK_DISTANCE - 1)
+        form = SubmitCaffeineForm(
+            self.user, DRINK_TYPES.coffee,
+            data={'date': close_before.date(), 'time': close_before.time()})
+        self.assertFalse(form.is_valid())
+        form_errors = form.non_field_errors()
+        self.assertEqual(len(form_errors), 1)
+        self.assertRegexpMatches(
+            form_errors[0],
+            r'^Your last %(drink)s was less than %(minutes)d minutes ago' % {
+                'drink': DRINK_TYPES[DRINK_TYPES.coffee],
+                'minutes': settings.MINIMUM_DRINK_DISTANCE
+            })
+
     def test_clean_empty_date_and_time(self):
         caffeine = SubmitCaffeineForm(
             self.user, DRINK_TYPES.coffee,

@@ -6,6 +6,7 @@ $(document).ready(function(){
 	      coffeestats.showMenuDropdown();
 	      coffeestats.showLoginDropdown();
 	      coffeestats.profilePage();
+	      coffeestats.preventMobileKeyboard();
 	    },
 
 		equalHeightsBoxes : function() {
@@ -60,6 +61,19 @@ $(document).ready(function(){
 				});
 				$('.datepicker').focusout(function(){
 				  $(this).datepicker('hide');
+				});
+			}
+
+		}
+
+		preventMobileKeyboard : function() {
+			if($('.clockpicker').length && $('.datepicker').length) {
+				$('.clockpicker').on('click' function() {
+					$(this).blur();
+				});
+
+			    $('.datepicker').on('click' function() {
+					$(this).blur();
 				});
 			}
 

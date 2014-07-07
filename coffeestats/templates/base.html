@@ -46,7 +46,7 @@
                 <span class="{{ item.css_class }}"><span>{{ item.title }}</span></span>
                 <ul class="subNav {{ item.children_css_class }}">
                   {% for itemchild in item.children %}
-                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}">{{ itemchild.title }}</a></li>
+                  <li><a href="{{ itemchild.url }}" class="{{ itemchild.css_class }}"{% if itemchild.rel %} rel="{{ itemchild.rel }}"{% endif %}>{{ itemchild.title }}</a></li>
                   {% endfor %}
                 </ul>
                 {% endif %}
@@ -109,7 +109,7 @@
       </div>
       <div class="footer">
           {% url "imprint" as imprinturl %}
-          <p class="footertext">{% blocktrans %}<a href="/">coffeestats.org</a> is a project by <a href="https://jan.dittberner.info/">Jan Dittberner</a> &amp; <a href="http://noqqe.de/">Florian Baumann</a>.
+          <p class="footertext">{% blocktrans %}<a href="/">coffeestats.org</a> is a project by <a href="https://jan.dittberner.info/">Jan Dittberner</a>, <a href="http://www.art-ifact.de/">Jeremias Arnstadt</a> &amp; <a href="http://noqqe.de/">Florian Baumann</a>.
           See <a href="{{ imprinturl }}">Imprint</a>.{% endblocktrans %}</p>
         </div>
     </div>

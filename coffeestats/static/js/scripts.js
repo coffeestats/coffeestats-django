@@ -1,4 +1,6 @@
+/* global $, sanitize_datetime */
 $(document).ready(function(){
+<<<<<<< HEAD
 	var coffeestats = {
 		init: function () {
 	      coffeestats.equalHeightsBoxes();
@@ -8,62 +10,67 @@ $(document).ready(function(){
 	      coffeestats.profilePage();
 	      coffeestats.preventMobileKeyboard();
 	    },
+=======
+  "use strict";
+>>>>>>> FETCH_HEAD
 
-		equalHeightsBoxes : function() {
-			if (!window.matchMedia('(max-width: 873px)').matches) {
-				$('.white-box').not('.fullWidth').equalHeights();
-		    }
-		},
+  var coffeestats = {
+    init: function () {
+        coffeestats.equalHeightsBoxes();
+        coffeestats.showNavigation();
+        coffeestats.showMenuDropdown();
+        coffeestats.showLoginDropdown();
+        coffeestats.profilePage();
+      },
 
-		showNavigation : function() {
-			$('.menuIndicator').on( 'click',function(){
-				$(this).toggleClass('hover', 'inactive');
-			});
-		},
+    equalHeightsBoxes : function() {
+      if (!window.matchMedia('(max-width: 873px)').matches) {
+        $('.white-box').not('.fullWidth').equalHeights();
+        }
+    },
 
-		showMenuDropdown : function() {
-			$('.mainNav li span.settings').on( 'tapstart', function(){
-				$(this).parent('li').toggleClass('hover', 'inactive');
-			});
-		},
-		showLoginDropdown : function() {
-			$('.login li span').on( 'tapstart',function(){
-				$(this).parent('li').toggleClass('hover', 'inactive');
-			});
-		},
+    showNavigation : function() {
+      $('.menuIndicator').on( 'click',function(){
+        $(this).toggleClass('hover', 'inactive');
+      });
+    },
 
-		profilePage : function() {
-			if($('.clockpicker').length && $('.datepicker').length) {
-				$('.clockpicker').clockpicker({
-			      autoclose: true,
-			      default: 'now',
-			    });
-			    $('.datepicker').datepicker({
-			      format: 'yyyy-mm-dd',
-			      todayBtn: 'linked',
-			      calendarWeeks: true,
-			      autoclose: true,
-			      todayHighlight: true,
-			    });
+    showMenuDropdown : function() {
+      $('.mainNav li span.settings').on( 'tapstart', function(){
+        $(this).parent('li').toggleClass('hover', 'inactive');
+      });
+    },
+    showLoginDropdown : function() {
+      $('.login li span').on( 'tapstart',function(){
+        $(this).parent('li').toggleClass('hover', 'inactive');
+      });
+    },
 
-			    $('img.toggle').click(function(event) {
-			        $('#' + $(this).attr('data-toggle')).toggle();
-			    });
-			    $('#coffeeform').submit(function(event) {
-			        return sanitize_datetime('input#id_coffeedate', 'input#id_coffeetime');
-			    });
-			    $('#mateform').submit(function(event) {
-			        return sanitize_datetime('input#id_matedate', 'input#id_matetime');
-			    });
+    profilePage : function() {
+      if ($('.clockpicker').length && $('.datepicker').length) {
+        $('.clockpicker').clockpicker({
+            autoclose: true,
+            default: 'now',
+          });
+          $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            todayBtn: 'linked',
+            calendarWeeks: true,
+            autoclose: true,
+            todayHighlight: true,
+          });
 
-			    $('.clockpicker').focusout(function(){
-				  $(this).clockpicker('hide');
-				});
-				$('.datepicker').focusout(function(){
-				  $(this).datepicker('hide');
-				});
-			}
+          $('img.toggle').click(function(event) {
+              $('#' + $(this).attr('data-toggle')).toggle();
+          });
+          $('#coffeeform').submit(function(event) {
+              return sanitize_datetime('input#id_coffeedate', 'input#id_coffeetime');
+          });
+          $('#mateform').submit(function(event) {
+              return sanitize_datetime('input#id_matedate', 'input#id_matetime');
+          });
 
+<<<<<<< HEAD
 		}
 
 		preventMobileKeyboard : function() {
@@ -80,4 +87,17 @@ $(document).ready(function(){
 		}
 	}
 	coffeestats.init();
+=======
+          $('.clockpicker').focusout(function(){
+          $(this).clockpicker('hide');
+        });
+        $('.datepicker').focusout(function(){
+          $(this).datepicker('hide');
+        });
+      }
+
+    }
+  };
+  coffeestats.init();
+>>>>>>> FETCH_HEAD
 });

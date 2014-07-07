@@ -470,6 +470,8 @@ class CaffeineManager(models.Manager):
     def find_recent_caffeine(self, user, date, ctype):
         caffeines = self.filter(
             user=user, ctype=ctype,
+            date__lt=(date + timedelta(
+                minutes=settings.MINIMUM_DRINK_DISTANCE)),
             date__gte=(date - timedelta(
                 minutes=settings.MINIMUM_DRINK_DISTANCE)))
         try:

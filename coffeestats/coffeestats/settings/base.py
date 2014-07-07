@@ -10,7 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.contrib.messages import constants as message_constants
 
 
-def get_env_variable(var_name):
+def get_env_variable(var_name, default=None):
     """
     Get a setting from an environment variable.
 
@@ -54,6 +54,9 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('Coffeestats Team', get_env_variable('COFFEESTATS_SITE_ADMINMAIL')),
 )
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
+DEFAULT_FROM_EMAIL = get_env_variable('COFFEESTATS_SITE_ADMINMAIL')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -161,6 +164,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'caffeine.context_processors.mainnav',
+    'caffeine.context_processors.socialurls',
+    'caffeine.context_processors.piwikdata',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
@@ -237,6 +242,10 @@ ACCOUNT_ACTIVATION_DAYS = 2
 EMAIL_CHANGE_ACTION_VALIDITY = 2
 MINIMUM_DRINK_DISTANCE = 5
 CAFFEINE_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+GOOGLE_PLUS_URL = 'https://plus.google.com/108309823073824027966'
+TWITTER_URL = 'https://twitter.com/coffeestats'
+PIWIK_SITEID = get_env_variable('COFFEESTATS_PIWIK_SITEID')
+PIWIK_HOST = get_env_variable('COFFEESTATS_PIWIK_HOST')
 
 MESSAGE_TAGS = {
     message_constants.DEBUG: 'flash-debug',

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="white-box fullWidth">
   <h2>{% trans "Confirm deletion" %}</h2>
-  <p>{% blocktrans %}Do you realy want to delete your {{ object }}?{% endblocktrans %}</p>
+  <p>{% blocktrans %}Do you really want to delete your {{ object }}?{% endblocktrans %}</p>
   <form action="{{ request.path }}" method="post" class="inlineform">
     <input type="submit" name="submit" value="{% trans "Yes!" %}" class="left" />
     <a href="{% url "profile" %}" class="btn secondary left">{% trans "No, cancel" %}</a>

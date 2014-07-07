@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.utils.translation import ugettext as _
 
 
@@ -15,10 +16,12 @@ class NavItem(object):
 
 
 class SubNavItem(object):
-    def __init__(self, request, url, title, css_class="subNavLink"):
+    def __init__(self, request, url, title, css_class="subNavLink", **kwargs):
         self.url = url
         self.title = title
         self.css_class = css_class
+        for arg in kwargs:
+            setattr(self, arg, kwargs[arg])
 
 
 class SubNav(object):
@@ -59,6 +62,10 @@ def mainnav(request):
         settingschildren.extend([
             SubNavItem(request, reverse('about'),
                        _('About')),
+            SubNavItem(request, settings.GOOGLE_PLUS_URL,
+                       _('Google+'), rel='publisher'),
+            SubNavItem(request, settings.TWITTER_URL,
+                       _('Twitter')),
             SubNavItem(request, reverse('settings'),
                        _('Settings')),
             SubNavItem(request, reverse('auth_logout'),
@@ -71,3 +78,15 @@ def mainnav(request):
         navitems.append(settingsnav)
         retval['navitems'] = navitems
     return retval
+
+
+def socialurls(request):
+    return {'social': {'googleplus': settings.GOOGLE_PLUS_URL,
+                       'twitter': settings.TWITTER_URL}}
+
+
+def piwikdata(request):
+    return {
+        'piwik_host': settings.PIWIK_HOST,
+        'piwik_siteid': settings.PIWIK_SITEID,
+    }

@@ -10,10 +10,12 @@ In November 2013 Florian released the coffeestats PHP code under the
 MIT license on `Github`_. `Clemens Lang`_ contributed a REST API for submitting
 entries in February 2014.
 
-Florian hosted coffeestats on an `OpenBSD`_ machine.
+Florian hosted coffeestats on an `OpenBSD`_ machine until 20th of June 2014.
 
 During the `Chemnitzer-Linux Tage 2014`_ Jan Dittberner decided to do a
-reimplementation of Coffeestats in `Django`_.
+reimplementation of Coffeestats in `Django`_. Jeremias did a complete redesign
+and the new site went live on 20th of June 2014 on one of Jan's Debian
+GNU/Linux machines.
 
 .. _Chemnitzer-Linux Tage 2014: http://chemnitzer.linux-tage.de/2014/de/info/
 .. _Clemens Lang: https://neverpanic.de/

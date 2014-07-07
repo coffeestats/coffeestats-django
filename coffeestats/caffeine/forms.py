@@ -7,7 +7,7 @@ from datetime import datetime
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.utils.timezone import override as override_timezone
+from django.utils import timezone
 
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -133,10 +133,10 @@ class SelectTimeZoneForm(forms.ModelForm):
         self.fields['timezone'].required = True
 
     def clean_timezone(self):
-        timezone = self.cleaned_data['timezone']
+        cleantimezone = self.cleaned_data['timezone']
         try:
-            with override_timezone(timezone):
-                return timezone
+            with timezone.override(cleantimezone):
+                return cleantimezone
         except:
             raise forms.ValidationError(INVALID_TIMEZONE_ERROR)
 
@@ -146,8 +146,8 @@ class SubmitCaffeineForm(forms.ModelForm):
     This is the form for new caffeine submissions.
 
     """
-    date = forms.DateField()
-    time = forms.TimeField()
+    date = forms.DateField(required=False)
+    time = forms.TimeField(required=False)
 
     class Meta:
         model = Caffeine
@@ -160,8 +160,21 @@ class SubmitCaffeineForm(forms.ModelForm):
         self.instance.timezone = user.timezone
 
     def clean(self):
-        self.instance.date = datetime.combine(
-            self.cleaned_data['date'], self.cleaned_data['time'])
+        if (
+            self.cleaned_data['date'] is None or
+            self.cleaned_data['time'] is None
+        ):
+            servertz = timezone.get_default_timezone()
+            with timezone.override(self.instance.timezone):
+                usertz = timezone.get_current_timezone()
+                self.instance.date = timezone.make_naive(
+                    timezone.localtime(
+                        timezone.make_aware(timezone.now(), servertz),
+                        usertz), usertz
+                )
+        else:
+            self.instance.date = datetime.combine(
+                self.cleaned_data['date'], self.cleaned_data['time'])
         recent_caffeine = Caffeine.objects.find_recent_caffeine(
             self.instance.user, self.instance.date, self.instance.ctype)
         if recent_caffeine:

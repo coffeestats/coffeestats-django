@@ -17,6 +17,9 @@
   <h2>{% trans "What is coffeestats.org?" %}</h2>
   <p>{% trans "You like coffee, mate, graphs and nerdy statistics? Well, we do too!" %}</p>
   <p>{% blocktrans %}It's dead-simple: You enjoy your fix of coffee as usual and we keep track of it -- enabling us to present you with awesome statistics about your general coffee consumption. Why? Just because, of course!{% endblocktrans %}</p>
+  <p>{% blocktrans %}Follow us{% endblocktrans %}<br />
+  <a href="{{ social.googleplus }}" rel="publisher"><img src="{% static "images/googleplus40.png" %}" alt="{% trans "Google+" %}" title="{% trans "coffeestats @ google+" %}" /></a>
+  <a href="{{ social.twitter }}"><img src="{% static "images/twitter40.png" %}" alt="{% trans "Twitter" %}" title="{% trans "coffeestats @ twitter" %}" /></a></p>
 </div>
 {% endblock %}
 {% block extra_js %}

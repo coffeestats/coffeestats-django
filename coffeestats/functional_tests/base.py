@@ -40,6 +40,7 @@ class BaseCoffeeStatsPageTestMixin(object):
         expected_footer_links = [
             (u'coffeestats.org', u'{}/'.format(self.server_url)),
             (u'Jan Dittberner', u'https://jan.dittberner.info/'),
+            (u'Jeremias Arnstadt', u'http://www.art-ifact.de/'),
             (u'Florian Baumann', u'http://noqqe.de/'),
             (u'Imprint', u'{}/imprint/'.format(self.server_url))
         ]

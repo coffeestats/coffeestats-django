@@ -14,6 +14,7 @@ class SeleniumTest(LiveServerTestCase):
     @classmethod
     def tearDownClass(cls):
         cls.selenium.quit()
+        super(SeleniumTest, cls).tearDownClass()
 
 
 class BaseCoffeeStatsPageTestMixin(object):

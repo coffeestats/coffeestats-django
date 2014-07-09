@@ -85,9 +85,9 @@
                         {% csrf_token %}
                         {{ form.username.errors }}
                         {{ form.password.errors }}
-                        <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %} autofocus>
+                        <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}" name="username" id="id_login_username" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}>
                         <label for="username" alt="{% trans "Username" %}" placeholder="{% trans "Username" %}"></label>
-                        <input type="password" required name="password" id="id_password"/>
+                        <input type="password" required name="password" id="id_login_password"/>
                         <label for="password" alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
                         {% url "auth_password_reset" as passwordreset_url %}
                       {% blocktrans %}<a href="{{ passwordreset_url }}" class="right">Forgot your password?</a>{% endblocktrans %}

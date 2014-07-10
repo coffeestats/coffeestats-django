@@ -160,7 +160,36 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         reset_pw_link = self.extract_link(mail.outbox[0].body)
         self.selenium.get(reset_pw_link)
 
+        # we reach the password reset page
         self.assertEqual(
             'Change Your Password',
             self.selenium.find_element_by_tag_name('h2').text
         )
+
+        pwfield1 = self.selenium.switch_to.active_element
+        self.assertEqual(pwfield1.get_attribute('id'), 'id_new_password1')
+        pwfield1.send_keys(self.TEST_PASSWORD + 'new' + Keys.TAB)
+
+        pwfield2 = self.selenium.switch_to.active_element
+        self.assertEqual(pwfield2.get_attribute('id'), 'id_new_password2')
+        pwfield2.send_keys(self.TEST_PASSWORD + 'new' + Keys.ENTER)
+
+        self.assertRegexpMatches(
+            self.selenium.current_url, r'/password/reset/complete/$')
+
+        # login with the new password
+        login_subnav = self.selenium.find_element_by_css_selector(
+            '#header nav ul > li > span')
+        action_chain = ActionChains(self.selenium)
+        action_chain.move_to_element(login_subnav).perform()
+
+        username_field = self.selenium.find_element_by_id('id_login_username')
+        username_field.send_keys(self.TEST_USERNAME + Keys.TAB)
+
+        password_field = self.selenium.switch_to.active_element
+        self.assertEqual(password_field.get_attribute('id'),
+                         'id_login_password')
+        password_field.send_keys(self.TEST_PASSWORD + 'new' + Keys.ENTER)
+
+        # ... and is redirected to the profile
+        self.assertRegexpMatches(self.selenium.current_url, r'/profile/$')

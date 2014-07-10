@@ -25,12 +25,12 @@ $(document).ready(function(){
     },
 
     showMenuDropdown : function() {
-      $('.mainNav li span.settings').on( 'tapstart', function(){
+      $('.mainNav li span.settings').on( 'tapstart touchstart', function(){
         $(this).parent('li').toggleClass('hover', 'inactive');
       });
     },
     showLoginDropdown : function() {
-      $('.login li span').on( 'tapstart',function(){
+      $('.login li span').on( 'tapstart touchstart',function(){
         $(this).parent('li').toggleClass('hover', 'inactive');
       });
     },

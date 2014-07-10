@@ -28,8 +28,8 @@
 <script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-  $('input#id_username').bind('invalid', usernamefieldvalidation);
-  $('input#id_password').bind('invalid', function(event) {
+  $('input#id_login_username').bind('invalid', usernamefieldvalidation);
+  $('input#id_login_password').bind('invalid', function(event) {
     if (this.validity.valueMissing) {
       this.setCustomValidity('{% trans "Password must not be empty!" %}');
     } else {
@@ -64,8 +64,8 @@ $(document).ready(function() {
   new Chart(document.getElementById("coffeeexample").getContext("2d")).Line(lineChartData);
 
   $('form').submit(function(event) {
-    return sanitize_username('input#id_username')
-          && sanitize_not_empty('input#id_password', 'Password must not be empty');
+    return sanitize_username('input#id_login_username')
+    && sanitize_not_empty('input#id_login_password', '{% trans "Password must not be empty!" %}');
   });
 });
 </script>

@@ -1,54 +1,34 @@
-import re
-
 from django.core import mail
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from six.moves.urllib import parse
 
-from .base import BaseCoffeeStatsPageTestMixin, SeleniumTest
-
-
-simple_url_re = re.compile(
-    r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|'
-    '(?:%[0-9a-fA-F][0-9a-fA-F]))+',
-    re.IGNORECASE | re.MULTILINE)
+from .base import (
+    BaseCoffeeStatsPageTestMixin,
+    SeleniumTest,
+)
 
 
 class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
-    TEST_USERNAME = 'coffeejunkie'
-    TEST_PASSWORD = 'g3h31m!1elf!!'
-    TEST_EMAILADDRESS = 'coffeejunkie@example.org'
+    def test_register_tab_order(self):
+        self.navigate_to_register_page()
 
-    def test_register_user(self):
-        # Coffeejunkie has opens the homepage
-        self.selenium.get(self.server_url)
+        for inputid in ('id_username', 'id_password1', 'id_password2',
+                        'id_email', 'firstname', 'lastname', 'location'):
+            nextinput = self.selenium.switch_to.active_element
+            self.assertEqual(nextinput.get_attribute('id'), inputid)
+            nextinput.send_keys(Keys.TAB)
+        lastinput = self.selenium.switch_to.active_element
+        self.assertEqual(lastinput.get_attribute('type'), 'submit')
 
-        self.check_page_header()
-
-        # He finds out that he was redirected to a login page
-        self.assertRegexpMatches(self.selenium.current_url,
-                                 r'/auth/login/\?next=/$')
-
-        # there is a navigation in the page header
-        header = self.selenium.find_element_by_id('header')
-        nav = header.find_element_by_tag_name('nav')
-
-        # He wants to register and finds the register_link
-        register_link = nav.find_element_by_link_text('Register')
-        register_link.click()
-
-        # He finds out that he is now on the registration page
-        self.assertRegexpMatches(self.selenium.current_url,
-                                 r'/auth/register/$')
+    def test_register_input_validation(self):
+        self.navigate_to_register_page()
 
         # he finds the input fields and enters ...
         # ... his desired user name
         input_username = self.selenium.switch_to.active_element
-        self.assertEqual(input_username.get_attribute('id'), 'id_username')
         input_username.send_keys(self.TEST_USERNAME + Keys.TAB)
 
         input_password1 = self.selenium.switch_to.active_element
-        self.assertEqual(input_password1.get_attribute('id'), 'id_password1')
         input_password1.send_keys(self.TEST_PASSWORD)
 
         # he hits enter and gets a validation error
@@ -66,19 +46,19 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(input_username.get_attribute('value'),
                          self.TEST_USERNAME)
 
-        # he continues his registration
-        input_username.send_keys(Keys.TAB)
+    def test_register_user(self):
+        self.navigate_to_register_page()
+
+        input_username = self.selenium.switch_to.active_element
+        input_username.send_keys(self.TEST_USERNAME + Keys.TAB)
 
         input_password1 = self.selenium.switch_to.active_element
-        self.assertEqual(input_password1.get_attribute('id'), 'id_password1')
         input_password1.send_keys(self.TEST_PASSWORD + Keys.TAB)
 
         input_password2 = self.selenium.switch_to.active_element
-        self.assertEqual(input_password2.get_attribute('id'), 'id_password2')
         input_password2.send_keys(self.TEST_PASSWORD + Keys.TAB)
 
         input_email = self.selenium.switch_to.active_element
-        self.assertEqual(input_email.get_attribute('id'), 'id_email')
         input_email.send_keys(self.TEST_EMAILADDRESS)
 
         # he submits the form
@@ -93,13 +73,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertIn('Please activate your account', mail.outbox[0].subject)
         self.assertIn(self.TEST_EMAILADDRESS, mail.outbox[0].to)
 
-        match = simple_url_re.search(mail.outbox[0].body, re.MULTILINE)
-        if not match:
-            self.fail('no activation link found')
-        urlparts = list(parse.urlsplit(match.group(0)))
-        urlparts[:2] = ['', '']
-        urlremainder = parse.urlunsplit(urlparts)
-        activation_link = parse.urljoin(self.server_url, urlremainder)
+        activation_link = self.extract_link(mail.outbox[0].body)
 
         # he opens the activation link
         self.selenium.get(activation_link)
@@ -128,3 +102,65 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # ... and is redirected to the timezone selection page
         self.assertRegexpMatches(self.selenium.current_url,
                                  r'/selecttimezone/\?next=%2Fprofile%2F$')
+
+        # he selects a time zone
+        tzselect = self.selenium.find_element_by_id('tzselect')
+        action_chain = ActionChains(self.selenium)
+        action_chain.move_to_element(tzselect).perform()
+
+        # submits the form
+        tzselect.submit()
+
+        # and is redirected to the profile page
+        self.assertRegexpMatches(self.selenium.current_url,
+                                 r'/profile/$')
+
+    def test_forget_password(self):
+        self.register_user()
+
+        # find the logout link
+        menuitems = self.selenium.find_elements_by_css_selector(
+            '#header nav > ul > li'
+        )
+
+        self.assertEqual(len(menuitems), 5)
+
+        action_chain = ActionChains(self.selenium)
+        action_chain.move_to_element(menuitems[3]).perform()
+
+        # ... and logout
+        self.selenium.find_element_by_link_text('Logout').click()
+
+        # find the login form and click the forgot password link
+        login_subnav = self.selenium.find_element_by_css_selector(
+            '#header nav ul > li > span')
+        action_chain = ActionChains(self.selenium)
+        action_chain.move_to_element(login_subnav).perform()
+        self.selenium.find_element_by_link_text(
+            'Forgot your password?').click()
+
+        # check the URL
+        self.assertRegexpMatches(self.selenium.current_url,
+                                 r'/auth/password/reset/$')
+        email_field = self.selenium.switch_to.active_element
+        self.assertEqual(email_field.get_attribute('id'), 'id_email')
+        email_field.send_keys(self.TEST_EMAILADDRESS)
+        email_field.submit()
+
+        self.assertRegexpMatches(self.selenium.current_url,
+                                 r'/password/reset/done/')
+        self.assertIn(
+            'We sent an email with a password reset link if any of our users'
+            ' has an account with the given email address.',
+            self.selenium.find_element_by_tag_name('body').text)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(self.TEST_EMAILADDRESS, mail.outbox[0].to)
+
+        reset_pw_link = self.extract_link(mail.outbox[0].body)
+        self.selenium.get(reset_pw_link)
+
+        self.assertEqual(
+            'Change Your Password',
+            self.selenium.find_element_by_tag_name('h2').text
+        )

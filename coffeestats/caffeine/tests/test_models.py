@@ -82,6 +82,15 @@ class CaffeineUserManagerTest(TestCase):
         self.assertEqual(len(users), 5)
         self.assertEqual(users, ['test10', 'test9', 'test8', 'test7', 'test6'])
 
+    def test_longest_joined_limit(self):
+        self._populate_some_testusers()
+        for u in User.objects.all():
+            Caffeine.objects.create(user=u, ctype=DRINK_TYPES.coffee,
+                                    date=u.date_joined, timezone=u.timezone)
+        users = [u.username for u in User.objects.longest_joined(days=3)]
+        self.assertEqual(len(users), 4)
+        self.assertEqual(users, ['test4', 'test3', 'test2', 'test1'])
+
 
 class UserTest(TestCase):
 

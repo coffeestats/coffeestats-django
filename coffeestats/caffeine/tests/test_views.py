@@ -182,18 +182,11 @@ class IndexViewTest(CaffeineViewTest):
 
 class OverallViewTest(CaffeineViewTest):
 
-    def test_redirects_to_login(self):
-        response = self.client.get('/overall/')
-        self.assertRedirects(
-            response, '/auth/login/?next=/overall/')
-
     def test_renders_overall_template(self):
-        self.assertTrue(self._do_login(), 'login failed')
         response = self.client.get('/overall/')
         self.assertTemplateUsed(response, 'overall.html')
 
     def test_context_items(self):
-        self.assertTrue(self._do_login(), 'login failed')
         response = self.client.get('/overall/')
         for item in ('coffees', 'mate', 'todaydata', 'monthdata', 'yeardata',
                      'byhourdata', 'byweekdaydata'):

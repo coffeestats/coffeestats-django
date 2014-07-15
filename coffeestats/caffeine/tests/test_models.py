@@ -86,6 +86,9 @@ class CaffeineUserManagerTest(TestCase):
         self._populate_some_testusers()
         for u in User.objects.all():
             Caffeine.objects.create(user=u, ctype=DRINK_TYPES.coffee,
+                                    date=u.date_joined + timedelta(minutes=10),
+                                    timezone=u.timezone)
+            Caffeine.objects.create(user=u, ctype=DRINK_TYPES.coffee,
                                     date=u.date_joined, timezone=u.timezone)
         users = [u.username for u in User.objects.longest_joined(days=3)]
         self.assertEqual(len(users), 4)

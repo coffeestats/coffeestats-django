@@ -138,7 +138,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
 
 
-class OverallView(LoginRequiredMixin, TemplateView):
+class OverallView(TemplateView):
     template_name = 'overall.html'
 
     def get_context_data(self, **kwargs):

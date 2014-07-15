@@ -90,3 +90,31 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         )
 
         self.check_page_footer()
+
+    def test_overall_elements(self):
+        # The caffeine junkie visits coffeestats.org
+        self.selenium.get(self.server_url)
+
+        # He sees the Overall link and clicks it
+        self.selenium.find_element_by_link_text('Overall').click()
+
+        self.check_page_header()
+
+        # he sees seven white boxes
+        graphboxes = self.selenium.find_elements_by_class_name('white-box')
+        self.assertEqual(len(graphboxes), 7)
+
+        # the first contains a headline and two paragraphs of text
+        self.assertEqual(
+            len(graphboxes[0].find_elements_by_tag_name('h2')), 1)
+        self.assertEqual(
+            len(graphboxes[0].find_elements_by_tag_name('p')), 2)
+
+        # the others contain a headline and a graph each
+        for box in graphboxes[1:]:
+            # check for one headline element
+            self.assertEqual(len(box.find_elements_by_tag_name('h2')), 1)
+            # check for one graph element
+            self.assertEqual(len(box.find_elements_by_tag_name('canvas')), 1)
+
+        self.check_page_footer()

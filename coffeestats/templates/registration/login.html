@@ -10,7 +10,8 @@
 {% block content %}
 <div class="white-box">
   <h2>{% trans "Graphs!" %}</h2>
-  {% trans "Overall Coffee vs. Mate consumption" %}<br/><br/>
+  {% url 'overall' as overall %}
+  {% blocktrans %}<a href="{{ overall }}">Overall</a> Coffee vs. Mate consumption.{% endblocktrans %}<br /><br />
   <canvas id="coffeeexample" width="590" height="240" ></canvas>
 </div>
 <div class="white-box">

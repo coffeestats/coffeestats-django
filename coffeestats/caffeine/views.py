@@ -98,7 +98,8 @@ class ExploreView(LoginRequiredMixin, TemplateView):
             'topmateavg': Caffeine.objects.top_consumers_average(
                 DRINK_TYPES.mate, 10),
             'recentlyjoined': User.objects.recently_joined(5),
-            'longestjoined': User.objects.longest_joined(5)})
+            'longestjoined': User.objects.longest_joined(
+                count=5, days=365)})
         return context_data
 
 

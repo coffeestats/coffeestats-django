@@ -94,8 +94,27 @@ class CaffeineUserManager(BaseUserManager):
     def recently_joined(self, count=5):
         return self.order_by('-date_joined')[:count]
 
-    def longest_joined(self, count=5):
-        return self.order_by('date_joined')[:count]
+    def longest_joined(self, count=5, days=None):
+        """
+        Return the users that use coffeestats for the longest time.
+
+        :param int count: number of users to return
+        :param int days: number of days to look for, no limit if None
+        :returns: list of User instances
+        """
+        if days is not None:
+            q = self.raw(
+                '''
+                SELECT u.* FROM caffeine_user u
+                           JOIN caffeine_caffeine c
+                ON c.user_id = u.id
+                WHERE c.date >= CURRENT_DATE - INTERVAL '{0:d} days'
+                ORDER BY u.date_joined
+                LIMIT {1:d}
+                '''.format(days, count))
+        else:
+            q = self.order_by('date_joined')[:count]
+        return q
 
 
 class User(AbstractUser):

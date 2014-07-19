@@ -30,7 +30,47 @@
   <div class="clearfix">&nbsp;</div>
   <p><a href="#" id="more-users">More users</a></p>
 </div>
-<div class="white-box" id="ranks">
+<div class="white-box" id="recent-top-drinkers">
+  <h2>{% blocktrans %}Top drinkers <small>(last 30 days)</small>{% endblocktrans %}</h2>
+  <div class="rankbox">
+    <h3>{% trans "Top coffee drinkers" %}</h3>
+    <ol class="ranklist">
+      {% for item in topcoffeerecent %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with coffeecount=item.caffeine_count %}{{ coffeecount }} Coffees{% endblocktrans %}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="rankbox">
+    <h3>{% trans "Top mate drinkers" %}</h3>
+    <ol class="ranklist">
+      {% for item in topmaterecent %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with matecount=item.caffeine_count %}{{ matecount }} Mate{% endblocktrans %}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+</div>
+<div class="white-box" id="recent-top-average">
+  <h2>{% blocktrans %}Top daily average <small>(last 30 days)</small>{% endblocktrans %}</h2>
+  <div class="rankbox">
+    <h3>{% trans "Top daily coffee average" %}</h3>
+    <ol class="ranklist">
+      {% for item in topcoffeeavgrecent %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="rankbox">
+    <h3>{% trans "Top daily mate average" %}</h3>
+    <ol class="ranklist">
+      {% for item in topmateavgrecent %}
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="clearfix">&nbsp;</div>
+</div>
+<div class="white-box" id="overall-top-drinkers">
   <h2>{% trans "Top drinkers" %}</h2>
   <div class="rankbox">
     <h3>{% trans "Top coffee drinkers" %}</h3>
@@ -50,7 +90,7 @@
   </div>
   <div class="clearfix">&nbsp;</div>
 </div>
-<div class="white-box" id="ranks">
+<div class="white-box" id="overall-top-average">
   <h2>{% trans "Top daily average" %}</h2>
   <div class="rankbox">
     <h3>{% trans "Top daily coffee average" %}</h3>

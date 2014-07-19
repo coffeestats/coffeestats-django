@@ -97,6 +97,14 @@ class ExploreView(LoginRequiredMixin, TemplateView):
                 DRINK_TYPES.mate, 10),
             'topmateavg': Caffeine.objects.top_consumers_average(
                 DRINK_TYPES.mate, 10),
+            'topcoffeerecent': Caffeine.objects.top_consumers_total(
+                DRINK_TYPES.coffee, 10, '30 days'),
+            'topcoffeeavgrecent': Caffeine.objects.top_consumers_average(
+                DRINK_TYPES.coffee, 10, '30 days'),
+            'topmaterecent': Caffeine.objects.top_consumers_total(
+                DRINK_TYPES.mate, 10, '30 days'),
+            'topmateavgrecent': Caffeine.objects.top_consumers_average(
+                DRINK_TYPES.mate, 10, '30 days'),
             'recentlyjoined': User.objects.recently_joined(5),
             'longestjoined': User.objects.longest_joined(
                 count=5, days=365)})

@@ -105,10 +105,14 @@ class CaffeineUserManager(BaseUserManager):
         if days is not None:
             q = self.raw(
                 '''
-                SELECT DISTINCT u.*
-                  FROM caffeine_user u
-                  JOIN caffeine_caffeine c ON c.user_id = u.id
-                WHERE c.date >= CURRENT_DATE - INTERVAL '{0:d} days'
+                SELECT u.*
+                FROM   caffeine_user u
+                WHERE EXISTS (
+                  SELECT c.id
+                  FROM   caffeine_caffeine c
+                  WHERE  c.user_id = u.id
+                  AND    c.date >= CURRENT_DATE - INTERVAL '{0:d} days'
+                )
                 ORDER BY u.date_joined
                 LIMIT {1:d}
                 '''.format(days, count))
@@ -501,10 +505,30 @@ class CaffeineManager(models.Manager):
     def latest_caffeine_activity(self, count=10):
         return self.order_by('-date').select_related('user')[:count].all()
 
-    def top_consumers_total(self, ctype, count=10):
+    def top_consumers_total(self, ctype, count=10, interval=None):
         q = self.filter(ctype=ctype).select_related('user').values_list(
             'user').annotate(caffeine_count=models.Count('id')).order_by(
-            '-caffeine_count')[:count]
+            '-caffeine_count')
+        if interval is not None:
+            cursor = connection.cursor()
+            cursor.execute(
+                """
+                SELECT c.user_id,
+                       COUNT(c.id) AS caffeine_count
+                FROM   caffeine_caffeine c
+                WHERE  c.ctype = %s
+                AND    c.date >= CURRENT_DATE - INTERVAL %s
+                GROUP BY c.user_id
+                ORDER BY caffeine_count DESC
+                LIMIT %s
+                """, [ctype, interval, count]
+            )
+            q = cursor.fetchall()
+        else:
+            q = self.filter(ctype=ctype).select_related(
+                'user').values_list('user').annotate(
+                caffeine_count=models.Count('id')).order_by(
+                '-caffeine_count')[:count]
         users = User.objects.in_bulk([user for user, caffeine_count in q])
         result = []
         for user_id, caffeine_count in q:
@@ -512,23 +536,38 @@ class CaffeineManager(models.Manager):
                            'caffeine_count': caffeine_count})
         return result
 
-    def top_consumers_average(self, ctype, count=10):
+    def top_consumers_average(self, ctype, count=10, interval=None):
         result = []
         cursor = connection.cursor()
-        cursor.execute(
-            """
-            SELECT c.user_id,
-                   COUNT(c.id) /
-                   (date_part(
-                       'day',
-                       (CURRENT_DATE - MIN(c.date))) + 1) AS average
-            FROM   caffeine_caffeine c JOIN caffeine_user u ON
-                   c.user_id = u.id
-            WHERE  c.ctype = %s
-            GROUP BY c.user_id
-            ORDER BY average DESC
-            LIMIT %s
-            """, [ctype, count])
+        if interval is not None:
+            cursor.execute(
+                """
+                SELECT c.user_id,
+                    COUNT(c.id) /
+                    date_part('day', INTERVAL %s) AS average
+                FROM  caffeine_caffeine c
+                WHERE c.ctype = %s
+                  AND c.date >= CURRENT_DATE - INTERVAL %s
+                GROUP BY c.user_id
+                ORDER BY average DESC
+                LIMIT %s
+                """, [interval, ctype, interval, count]
+            )
+        else:
+            cursor.execute(
+                """
+                SELECT c.user_id,
+                    COUNT(c.id) /
+                    (date_part(
+                        'day',
+                        (CURRENT_DATE - MIN(c.date))) + 1) AS average
+                FROM   caffeine_caffeine c
+                WHERE  c.ctype = %s
+                GROUP BY c.user_id
+                ORDER BY average DESC
+                LIMIT %s
+                """, [ctype, count]
+            )
         q = cursor.fetchall()
         users = User.objects.in_bulk([row[0] for row in q])
         for user_id, average in q:

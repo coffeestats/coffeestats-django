@@ -39,6 +39,20 @@ class BaseCoffeeStatsPageTestMixin(object):
         # The caffeine junkie sees that the page title mention coffeestats and
         # looks at the awesome headline and slogan in the header
         self.assertIn('coffeestats', self.selenium.title)
+
+        # find favicon and touch icons
+        favicons = self.selenium.find_elements_by_css_selector(
+            'link[rel="shortcut icon"]')
+        self.assertEqual(len(favicons), 1)
+
+        touchicons = self.selenium.find_elements_by_css_selector(
+            'link[rel="apple-touch-icon"]')
+        self.assertEqual(len(touchicons), 4)
+        sizes = (None, '72x72', '114x114', '144x144')
+        for icidx in range(4):
+            self.assertEqual(
+                touchicons[icidx].get_attribute('sizes'), sizes[icidx])
+
         header = self.selenium.find_element_by_id('header')
         # the title links to the home page
         homelink = header.find_element_by_link_text('coffeestats.org')

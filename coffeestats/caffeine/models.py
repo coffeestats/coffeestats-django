@@ -105,10 +105,14 @@ class CaffeineUserManager(BaseUserManager):
         if days is not None:
             q = self.raw(
                 '''
-                SELECT DISTINCT u.*
-                  FROM caffeine_user u
-                  JOIN caffeine_caffeine c ON c.user_id = u.id
-                WHERE c.date >= CURRENT_DATE - INTERVAL '{0:d} days'
+                SELECT u.*
+                FROM   caffeine_user u
+                WHERE EXISTS (
+                  SELECT c.id
+                  FROM   caffeine_caffeine c
+                  WHERE  c.user_id = u.id
+                  AND    c.date >= CURRENT_DATE - INTERVAL '{0:d} days'
+                )
                 ORDER BY u.date_joined
                 LIMIT {1:d}
                 '''.format(days, count))

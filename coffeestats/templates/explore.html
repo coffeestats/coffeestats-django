@@ -36,7 +36,7 @@
     <h3>{% trans "Top coffee drinkers" %}</h3>
     <ol class="ranklist">
       {% for item in topcoffeerecent %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with coffeecount=item.caffeine_count %}{{ coffeecount }} Coffees{% endblocktrans %}</li>
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with coffeecount=item.total coffeeaverage=item.average|floatformat:3 %}{{ coffeecount }} ({{ coffeeaverage }}/day){% endblocktrans %}</li>
       {% endfor %}
     </ol>
   </div>
@@ -44,27 +44,7 @@
     <h3>{% trans "Top mate drinkers" %}</h3>
     <ol class="ranklist">
       {% for item in topmaterecent %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with matecount=item.caffeine_count %}{{ matecount }} Mate{% endblocktrans %}</li>
-      {% endfor %}
-    </ol>
-  </div>
-  <div class="clearfix">&nbsp;</div>
-</div>
-<div class="white-box" id="recent-top-average">
-  <h2>{% blocktrans %}Top daily average <small>(last 30 days)</small>{% endblocktrans %}</h2>
-  <div class="rankbox">
-    <h3>{% trans "Top daily coffee average" %}</h3>
-    <ol class="ranklist">
-      {% for item in topcoffeeavgrecent %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average|floatformat:3 }}</li>
-      {% endfor %}
-    </ol>
-  </div>
-  <div class="rankbox">
-    <h3>{% trans "Top daily mate average" %}</h3>
-    <ol class="ranklist">
-      {% for item in topmateavgrecent %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average|floatformat:3 }}</li>
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {% blocktrans with matecount=item.total mateaverage=item.average|floatformat:3 %}{{ matecount }} ({{ mateaverage }}/day){% endblocktrans %}</li>
       {% endfor %}
     </ol>
   </div>

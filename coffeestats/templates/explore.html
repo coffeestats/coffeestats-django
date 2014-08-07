@@ -56,7 +56,7 @@
     <h3>{% trans "Top daily coffee average" %}</h3>
     <ol class="ranklist">
       {% for item in topcoffeeavgrecent %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average|floatformat:3 }}</li>
       {% endfor %}
     </ol>
   </div>
@@ -64,7 +64,7 @@
     <h3>{% trans "Top daily mate average" %}</h3>
     <ol class="ranklist">
       {% for item in topmateavgrecent %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average|floatformat:3 }}</li>
       {% endfor %}
     </ol>
   </div>
@@ -96,7 +96,7 @@
     <h3>{% trans "Top daily coffee average" %}</h3>
     <ol class="ranklist">
       {% for item in topcoffeeavg %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average|floatformat:3 }}</li>
       {% endfor %}
     </ol>
   </div>
@@ -104,7 +104,7 @@
     <h3>{% trans "Top daily mate average" %}</h3>
     <ol class="ranklist">
       {% for item in topmateavg %}
-      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average }}</li>
+      <li>{% include "includes/profilelink.html" with profileuser=item.user %} - {{ item.average|floatformat:3 }}</li>
       {% endfor %}
     </ol>
   </div>

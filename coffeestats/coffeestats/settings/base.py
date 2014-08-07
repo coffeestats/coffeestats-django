@@ -163,6 +163,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'absolute.context_processors.absolute',
     'caffeine.context_processors.mainnav',
     'caffeine.context_processors.socialurls',
     'caffeine.context_processors.piwikdata',

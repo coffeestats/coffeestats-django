@@ -116,6 +116,7 @@ class ExploreViewTest(CaffeineViewTest):
         response = self.client.get('/explore/')
         for item in ('activities', 'users', 'topcoffee',
                      'topcoffeeavg', 'topmate', 'topmateavg',
+                     'topcoffeerecent', 'topmaterecent',
                      'recentlyjoined', 'longestjoined'):
             self.assertIn(item, response.context)
 

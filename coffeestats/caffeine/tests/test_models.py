@@ -489,27 +489,6 @@ class CaffeineManagerTest(TestCase):
                 )
         return users
 
-    def test_top_consumers_total_limited(self):
-        users = self._create_users_with_deterministic_data()
-        toptotal_limited = Caffeine.objects.top_consumers_total(
-            DRINK_TYPES.coffee, interval='10 days')
-        self.assertEqual([item['user']
-                          for item in toptotal_limited],
-                         [users[9], users[10], users[8], users[4], users[5],
-                          users[3], users[6], users[7], users[1], users[2]])
-        self.assertEqual([item['caffeine_count']
-                          for item in toptotal_limited],
-                         [20, 18, 13, 12, 10, 9, 8, 7, 6, 4])
-        toptotal_limited = Caffeine.objects.top_consumers_total(
-            DRINK_TYPES.mate, interval='10 days')
-        self.assertEqual([item['user']
-                          for item in toptotal_limited],
-                         [users[3], users[2], users[6], users[8], users[0],
-                          users[10], users[5], users[9], users[7], users[4]])
-        self.assertEqual([item['caffeine_count']
-                          for item in toptotal_limited],
-                         [18, 14, 11, 10, 8, 6, 5, 4, 3, 2])
-
     def test_top_consumers_average(self):
         users = self._create_users(20)
         matecount = 2
@@ -538,22 +517,27 @@ class CaffeineManagerTest(TestCase):
         averages = [item['average'] for item in topavg]
         self.assertTrue(averages, sorted(averages, reverse=True))
 
-    def test_top_consumers_average_limited(self):
+    def test_top_consumers_recent(self):
         users = self._create_users_with_deterministic_data()
-        topavg_limited = Caffeine.objects.top_consumers_average(
+        top_recent = Caffeine.objects.top_consumers_recent(
             DRINK_TYPES.coffee, interval='10 days')
-        self.assertEqual([item['user'] for item in topavg_limited],
+        self.assertEqual([item['user'] for item in top_recent],
                          [users[9], users[10], users[8], users[4], users[5],
                           users[3], users[6], users[7], users[1], users[2]])
-        self.assertEqual([item['average'] for item in topavg_limited],
+        self.assertEqual([item['average'] for item in top_recent],
                          [2.0, 1.8, 1.3, 1.2, 1.0, 0.9, 0.8, 0.7, 0.6, 0.4])
-        topavg_limited = Caffeine.objects.top_consumers_average(
+        self.assertEqual([item['total'] for item in top_recent],
+                         [20, 18, 13, 12, 10, 9, 8, 7, 6, 4])
+        top_recent = Caffeine.objects.top_consumers_recent(
             DRINK_TYPES.mate, interval='10 days')
-        self.assertEqual([item['user'] for item in topavg_limited],
+        self.assertEqual([item['user'] for item in top_recent],
                          [users[3], users[2], users[6], users[8], users[0],
                           users[10], users[5], users[9], users[7], users[4]])
-        self.assertEqual([item['average'] for item in topavg_limited],
+        self.assertEqual([item['average'] for item in top_recent],
                          [1.8, 1.4, 1.1, 1.0, 0.8, 0.6, 0.5, 0.4, 0.3, 0.2])
+        self.assertEqual([item['total']
+                          for item in top_recent],
+                         [18, 14, 11, 10, 8, 6, 5, 4, 3, 2])
 
     def test_get_csv_data(self):
         user = User.objects.create()

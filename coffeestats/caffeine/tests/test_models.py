@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
 
+from passlib.hash import bcrypt
 
 from caffeine.models import (
     ACTION_TYPES,
@@ -129,6 +130,26 @@ class UserTest(TestCase):
                                  r'^mate-.+\.csv$')
         self.assertEqual(mail.outbox[0].attachments[0][2], 'text/csv')
         self.assertEqual(mail.outbox[0].attachments[1][2], 'text/csv')
+
+    def test_has_usable_password_oldhash(self):
+        user = User.objects.create(username='testuser',
+                                   email='testuser@bla.com')
+        user.cryptsum = bcrypt.encrypt('test', ident='2y')
+        user.password = ''
+        user.save()
+        self.assertTrue(user.has_usable_password())
+
+    def test_has_usable_password_newhash(self):
+        user = User.objects.create_user(
+            username='testuser', email='testuser@bla.com', password='test')
+        user.save()
+        self.assertTrue(user.has_usable_password())
+
+    def test_has_usable_password_nohash(self):
+        user = User.objects.create(username='testuser',
+                                   email='testuser@bla.com')
+        user.save()
+        self.assertFalse(user.has_usable_password())
 
 
 class CaffeineManagerTest(TestCase):

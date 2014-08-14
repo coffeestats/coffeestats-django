@@ -155,6 +155,14 @@ class User(AbstractUser):
                  'text/csv'))
         email.send()
 
+    def has_usable_password(self):
+        """
+        Checks whether the current user has either an old password hash or a
+        valid new password hash.
+
+        """
+        return self.cryptsum or super(User, self).has_usable_password()
+
 
 def _total_result_dict():
     return {

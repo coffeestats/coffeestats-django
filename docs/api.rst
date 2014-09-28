@@ -62,8 +62,8 @@ random-users
    :form t: on-the-run token
    :form count: optional number of users
    :resheader Content-Type: :mimetype:`text/json`
-   :status 200: all is ok, body contains a list of users
-   :status 403: authentication required
+   :statuscode 200: all is ok, body contains a list of users
+   :statuscode 403: authentication required
 
 **curl example**
 

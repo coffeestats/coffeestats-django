@@ -1,8 +1,8 @@
-Django==1.6.5
+Django==1.7
 bpython==0.13.1
 django-braces==1.4.0
 django-model-utils==2.2
-django-registration==1.0
+django-registration-redux==1.1
 django-absolute==0.3
 logutils==0.3.3
 psycopg2==2.5.4

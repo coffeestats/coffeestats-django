@@ -118,3 +118,22 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
             self.assertEqual(len(box.find_elements_by_tag_name('canvas')), 1)
 
         self.check_page_footer()
+
+
+class ProfilePageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
+
+    def test_redirect_profile_for_anonymous(self):
+        self.selenium.get(self.server_url + '/profile/')
+
+        self.check_page_header()
+
+        # He finds out that he was redirected to a login page
+        self.assertRegexpMatches(self.selenium.current_url,
+                                 r'/auth/login/\?next=/profile/$')
+
+        # there is a navigation in the page header
+        header = self.selenium.find_element_by_id('header')
+        nav = header.find_element_by_tag_name('nav')
+        self.assertEquals("Login\nRegister", nav.text)
+
+        self.check_page_footer()

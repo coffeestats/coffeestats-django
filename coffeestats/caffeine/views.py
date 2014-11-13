@@ -209,7 +209,8 @@ class ProfileView(PublicProfileView):
             return HttpResponseRedirect(reverse('public', kwargs={
                 'username': request.GET['u']}))
         if not request.user.is_authenticated():
-            return HttpResponseBadRequest(_('Invalid request!'))
+            return HttpResponseRedirect(
+                "%s?next=%s" % (settings.LOGIN_URL, request.path))
         return super(ProfileView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

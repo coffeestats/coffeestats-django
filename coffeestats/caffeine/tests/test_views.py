@@ -200,9 +200,9 @@ class ProfileViewsTest(CaffeineViewTest):
 
     """
 
-    def test_bad_request_for_anonymous(self):
+    def test_redirect_for_anonymous(self):
         response = self.client.get('/profile/')
-        self.assertEqual(response.status_code, 400)
+        self.assertRedirects(response, '/auth/login/?next=/profile/')
 
     def test_notfound_for_missing_user(self):
         response = self.client.get('/profile/testuser/')

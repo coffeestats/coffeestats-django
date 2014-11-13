@@ -1,7 +1,7 @@
 import re
 
-from django.test import LiveServerTestCase
 from django.core import mail
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -15,7 +15,7 @@ simple_url_re = re.compile(
     re.IGNORECASE | re.MULTILINE)
 
 
-class SeleniumTest(LiveServerTestCase):
+class SeleniumTest(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):

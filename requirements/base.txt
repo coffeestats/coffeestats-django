@@ -1,5 +1,5 @@
-Django==1.7.3
-bpython==0.13.1
+Django==1.7.4
+bpython==0.13.2
 django-braces==1.4.0
 django-model-utils==2.2
 django-registration-redux==1.1
@@ -8,4 +8,4 @@ logutils==0.3.3
 psycopg2==2.5.4
 passlib==1.6.2
 py-bcrypt==0.4
-pytz==2014.9
+pytz==2014.10

@@ -4,7 +4,6 @@ from django.core.urlresolvers import (
     reverse_lazy,
 )
 from django.http import (
-    HttpResponseBadRequest,
     HttpResponseRedirect,
 )
 from django.template.loader import render_to_string

@@ -610,7 +610,7 @@ class Caffeine(models.Model):
     """
     ctype = models.PositiveSmallIntegerField(choices=DRINK_TYPES,
                                              db_index=True)
-    user = models.ForeignKey('User')
+    user = models.ForeignKey('User', related_name='caffeines')
     date = models.DateTimeField(_('consumed'), db_index=True)
     entrytime = AutoCreatedField(_('entered'), db_index=True)
     timezone = models.CharField(max_length=40, db_index=True,

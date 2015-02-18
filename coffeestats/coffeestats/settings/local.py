@@ -33,6 +33,7 @@ CACHES = {
 # See: http://django-debug-toolbar.readthedocs.org/en/latest/installation.html#explicit-setup  # noqa
 INSTALLED_APPS += (
     'debug_toolbar',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES += (

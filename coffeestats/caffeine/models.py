@@ -52,7 +52,7 @@ class CaffeineUserManager(BaseUserManager):
             user.set_password(password)
             # on the run token
             # TODO: use something better for API authentication
-            user.token = md5(username + password).hexdigest()
+            user.token = md5((username + password).encode("utf8")).hexdigest()
         user.date_joined = timezone.now()
         user.save(using=self.db)
         return user

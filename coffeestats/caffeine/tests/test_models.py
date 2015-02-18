@@ -1,3 +1,6 @@
+# -*- coding: utf8 -*-
+from __future__ import unicode_literals
+
 from hashlib import md5
 from calendar import monthrange
 from datetime import datetime, timedelta
@@ -50,6 +53,14 @@ class CaffeineUserManagerTest(TestCase):
     def test_create_user_with_password(self):
         user = User.objects.create_user('testuser', 'test@bla.com', 'password')
         self.assertEqual(user.token, md5('testuserpassword').hexdigest())
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(user.public)
+
+    def test_create_user_with_password_unicode_chars(self):
+        user = User.objects.create_user('testuser', 'test@bla.com', 'paßwört')
+        self.assertEqual(
+            user.token, md5('testuserpaßwört'.encode('utf8')).hexdigest())
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.is_staff)
         self.assertTrue(user.public)

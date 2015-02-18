@@ -1,14 +1,28 @@
 from django.conf.urls import include, url
 from django.conf import settings
 from django.views.i18n import javascript_catalog
+from rest_framework import routers
 
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 admin.autodiscover()
 
+from caffeine_api_v2 import views as apiv2_views
+
+
+# Routers for determining the URL conf
+router = routers.DefaultRouter()
+router.register(r'users', apiv2_views.UserViewSet)
+router.register(r'caffeine', apiv2_views.CaffeineViewSet)
+
+
 urlpatterns = [
     url(r'^', include('caffeine.urls')),
     url(r'^api/v1/', include('caffeine_api_v1.urls', 'apiv1')),
+    # new API
+    url(r'^api/v2/', include(router.urls)),
+    url(r'^api-auth/',
+        include('rest_framework.urls', namespace='rest_framework')),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

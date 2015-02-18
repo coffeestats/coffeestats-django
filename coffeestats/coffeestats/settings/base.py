@@ -202,20 +202,16 @@ ROOT_URLCONF = '%s.urls' % SITE_NAME
 
 # ######### APP CONFIGURATION
 DJANGO_APPS = (
-    # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Useful template tags:
     'django.contrib.humanize',
-
-    # Admin panel and documentation:
     'django.contrib.admin',
-    # 'django.contrib.admindocs',
+
+    'rest_framework',
 )
 
 # Apps specific for this project go here.
@@ -253,6 +249,16 @@ MESSAGE_TAGS = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 # ######### END APP CONFIGURATION
+
+
+# ######### REST FRAMEWORK CONFIGURATION
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGINATE_BY': 10
+}
+# ######### END REST FRAMEWORK CONFIGURATION
 
 
 # ######### LOGGING CONFIGURATION

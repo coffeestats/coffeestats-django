@@ -211,6 +211,7 @@ DJANGO_APPS = (
     'django.contrib.humanize',
     'django.contrib.admin',
 
+    'oauth2_provider',
     'rest_framework',
 )
 
@@ -253,10 +254,18 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
 # ######### REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAdminUser',
     ],
     'PAGINATE_BY': 10
+}
+
+OAUTH2_PROVIDER = {
+    # the list of available scopes
+    'SCOPES': { 'read': 'Read scope', 'write': 'Write scope' },
 }
 # ######### END REST FRAMEWORK CONFIGURATION
 

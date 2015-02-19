@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^api/v2/', include(router.urls)),
     url(r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')),
+    # oauth2
+    url(r'^oauth2/',
+        include('oauth2_provider.urls', namespace='oauth2_provider')),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

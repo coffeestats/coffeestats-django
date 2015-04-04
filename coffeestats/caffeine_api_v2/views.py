@@ -1,6 +1,7 @@
 from rest_framework import permissions, viewsets
+from rest_framework.reverse import reverse
 
-from caffeine.models import Caffeine, User
+from caffeine.models import Caffeine, User, DRINK_TYPES
 from .serializers import CaffeineSerializer, UserSerializer
 from .permissions import IsOwnerOrReadOnly
 
@@ -14,8 +15,12 @@ class CaffeineViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        request.data['user'] = reverse(
+            'user-detail', kwargs={'username': request.user.username},
+            request=request)
+        request.data['ctype'] = getattr(DRINK_TYPES, request.data['ctype'])
+        return super(CaffeineViewSet, self).create(request, *args, **kwargs)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -24,3 +29,4 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    lookup_field = 'username'

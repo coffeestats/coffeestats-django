@@ -8,7 +8,7 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('caffeine', '0001_initial'),
+        ('caffeine', '0002_auto_20150404_2202'),
     ]
 
     operations = [

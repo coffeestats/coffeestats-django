@@ -271,6 +271,16 @@ OAUTH2_PROVIDER = {
 # ######### END REST FRAMEWORK CONFIGURATION
 
 
+# ######### CUSTOM MIGRATIONS FOR APPS WITHOUT MIGRATIONS
+# this setting is required to make oauth2_provider work
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+MIGRATION_MODULES = {
+    'registration': 'thirdparty.registration.migrations',
+    'oauth2_provider': 'thirdparty.oauth2_provider.migrations',
+}
+# ######### END CUSTOM MIGRATIONS FOR APPS WITHOUT MIGRATIONS
+
+
 # ######### LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # A sample logging configuration. The only tangible logging

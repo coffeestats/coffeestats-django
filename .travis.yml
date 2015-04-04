@@ -25,7 +25,6 @@ before_script:
 
 script:
   - "cd coffeestats"
-  - "python manage.py makemigrations registration"
   - "coverage run manage.py test"
 
 after_success:

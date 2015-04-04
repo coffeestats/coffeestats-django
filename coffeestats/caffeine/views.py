@@ -335,6 +335,8 @@ class OnTheRunView(TemplateView):
 
 
 class OnTheRunOldView(RedirectView):
+    permanent = True
+
     def get_redirect_url(self, *args, **kwargs):
         user = get_object_or_404(
             User, username=self.request.GET.get('u'),

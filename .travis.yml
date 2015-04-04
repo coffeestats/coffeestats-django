@@ -12,6 +12,7 @@ before_script:
   - psql -c 'create database coffeestats;' -U postgres
 script:
   - "cd coffeestats"
+  - "python manage.py makemigrations registration"
   - "coverage run manage.py test"
 after_success:
   coveralls

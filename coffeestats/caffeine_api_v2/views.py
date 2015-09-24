@@ -2,31 +2,47 @@ from rest_framework import permissions, viewsets
 from rest_framework.reverse import reverse
 
 from caffeine.models import Caffeine, User, DRINK_TYPES
-from .serializers import CaffeineSerializer, UserSerializer
-from .permissions import IsOwnerOrReadOnly
+from .serializers import (
+    CaffeineSerializer,
+    UserCaffeineSerializer,
+    UserSerializer,
+)
+from .permissions import IsOwnerOrReadOnly, IsOwnCaffeineOrReadOnly
 
 
-class CaffeineViewSet(viewsets.ModelViewSet):
+class CaffeineViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows users to be viewed.
+    API endpoint that allows caffeine entries to be viewed.
     """
     queryset = Caffeine.objects.all()
     serializer_class = CaffeineSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
-
-    def create(self, request, *args, **kwargs):
-        request.data['user'] = reverse(
-            'user-detail', kwargs={'username': request.user.username},
-            request=request)
-        request.data['ctype'] = getattr(DRINK_TYPES, request.data['ctype'])
-        return super(CaffeineViewSet, self).create(request, *args, **kwargs)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows caffeine entries to be viewed.
+    API endpoint that allows users to be viewed.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'username'
+
+
+class UserCaffeineViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows working with a users caffeine entries.
+    """
+    serializer_class = UserCaffeineSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnCaffeineOrReadOnly,
+                          IsOwnerOrReadOnly,)
+    _view_owner = None
+
+    def _get_view_owner(self):
+        if self._view_owner is None:
+            self._view_owner = User.objects.get(
+                username=self.kwargs['caffeine_username'])
+        return self._view_owner
+    view_owner = property(_get_view_owner)
+
+    def get_queryset(self):
+        return self.view_owner.caffeines.all()

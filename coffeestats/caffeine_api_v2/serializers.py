@@ -6,28 +6,39 @@ class CaffeineSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Caffeine
         fields = (
-            'url', 'user', 'date', 'entrytime', 'timezone',
-            'ctype'
+            'url', 'user', 'date', 'timezone', 'ctype'
         )
         extra_kwargs = {
             'user': {'lookup_field': 'username'},
         }
 
 
+class UserCaffeineSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Caffeine
+        fields = (
+            'url', 'date', 'entrytime', 'timezone', 'ctype',
+        )
+
+    def save(self):
+        self.validated_data['user'] = self.context['view'].view_owner
+        super(UserCaffeineSerializer, self).save()
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    caffeines = serializers.HyperlinkedRelatedField(
-        many=True, view_name='caffeine-detail', read_only=True)
+    caffeines = serializers.HyperlinkedIdentityField(
+        view_name='user-caffeine-list', lookup_field='username',
+        lookup_url_kwarg='caffeine_username')
     name = serializers.SerializerMethodField()
     profile = serializers.HyperlinkedIdentityField(
         view_name='public', lookup_field='username')
-    coffees = serializers.SerializerMethodField()
-    mate = serializers.SerializerMethodField()
+    counts = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
             'url', 'username', 'location', 'first_name', 'last_name',
-            'caffeines', 'name', 'profile', 'coffees', 'mate',
+            'name', 'profile', 'counts', 'caffeines',
         )
         extra_kwargs = {
             'url': {'lookup_field': 'username'},
@@ -36,10 +47,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     def get_name(self, obj):
         return obj.get_full_name()
 
-    def get_coffees(self, obj):
-        return Caffeine.objects.total_caffeine_for_user(obj)[
-            DRINK_TYPES.coffee]
-
-    def get_mate(self, obj):
-        return Caffeine.objects.total_caffeine_for_user(obj)[
-            DRINK_TYPES.mate]
+    def get_counts(self, obj):
+        count_items = Caffeine.objects.total_caffeine_for_user(obj)
+        return count_items

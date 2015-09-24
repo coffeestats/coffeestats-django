@@ -11,3 +11,14 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         return obj.user == request.user
+
+
+class IsOwnCaffeineOrReadOnly(permissions.BasePermission):
+    """
+    Custom permission to only allow operations on own caffeine items.
+
+    """
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return view.view_owner == request.user

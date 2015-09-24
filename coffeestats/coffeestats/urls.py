@@ -11,16 +11,20 @@ from caffeine_api_v2 import views as apiv2_views
 
 
 # Routers for determining the URL conf
-router = routers.DefaultRouter()
+router = routers.SimpleRouter()
 router.register(r'users', apiv2_views.UserViewSet)
 router.register(r'caffeine', apiv2_views.CaffeineViewSet)
 
+users_router = routers.NestedSimpleRouter(router, r'users', lookup='caffeine')
+users_router.register(
+    r'caffeine', apiv2_views.UserCaffeineViewSet, base_name='user-caffeine')
 
 urlpatterns = [
     url(r'^', include('caffeine.urls')),
     url(r'^api/v1/', include('caffeine_api_v1.urls', 'apiv1')),
     # new API
     url(r'^api/v2/', include(router.urls)),
+    url(r'^api/v2/', include(users_router.urls)),
     url(r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')),
     # oauth2

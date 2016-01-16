@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 #
-# Copyright (c) 2014 Jan Dittberner
+# Copyright (c) 2014-2016 Jan Dittberner
 #
 # This file is part of coffeestats and is distributed under the same license
 # terms.
@@ -14,12 +14,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "coffeestats-django"
+  config.vm.box = "debian/jessie64"
 
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "http://debianstuff.dittberner.info/debian-wheezy-7_4-i386-salt-0_17_5.box"
+  config.vm.hostname = "coffeestats-dev"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -37,20 +34,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider :virtualbox do |vb|
+  config.vm.provider :virtualbox do |vb|
   #   # Don't boot with headless mode
   #   vb.gui = true
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
-  #
-  # View the documentation for the provider you're using for more
-  # information on available options.
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
 
   config.vm.provision :salt do |salt|
-
+      salt.bootstrap_script = "salt/bootstrap.sh"
+      salt.minion_id = "coffeestats"
+      salt.masterless = true
       salt.run_highstate = true
-
+      salt.verbose = true
+      salt.colorize = true
   end
 end

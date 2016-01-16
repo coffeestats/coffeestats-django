@@ -236,10 +236,6 @@ class CaffeineRegistrationView(RegistrationView):
     """
     form_class = CoffeestatsRegistrationForm
 
-    def form_valid(self, form, request=None):
-        return super(
-            CaffeineRegistrationView, self).form_valid(form, request)
-
     def get_success_url(self, request, user):
         messages.add_message(
             request, messages.SUCCESS, REGISTRATION_SUCCESS_MESSAGE)
@@ -247,9 +243,10 @@ class CaffeineRegistrationView(RegistrationView):
             request, messages.INFO, REGISTRATION_MAILINFO_MESSAGE)
         return reverse_lazy('home')
 
-    def register(self, request, **cleaned_data):
+    def register(self, request, form):
+        cleaned_data = form.cleaned_data
         new_user = super(CaffeineRegistrationView, self).register(
-            request, **cleaned_data)
+            request, form)
         new_user.first_name = cleaned_data['firstname']
         new_user.last_name = cleaned_data['lastname']
         new_user.location = cleaned_data['location']

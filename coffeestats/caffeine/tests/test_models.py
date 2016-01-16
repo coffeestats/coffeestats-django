@@ -165,11 +165,13 @@ class UserTest(TestCase):
 
 class CaffeineManagerTest(TestCase):
 
+    def setUp(self):
+        self.now = datetime.now()
+
     def _generate_caffeine_one_day(self, user):
-        now = datetime.today()
         for hour in range(10, 18):
             coffeetime = datetime(
-                now.year, now.month, now.day, hour)
+                self.now.year, self.now.month, self.now.day, hour)
             Caffeine.objects.create(ctype=DRINK_TYPES.coffee,
                                     date=coffeetime, user=user)
             if hour % 2 == 0:
@@ -178,25 +180,23 @@ class CaffeineManagerTest(TestCase):
                                         date=matetime, user=user)
 
     def _generate_caffeine_one_month(self, user):
-        now = datetime.today()
         labels = []
-        for day in range(1, monthrange(now.year, now.month)[1] + 1):
+        for day in range(1, monthrange(self.now.year, self.now.month)[1] + 1):
             labels += [unicode(day)]
             for hour, drinktype in [
                 (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                 for hour in range(10, 18)
             ]:
                 caffeinetime = datetime(
-                    now.year, now.month, day, hour)
+                    self.now.year, self.now.month, day, hour)
                 Caffeine.objects.create(ctype=drinktype,
                                         date=caffeinetime, user=user)
         return labels
 
     def _generate_caffeine_one_year(self, user):
         for month in range(1, 13):
-            now = datetime.now()
             for day in [
-                random.randrange(monthrange(now.year, month)[1]) + 1
+                random.randrange(monthrange(self.now.year, month)[1]) + 1
                 for n in range(5)
             ]:
                 for hour, drinktype in [
@@ -204,7 +204,7 @@ class CaffeineManagerTest(TestCase):
                     for hour in range(10, 18)
                 ]:
                     caffeinetime = datetime(
-                        now.year, month, day, hour)
+                        self.now.year, month, day, hour)
                     Caffeine.objects.create(ctype=drinktype,
                                             date=caffeinetime, user=user)
 
@@ -214,16 +214,14 @@ class CaffeineManagerTest(TestCase):
                                  token='foo{}'.format(usernum)),
              list(DRINK_TYPES)[usernum % len(DRINK_TYPES)][0])
                 for usernum in range(usercount)]:
-            now = datetime.now()
 
             for day in [random.randrange(100)
                         for item in range(caffeineperuser)]:
-                caffeinetime = now - timedelta(days=day)
+                caffeinetime = self.now - timedelta(days=day)
                 Caffeine.objects.create(
                     user=user, ctype=drinktype, date=caffeinetime)
 
     def _create_random_caffeine(self, users, number, timespan):
-        now = datetime.now()
         drinks = dict(
             [(drinktype[0], {
                 'month': 12 * [0],
@@ -238,7 +236,7 @@ class CaffeineManagerTest(TestCase):
                       seconds=random.randrange(86400))
             for _ in range(number)
         ]:
-            caffeinetime = now - timeoffset
+            caffeinetime = self.now - timeoffset
             ctype = random.choice(list(DRINK_TYPES))[0]
             user = random.choice(users)
             Caffeine.objects.create(date=caffeinetime, user=user, ctype=ctype)
@@ -409,35 +407,34 @@ class CaffeineManagerTest(TestCase):
     def test_find_recent_caffeine_no_caffeine(self):
         user = User.objects.create(username='testuser', token='foo')
         Caffeine.objects.create(user=user, ctype=DRINK_TYPES.coffee,
-                                date=timezone.now() - timedelta(days=2))
+                                date=self.now - timedelta(days=2))
         Caffeine.objects.create(user=user, ctype=DRINK_TYPES.mate,
-                                date=timezone.now())
+                                date=self.now)
         self.assertFalse(
             Caffeine.objects.find_recent_caffeine(
-                user=user, date=timezone.now(), ctype=DRINK_TYPES.coffee)
+                user=user, date=self.now, ctype=DRINK_TYPES.coffee)
         )
 
     def test_find_recent_caffeine_caffeine(self):
         user = User.objects.create(username='testuser', token='foo')
         Caffeine.objects.create(user=user, ctype=DRINK_TYPES.coffee,
-                                date=timezone.now() - timedelta(days=2))
+                                date=self.now - timedelta(days=2))
         latest = Caffeine.objects.create(
             user=user, ctype=DRINK_TYPES.coffee,
-            date=timezone.now() - timedelta(seconds=60))
+            date=self.now - timedelta(seconds=60))
         self.assertEqual(
             Caffeine.objects.find_recent_caffeine(
-                user=user, date=timezone.now(), ctype=DRINK_TYPES.coffee),
+                user=user, date=self.now, ctype=DRINK_TYPES.coffee),
             latest
         )
 
     def test_latest_caffeine_activity(self):
         users = self._create_users(5)
-        now = timezone.now()
         drinks = [
             Caffeine.objects.create(
                 user=random.choice(users),
                 ctype=random.choice(list(DRINK_TYPES))[0],
-                date=now - timedelta(seconds=random.randrange(86400))
+                date=self.now - timedelta(seconds=random.randrange(86400))
             )
             for _ in range(20)
         ]
@@ -454,19 +451,18 @@ class CaffeineManagerTest(TestCase):
         users = self._create_users(20)
         matecount = 1
         coffeecount = 20
-        now = timezone.now()
         for user in users:
             for _ in range(coffeecount):
                 Caffeine.objects.create(
                     user=user, ctype=DRINK_TYPES.coffee,
-                    date=now - timedelta(
+                    date=self.now - timedelta(
                         days=random.randrange(100),
                         seconds=random.randrange(86400)))
             coffeecount -= 1
             for _ in range(matecount):
                 Caffeine.objects.create(
                     user=user, ctype=DRINK_TYPES.mate,
-                    date=now - timedelta(
+                    date=self.now - timedelta(
                         days=random.randrange(100),
                         seconds=random.randrange(86400)))
             matecount += 1
@@ -480,6 +476,12 @@ class CaffeineManagerTest(TestCase):
                          list(reversed(users[-10:])))
         self.assertEqual([item['caffeine_count'] for item in toptotal],
                          range(20, 10, -1))
+
+    def _create_caffeine_item(self, user, ctype, seconds):
+        deltadays = seconds / 86400
+        deltaseconds = seconds % 86400
+        timepoint = self.now - timedelta(days=deltadays, seconds=deltaseconds)
+        Caffeine.objects.create(user=user, ctype=ctype, date=timepoint)
 
     def _create_users_with_deterministic_data(self):
         users = self._create_users(11)
@@ -498,45 +500,35 @@ class CaffeineManagerTest(TestCase):
             (18, 32, 6),   # user 10
             (20, 32, 10),  # user 11
         ]
-        now = timezone.now()
         for pos, user in [(pos, users[pos]) for pos in range(len(users))]:
             userdata = testdata[pos]
-            for timepoint in [
-                now - timedelta(days=seconds / 86400, seconds=seconds % 86400)
-                for seconds in
-                [86400 * userdata[0] / userdata[1] * i
-                 for i in range(userdata[1])]
-            ]:
-                Caffeine.objects.create(
-                    user=user, ctype=DRINK_TYPES.coffee, date=timepoint
-                )
-            for timepoint in [
-                now - timedelta(days=seconds / 86400, seconds=seconds % 86400)
-                for seconds in
-                [86400 * userdata[0] / userdata[2] * i
-                 for i in range(userdata[2])]
-            ]:
-                Caffeine.objects.create(
-                    user=user, ctype=DRINK_TYPES.mate, date=timepoint
-                )
+            for i in range(userdata[1]):
+                for seconds in [86400 * userdata[0] / userdata[1] * i]:
+                    self._create_caffeine_item(
+                        user, DRINK_TYPES.coffee, seconds
+                    )
+            for i in range(userdata[2]):
+                for seconds in [86400 * userdata[0] / userdata[2] * i]:
+                    self._create_caffeine_item(
+                        user, DRINK_TYPES.mate, seconds
+                    )
         return users
 
     def test_top_consumers_average(self):
         users = self._create_users(20)
         matecount = 2
         coffeecount = 21
-        now = timezone.now()
         td = timedelta(days=30)
         for user in users:
             for num in range(coffeecount):
                 Caffeine.objects.create(
                     user=user, ctype=DRINK_TYPES.coffee,
-                    date=now - (num * td / coffeecount))
+                    date=self.now - (num * td / coffeecount))
             coffeecount -= 1
             for num in range(matecount):
                 Caffeine.objects.create(
                     user=user, ctype=DRINK_TYPES.mate,
-                    date=now - (num * td / matecount))
+                    date=self.now - (num * td / matecount))
             matecount += 1
         topavg = Caffeine.objects.top_consumers_average(DRINK_TYPES.coffee)
         self.assertEqual([item['user'] for item in topavg],
@@ -574,17 +566,16 @@ class CaffeineManagerTest(TestCase):
     def test_get_csv_data(self):
         user = User.objects.create()
         td = timedelta(days=1)
-        now = timezone.now()
         coffees = sorted([
             Caffeine.objects.create(
                 user=user, ctype=DRINK_TYPES.coffee,
-                date=now - 30 * td / (random.randrange(30) + 1))
+                date=self.now - 30 * td / (random.randrange(30) + 1))
             for _ in range(20)
         ], key=lambda x: x.date)
         mate = sorted([
             Caffeine.objects.create(
                 user=user, ctype=DRINK_TYPES.mate,
-                date=now - 30 * td / (random.randrange(30) + 1))
+                date=self.now - 30 * td / (random.randrange(30) + 1))
             for _ in range(20)
         ], key=lambda x: x.date)
         csvdata = Caffeine.objects.get_csv_data(DRINK_TYPES.coffee, user)

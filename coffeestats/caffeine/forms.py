@@ -62,6 +62,9 @@ class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
             raise forms.ValidationError(DUPLICATE_EMAIL_ERROR)
         return self.cleaned_data['email']
 
+    class Meta(RegistrationFormUniqueEmail.Meta):
+        model = User
+
 
 class SettingsForm(forms.ModelForm):
     """

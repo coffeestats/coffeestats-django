@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from braces.views import LoginRequiredMixin
-from registration.backends.default.views import (
+from registration.backends.model_activation.views import (
     ActivationView,
     RegistrationView,
 )
@@ -223,9 +223,9 @@ class ProfileView(PublicProfileView):
 
 
 class CaffeineActivationView(ActivationView):
-    def get_success_url(self, request, user):
+    def get_success_url(self, user):
         messages.add_message(
-            request, messages.SUCCESS, ACTIVATION_SUCCESS_MESSAGE)
+            self.request, messages.SUCCESS, ACTIVATION_SUCCESS_MESSAGE)
         return reverse_lazy('home')
 
 
@@ -236,23 +236,18 @@ class CaffeineRegistrationView(RegistrationView):
     """
     form_class = CoffeestatsRegistrationForm
 
-    def form_valid(self, form, request=None):
-        return super(
-            CaffeineRegistrationView, self).form_valid(form, request)
-
-    def get_success_url(self, request, user):
+    def get_success_url(self, user):
         messages.add_message(
-            request, messages.SUCCESS, REGISTRATION_SUCCESS_MESSAGE)
+            self.request, messages.SUCCESS, REGISTRATION_SUCCESS_MESSAGE)
         messages.add_message(
-            request, messages.INFO, REGISTRATION_MAILINFO_MESSAGE)
+            self.request, messages.INFO, REGISTRATION_MAILINFO_MESSAGE)
         return reverse_lazy('home')
 
-    def register(self, request, **cleaned_data):
-        new_user = super(CaffeineRegistrationView, self).register(
-            request, **cleaned_data)
-        new_user.first_name = cleaned_data['firstname']
-        new_user.last_name = cleaned_data['lastname']
-        new_user.location = cleaned_data['location']
+    def register(self, form):
+        new_user = super(CaffeineRegistrationView, self).register(form)
+        new_user.first_name = form.cleaned_data['firstname']
+        new_user.last_name = form.cleaned_data['lastname']
+        new_user.location = form.cleaned_data['location']
         new_user.save()
         return new_user
 
@@ -335,6 +330,8 @@ class OnTheRunView(TemplateView):
 
 
 class OnTheRunOldView(RedirectView):
+    permanent = True
+
     def get_redirect_url(self, *args, **kwargs):
         user = get_object_or_404(
             User, username=self.request.GET.get('u'),

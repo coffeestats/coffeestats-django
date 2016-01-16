@@ -251,6 +251,8 @@ class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
         response = self.client.get('/auth/activate/{}/'.format(
             regprofile.activation_key), follow=True)
         self.assertRedirects(response, '/auth/login/?next=/')
+        self.assertIsNotNone(user.token)
+        self.assertNotEqual(user.token, '')
 
     def test_activation_success_message(self):
         user = self._create_testuser()

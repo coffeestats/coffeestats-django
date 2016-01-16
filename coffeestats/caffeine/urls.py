@@ -1,6 +1,6 @@
 # -*- python -*-
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (
     AboutView,
@@ -23,10 +23,10 @@ from .views import (
     SubmitCaffeineView,
     SubmitCaffeineOnTheRunView,
     DeleteCaffeineView,
+    random_users,
 )
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
     # registration
     url(r'^auth/activate/(?P<activation_key>\w+)/$',
@@ -69,6 +69,6 @@ urlpatterns = patterns(
     url(r'^profile/(?P<username>[\w0-9@.+-_]+)/$',
         PublicProfileView.as_view(),
         name='public'),
-    url(r'^random-users$', 'caffeine.views.random_users',
+    url(r'^random-users$', random_users,
         name='random_users'),
-)
+]

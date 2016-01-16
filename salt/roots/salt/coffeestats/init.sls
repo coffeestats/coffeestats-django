@@ -15,8 +15,15 @@ postgresql:
     - require:
       - pkg: postgresql
 
-libpq-dev:
-  pkg.installed
+coffeestats-dependencies:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev
+      - python
+      - python-dev
+      - python-virtualenv
+      - virtualenv
+      - libffi-dev
 
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:
@@ -32,27 +39,14 @@ libpq-dev:
     - require:
       - file: /etc/uwsgi/apps-available/coffeestats.ini
 
-python-virtualenv:
-  pkg.installed
-
-python-dev:
-  pkg.installed
-
-/home/vagrant/coffeestats-venv:
-  file.directory:
-    - user: vagrant
-    - group: vagrant
-    - requires:
-      - coffeestats-venv
-      - coffeestats-requires
-
 coffeestats-venv:
   cmd.run:
-    - name: virtualenv /home/vagrant/coffeestats-venv
+    - name: virtualenv --python=/usr/bin/python2 /home/vagrant/coffeestats-venv
     - user: vagrant
     - group: vagrant
     - creates: /home/vagrant/coffeestats-venv
-    - requires-in: /home/vagrant/coffeestats-venv
+    - require:
+      - pkg: coffeestats-dependencies
 
 coffeestats-requires:
   cmd.run:
@@ -61,9 +55,8 @@ coffeestats-requires:
     - group: vagrant
     - cwd: /vagrant
     - require:
-      - file: /home/vagrant/coffeestats-venv
-      - pkg: python-dev
-      - pkg: libpq-dev
+      - cmd: coffeestats-venv
+      - pkg: coffeestats-dependencies
     - watch_in:
       - service: uwsgi
 
@@ -73,6 +66,9 @@ coffeestats-static:
     - user: vagrant
     - group: vagrant
     - cwd: /vagrant/coffeestats
+    - require:
+      - cmd: coffeestats-requires
+      - file: /home/vagrant/csdev.sh
 
 uwsgi-coffeestats:
   pkg.installed:
@@ -88,7 +84,8 @@ uwsgi-coffeestats:
       - pkg: uwsgi
       - pkg: uwsgi-plugin-python
       - file: /etc/uwsgi/apps-enabled/coffeestats.ini
-      - file: /home/vagrant/coffeestats-venv
+      - cmd: coffeestats-requires
+      - cmd: coffeestats-static
     - watch:
       - file: /etc/uwsgi/apps-available/coffeestats.ini
     - watch_in:
@@ -121,14 +118,13 @@ coffeestats-db:
       - service: postgresql
       - postgres_user: {{ pillar['database']['user'] }}
   cmd.run:
-    - name: . /home/vagrant/csdev.sh; /home/vagrant/coffeestats-venv/bin/python manage.py syncdb --migrate --noinput
+    - name: . /home/vagrant/csdev.sh; /home/vagrant/coffeestats-venv/bin/python manage.py migrate --noinput
     - cwd: /vagrant/coffeestats
     - user: vagrant
     - group: vagrant
     - require:
       - cmd: coffeestats-requires
       - file: /home/vagrant/csdev.sh
-      - file: /home/vagrant/coffeestats-venv
       - postgres_database: coffeestats-db
     - watch_in:
       - service: uwsgi
@@ -143,4 +139,4 @@ coffeestats-db:
     - require:
       - file: /etc/uwsgi/apps-enabled/coffeestats.ini
     - watch_in:
-      - service: uwsgi
+      - service: nginx

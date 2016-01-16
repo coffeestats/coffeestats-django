@@ -296,8 +296,8 @@ LOGGING = {
             'propagate': True,
         },
         'caffeine': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
         }
     }
 }

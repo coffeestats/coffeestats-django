@@ -1,13 +1,15 @@
 language: python
 
+addons:
+  apt:
+    packages:
+    - libffi-dev
+
 os:
   - linux
 
 python:
   - "2.7"
-
-before_install:
-  - sudo apt-get -qq update && sudo apt-get install -y libffi-dev
 
 install:
   - pip install -r requirements/test.txt

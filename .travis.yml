@@ -1,18 +1,30 @@
 language: python
+
+os:
+  - linux
+
 python:
   - "2.7"
+
+before_install:
+  - sudo apt-get -qq update && sudo apt-get install -y libffi-dev
+
 install:
   - pip install -r requirements/test.txt
   - pip install coveralls
+
 env:
   - DJANGO_SETTINGS_MODULE="coffeestats.settings.test" COFFEESTATS_MAIL_FROM_ADDRESS="travisci@example.org" COFFEESTATS_PGSQL_DATABASE="coffeestats" COFFEESTATS_PGSQL_HOSTNAME="127.0.0.1" COFFEESTATS_PGSQL_USER="postgres" COFFEESTATS_PGSQL_PASSWORD="" COFFEESTATS_PGSQL_PORT="" COFFEESTATS_PIWIK_HOST="localhost" COFFEESTATS_PIWIK_SITEID="1" COFFEESTATS_SITE_ADMINMAIL="admin@example.org" COFFEESTATS_SITE_NAME="Coffeestats Travis CI testsite" COFFEESTATS_DOMAIN_NAME=localhost COFFEESTATS_SITE_SECRET="6892a651-3f9f-4b6d-ad34-03531acf7a7e"
+
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - psql -c 'create database coffeestats;' -U postgres
+
 script:
   - "cd coffeestats"
   - "python manage.py makemigrations registration"
   - "coverage run manage.py test"
+
 after_success:
   coveralls

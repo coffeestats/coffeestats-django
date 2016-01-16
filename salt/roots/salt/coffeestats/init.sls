@@ -15,8 +15,15 @@ postgresql:
     - require:
       - pkg: postgresql
 
-libpq-dev:
-  pkg.installed
+coffeestats-dependencies:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev
+      - python
+      - python-dev
+      - python-virtualenv
+      - virtualenv
+      - libffi-dev
 
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:
@@ -32,18 +39,6 @@ libpq-dev:
     - require:
       - file: /etc/uwsgi/apps-available/coffeestats.ini
 
-python:
-  pkg.installed
-
-python-virtualenv:
-  pkg.installed
-
-virtualenv:
-  pkg.installed
-
-python-dev:
-  pkg.installed
-
 coffeestats-venv:
   cmd.run:
     - name: virtualenv --python=/usr/bin/python2 /home/vagrant/coffeestats-venv
@@ -51,9 +46,7 @@ coffeestats-venv:
     - group: vagrant
     - creates: /home/vagrant/coffeestats-venv
     - require:
-      - pkg: python
-      - pkg: python-virtualenv
-      - pkg: virtualenv
+      - pkg: coffeestats-dependencies
 
 coffeestats-requires:
   cmd.run:
@@ -63,8 +56,7 @@ coffeestats-requires:
     - cwd: /vagrant
     - require:
       - cmd: coffeestats-venv
-      - pkg: python-dev
-      - pkg: libpq-dev
+      - pkg: coffeestats-dependencies
     - watch_in:
       - service: uwsgi
 

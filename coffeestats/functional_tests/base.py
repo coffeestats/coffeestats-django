@@ -1,4 +1,6 @@
 import re
+import sys
+from datetime import datetime
 
 from django.core import mail
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -23,6 +25,15 @@ class SeleniumTest(StaticLiveServerTestCase):
         cls.selenium.implicitly_wait(10)
         super(SeleniumTest, cls).setUpClass()
         cls.server_url = cls.live_server_url
+
+    def tearDown(self):
+        if sys.exc_info()[0]:
+            test_method_name = self._testMethodName
+            self.selenium.get_screenshot_as_file(
+                'screenshot-{0}-{1}.png'.format(
+                    datetime.now().strftime('%Y%m%d-%H%M%S'),
+                    test_method_name)
+            )
 
     @classmethod
     def tearDownClass(cls):

@@ -50,9 +50,6 @@ class CaffeineUserManager(BaseUserManager):
             **kwargs)
         if password is not None:
             user.set_password(password)
-            # on the run token
-            # TODO: use something better for API authentication
-            user.token = md5((username + password).encode("utf8")).hexdigest()
         user.date_joined = timezone.now()
         user.save(using=self.db)
         return user
@@ -162,6 +159,19 @@ class User(AbstractUser):
 
         """
         return self.cryptsum or super(User, self).has_usable_password()
+
+    def set_password(self, password):
+        """
+        Sets the password and creates the authentication token if it is not
+        set.
+
+        """
+        super(User, self).set_password(password)
+        if not self.token:
+            # on the run token
+            # TODO: use something better for API authentication
+            self.token = md5(
+                (self.username + password).encode("utf8")).hexdigest()
 
 
 def _total_result_dict():

@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.conf import settings
 from django.views.i18n import javascript_catalog
-from rest_framework import routers
+from rest_framework_nested import routers
 
 from django.contrib.auth import views as auth_views
 from django.contrib import admin

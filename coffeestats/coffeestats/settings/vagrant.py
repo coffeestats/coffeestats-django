@@ -1,10 +1,10 @@
 # -*- python -*-
 # pymode:lint_ignore=W0401,E501
-"""Development settings and globals."""
+"""Development settings and globals for Vagrant box."""
 
 from __future__ import absolute_import
 
-from .base import *  # noqa
+from .base import *  # noqa  intended behaviour
 
 
 # ######### DEBUG CONFIGURATION

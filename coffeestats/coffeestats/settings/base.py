@@ -2,7 +2,6 @@
 # pymode:lint_ignore=E501
 """Common settings and globals."""
 
-
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 import os
@@ -266,7 +265,7 @@ REST_FRAMEWORK = {
 
 OAUTH2_PROVIDER = {
     # the list of available scopes
-    'SCOPES': { 'read': 'Read scope', 'write': 'Write scope' },
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope'},
 }
 # ######### END REST FRAMEWORK CONFIGURATION
 

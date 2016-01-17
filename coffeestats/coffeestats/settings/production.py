@@ -4,7 +4,7 @@
 
 from __future__ import absolute_import
 
-from .base import *  # noqa
+from .base import *  # noqa  intended behaviour
 
 # ######### HOST CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production  # noqa

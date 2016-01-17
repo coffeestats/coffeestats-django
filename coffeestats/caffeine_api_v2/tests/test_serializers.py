@@ -46,7 +46,7 @@ class UserSerializerTest(TestCase):
     def test_name(self):
         self.assertEqual(self.subject.data['name'], self.user.get_full_name())
 
-    def test_get_profile(self):
+    def test_get_profile_url(self):
         self.assertEqual(
             self.subject.data['profile'],
             reverse(
@@ -54,8 +54,11 @@ class UserSerializerTest(TestCase):
                 request=self.request)
         )
 
-    def test_coffees(self):
-        self.assertEqual(self.subject.data['coffees'], 0)
-
-    def test_mate(self):
-        self.assertEquals(self.subject.data['mate'], 0)
+    def test_caffeines_url(self):
+        self.assertEqual(
+            self.subject.data['caffeines'],
+            reverse(
+                'user-caffeine-list', kwargs={
+                    'caffeine_username': self.user.username
+                }, request=self.request)
+        )

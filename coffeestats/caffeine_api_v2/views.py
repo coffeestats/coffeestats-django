@@ -1,7 +1,6 @@
 from rest_framework import permissions, viewsets
-from rest_framework.reverse import reverse
 
-from caffeine.models import Caffeine, User, DRINK_TYPES
+from caffeine.models import Caffeine, User
 from .serializers import (
     CaffeineSerializer,
     UserCaffeineSerializer,

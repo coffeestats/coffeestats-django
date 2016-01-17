@@ -45,3 +45,4 @@ coffeestats/assets/
 tags
 .coverage
 docs/_build/
+coverage-report/

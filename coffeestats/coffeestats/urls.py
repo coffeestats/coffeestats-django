@@ -39,7 +39,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     import debug_toolbar
     from django.contrib.staticfiles.views import serve as serve_static
     from django.views.decorators.cache import never_cache

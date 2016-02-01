@@ -4,16 +4,14 @@
 
 from __future__ import absolute_import
 
-from os import environ
+from .base import *  # noqa
 
-from .base import *
-
-########## HOST CONFIGURATION
-# See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production
+# ######### HOST CONFIGURATION
+# See: https://docs.djangoproject.com/en/1.5/releases/1.5/#allowed-hosts-required-in-production  # noqa
 ALLOWED_HOSTS = [SITES_DOMAIN_NAME]
-########## END HOST CONFIGURATION
+# ######### END HOST CONFIGURATION
 
-########## EMAIL CONFIGURATION
+# ######### EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -22,9 +20,9 @@ EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_NAME
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = get_env_variable('COFFEESTATS_SITE_ADMINMAIL')
-########## END EMAIL CONFIGURATION
+# ######### END EMAIL CONFIGURATION
 
-########## CACHE CONFIGURATION
+# ######### CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
-#CACHES = {}
-########## END CACHE CONFIGURATION
+# CACHES = {}
+# ######### END CACHE CONFIGURATION

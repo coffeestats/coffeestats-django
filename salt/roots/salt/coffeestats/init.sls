@@ -80,7 +80,7 @@ uwsgi-coffeestats:
   service.running:
     - name: uwsgi
     - enable: True
-    - reload: True
+    - full_restart: True
     - sig: uwsgi
     - require:
       - pkg: uwsgi

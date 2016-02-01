@@ -568,7 +568,7 @@ class CaffeineManager(models.Manager):
                 COUNT(c.id) AS total
             FROM caffeine_caffeine c
             WHERE c.ctype = %s
-              AND c.date >= CURRENT_DATE - INTERVAL %s
+              AND c.date >= CURRENT_TIMESTAMP - INTERVAL %s
             GROUP BY c.user_id
             ORDER BY total DESC
             LIMIT %s

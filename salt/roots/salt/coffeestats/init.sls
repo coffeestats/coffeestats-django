@@ -24,6 +24,8 @@ coffeestats-dependencies:
       - python-virtualenv
       - virtualenv
       - libffi-dev
+      - xvfb
+      - iceweasel
 
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:
@@ -140,3 +142,10 @@ coffeestats-db:
       - file: /etc/uwsgi/apps-enabled/coffeestats.ini
     - watch_in:
       - service: nginx
+
+/home/vagrant/run_tests.sh:
+  file.managed:
+    - user: vagrant
+    - group: vagrant
+    - mode: 0755
+    - source: salt://coffeestats/run_tests.sh

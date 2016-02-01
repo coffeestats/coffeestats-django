@@ -49,5 +49,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.run_highstate = true
       salt.verbose = true
       salt.colorize = true
+      salt.log_level = "warning"
   end
 end

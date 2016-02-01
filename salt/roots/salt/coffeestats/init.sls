@@ -26,6 +26,7 @@ coffeestats-dependencies:
       - libffi-dev
       - xvfb
       - iceweasel
+      - libyaml-dev
 
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:

@@ -1,4 +1,4 @@
 # documentation dependencies go here
 -r base.txt
-Sphinx==1.4.4
+Sphinx==1.4.6
 sphinxcontrib-httpdomain==1.5.0

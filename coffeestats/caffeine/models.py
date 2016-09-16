@@ -570,7 +570,7 @@ class CaffeineManager(models.Manager):
             WHERE c.ctype = %s
               AND c.date >= CURRENT_TIMESTAMP - INTERVAL %s
             GROUP BY c.user_id
-            ORDER BY total DESC
+            ORDER BY total DESC, c.user_id
             LIMIT %s
             """, [interval, ctype, interval, count]
         )

@@ -72,11 +72,13 @@ coffeestats-static:
       - cmd: coffeestats-requires
       - file: /home/vagrant/csdev.sh
 
+uwsgi:
+  pkg.installed
+
+uwsgi-plugin-python:
+  pkg.installed
+
 uwsgi-coffeestats:
-  pkg.installed:
-    - names:
-      - uwsgi
-      - uwsgi-plugin-python
   service.running:
     - name: uwsgi
     - enable: True

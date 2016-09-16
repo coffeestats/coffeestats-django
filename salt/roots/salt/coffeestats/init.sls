@@ -44,8 +44,7 @@ coffeestats-dependencies:
 coffeestats-venv:
   cmd.run:
     - name: virtualenv --python=/usr/bin/python2 /home/vagrant/coffeestats-venv
-    - user: vagrant
-    - group: vagrant
+    - runas: vagrant
     - creates: /home/vagrant/coffeestats-venv
     - require:
       - pkg: coffeestats-dependencies
@@ -53,8 +52,7 @@ coffeestats-venv:
 coffeestats-requires:
   cmd.run:
     - name: /home/vagrant/coffeestats-venv/bin/pip install -r requirements/local.txt
-    - user: vagrant
-    - group: vagrant
+    - runas: vagrant
     - cwd: /vagrant
     - require:
       - cmd: coffeestats-venv
@@ -65,8 +63,7 @@ coffeestats-requires:
 coffeestats-static:
   cmd.run:
     - name: . /home/vagrant/csdev.sh ; /home/vagrant/coffeestats-venv/bin/python manage.py collectstatic --noinput
-    - user: vagrant
-    - group: vagrant
+    - runas: vagrant
     - cwd: /vagrant/coffeestats
     - require:
       - cmd: coffeestats-requires
@@ -124,8 +121,7 @@ coffeestats-db:
   cmd.run:
     - name: . /home/vagrant/csdev.sh; /home/vagrant/coffeestats-venv/bin/python manage.py migrate --noinput
     - cwd: /vagrant/coffeestats
-    - user: vagrant
-    - group: vagrant
+    - runas: vagrant
     - require:
       - cmd: coffeestats-requires
       - file: /home/vagrant/csdev.sh

@@ -269,9 +269,10 @@ class SettingsView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(SettingsView, self).get_context_data(**kwargs)
+        user = self.request.user
 
-        applications = self.request.user.oauth2_provider_application.count()
-        tokens = self.request.user.refreshtoken_set.count()
+        applications = user.caffeine_oauth2_coffeestatsapplication.count()
+        tokens = user.refreshtoken_set.count()
 
         context.update({
             'oauth2_applications': applications > 0,

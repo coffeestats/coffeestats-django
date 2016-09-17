@@ -220,6 +220,7 @@ LOCAL_APPS = (
     'registration',
     'caffeine',
     'caffeine_api_v1',
+    'caffeine_oauth2',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -269,14 +270,14 @@ REST_FRAMEWORK = {
 
 # ######### OAUTH2 settings
 # this setting is required to make oauth2_provider work
-# OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'caffeine_oauth2.CoffeestatsApplication'
 OAUTH2_PROVIDER = {
-    'OAUTH2_SERVER_CLASS': 'core.oauth.CoffeestatsServer',
+    'OAUTH2_SERVER_CLASS': 'caffeine_oauth2.oauth2_server.CoffeestatsServer',
     # the list of available scopes
     'SCOPES': {
         'read': _('Read your caffeine consumption'),
         'write': _('Add and modify your caffeine consumption'),
-        #'openid': _('Get information about you'),
+        # 'openid': _('Get information about you'),
     },
     'DEFAULT_SCOPES': ['read', 'write'],
 }

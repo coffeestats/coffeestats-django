@@ -13,7 +13,7 @@ class CaffeineViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows caffeine entries to be viewed.
     """
-    queryset = Caffeine.objects.all()
+    queryset = Caffeine.objects.all().order_by('-date')
     serializer_class = CaffeineSerializer
 
 
@@ -21,7 +21,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows users to be viewed.
     """
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('username')
     serializer_class = UserSerializer
     lookup_field = 'username'
 
@@ -44,4 +44,4 @@ class UserCaffeineViewSet(viewsets.ModelViewSet):
     view_owner = property(_get_view_owner)
 
     def get_queryset(self):
-        return self.view_owner.caffeines.all()
+        return self.view_owner.caffeines.all().order_by('-date')

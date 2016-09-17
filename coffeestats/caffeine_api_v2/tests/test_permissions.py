@@ -1,12 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 from django.test import SimpleTestCase
-
-from django.contrib.auth import get_user_model
-
 from mock import Mock
 
-from caffeine_api_v2.permissions import IsOwnerOrReadOnly
-
+from caffeine_api_v2.permissions import IsOwnerOrReadOnly, IsOwnCaffeineOrReadOnly
 
 User = get_user_model()
 
@@ -38,3 +35,31 @@ class IsOwnerOrReadOnlyTest(SimpleTestCase):
         model = Mock(user=User(username='Other'))
         self.assertFalse(
             self.subject.has_object_permission(request, None, model))
+
+
+class IsOwnCaffeineOrReadOnlyTest(SimpleTestCase):
+    def setUp(self):
+        self.subject = IsOwnCaffeineOrReadOnly()
+
+    def test_has_permission_safe(self):
+        request = HttpRequest()
+        for meth in ['GET', 'HEAD', 'OPTIONS']:
+            request.method = meth
+            self.assertTrue(
+                self.subject.has_permission(request, None))
+
+    def test_own_caffeine(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        owner_user = User(username='User')
+        request.user = owner_user
+        view = Mock(view_owner=owner_user)
+        self.assertTrue(self.subject.has_permission(request, view))
+
+    def test_other_caffeine(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        owner_user = User(username='User')
+        request.user = User(username='Other')
+        view = Mock(view_owner=owner_user)
+        self.assertFalse(self.subject.has_permission(request, view))

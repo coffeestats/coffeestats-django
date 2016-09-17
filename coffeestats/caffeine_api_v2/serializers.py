@@ -57,7 +57,7 @@ class UserCaffeineSerializer(serializers.HyperlinkedModelSerializer):
             not self.validated_data['timezone']
         ):
             self.validated_data['timezone'] = user.timezone
-        super(UserCaffeineSerializer, self).save()
+        return super(UserCaffeineSerializer, self).save()
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

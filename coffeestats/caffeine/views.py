@@ -51,7 +51,6 @@ from .models import (
     User,
 )
 
-
 ACTIVATION_SUCCESS_MESSAGE = _('Your account has been activated successfully.')
 DELETE_ACCOUNT_MESSAGE = _(
     'Your account and all your caffeine submissions have been deleted.')
@@ -267,6 +266,18 @@ class SettingsView(LoginRequiredMixin, FormView):
             'instance': self.request.user,
         })
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsView, self).get_context_data(**kwargs)
+
+        applications = self.request.user.oauth2_provider_application.count()
+        tokens = self.request.user.refreshtoken_set.count()
+
+        context.update({
+            'oauth2_applications': applications > 0,
+            'oauth2_tokens': tokens > 0,
+        })
+        return context
 
     def send_email_change_mail(self, form):
         ctx_dict = {

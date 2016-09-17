@@ -357,6 +357,14 @@ class SettingsViewTest(MessagesTestMixin, CaffeineViewTest):
         response = self.client.get('/settings/')
         self.assertTemplateUsed(response, 'settings.html')
 
+    def test_get_context_data(self):
+        self.assertTrue(self._do_login(), 'login failed')
+        response = self.client.get('/settings/')
+        self.assertIn('oauth2_applications', response.context)
+        self.assertEqual(response.context['oauth2_applications'], 0)
+        self.assertIn('oauth2_tokens', response.context)
+        self.assertEqual(response.context['oauth2_tokens'], 0)
+
     def test_uses_settings_form(self):
         self.assertTrue(self._do_login(), 'login failed')
         response = self.client.get('/settings/')

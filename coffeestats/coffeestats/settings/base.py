@@ -2,11 +2,13 @@
 # pymode:lint_ignore=E501
 """Common settings and globals."""
 
-from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+
 import os
-from django.core.exceptions import ImproperlyConfigured
 from django.contrib.messages import constants as message_constants
+from django.core.exceptions import ImproperlyConfigured
+from django.utils.translation import ugettext_lazy as _
+from os.path import abspath, basename, dirname, join, normpath
 
 
 def get_env_variable(var_name, default=None):
@@ -174,7 +176,6 @@ TEMPLATES = [
     },
 ]
 
-
 # ######### MIDDLEWARE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (
@@ -263,17 +264,23 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 10
 }
 
-OAUTH2_PROVIDER = {
-    # the list of available scopes
-    'SCOPES': {'read': 'Read scope', 'write': 'Write scope'},
-}
 # ######### END REST FRAMEWORK CONFIGURATION
 
 
-# ######### CUSTOM MIGRATIONS FOR APPS WITHOUT MIGRATIONS
+# ######### OAUTH2 settings
 # this setting is required to make oauth2_provider work
-OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
-# ######### END CUSTOM MIGRATIONS FOR APPS WITHOUT MIGRATIONS
+# OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+OAUTH2_PROVIDER = {
+    'OAUTH2_SERVER_CLASS': 'core.oauth.CoffeestatsServer',
+    # the list of available scopes
+    'SCOPES': {
+        'read': _('Read your caffeine consumption'),
+        'write': _('Add and modify your caffeine consumption'),
+        #'openid': _('Get information about you'),
+    },
+    'DEFAULT_SCOPES': ['read', 'write'],
+}
+# ######### END OAUTH2 settings
 
 
 # ######### LOGGING CONFIGURATION

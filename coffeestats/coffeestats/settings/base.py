@@ -273,10 +273,6 @@ OAUTH2_PROVIDER = {
 # ######### CUSTOM MIGRATIONS FOR APPS WITHOUT MIGRATIONS
 # this setting is required to make oauth2_provider work
 OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
-MIGRATION_MODULES = {
-    'registration': 'thirdparty.registration.migrations',
-    'oauth2_provider': 'thirdparty.oauth2_provider.migrations',
-}
 # ######### END CUSTOM MIGRATIONS FOR APPS WITHOUT MIGRATIONS
 
 

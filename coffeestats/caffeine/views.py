@@ -413,17 +413,12 @@ class DeleteCaffeineView(LoginRequiredMixin, DeleteView):
     model = Caffeine
     success_url = reverse_lazy('profile')
 
-    def get_object(self, queryset=None):
+    def get_queryset(self):
         """
         Make sure that only own caffeine can be deleted.
-
-        :param queryset queryset: the original query set or None
-
         """
-        if queryset is None:
-            queryset = self.get_queryset()
-        queryset = queryset.filter(user=self.request.user)
-        return super(DeleteCaffeineView, self).get_object(queryset)
+        return super(DeleteCaffeineView, self).get_queryset().filter(
+                user=self.request.user)
 
     def get_success_url(self):
         """

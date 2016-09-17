@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
+from mock import patch
+
 from registration.models import RegistrationProfile
 
 from caffeine.forms import (
@@ -446,6 +448,17 @@ class ConfirmActionViewTest(MessagesTestMixin, CaffeineViewTest):
         _, _, response = self._create_action_confirm_request()
         self.assertMessageCount(response, 1)
         self.assertMessageContains(response, EMAIL_CHANGE_SUCCESS_MESSAGE)
+
+    @patch('caffeine.views.ACTION_TYPES')
+    def test_redirects_to_home_for_other_action(self, atypes_mock):
+        atypes_mock.change_email = 'fake'
+        user = self._create_testuser()
+        action = Action.objects.create_action(
+            user, ACTION_TYPES.change_email, 'foo@bar.com', 1)
+        response = self.client.get(
+            '/action/confirm/{}/'.format(action.code), follow=True
+        )
+        self.assertRedirects(response, '/auth/login/?next=/')
 
 
 class OnTheRunViewTest(CaffeineViewTest):

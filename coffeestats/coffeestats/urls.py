@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^api/v2/', include('caffeine_api_v2.urls')),
     # oauth2
     url(r'^oauth2/',
-        include('oauth2_provider.urls', namespace='oauth2_provider')),
+        include('caffeine_oauth2.urls', namespace='oauth2_provider')),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

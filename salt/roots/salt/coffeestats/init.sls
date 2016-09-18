@@ -27,6 +27,8 @@ coffeestats-dependencies:
       - xvfb
       - iceweasel
       - libyaml-dev
+      - libjpeg-dev
+      - libpng-dev
 
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:
@@ -50,6 +52,13 @@ coffeestats-venv:
     - require:
       - pkg: coffeestats-dependencies
 
+uninstall-pybcrypt:
+  cmd.run:
+    - name: /home/vagrant/coffeestats-venv/bin/pip uninstall -y py-bcrypt
+    - onlyif: /home/vagrant/coffeestats-venv/bin/pip freeze | grep -q py-bcrypt
+    - requires:
+      - cmd: coffeestats-venv
+
 coffeestats-requires:
   cmd.run:
     - name: /home/vagrant/coffeestats-venv/bin/pip install -r requirements/local.txt
@@ -57,6 +66,7 @@ coffeestats-requires:
     - cwd: /vagrant
     - require:
       - cmd: coffeestats-venv
+      - cmd: uninstall-pybcrypt
       - pkg: coffeestats-dependencies
     - watch_in:
       - service: uwsgi

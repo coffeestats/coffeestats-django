@@ -1,7 +1,8 @@
 from __future__ import absolute_import
-from django.conf.urls import include, url
 
+from django.conf.urls import url
 from oauth2_provider import views
+
 from .views import CoffeestatsApplicationRegistration
 
 urlpatterns = (
@@ -17,8 +18,9 @@ urlpatterns += (
     url(r'^applications/register/$',
         CoffeestatsApplicationRegistration.as_view(), name="register"),
     url(r'^applications/(?P<pk>\d+)/$', views.ApplicationDetail.as_view(),
-        name="detail"), url(r'^applications/(?P<pk>\d+)/delete/$',
-            views.ApplicationDelete.as_view(), name="delete"),
+        name="detail"),
+    url(r'^applications/(?P<pk>\d+)/delete/$',
+        views.ApplicationDelete.as_view(), name="delete"),
     url(r'^applications/(?P<pk>\d+)/update/$',
         views.ApplicationUpdate.as_view(), name="update"),)
 

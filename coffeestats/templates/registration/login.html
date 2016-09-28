@@ -30,8 +30,18 @@
                 <a href="{{ passwordreset_url }}" class="right">Forgot your
                     password?</a>{% endblocktrans %}
             <input type="submit" name="submit" value="{% trans "Login" %}"/>
-            <input type="hidden" name="next" value="{% url 'home' as home_url %}{% if request.GET.next == home_url or not request.GET.next %}{% url 'profile' %}{% else %}{{ request.GET.next }}{% endif %}"/>
+            <input type="hidden" name="next" value="{% spaceless %}
+                {% url 'home' as home_url %}
+                {% if request.GET.next == home_url or not request.GET.next %}
+                    {% url 'profile' %}
+                {% else %}
+                    {{ request.GET.next }}
+                {% endif %}
+            {% endspaceless %}"/>
         </form>
+        <h3>{% trans "You have no account yet?" %}</h3>
+        <p><a href="{% url "registration_register" %}"
+              class="btn">{% trans "Register" %}</a></p>
     </div>
 {% endblock %}
 {% block extra_js %}

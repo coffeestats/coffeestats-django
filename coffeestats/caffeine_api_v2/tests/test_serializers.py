@@ -29,7 +29,7 @@ class CaffeineFieldTest(TestCase):
     def test_to_representation_invalid_key(self):
         with self.assertRaisesMessage(
                 RuntimeError,
-                "Could not map database internal id invalid to value") as _:
+                "Could not map database internal id invalid to value"):
             self.subject.to_representation('invalid')
 
     def test_to_internal_value(self):
@@ -55,7 +55,9 @@ class CaffeineSerializerTest(TestCase):
 class UserCaffeineSerializerTest(TestCase):
     def setUp(self):
         super(UserCaffeineSerializerTest, self).setUp()
-        self.user = User.objects.create(username='test', email='test@example.org', timezone='Europe/Berlin')
+        self.user = User.objects.create(
+            username='test', email='test@example.org',
+            timezone='Europe/Berlin')
         self.mockview = MagicMock(view_owner=self.user)
 
     def test_save_no_timezone(self):

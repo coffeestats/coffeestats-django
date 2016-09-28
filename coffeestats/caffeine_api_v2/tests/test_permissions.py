@@ -3,7 +3,9 @@ from django.http import HttpRequest
 from django.test import SimpleTestCase
 from mock import Mock
 
-from caffeine_api_v2.permissions import IsOwnerOrReadOnly, IsOwnCaffeineOrReadOnly
+from caffeine_api_v2.permissions import (
+    IsOwnerOrReadOnly, IsOwnCaffeineOrReadOnly
+)
 
 User = get_user_model()
 

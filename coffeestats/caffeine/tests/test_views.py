@@ -172,13 +172,7 @@ class ImprintViewTest(TestCase):
 
 class IndexViewTest(CaffeineViewTest):
 
-    def test_redirects_to_login(self):
-        response = self.client.get('/')
-        self.assertRedirects(
-            response, '/auth/login/?next=/')
-
     def test_renders_index_template(self):
-        self.assertTrue(self._do_login(), 'login failed')
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'index.html')
 
@@ -252,7 +246,7 @@ class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
         regprofile = RegistrationProfile.objects.create_profile(user)
         response = self.client.get('/auth/activate/{}/'.format(
             regprofile.activation_key), follow=True)
-        self.assertRedirects(response, '/auth/login/?next=/')
+        self.assertRedirects(response, '/')
         self.assertIsNotNone(user.token)
         self.assertNotEqual(user.token, '')
 
@@ -324,7 +318,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
     def test_redirects_to_home(self):
         response = self.client.post(
             '/auth/register/', data=self.TEST_POST_DATA, follow=True)
-        self.assertRedirects(response, '/auth/login/?next=/')
+        self.assertRedirects(response, '/')
 
 
 class RegistrationClosedViewTest(CaffeineViewTest):
@@ -434,7 +428,7 @@ class ConfirmActionViewTest(MessagesTestMixin, CaffeineViewTest):
 
     def test_redirects_to_home(self):
         _, _, response = self._create_action_confirm_request()
-        self.assertRedirects(response, '/auth/login/?next=/')
+        self.assertRedirects(response, '/')
 
     def test_action_is_deleted_after_access(self):
         _, action, _ = self._create_action_confirm_request()
@@ -458,7 +452,7 @@ class ConfirmActionViewTest(MessagesTestMixin, CaffeineViewTest):
         response = self.client.get(
             '/action/confirm/{}/'.format(action.code), follow=True
         )
-        self.assertRedirects(response, '/auth/login/?next=/')
+        self.assertRedirects(response, '/')
 
 
 class OnTheRunViewTest(CaffeineViewTest):

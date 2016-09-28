@@ -273,6 +273,14 @@ REST_FRAMEWORK = {
 OAUTH2_PROVIDER_APPLICATION_MODEL = 'caffeine_oauth2.CoffeestatsApplication'
 OAUTH2_PROVIDER = {
     'OAUTH2_SERVER_CLASS': 'caffeine_oauth2.oauth2_server.CoffeestatsServer',
+    # list of allowed URI schemes for redirect URIs
+    'ALLOWED_REDIRECT_URI_SCHEMES': [
+        'http',
+        'https',
+        'org.coffeestats.android',
+        'org.coffeestats.cli',
+        'org.coffeestats.ios',
+    ],
     # the list of available scopes
     'SCOPES': {
         'read': _('Read your caffeine consumption'),

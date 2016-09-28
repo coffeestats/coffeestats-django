@@ -137,7 +137,7 @@ class ImprintView(TemplateView):
     template_name = 'imprint.html'
 
 
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(TemplateView):
     template_name = 'index.html'
 
 
@@ -272,7 +272,7 @@ class SettingsView(LoginRequiredMixin, FormView):
         user = self.request.user
 
         applications = user.caffeine_oauth2_coffeestatsapplication.count()
-        tokens = user.refreshtoken_set.count()
+        tokens = user.accesstoken_set.count()
 
         context.update({
             'oauth2_applications': applications > 0,

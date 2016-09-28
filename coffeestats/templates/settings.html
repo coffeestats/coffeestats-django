@@ -64,20 +64,26 @@
     <div class="white-box">
         <h2>{% trans "API access" %}</h2>
         <p>{% trans "We have an API that you can use for your own integrations." %}</p>
-        <ul>
+        <ul class="list-unstyled">
             <li><a href="{% url "user-list" %}">{% trans "Browse the API" %}</a></li>
         </ul>
+        <h3>{% trans "API applications" %}</h3>
         <p>{% trans "You can register your own OAuth2 capable application to use our API." %}</p>
-        <ul>
+        <ul class="list-unstyled">
             <li><a href="{% url "oauth2_provider:register" %}">{% trans "Register a new application" %}</a></li>
             {% if oauth2_applications %}
                 <li><a href="{% url "oauth2_provider:list" %}">{% trans "Manage your applications" %}</a></li>
             {% endif %}
-            {% if oauth2_tokens %}
-                <li>
+        </ul>
+        <h3>{% trans "Authorized API applications" %}</h3>
+        <ul class="list-unstyled">
+            <li>
+                {% if oauth2_tokens %}
                     <a href="{% url "oauth2_provider:authorized-token-list" %}">{% trans "Manage authorized applications" %}</a>
-                </li>
-            {% endif %}
+                {% else %}
+                    {% trans "You have not authorized any applications to use the API on your behalf yet." %}
+                {% endif %}
+            </li>
         </ul>
     </div>
 {% endblock content %}

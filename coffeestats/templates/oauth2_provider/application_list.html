@@ -2,18 +2,18 @@
 {% load i18n %}
 {% block content %}
     <div class="white-box fullWidth">
-        <h3 class="block-center-heading">{% trans "Your applications" %}</h3>
+        <h1>{% trans "Your API applications" %}</h1>
         {% if applications %}
-            <ul>
+            <p>{% trans "You registered the following API applications:" %}</p>
+            <ul class="list-unstyled">
                 {% for application in applications %}
                     <li>
                         <a href="{{ application.get_absolute_url }}">{{ application.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
-
-            <a class="btn btn-success"
-               href="{% url "oauth2_provider:register" %}">New Application</a>
+            <p>{% trans "You may register additional API applications." %}</p>
+            <a class="btn btn-success" href="{% url "oauth2_provider:register" %}">New Application</a>
         {% else %}
             <p>{% trans "No applications defined" %}. <a
                     href="{% url 'oauth2_provider:register' %}">{% trans "Click here" %}</a> {% trans "if you want to register a new one" %}

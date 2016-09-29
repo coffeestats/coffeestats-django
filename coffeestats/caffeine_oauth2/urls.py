@@ -3,7 +3,8 @@ from __future__ import absolute_import
 from django.conf.urls import url
 from oauth2_provider import views
 
-from .views import CoffeestatsApplicationRegistration
+from .views import CoffeestatsApplicationRegistration, \
+    CoffeestatsApplicationPendingApproval
 
 urlpatterns = (
     url(r'^authorize/$', views.AuthorizationView.as_view(), name="authorize"),
@@ -22,7 +23,11 @@ urlpatterns += (
     url(r'^applications/(?P<pk>\d+)/delete/$',
         views.ApplicationDelete.as_view(), name="delete"),
     url(r'^applications/(?P<pk>\d+)/update/$',
-        views.ApplicationUpdate.as_view(), name="update"),)
+        views.ApplicationUpdate.as_view(), name="update"),
+    url(r'^applications/(?P<pk>\d+)/pending/$',
+        CoffeestatsApplicationPendingApproval.as_view(),
+        name="pending_approval"),
+)
 
 urlpatterns += (
     url(r'^authorized_tokens/$', views.AuthorizedTokensListView.as_view(),

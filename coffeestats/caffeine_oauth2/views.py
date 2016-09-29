@@ -1,4 +1,6 @@
 from django.forms.models import modelform_factory
+from django.views.generic import TemplateView
+from django.views.generic.detail import SingleObjectMixin
 
 from oauth2_provider.views import ApplicationRegistration
 from oauth2_provider.models import get_application_model
@@ -18,3 +20,8 @@ class CoffeestatsApplicationRegistration(ApplicationRegistration):
                 'name', 'description', 'website', 'agree', 'client_id',
                 'client_secret', 'client_type', 'authorization_grant_type',
                 'redirect_uris'))
+
+
+class CoffeestatsApplicationPendingApproval(SingleObjectMixin, TemplateView):
+    template_name = 'caffeine_oauth2/pending_approval.html'
+    context_object_name = 'application'

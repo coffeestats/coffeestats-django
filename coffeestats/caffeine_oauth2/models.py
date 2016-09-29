@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from oauth2_provider.models import AbstractApplication
+from django.conf import settings
 
 
 @python_2_unicode_compatible
@@ -23,6 +25,15 @@ class CoffeestatsApplication(AbstractApplication):
         )
     )
     description = models.TextField(max_length=8192)
+    approved = models.BooleanField(
+        verbose_name=_('approved by coffeestats team'),
+        default=False
+    )
+    approved_on = models.DateTimeField(
+        verbose_name=_('time of approval by the coffeestats team'),
+        blank=True, null=True
+    )
+    approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 
     class Meta(AbstractApplication.Meta):
         verbose_name = _('Coffeestats OAuth2 application')
@@ -30,3 +41,8 @@ class CoffeestatsApplication(AbstractApplication):
 
     def __str__(self):
         return "{} {}".format(self.name, self.client_id)
+
+    def get_absolute_url(self):
+        if not self.approved:
+            return reverse('oauth2_provider:pending_approval', {'pk': self.pk})
+        return super(CoffeestatsApplication, self).get_absolute_url()

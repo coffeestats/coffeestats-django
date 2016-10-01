@@ -1,1 +1,1 @@
-{% load i18n %}[{{ site.name }}] {% blocktrans with appname=application.name %}A new API client {{ appname }} has been requested{% endblocktrans %}
+{% load i18n %}[{{ site.name }}] {% blocktrans with appname=application.name|safe %}A new API client {{ appname }} has been requested{% endblocktrans %}

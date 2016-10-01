@@ -2,29 +2,20 @@
 {% block title %}[{{ site.name }}]
     {% blocktrans with appname=application.name %}A new API client {{ appname }}
         has been requested{% endblocktrans %}{% endblock %}
+{% block content_start %}{% trans "Hello Team," %}{% endblock %}
 {% block content %}
-    <p>
-        {% trans "Hello Team," %}
-    </p>
-    {% blocktrans with appname=application.name appdescription=application.description appwebsite=application.website user=application.user sitename=site.name %}
-        <p>a new API client</p>
-        <p>{{ appname }}</p>
-        <p>for {{ sitename }} has been requested by {{ user }}, with these
-            details:</p>
+    {% blocktrans with appname=application.name appdescription=application.description appwebsite=application.website user=application.user user_url=application.user.get_absolute_url sitename=site.name %}
+        <p>a new API client <b>{{ appname }}</b> for <b>{{ sitename }}</b> has
+            been requested by
+            <a href="{{ site_url }}{{ user_url }}">{{ user }}</a>,
+            with these details:</p>
         <dl>
             <dt>Description:</dt>
             <dd>{{ appdescription }}</dd>
             <dt>Website:</dt>
-            <dd>{{ appwebsite }}</dd>
+            <dd><a href="{{ appwebsite }}">{{ appwebsite }}</a></dd>
         </dl>
         <p>Please visit the <a href="{{ approval_url }}">application's approval
-            page</a>
-            to approve or reject the application.</p>
-        <p class="mailsig">
-            Best regards,<br>
-            your {{ sitename }} team</p>
+            page</a> to approve or reject the application.</p>
     {% endblocktrans %}
-    <hr>
-    <p><a href="{{ request.scheme }}://{{ site.domain }}/">{{ request.scheme }}://{{ site.domain }}/</a>
-    </p>
 {% endblock %}

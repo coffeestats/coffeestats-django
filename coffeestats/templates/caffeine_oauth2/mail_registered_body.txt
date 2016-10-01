@@ -1,5 +1,5 @@
 {% load i18n %}{% trans "Hello Team," %}
-{% blocktrans with appname=application.name appdescription=application.description appwebsite=application.website user=application.user sitename=site.name %}
+{% blocktrans with appname=application.name|safe appdescription=application.description|safe appwebsite=application.website user=application.user sitename=site.name %}
 a new API client
 
 {{ appname }}
@@ -20,4 +20,4 @@ Best regards,
 your {{ sitename }} team
 {% endblocktrans %}
 --
-{{ request.scheme }}://{{ site.domain }}/
+{{ site_url }}{% url 'home' %}

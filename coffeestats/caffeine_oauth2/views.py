@@ -6,8 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.forms.models import modelform_factory
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from django.views.generic import ListView
-from django.views.generic import UpdateView
+from django.views.generic import ListView, UpdateView
 from oauth2_provider.models import get_application_model
 from oauth2_provider.views import ApplicationRegistration
 from oauth2_provider.views.application import ApplicationDetail
@@ -17,7 +16,20 @@ from caffeine_oauth2.forms import CoffeestatsApplicationRejectionForm, \
 from caffeine_oauth2.models import CoffeestatsApplication
 
 
-class CoffeestatsApplicationRegistration(ApplicationRegistration):
+class MailContextMixin(object):
+    def get_mail_context(self, application):
+        current_site = get_current_site(self.request)
+        return {
+            'application': application,
+            'site': current_site,
+            'site_url': '{}://{}'.format(
+                self.request.scheme, current_site.domain),
+            'request': self.request,
+        }
+
+
+class CoffeestatsApplicationRegistration(MailContextMixin,
+                                         ApplicationRegistration):
     mail_subject_template = 'caffeine_oauth2/mail_registered_subject.txt'
     mail_body_html_template = 'caffeine_oauth2/mail_registered_body.html'
     mail_body_text_template = 'caffeine_oauth2/mail_registered_body.txt'
@@ -43,17 +55,12 @@ class CoffeestatsApplicationRegistration(ApplicationRegistration):
         return super(CoffeestatsApplicationRegistration, self).form_valid(form)
 
     def _send_new_application_mail(self, application):
-        current_site = get_current_site(self.request)
-        mail_context = {
-            'application': application,
-            'site': current_site,
-            'request': self.request,
-            'approval_url': '{}://{}{}'.format(
-                self.request.scheme, current_site.domain,
-                reverse_lazy('oauth2_provider:approve',
-                             kwargs={'pk': application.id})
-            )
-        }
+        mail_context = self.get_mail_context(application)
+        mail_context.update({
+            'approval_url': '{}{}'.format(
+                mail_context['site_url'], reverse_lazy(
+                    'oauth2_provider:approve', kwargs={'pk': application.id}))
+        })
 
         send_mail(
             render_to_string(self.mail_subject_template, mail_context),
@@ -73,7 +80,8 @@ class ApproverRequiredMixin(PermissionRequiredMixin):
     permission_required = 'coffeestatsapplication.can_approve'
 
 
-class CoffeestatsApplicationApproval(ApproverRequiredMixin, UpdateView):
+class CoffeestatsApplicationApproval(ApproverRequiredMixin, MailContextMixin,
+                                     UpdateView):
     template_name = 'caffeine_oauth2/approve.html'
     context_object_name = 'application'
     queryset = CoffeestatsApplication.objects.filter(approved=False)
@@ -86,22 +94,17 @@ class CoffeestatsApplicationApproval(ApproverRequiredMixin, UpdateView):
     def form_valid(self, form):
         application = form.save(commit=False)
         application.approve(self.request.user)
-        self._send_approval_mail()
         application.save()
+        self._send_approval_mail(application)
         return redirect(self.get_success_url())
 
-    def _send_approval_mail(self):
-        application = self.get_object()
-        current_site = get_current_site(self.request)
-        mail_context = {
-            'application': application, 'site': current_site,
-            'approver': self.request.user,
-            'request': self.request,
-            'api_details': '{}://{}{}'.format(
-                self.request.scheme, current_site.domain,
-                reverse_lazy('oauth2_provider:detail',
-                             kwargs={'pk': application.id}))
-        }
+    def _send_approval_mail(self, application):
+        mail_context = self.get_mail_context(application)
+        mail_context.update({
+            'api_details': '{}{}'.format(
+                mail_context['site_url'], reverse_lazy(
+                    'oauth2_provider:detail', kwargs={'pk': application.id}))
+        })
 
         send_mail(
             render_to_string(self.mail_subject_template, mail_context),
@@ -113,7 +116,8 @@ class CoffeestatsApplicationApproval(ApproverRequiredMixin, UpdateView):
         )
 
 
-class CoffeestatsApplicationRejection(ApproverRequiredMixin, UpdateView):
+class CoffeestatsApplicationRejection(ApproverRequiredMixin, MailContextMixin,
+                                      UpdateView):
     template_name = 'caffeine_oauth2/reject.html'
     context_object_name = 'application'
     queryset = CoffeestatsApplication.objects.filter(approved=False)
@@ -131,13 +135,10 @@ class CoffeestatsApplicationRejection(ApproverRequiredMixin, UpdateView):
 
     def _send_rejection_mail(self, reasoning):
         application = self.get_object()
-        mail_context = {
-            'request': self.request,
-            'application': application,
-            'site': get_current_site(self.request),
-            'rejecter': self.request.user,
-            'reasoning': reasoning,
-        }
+        mail_context = self.get_mail_context(application)
+        mail_context.update({
+            'reasoning': reasoning
+        })
 
         send_mail(
             render_to_string(self.mail_subject_template, mail_context),

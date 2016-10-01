@@ -1,5 +1,5 @@
 {% load i18n %}{% blocktrans with user=application.user %}Hello {{ user }},{% endblocktrans %}
-{% blocktrans with appname=application.name sitename=site.name %}
+{% blocktrans with appname=application.name|safe sitename=site.name %}
 we are happy to tell you that your API client registration
 
 {{ appname }}
@@ -16,4 +16,4 @@ Best regards,
 your {{ sitename }} team
 {% endblocktrans %}
 --
-{{ request.scheme }}://{{ site.domain }}/
+{{ site_url }}{% url 'home' %}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>{% load i18n %}
+<html>
+<head>
+    <title>{% block title %}{% trans "mail title" %}{% endblock %}</title>
+    <style type="text/css">
+        p.mailsig {
+            margin-top: 1.5em;
+        }
+    </style>
+</head>
+<body>
+{% block content %}{% endblock %}
+</body>
+</html>

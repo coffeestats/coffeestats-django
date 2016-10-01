@@ -1,0 +1,19 @@
+{% load i18n %}{% blocktrans with user=application.user %}Hello {{ user }},{% endblocktrans %}
+{% blocktrans with appname=application.name sitename=site.name %}
+we are sorry to tell you that your API client registration
+
+{{ appname }}
+
+for {{ sitename }} has been rejected because of the following reason(s):
+
+{{ reasoning }}
+
+You can apply for a new API client registration once you could resolve the
+mentioned problems.
+
+
+Best regards,
+your {{ sitename }} team
+{% endblocktrans %}
+--
+{{ request.scheme }}://{{ site.domain }}/

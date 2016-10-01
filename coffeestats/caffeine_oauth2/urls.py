@@ -4,7 +4,10 @@ from django.conf.urls import url
 from oauth2_provider import views
 
 from .views import CoffeestatsApplicationRegistration, \
-    CoffeestatsApplicationPendingApproval
+    CoffeestatsApplicationPendingApproval, \
+    CoffeestatsApplicationApproval, \
+    CoffeestatsApplicationRejection, \
+    CoffeestatsApplicationFullList
 
 urlpatterns = (
     url(r'^authorize/$', views.AuthorizationView.as_view(), name="authorize"),
@@ -27,6 +30,12 @@ urlpatterns += (
     url(r'^applications/(?P<pk>\d+)/pending/$',
         CoffeestatsApplicationPendingApproval.as_view(),
         name="pending_approval"),
+    url(r'^applications/(?P<pk>\d+)/approve/$',
+        CoffeestatsApplicationApproval.as_view(), name="approve"),
+    url(r'^applications/(?P<pk>\d+)/reject/$',
+        CoffeestatsApplicationRejection.as_view(), name="reject"),
+    url(r'^all-applications/$',
+        CoffeestatsApplicationFullList.as_view(), name="list_all"),
 )
 
 urlpatterns += (

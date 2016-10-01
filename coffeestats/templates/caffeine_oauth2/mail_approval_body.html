@@ -1,0 +1,26 @@
+{% extends "caffeine_oauth2/mail_body_base.html" %}{% load i18n %}
+{% block title %}[{{ site.name }}]
+    {% blocktrans with appname=application.name %}Your API client {{ appname }}
+        has been approved{% endblocktrans %}
+{% endblock %}
+{% block content %}
+    <p>
+        {% blocktrans with user=application.user %}Hello {{ user }},
+        {% endblocktrans %}
+    </p>
+    {% blocktrans with appname=application.name sitename=site.name %}
+        <p>we are happy to tell you that your API client registration</p>
+        <p>{{ appname }}<b></b></p>
+        <p>for {{ sitename }} has been approved.</p>
+        <p>
+            You can now use your API credentials to get authentication tokens
+            and use our API. Details of your API client credentials can be found
+            at <a href="{{ api_details }}">your API client details page</a>.</p>
+        <p class="mailsig">
+            Best regards,<br>
+            your {{ sitename }} team</p>
+    {% endblocktrans %}
+    <hr>
+    <p><a href="{{ request.scheme }}://{{ site.domain }}/">{{ request.scheme }}://{{ site.domain }}/</a>
+    </p>
+{% endblock %}

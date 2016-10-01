@@ -10,3 +10,6 @@ class CoffeestatsApplicationRegistrationTest(SimpleTestCase):
         form_class = view.get_form_class()
         self.assertIsNotNone(form_class)
         self.assertEqual(form_class.Meta.model, CoffeestatsApplication)
+
+
+# TODO: add tests for the other views

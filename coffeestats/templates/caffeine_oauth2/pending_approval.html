@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+    <div class="white-box fullWidth">
+        <h1>{% blocktrans with appname=application.name %}Your coffeestats API
+            client "{{ appname }}" is pending approval{% endblocktrans %}</h1>
+        <p>{% blocktrans %}Your application is currently waiting for approval by
+            the coffeestats team.{% endblocktrans %}</p>
+        <ul class="list-unstyled">
+            <li>
+                <p><b><label for="id_client_id">{% trans "Client id" %}</label></b>
+                </p>
+                <input class="input-block-level" type="text" id="id_client_id"
+                       value="{{ application.client_id }}" readonly>
+            </li>
+
+            <li>
+                <p><b><label
+                        for="id_client_secret">{% trans "Client secret" %}</label></b>
+                </p>
+                <input class="input-block-level" type="text"
+                       id="id_client_secret"
+                       value="{{ application.client_secret }}" readonly>
+            </li>
+
+            <li>
+                <p><b>{% trans "Client type" %}</b></p>
+                <p>{{ application.client_type }}</p>
+            </li>
+
+            <li>
+                <p><b>{% trans "Authorization Grant Type" %}</b></p>
+                <p>{{ application.authorization_grant_type }}</p>
+            </li>
+
+            <li>
+                <p><b>{% trans "Redirect Uris" %}</b></p>
+                <pre>{{ application.redirect_uris }}</pre>
+            </li>
+        </ul>
+
+        <div class="btn-toolbar">
+            <a class="btn"
+               href="{% url "oauth2_provider:list" %}">{% trans "Go Back" %}</a>
+            <a class="btn btn-primary"
+               href="{% url "oauth2_provider:update" application.id %}">{% trans "Edit" %}</a>
+            <a class="btn btn-danger"
+               href="{% url "oauth2_provider:delete" application.id %}">{% trans "Delete" %}</a>
+            {% if request.user.is_staff %}
+            <a class="btn"
+               href="{% url "oauth2_provider:approve" application.id %}">{% trans "Approve" %}</a>
+            {% endif %}
+        </div>
+    </div>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var elements = $('#id_client_id #id_client_secret');
+            elements.focusin(function () {
+                this.select_all();
+            });
+        });
+    </script>
+{% endblock content %}

@@ -67,14 +67,15 @@ class CaffeineUserManager(BaseUserManager):
         """
         return self._create_user(username, email, password)
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(self, username, email, password, **kwargs):
         """
         Creates and saves a superuser with the given user name, email address
         and password.
 
         """
         return self._create_user(
-            username, email, password, is_superuser=True, is_staff=True)
+            username, email, password, is_superuser=True, is_staff=True,
+            **kwargs)
 
     def random_users(self, count=4):
         users = self.raw(

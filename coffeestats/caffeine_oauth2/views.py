@@ -42,10 +42,8 @@ class CoffeestatsApplicationRegistration(MailContextMixin,
         return modelform_factory(
             get_application_model(),
             fields=(
-                # 'logo',
-                'name', 'description', 'website', 'agree', 'client_id',
-                'client_secret', 'client_type', 'authorization_grant_type',
-                'redirect_uris'))
+                'name', 'description', 'website', 'agree', 'client_type',
+                'authorization_grant_type', 'redirect_uris'))
 
     def form_valid(self, form):
         application = form.save(commit=False)

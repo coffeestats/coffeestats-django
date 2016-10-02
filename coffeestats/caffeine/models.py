@@ -54,7 +54,7 @@ class CaffeineUserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, password=None, **kwargs):
         """
         Creates and saves a User with the given user name, email addresse and
         password.
@@ -65,7 +65,7 @@ class CaffeineUserManager(BaseUserManager):
         :returns: User instance
 
         """
-        return self._create_user(username, email, password)
+        return self._create_user(username, email, password, **kwargs)
 
     def create_superuser(self, username, email, password, **kwargs):
         """

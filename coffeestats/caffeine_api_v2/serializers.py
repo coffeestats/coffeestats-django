@@ -1,6 +1,9 @@
+from django.conf import settings
+from rest_framework.exceptions import ValidationError
+from rest_framework.validators import BaseUniqueForValidator
+
 from caffeine.models import User, Caffeine, DRINK_TYPES
 from rest_framework import serializers
-
 
 READABLE_DRINK_TYPES = [
     (triple[1], triple[2]) for triple in DRINK_TYPES._triples]
@@ -25,6 +28,38 @@ class CaffeineField(serializers.Field):
         return getattr(DRINK_TYPES, data)
 
 
+class NoRecentCaffeineValidator(BaseUniqueForValidator):
+    message = None
+
+    def __init__(self, user_field, ctype_field, date_field, message=None):
+        self.queryset = None
+        self.date_field = date_field
+        self.field = ctype_field
+        self.user_field = user_field
+        self.message = message or self.message
+
+    def set_context(self, serializer):
+        """
+        This hook is called by the serializer instance, prior to the validation
+        call being made.
+        """
+        self.field_date = serializer.fields[self.date_field].source_attrs[-1]
+        self.field_ctype = serializer.fields[self.field].source_attrs[-1]
+        self.user = serializer.context['view'].view_owner
+        self.instance = getattr(serializer, 'instance', None)
+
+    def filter_queryset(self, attrs, queryset):
+        user = self.user
+        date = attrs[self.field_date]
+        ctype = attrs[self.field_ctype]
+        self.message = (
+            'Your last %(drink)s was less than %(minutes)d minutes ago.'
+        ) % dict(
+            drink=READABLE_DRINK_TYPES[ctype][0],
+            minutes=settings.MINIMUM_DRINK_DISTANCE)
+        return Caffeine.objects.recent_caffeine_queryset(user, date, ctype)
+
+
 class CaffeineSerializer(serializers.HyperlinkedModelSerializer):
     ctype = CaffeineField()
 
@@ -37,6 +72,10 @@ class CaffeineSerializer(serializers.HyperlinkedModelSerializer):
             'user': {'lookup_field': 'username'},
         }
 
+    validators = [
+        NoRecentCaffeineValidator('user', 'ctype', 'date')
+    ]
+
 
 class UserCaffeineSerializer(serializers.HyperlinkedModelSerializer):
     ctype = CaffeineField()
@@ -48,13 +87,16 @@ class UserCaffeineSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url', 'date', 'entrytime', 'timezone', 'ctype', 'user'
         )
+        validators = [
+            NoRecentCaffeineValidator('user', 'ctype', 'date')
+        ]
 
     def save(self):
         user = self.context['view'].view_owner
         self.validated_data['user'] = user
         if (
-            'timezone' not in self.validated_data or
-            not self.validated_data['timezone']
+                        'timezone' not in self.validated_data or
+                    not self.validated_data['timezone']
         ):
             self.validated_data['timezone'] = user.timezone
         return super(UserCaffeineSerializer, self).save()

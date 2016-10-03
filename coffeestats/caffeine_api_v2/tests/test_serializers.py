@@ -4,7 +4,9 @@ from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils import timezone
 from mock import MagicMock
+from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory
 
@@ -51,6 +53,23 @@ class CaffeineSerializerTest(TestCase):
     def test_is_expected_serializer(self):
         self.assertIsInstance(self.subject, CaffeineSerializer)
 
+    def test_validate(self):
+        user = User.objects.create_user(
+            username='testuser', email='test@example.org', password='s3cr3t',
+            timezone='Europe/Berlin'
+        )
+        first_caff = Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, date=timezone.now(), user=user)
+        first_caff.save()
+        data = {
+            'user': user,
+            'date': timezone.now(),
+            'timezone': user.timezone,
+            'ctype': 'coffee',
+        }
+        with self.assertRaises(ValidationError):
+            self.subject.run_validation(data)
+
 
 class UserCaffeineSerializerTest(TestCase):
     def setUp(self):
@@ -78,6 +97,20 @@ class UserCaffeineSerializerTest(TestCase):
         saved = subject.save()
         self.assertIsInstance(saved, Caffeine)
         self.assertEqual(saved.timezone, 'Arctic/Longyearbyen')
+
+    def test_validate(self):
+        subject = UserCaffeineSerializer(
+            data={'date': datetime.now(), 'ctype': 'coffee'},
+            context={'view': self.mockview})
+        first_caff = Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, date=timezone.now(), user=self.user)
+        first_caff.save()
+        data = {
+            'date': timezone.now(),
+            'ctype': 'coffee',
+        }
+        with self.assertRaises(ValidationError):
+            subject.run_validation(data)
 
 
 class UserSerializerTest(TestCase):

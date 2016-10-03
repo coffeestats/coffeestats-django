@@ -64,6 +64,11 @@
     <div class="white-box">
         <h2>{% trans "API access" %}</h2>
         <p>{% trans "We have an API that you can use for your own integrations." %}</p>
+        <p>{% url "api_usage_agreement" as api_usage_agreement %}{% blocktrans %}
+            Please see our
+            <a href="{{ api_usage_agreement }}">API usage agreement</a>
+            for conditions of the API usage.
+        {% endblocktrans %}</p>
         <ul class="list-unstyled">
             <li><a href="{% url "user-list" %}">{% trans "Browse the API" %}</a></li>
         </ul>

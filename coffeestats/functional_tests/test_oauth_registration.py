@@ -145,10 +145,11 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # the application registration is submitted and the user lands on the
         # pending application page
         self.assertRegexpMatches(
-            self.selenium.current_url, r'/oauth2/applications/\d+/pending/$')
+            self.selenium.current_url, r'/oauth2/applications/\d+/$')
         application_id = re.search(
             r'(?<=/oauth2/applications/)\d+',
             self.selenium.current_url).group(0)
+        self.assertIn('pending', self.selenium.title)
 
         # check that client_id and client_secret are not shown
         application = CoffeestatsApplication.objects.get(pk=int(application_id))
@@ -319,10 +320,11 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # the application registration is submitted and the user lands on the
         # pending application page
         self.assertRegexpMatches(
-            self.selenium.current_url, r'/oauth2/applications/\d+/pending/$')
+            self.selenium.current_url, r'/oauth2/applications/\d+/$')
         application_id = re.search(
             r'(?<=/oauth2/applications/)\d+',
             self.selenium.current_url).group(0)
+        self.assertIn('pending', self.selenium.title)
 
         # check that client_id and client_secret are not shown
         application = CoffeestatsApplication.objects.get(pk=int(application_id))

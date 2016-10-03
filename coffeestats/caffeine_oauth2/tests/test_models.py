@@ -19,7 +19,7 @@ class CoffeestatsApplicationTest(TestCase):
                                              pk=1)
         self.assertEqual(
             application.get_absolute_url(),
-            reverse('oauth2_provider:pending_approval', kwargs={'pk': 1}))
+            reverse('oauth2_provider:detail', kwargs={'pk': 1}))
 
     def test_get_absolute_url_approved(self):
         application = CoffeestatsApplication(name='test', client_id='client',

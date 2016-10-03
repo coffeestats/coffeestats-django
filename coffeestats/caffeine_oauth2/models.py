@@ -46,12 +46,6 @@ class CoffeestatsApplication(AbstractApplication):
     def __str__(self):
         return "{} {}".format(self.name, self.client_id)
 
-    def get_absolute_url(self):
-        if not self.approved:
-            return reverse(
-                'oauth2_provider:pending_approval', kwargs={'pk': self.pk})
-        return super(CoffeestatsApplication, self).get_absolute_url()
-
     def approve(self, approver):
         self.approved = True
         self.approved_by = approver

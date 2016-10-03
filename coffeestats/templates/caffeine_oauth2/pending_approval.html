@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% block title %}{{ block.super }} - {% blocktrans with appname=application.name %} API client {{ appname }} - pending approval{% endblocktrans %}{% endblock %}
 {% block content %}
     <div class="white-box fullWidth">
         <h1>{% trans "Pending approval" %}

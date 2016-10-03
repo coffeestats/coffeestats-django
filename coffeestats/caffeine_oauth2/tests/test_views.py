@@ -47,8 +47,15 @@ class CoffeestatsApplicationRegistrationTest(TransactionTestCase):
         self.assertIn('application', response.context)
         self.assertIsInstance(response, HttpResponseRedirect)
         self.assertEqual(response.url, reverse(
-            'oauth2_provider:pending_approval',
+            'oauth2_provider:detail',
             kwargs={'pk': response.context['application'].id}))
+
+    def test_valid_application_use_pending_template(self):
+        response = self.client.post(
+            reverse('oauth2_provider:register'), data=self.post_data,
+            follow=True)
+        self.assertIsNotNone(response)
+        self.assertTemplateUsed('caffeine_oauth2/pending_approval.html')
 
     def test_valid_application_email_to_staff(self):
         response = self.client.post(

@@ -70,8 +70,14 @@ class CoffeestatsApplicationRegistration(MailContextMixin,
         )
 
 
-class CoffeestatsApplicationPendingApproval(ApplicationDetail):
-    template_name = 'caffeine_oauth2/pending_approval.html'
+class CoffeestatsApplicationDetail(ApplicationDetail):
+
+    def get_template_names(self):
+        application = self.get_object()
+        names = super(CoffeestatsApplicationDetail, self).get_template_names()
+        if not application.approved:
+            names.insert(0, 'caffeine_oauth2/pending_approval.html')
+        return names
 
 
 class ApproverRequiredMixin(PermissionRequiredMixin):

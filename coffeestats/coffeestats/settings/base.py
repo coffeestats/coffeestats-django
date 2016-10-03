@@ -291,6 +291,7 @@ OAUTH2_PROVIDER = {
 }
 # ######### END OAUTH2 settings
 
+API_USAGE_AGREEMENT = '/api/v2/agreement/'
 
 # ######### LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging

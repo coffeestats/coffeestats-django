@@ -107,6 +107,10 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         action_chain.click(agree_field).perform()
         agree_field.send_keys(Keys.TAB)
 
+        agreement_link = self.selenium.switch_to.active_element
+        self.assertEqual(agreement_link.tag_name, 'a')
+        agreement_link.send_keys(Keys.TAB)
+
         client_type_field = self.selenium.switch_to.active_element
         self.assertEqual(
             client_type_field.get_attribute('id'), 'id_client_type')
@@ -281,6 +285,10 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         agree_field = self.selenium.switch_to.active_element
         self.assertEqual(agree_field.get_attribute('id'), 'id_agree')
         agree_field.send_keys(Keys.TAB)
+
+        agreement_link = self.selenium.switch_to.active_element
+        self.assertEqual(agreement_link.tag_name, 'a')
+        agreement_link.send_keys(Keys.TAB)
 
         client_type_field = self.selenium.switch_to.active_element
         self.assertEqual(

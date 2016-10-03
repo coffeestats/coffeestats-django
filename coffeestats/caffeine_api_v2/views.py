@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 from rest_framework import permissions, viewsets
 
 from caffeine.models import Caffeine, User
@@ -45,3 +47,7 @@ class UserCaffeineViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.view_owner.caffeines.all().order_by('-date')
+
+
+class UsageAgreement(LoginRequiredMixin, TemplateView):
+    template_name = 'caffeine_api_v2/api_usage_agreement.html'

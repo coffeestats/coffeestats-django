@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from oauth2_provider.models import AbstractApplication
 
@@ -17,7 +18,11 @@ class CoffeestatsApplication(AbstractApplication):
     """
     logo = models.ImageField(
         verbose_name=_('application logo'), upload_to='appimages')
-    agree = models.BooleanField(verbose_name=_('API usage agreement'))
+    agree = models.BooleanField(
+        verbose_name=_('accept API usage agreement'),
+        help_text=mark_safe(
+            _('You have to agree to the <a href="%s">API usage agreement</a>'
+              ' to use our APIs.') % settings.API_USAGE_AGREEMENT))
     website = models.URLField(
         verbose_name=_('application website'),
         help_text=_(

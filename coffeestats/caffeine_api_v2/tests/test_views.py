@@ -3,6 +3,7 @@ from __future__ import unicode_literals, print_function
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
+from django.test import TransactionTestCase
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.reverse import reverse
@@ -72,3 +73,22 @@ class UserCaffeineViewSetTest(APITestCase):
         self.assertTrue(
             data[1]['user'].endswith(reverse(
                 'user-detail', kwargs={'username': user.username})))
+
+
+class UsageAgreementTest(TransactionTestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='test', email='test@example.org', password='s3cr3t',
+            timezone='Europe/Berlin')
+        self.my_url = reverse('api_usage_agreement')
+
+    def test_needs_login(self):
+        response = self.client.get(self.my_url)
+        self.assertRedirects(response, '/auth/login/?next={}'.format(
+            self.my_url))
+
+    def test_uses_api_usage_agreement_template(self):
+        self.client.force_login(self.user)
+        response = self.client.get(self.my_url)
+        self.assertTemplateUsed(
+            response, 'caffeine_api_v2/api_usage_agreement.html')

@@ -3,11 +3,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
-from django.forms.models import modelform_factory
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.views.generic import ListView, UpdateView
-from oauth2_provider.models import get_application_model
 from oauth2_provider.views import ApplicationRegistration
 from oauth2_provider.views.application import ApplicationDetail
 

@@ -15,5 +15,6 @@ users_router.register(
 urlpatterns = [
     url(r'', include(router.urls)),
     url(r'', include(users_router.urls)),
-    url(r'agreement/$', views.UsageAgreement.as_view(), name='api_usage_agreement')
+    url(r'agreement/$', views.UsageAgreement.as_view(),
+        name='api_usage_agreement')
 ]

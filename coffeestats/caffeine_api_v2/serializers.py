@@ -1,9 +1,8 @@
 from django.conf import settings
-from rest_framework.exceptions import ValidationError
+from rest_framework import serializers
 from rest_framework.validators import BaseUniqueForValidator
 
 from caffeine.models import User, Caffeine, DRINK_TYPES
-from rest_framework import serializers
 
 READABLE_DRINK_TYPES = [
     (triple[1], triple[2]) for triple in DRINK_TYPES._triples]
@@ -94,10 +93,8 @@ class UserCaffeineSerializer(serializers.HyperlinkedModelSerializer):
     def save(self):
         user = self.context['view'].view_owner
         self.validated_data['user'] = user
-        if (
-                        'timezone' not in self.validated_data or
-                    not self.validated_data['timezone']
-        ):
+        if ('timezone' not in self.validated_data or
+                not self.validated_data['timezone']):
             self.validated_data['timezone'] = user.timezone
         return super(UserCaffeineSerializer, self).save()
 

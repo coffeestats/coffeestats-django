@@ -156,7 +156,8 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertIn('pending', self.selenium.title)
 
         # check that client_id and client_secret are not shown
-        application = CoffeestatsApplication.objects.get(pk=int(application_id))
+        application = CoffeestatsApplication.objects.get(
+            pk=int(application_id))
         self.assertNotIn(application.client_id, self.selenium.page_source)
         self.assertNotIn(application.client_secret, self.selenium.page_source)
 
@@ -325,7 +326,8 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(submit_button.get_attribute('type'), 'submit')
         submit_button.click()
 
-        # The validation fails because the user did not check the agree checkbox
+        # The validation fails because the user did not check the agree
+        # checkbox
         self.assertRegexpMatches(
             self.selenium.current_url, r'/oauth2/applications/register/$')
         self.assertIn(
@@ -349,7 +351,8 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertIn('pending', self.selenium.title)
 
         # check that client_id and client_secret are not shown
-        application = CoffeestatsApplication.objects.get(pk=int(application_id))
+        application = CoffeestatsApplication.objects.get(
+            pk=int(application_id))
         self.assertNotIn(application.client_id, self.selenium.page_source)
         self.assertNotIn(application.client_secret, self.selenium.page_source)
 

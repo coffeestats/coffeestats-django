@@ -10,8 +10,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
-from django.test import TestCase
-from django.test import TransactionTestCase
+from django.test import TestCase, TransactionTestCase
 from django.utils import timezone
 from passlib.hash import bcrypt
 
@@ -184,7 +183,7 @@ class CaffeineManagerTest(TestCase):
             for hour, drinktype in [
                 (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                 for hour in range(10, 18)
-                ]:
+            ]:
                 caffeinetime = datetime(
                     self.now.year, self.now.month, day, hour)
                 Caffeine.objects.create(ctype=drinktype,
@@ -201,7 +200,7 @@ class CaffeineManagerTest(TestCase):
                 for hour, drinktype in [
                     (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                     for hour in range(10, 18)
-                    ]:
+                ]:
                     caffeinetime = datetime(
                         self.now.year, month, day, hour)
                     Caffeine.objects.create(ctype=drinktype,
@@ -212,8 +211,8 @@ class CaffeineManagerTest(TestCase):
             (User.objects.create(username='test{}'.format(usernum + 1),
                                  token='foo{}'.format(usernum)),
              list(DRINK_TYPES)[usernum % len(DRINK_TYPES)][0])
-            for usernum in range(usercount)]:
-
+            for usernum in range(usercount)
+        ]:
             for day in [random.randrange(100)
                         for item in range(caffeineperuser)]:
                 caffeinetime = self.now - timedelta(days=day)
@@ -222,11 +221,11 @@ class CaffeineManagerTest(TestCase):
 
     def _create_random_caffeine(self, users, number, timespan):
         drinks = dict(
-            [(drinktype[0], {
+            [(drink_type[0], {
                 'month': 12 * [0],
                 'hour': 24 * [0],
                 'wday': 7 * [0]
-            }) for drinktype in DRINK_TYPES])
+            }) for drink_type in DRINK_TYPES])
         maxval = {
             'month': 1, 'hour': 1, 'wday': 1}
 
@@ -234,17 +233,17 @@ class CaffeineManagerTest(TestCase):
             timedelta(days=random.randrange(timespan.days),
                       seconds=random.randrange(86400))
             for _ in range(number)
-            ]:
-            caffeinetime = self.now - timeoffset
+        ]:
+            caffeine_time = self.now - timeoffset
             ctype = random.choice(list(DRINK_TYPES))[0]
             user = random.choice(users)
-            Caffeine.objects.create(date=caffeinetime, user=user, ctype=ctype)
-            drinks[ctype]['month'][caffeinetime.month - 1] += 1
-            drinks[ctype]['hour'][caffeinetime.hour] += 1
-            drinks[ctype]['wday'][caffeinetime.weekday()] += 1
-        for drinktype, drinkdict in drinks.items():
-            for key in drinkdict:
-                maxval[key] = max(maxval[key], max(drinkdict[key]))
+            Caffeine.objects.create(date=caffeine_time, user=user, ctype=ctype)
+            drinks[ctype]['month'][caffeine_time.month - 1] += 1
+            drinks[ctype]['hour'][caffeine_time.hour] += 1
+            drinks[ctype]['wday'][caffeine_time.weekday()] += 1
+        for drink_type, drink_dict in drinks.items():
+            for key in drink_dict:
+                maxval[key] = max(maxval[key], max(drink_dict[key]))
         return drinks, maxval
 
     def _create_users(self, count):

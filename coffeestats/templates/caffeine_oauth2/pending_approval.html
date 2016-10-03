@@ -2,25 +2,17 @@
 {% load i18n %}
 {% block content %}
     <div class="white-box fullWidth">
-        <h1>{% blocktrans with appname=application.name %}Your coffeestats API
-            client "{{ appname }}" is pending approval{% endblocktrans %}</h1>
+        <h1>{% trans "Pending approval" %}
+            <small>{% blocktrans with appname=application.name %}
+                for your coffeestats API client "{{ appname }}"
+            {% endblocktrans %}</small>
+        </h1>
         <p>{% blocktrans %}Your application is currently waiting for approval by
             the coffeestats team.{% endblocktrans %}</p>
         <ul class="list-unstyled">
             <li>
-                <p><b><label for="id_client_id">{% trans "Client id" %}</label></b>
-                </p>
-                <input class="input-block-level" type="text" id="id_client_id"
-                       value="{{ application.client_id }}" readonly>
-            </li>
-
-            <li>
-                <p><b><label
-                        for="id_client_secret">{% trans "Client secret" %}</label></b>
-                </p>
-                <input class="input-block-level" type="text"
-                       id="id_client_secret"
-                       value="{{ application.client_secret }}" readonly>
+                <p><b>{% trans "Description" %}</b></p>
+                <p>{{ application.description }}</p>
             </li>
 
             <li>
@@ -47,8 +39,8 @@
             <a class="btn btn-danger"
                href="{% url "oauth2_provider:delete" application.id %}">{% trans "Delete" %}</a>
             {% if request.user.is_staff %}
-            <a class="btn"
-               href="{% url "oauth2_provider:approve" application.id %}">{% trans "Approve" %}</a>
+                <a class="btn"
+                   href="{% url "oauth2_provider:approve" application.id %}">{% trans "Approve" %}</a>
             {% endif %}
         </div>
     </div>

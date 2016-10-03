@@ -317,6 +317,20 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(submit_button.get_attribute('type'), 'submit')
         submit_button.click()
 
+        # The validation fails because the user did not check the agree checkbox
+        self.assertRegexpMatches(
+            self.selenium.current_url, r'/oauth2/applications/register/$')
+        self.assertIn(
+            'You have to agree to our API usage agreement',
+            self.selenium.page_source)
+        agree_field = self.selenium.find_element_by_id('id_agree')
+        action_chain = ActionChains(self.selenium)
+        action_chain.click(agree_field).perform()
+
+        submit_button = self.selenium.find_element_by_tag_name('button')
+        self.assertEqual(submit_button.get_attribute('type'), 'submit')
+        submit_button.click()
+
         # the application registration is submitted and the user lands on the
         # pending application page
         self.assertRegexpMatches(

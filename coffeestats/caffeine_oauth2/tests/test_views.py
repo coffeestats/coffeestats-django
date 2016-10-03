@@ -23,7 +23,7 @@ class CoffeestatsApplicationRegistrationTest(TransactionTestCase):
         self.user = User.objects.create(
             username='tester', timezone='Europe/Berlin')
         self.post_data = {
-            'agree': False, 'website': 'http://foo.example.org/',
+            'agree': True, 'website': 'http://foo.example.org/',
             'client_type': CoffeestatsApplication.CLIENT_PUBLIC,
             'name': 'The foo coffeestats API client',
             'description': 'A foo client from the knights of foo',

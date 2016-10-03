@@ -12,7 +12,7 @@ from oauth2_provider.views import ApplicationRegistration
 from oauth2_provider.views.application import ApplicationDetail
 
 from caffeine_oauth2.forms import CoffeestatsApplicationRejectionForm, \
-    CoffeestatsApplicationApprovalForm
+    CoffeestatsApplicationApprovalForm, CoffeestatsApplicationForm
 from caffeine_oauth2.models import CoffeestatsApplication
 
 
@@ -39,11 +39,7 @@ class CoffeestatsApplicationRegistration(MailContextMixin,
         Returns a customized form class for the coffeestats application model.
 
         """
-        return modelform_factory(
-            get_application_model(),
-            fields=(
-                'name', 'description', 'website', 'agree', 'client_type',
-                'authorization_grant_type', 'redirect_uris'))
+        return CoffeestatsApplicationForm
 
     def form_valid(self, form):
         application = form.save(commit=False)

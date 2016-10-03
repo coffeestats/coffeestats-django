@@ -98,9 +98,8 @@ class BaseCoffeeStatsPageTestMixin(object):
 
         self.check_page_header()
 
-        # He finds out that he was redirected to a login page
-        self.assertRegexpMatches(self.selenium.current_url,
-                                 r'/auth/login/\?next=/$')
+        # He finds out that he was redirected to the home page
+        self.assertRegexpMatches(self.selenium.current_url, r'/$')
 
         # there is a navigation in the page header
         header = self.selenium.find_element_by_id('header')

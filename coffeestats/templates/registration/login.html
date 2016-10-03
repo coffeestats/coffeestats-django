@@ -1,73 +1,71 @@
 {% extends "base.html" %}
 {% load staticfiles i18n %}
 {% if form.non_field_errors %}
-{% block extra_system_flash %}
-{% for message in form.non_field_errors %}
-<li class="flash-error">{{ message }} <a href="#" class="close">X</a></li>
-{% endfor %}
-{% endblock %}
+    {% block extra_system_flash %}
+        {% for message in form.non_field_errors %}
+            <li class="flash-error">{{ message }} <a href="#"
+                                                     class="close">X</a></li>
+        {% endfor %}
+    {% endblock %}
 {% endif %}
+{% block loginnav %}{% endblock %}
 {% block content %}
-<div class="white-box">
-  <h2>{% trans "Graphs!" %}</h2>
-  {% url 'overall' as overall %}
-  {% blocktrans %}<a href="{{ overall }}">Overall</a> Coffee vs. Mate consumption.{% endblocktrans %}<br /><br />
-  <canvas id="coffeeexample" width="590" height="240" ></canvas>
-</div>
-<div class="white-box">
-  <h2>{% trans "What is coffeestats.org?" %}</h2>
-  <p>{% trans "You like coffee, mate, graphs and nerdy statistics? Well, we do too!" %}</p>
-  <p>{% blocktrans %}It's dead-simple: You enjoy your fix of coffee as usual and we keep track of it -- enabling us to present you with awesome statistics about your general coffee consumption. Why? Just because, of course!{% endblocktrans %}</p>
-  <p>{% blocktrans %}Follow us{% endblocktrans %}<br />
-  <a href="{{ social.googleplus }}" rel="publisher"><img src="{% static "images/googleplus40.png" %}" alt="{% trans "Google+" %}" title="{% trans "coffeestats @ google+" %}" /></a>
-  <a href="{{ social.twitter }}"><img src="{% static "images/twitter40.png" %}" alt="{% trans "Twitter" %}" title="{% trans "coffeestats @ twitter" %}" /></a></p>
-</div>
+    <div class="white-box fullWidth">
+        <h2>{% trans "Login" %}</h2>
+        <form action="{% url "auth_login" %}" method="post" id="loginfull">
+            {% csrf_token %}
+            {{ form.username.errors }}
+            {{ form.password.errors }}
+            <input type="text" required pattern="[a-z][a-z0-9_-]{1,29}"
+                   name="username" id="id_login_username"
+                   {% if form.username.value %}value="{{ form.username.value }}" {% endif %}>
+            <label for="id_login_username" alt="{% trans "Username" %}"
+                   placeholder="{% trans "Username" %}"></label>
+            <input type="password" required name="password"
+                   id="id_login_password"/>
+            <label for="id_login_password" alt="{% trans "Password" %}"
+                   placeholder="{% trans "Password" %}"></label>
+            {% url "auth_password_reset" as passwordreset_url %}
+            {% blocktrans %}
+                <a href="{{ passwordreset_url }}" class="right">Forgot your
+                    password?</a>{% endblocktrans %}
+            <input type="submit" name="submit" value="{% trans "Login" %}"/>
+            <input type="hidden" name="next" value="{% spaceless %}
+                {% url 'home' as home_url %}
+                {% if request.GET.next == home_url or not request.GET.next %}
+                    {% url 'profile' %}
+                {% else %}
+                    {{ request.GET.next }}
+                {% endif %}
+            {% endspaceless %}"/>
+        </form>
+        <h3>{% trans "You have no account yet?" %}</h3>
+        <p><a href="{% url "registration_register" %}"
+              class="btn">{% trans "Register" %}</a></p>
+    </div>
 {% endblock %}
 {% block extra_js %}
-<script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
-<script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
-<script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-  $('input#id_login_username').bind('invalid', usernamefieldvalidation);
-  $('input#id_login_password').bind('invalid', function(event) {
-    if (this.validity.valueMissing) {
-      this.setCustomValidity('{% trans "Password must not be empty!" %}');
-    } else {
-      this.setCustomValidity('');
-    }
-  });
+    <script type="text/javascript"
+            src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
+    <script type="text/javascript"
+            src="{% static "caffeine/js/validation.js" %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input#id_login_username').bind('invalid', usernamefieldvalidation);
+            $('input#id_login_password input#id_login_password').bind('invalid', function (event) {
+                if (this.validity.valueMissing) {
+                    this.setCustomValidity('{% trans "Password must not be empty!" %}');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
 
-  if (!("autofocus" in document.createElement('input'))) {
-    $("input#username").focus();
-  }
+            $('input#id_login_username').focus();
 
-  var lineChartData = {
-    labels: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat",],
-    datasets: [
-      {
-        fillColor: "#FF9900",
-        strokeColor: "#FFB84D",
-        pointColor: "#FFB84D",
-        pointStrokeColor: "#fff",
-        data: [40,26,180,72,102,60,30,14,]
-      },
-      {
-        fillColor:  "#E64545",
-        strokeColor: "#FF9999",
-        pointColor: "#FF9999",
-        pointStrokeColor: "#fff",
-        data: [101,3,87,32,12,80,17,14,]
-      },
-    ]
-  }
-
-  new Chart(document.getElementById("coffeeexample").getContext("2d")).Line(lineChartData);
-
-  $('form').submit(function(event) {
-    return sanitize_username('input#id_login_username')
-    && sanitize_not_empty('input#id_login_password', '{% trans "Password must not be empty!" %}');
-  });
-});
-</script>
+            $('form').submit(function (event) {
+                return sanitize_username('input#id_login_username')
+                        && sanitize_not_empty('input#id_login_password', '{% trans "Password must not be empty!" %}');
+            });
+        });
+    </script>
 {% endblock %}

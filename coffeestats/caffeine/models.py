@@ -1,26 +1,28 @@
-from hashlib import md5
-from datetime import timedelta
-from calendar import monthrange
-from StringIO import StringIO
-import csv
+from __future__ import unicode_literals
 
-from django.core.mail import EmailMessage
-from django.db import (
-    connection,
-    models,
-)
+import csv
+from StringIO import StringIO
+from calendar import monthrange
+from datetime import timedelta
+from hashlib import md5
+
 from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.utils import timezone
-from django.utils.translation import ugettext as _
 from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
 )
-
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse
+from django.db import (
+    connection,
+    models,
+)
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext as _
 from model_utils import Choices
 from model_utils.fields import AutoCreatedField
-
 
 DRINK_TYPES = Choices(
     (0, 'coffee', _('Coffee')),
@@ -37,7 +39,6 @@ WEEKDAY_LABELS = (
 
 
 class CaffeineUserManager(BaseUserManager):
-
     def _create_user(self, username, email, password, **kwargs):
         if not username:
             raise ValueError(_("User must have a username."))
@@ -54,7 +55,7 @@ class CaffeineUserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, password=None, **kwargs):
         """
         Creates and saves a User with the given user name, email addresse and
         password.
@@ -65,16 +66,17 @@ class CaffeineUserManager(BaseUserManager):
         :returns: User instance
 
         """
-        return self._create_user(username, email, password)
+        return self._create_user(username, email, password, **kwargs)
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(self, username, email, password, **kwargs):
         """
         Creates and saves a superuser with the given user name, email address
         and password.
 
         """
         return self._create_user(
-            username, email, password, is_superuser=True, is_staff=True)
+            username, email, password, is_superuser=True, is_staff=True,
+            **kwargs)
 
     def random_users(self, count=4):
         users = self.raw(
@@ -229,6 +231,7 @@ class CaffeineManager(models.Manager):
     Manager class for Caffeine.
 
     """
+
     def total_caffeine_for_user(self, user):
         """
         Return total caffeine for user profile.
@@ -508,13 +511,16 @@ class CaffeineManager(models.Manager):
                 result[DRINK_TYPES._triples[ctype][1]][wday - 1] = value
         return result
 
-    def find_recent_caffeine(self, user, date, ctype):
-        caffeines = self.filter(
+    def recent_caffeine_queryset(self, user, date, ctype):
+        return self.filter(
             user=user, ctype=ctype,
             date__lt=(date + timedelta(
                 minutes=settings.MINIMUM_DRINK_DISTANCE)),
             date__gte=(date - timedelta(
                 minutes=settings.MINIMUM_DRINK_DISTANCE)))
+
+    def find_recent_caffeine(self, user, date, ctype):
+        caffeines = self.recent_caffeine_queryset(user, date, ctype)
         try:
             return caffeines.latest('date')
         except Caffeine.DoesNotExist:
@@ -603,6 +609,7 @@ class CaffeineManager(models.Manager):
         return retval
 
 
+@python_2_unicode_compatible
 class Caffeine(models.Model):
     """
     Caffeinated drink model.
@@ -610,7 +617,7 @@ class Caffeine(models.Model):
     """
     ctype = models.PositiveSmallIntegerField(choices=DRINK_TYPES,
                                              db_index=True)
-    user = models.ForeignKey('User')
+    user = models.ForeignKey('User', related_name='caffeines')
     date = models.DateTimeField(_('consumed'), db_index=True)
     entrytime = AutoCreatedField(_('entered'), db_index=True)
     timezone = models.CharField(max_length=40, db_index=True,
@@ -621,7 +628,24 @@ class Caffeine(models.Model):
     class Meta:
         ordering = ['-date']
 
-    def __unicode__(self):
+    def clean(self):
+        recent_caffeine = Caffeine.objects.find_recent_caffeine(
+            self.user, self.date, self.ctype)
+        if recent_caffeine:
+            raise ValidationError(
+                _('Your last %(drink)s was less than %(minutes)d minutes '
+                  'ago at %(date)s %(timezone)s'),
+                code='drink_frequency',
+                params={
+                    'drink': DRINK_TYPES[self.ctype],
+                    'minutes': settings.MINIMUM_DRINK_DISTANCE,
+                    'date': recent_caffeine.date,
+                    'timezone': recent_caffeine.timezone
+                }
+            )
+        super(Caffeine, self).clean()
+
+    def __str__(self):
         return (
             "%s at %s %s" % (
                 DRINK_TYPES[self.ctype],
@@ -637,6 +661,7 @@ class ActionManager(models.Manager):
     Manager class for actions.
 
     """
+
     def create_action(self, user, actiontype, data, validdays):
         action = self.model(user=user, atype=actiontype, data=data)
         action.validuntil = timezone.now() + timedelta(validdays)

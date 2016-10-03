@@ -51,7 +51,6 @@ from .models import (
     User,
 )
 
-
 ACTIVATION_SUCCESS_MESSAGE = _('Your account has been activated successfully.')
 DELETE_ACCOUNT_MESSAGE = _(
     'Your account and all your caffeine submissions have been deleted.')
@@ -138,7 +137,7 @@ class ImprintView(TemplateView):
     template_name = 'imprint.html'
 
 
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(TemplateView):
     template_name = 'index.html'
 
 
@@ -267,6 +266,19 @@ class SettingsView(LoginRequiredMixin, FormView):
             'instance': self.request.user,
         })
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsView, self).get_context_data(**kwargs)
+        user = self.request.user
+
+        applications = user.caffeine_oauth2_coffeestatsapplication.count()
+        tokens = user.accesstoken_set.count()
+
+        context.update({
+            'oauth2_applications': applications > 0,
+            'oauth2_tokens': tokens > 0,
+        })
+        return context
 
     def send_email_change_mail(self, form):
         ctx_dict = {
@@ -401,17 +413,12 @@ class DeleteCaffeineView(LoginRequiredMixin, DeleteView):
     model = Caffeine
     success_url = reverse_lazy('profile')
 
-    def get_object(self, queryset=None):
+    def get_queryset(self):
         """
         Make sure that only own caffeine can be deleted.
-
-        :param queryset queryset: the original query set or None
-
         """
-        if queryset is None:
-            queryset = self.get_queryset()
-        queryset = queryset.filter(user=self.request.user)
-        return super(DeleteCaffeineView, self).get_object(queryset)
+        return super(DeleteCaffeineView, self).get_queryset().filter(
+                user=self.request.user)
 
     def get_success_url(self):
         """

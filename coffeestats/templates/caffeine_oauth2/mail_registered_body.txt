@@ -1,0 +1,23 @@
+{% load i18n %}{% trans "Hello Team," %}
+{% blocktrans with appname=application.name|safe appdescription=application.description|safe appwebsite=application.website user=application.user sitename=site.name %}
+a new API client
+
+{{ appname }}
+
+for {{ sitename }} has been requested by {{ user }}, with these details:
+
+Description:
+
+{{ appdescription }}
+
+Website:
+
+{{ appwebsite }}
+
+Please visit {{ approval_url }} to approve or reject the application.
+
+Best regards,
+your {{ sitename }} team
+{% endblocktrans %}
+--
+{{ site_url }}{% url 'home' %}

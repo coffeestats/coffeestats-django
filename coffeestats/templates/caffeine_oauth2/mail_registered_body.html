@@ -1,0 +1,21 @@
+{% extends "caffeine_oauth2/mail_body_base.html" %}{% load i18n %}
+{% block title %}[{{ site.name }}]
+    {% blocktrans with appname=application.name %}A new API client {{ appname }}
+        has been requested{% endblocktrans %}{% endblock %}
+{% block content_start %}{% trans "Hello Team," %}{% endblock %}
+{% block content %}
+    {% blocktrans with appname=application.name appdescription=application.description appwebsite=application.website user=application.user user_url=application.user.get_absolute_url sitename=site.name %}
+        <p>a new API client <b>{{ appname }}</b> for <b>{{ sitename }}</b> has
+            been requested by
+            <a href="{{ site_url }}{{ user_url }}">{{ user }}</a>,
+            with these details:</p>
+        <dl>
+            <dt>Description:</dt>
+            <dd>{{ appdescription }}</dd>
+            <dt>Website:</dt>
+            <dd><a href="{{ appwebsite }}">{{ appwebsite }}</a></dd>
+        </dl>
+        <p>Please visit the <a href="{{ approval_url }}">application's approval
+            page</a> to approve or reject the application.</p>
+    {% endblocktrans %}
+{% endblock %}

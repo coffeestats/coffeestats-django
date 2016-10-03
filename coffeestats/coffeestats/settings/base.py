@@ -2,12 +2,13 @@
 # pymode:lint_ignore=E501
 """Common settings and globals."""
 
-
-from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+
 import os
-from django.core.exceptions import ImproperlyConfigured
 from django.contrib.messages import constants as message_constants
+from django.core.exceptions import ImproperlyConfigured
+from django.utils.translation import ugettext_lazy as _
+from os.path import abspath, basename, dirname, join, normpath
 
 
 def get_env_variable(var_name, default=None):
@@ -175,7 +176,6 @@ TEMPLATES = [
     },
 ]
 
-
 # ######### MIDDLEWARE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (
@@ -202,20 +202,17 @@ ROOT_URLCONF = '%s.urls' % SITE_NAME
 
 # ######### APP CONFIGURATION
 DJANGO_APPS = (
-    # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Useful template tags:
     'django.contrib.humanize',
-
-    # Admin panel and documentation:
     'django.contrib.admin',
-    # 'django.contrib.admindocs',
+
+    'oauth2_provider',
+    'rest_framework',
 )
 
 # Apps specific for this project go here.
@@ -223,6 +220,7 @@ LOCAL_APPS = (
     'registration',
     'caffeine',
     'caffeine_api_v1',
+    'caffeine_oauth2',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -254,6 +252,46 @@ MESSAGE_TAGS = {
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 # ######### END APP CONFIGURATION
 
+
+# ######### REST FRAMEWORK CONFIGURATION
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'PAGINATE_BY': 10
+}
+
+# ######### END REST FRAMEWORK CONFIGURATION
+
+
+# ######### OAUTH2 settings
+# this setting is required to make oauth2_provider work
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'caffeine_oauth2.CoffeestatsApplication'
+OAUTH2_PROVIDER = {
+    'OAUTH2_SERVER_CLASS': 'caffeine_oauth2.oauth2_server.CoffeestatsServer',
+    # list of allowed URI schemes for redirect URIs
+    'ALLOWED_REDIRECT_URI_SCHEMES': [
+        'http',
+        'https',
+        'org.coffeestats.android',
+        'org.coffeestats.cli',
+        'org.coffeestats.ios',
+    ],
+    # the list of available scopes
+    'SCOPES': {
+        'read': _('Read your caffeine consumption'),
+        'write': _('Add and modify your caffeine consumption'),
+        # 'openid': _('Get information about you'),
+    },
+    'DEFAULT_SCOPES': ['read', 'write'],
+}
+# ######### END OAUTH2 settings
+
+API_USAGE_AGREEMENT = '/api/v2/agreement/'
 
 # ######### LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging

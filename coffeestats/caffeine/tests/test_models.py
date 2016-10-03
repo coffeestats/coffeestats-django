@@ -1,17 +1,18 @@
 # -*- coding: utf8 -*-
 from __future__ import unicode_literals
 
-from hashlib import md5
+import random
 from calendar import monthrange
 from datetime import datetime, timedelta
-import random
+from hashlib import md5
 
 from django.conf import settings
 from django.core import mail
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.test import TransactionTestCase
 from django.utils import timezone
-
 from passlib.hash import bcrypt
 
 from caffeine.models import (
@@ -28,7 +29,6 @@ from caffeine.models import (
 
 
 class CaffeineUserManagerTest(TestCase):
-
     def _populate_some_testusers(self):
         for num in range(10):
             User.objects.create(
@@ -108,7 +108,6 @@ class CaffeineUserManagerTest(TestCase):
 
 
 class UserTest(TestCase):
-
     def test_manager_is_caffeineusermanager(self):
         self.assertIsInstance(User.objects, CaffeineUserManager)
 
@@ -164,7 +163,6 @@ class UserTest(TestCase):
 
 
 class CaffeineManagerTest(TestCase):
-
     def setUp(self):
         self.now = timezone.now()
 
@@ -186,7 +184,7 @@ class CaffeineManagerTest(TestCase):
             for hour, drinktype in [
                 (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                 for hour in range(10, 18)
-            ]:
+                ]:
                 caffeinetime = datetime(
                     self.now.year, self.now.month, day, hour)
                 Caffeine.objects.create(ctype=drinktype,
@@ -196,13 +194,14 @@ class CaffeineManagerTest(TestCase):
     def _generate_caffeine_one_year(self, user):
         for month in range(1, 13):
             for day in [
-                random.randrange(monthrange(self.now.year, month)[1]) + 1
-                for n in range(5)
-            ]:
+                        random.randrange(
+                            monthrange(self.now.year, month)[1]) + 1
+                        for n in range(5)
+                        ]:
                 for hour, drinktype in [
                     (hour, list(DRINK_TYPES)[hour % len(DRINK_TYPES)][0])
                     for hour in range(10, 18)
-                ]:
+                    ]:
                     caffeinetime = datetime(
                         self.now.year, month, day, hour)
                     Caffeine.objects.create(ctype=drinktype,
@@ -213,7 +212,7 @@ class CaffeineManagerTest(TestCase):
             (User.objects.create(username='test{}'.format(usernum + 1),
                                  token='foo{}'.format(usernum)),
              list(DRINK_TYPES)[usernum % len(DRINK_TYPES)][0])
-                for usernum in range(usercount)]:
+            for usernum in range(usercount)]:
 
             for day in [random.randrange(100)
                         for item in range(caffeineperuser)]:
@@ -235,7 +234,7 @@ class CaffeineManagerTest(TestCase):
             timedelta(days=random.randrange(timespan.days),
                       seconds=random.randrange(86400))
             for _ in range(number)
-        ]:
+            ]:
             caffeinetime = self.now - timeoffset
             ctype = random.choice(list(DRINK_TYPES))[0]
             user = random.choice(users)
@@ -253,7 +252,7 @@ class CaffeineManagerTest(TestCase):
             User.objects.create(username='test{}'.format(usernum + 1),
                                 token='foo{}'.format(usernum))
             for usernum in range(count)
-        ]
+            ]
 
     def test_total_caffeine_for_user(self):
         testuser = User.objects.create(username='testuser', token='foo')
@@ -276,11 +275,11 @@ class CaffeineManagerTest(TestCase):
         latest = Caffeine.objects.latest_caffeine_for_user(user=testuser)
         self.assertEqual(len(latest), 10)
         self.assertEqual(len([
-            drink for drink in latest
-            if drink.ctype == DRINK_TYPES.coffee]), 7)
+                                 drink for drink in latest
+                                 if drink.ctype == DRINK_TYPES.coffee]), 7)
         self.assertEqual(len([
-            drink for drink in latest
-            if drink.ctype == DRINK_TYPES.mate]), 3)
+                                 drink for drink in latest
+                                 if drink.ctype == DRINK_TYPES.mate]), 3)
         previous = latest[0].entrytime
         for drink in latest[1:]:
             self.assertTrue(drink.entrytime <= previous)
@@ -437,11 +436,11 @@ class CaffeineManagerTest(TestCase):
                 date=self.now - timedelta(seconds=random.randrange(86400))
             )
             for _ in range(20)
-        ]
+            ]
         ref = [
             drink.id for drink in
             sorted(drinks, key=lambda x: x.date, reverse=True)[:-10]
-        ]
+            ]
         self.assertEqual(
             [drink.id for drink in
              Caffeine.objects.latest_caffeine_activity()],
@@ -488,16 +487,16 @@ class CaffeineManagerTest(TestCase):
         # testdata: one row per user containing the distribution of
         # coffee and mate in form of tuples (days, coffee, mate)
         testdata = [
-            (1, 2, 8),     # user 1
-            (2, 6, 1),     # user 2
-            (4, 4, 14),    # user 3
-            (6, 9, 18),    # user 4
-            (8, 12, 2),    # user 5
-            (10, 10, 5),   # user 6
+            (1, 2, 8),  # user 1
+            (2, 6, 1),  # user 2
+            (4, 4, 14),  # user 3
+            (6, 9, 18),  # user 4
+            (8, 12, 2),  # user 5
+            (10, 10, 5),  # user 6
             (12, 8, 12),  # user 7
-            (14, 8, 3),    # user 8
+            (14, 8, 3),  # user 8
             (16, 18, 14),  # user 9
-            (18, 32, 6),   # user 10
+            (18, 32, 6),  # user 10
             (20, 32, 10),  # user 11
         ]
         for pos, user in [(pos, users[pos]) for pos in range(len(users))]:
@@ -576,17 +575,19 @@ class CaffeineManagerTest(TestCase):
         user = User.objects.create()
         td = timedelta(days=1)
         coffees = sorted([
-            Caffeine.objects.create(
-                user=user, ctype=DRINK_TYPES.coffee,
-                date=self.now - 30 * td / (random.randrange(30) + 1))
-            for _ in range(20)
-        ], key=lambda x: x.date)
+                             Caffeine.objects.create(
+                                 user=user, ctype=DRINK_TYPES.coffee,
+                                 date=self.now - 30 * td / (
+                                     random.randrange(30) + 1))
+                             for _ in range(20)
+                             ], key=lambda x: x.date)
         mate = sorted([
-            Caffeine.objects.create(
-                user=user, ctype=DRINK_TYPES.mate,
-                date=self.now - 30 * td / (random.randrange(30) + 1))
-            for _ in range(20)
-        ], key=lambda x: x.date)
+                          Caffeine.objects.create(
+                              user=user, ctype=DRINK_TYPES.mate,
+                              date=self.now - 30 * td / (
+                                  random.randrange(30) + 1))
+                          for _ in range(20)
+                          ], key=lambda x: x.date)
         csvdata = Caffeine.objects.get_csv_data(DRINK_TYPES.coffee, user)
         lines = csvdata.split("\r\n")
         self.assertEqual(lines[0], 'Timestamp')
@@ -603,12 +604,11 @@ class CaffeineManagerTest(TestCase):
         self.assertEqual(lines[-1], '')
 
 
-class CaffeineTest(TestCase):
-
+class CaffeineTest(TransactionTestCase):
     def test_manager_is_caffeinemanager(self):
         self.assertIsInstance(Caffeine.objects, CaffeineManager)
 
-    def test___unicode___without_timezone(self):
+    def test___str___without_timezone(self):
         user = User.objects.create(username='testuser')
         caff = Caffeine.objects.create(ctype=DRINK_TYPES.coffee,
                                        date=timezone.now(),
@@ -619,7 +619,7 @@ class CaffeineTest(TestCase):
                 DRINK_TYPES[DRINK_TYPES.coffee],)
         )
 
-    def test___unicode___with_timezone(self):
+    def test___str___with_timezone(self):
         user = User.objects.create(username='testuser')
         caff = Caffeine.objects.create(ctype=DRINK_TYPES.mate,
                                        date=timezone.now(),
@@ -638,9 +638,20 @@ class CaffeineTest(TestCase):
         self.assertEqual(caff.format_type(),
                          DRINK_TYPES[DRINK_TYPES.coffee])
 
+    def test_clean(self):
+        user = User.objects.create(username='testuser')
+        first_caff = Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, date=timezone.now(), user=user)
+        first_caff.save()
+        second_caff = Caffeine.objects.create(
+            ctype=DRINK_TYPES.coffee, date=timezone.now(), user=user)
+        with self.assertRaisesRegexp(
+                ValidationError,
+                r'Your last \w+ was less than \d+ minutes ago at'):
+            second_caff.clean()
+
 
 class ActionManagerTest(TestCase):
-
     def test_create_action(self):
         user = User.objects.create(username='testuser')
         for actiontype in list(ACTION_TYPES):
@@ -653,7 +664,6 @@ class ActionManagerTest(TestCase):
 
 
 class ActionTest(TestCase):
-
     def test_manager_is_actionmanager(self):
         self.assertIsInstance(Action.objects, ActionManager)
 

@@ -1,0 +1,19 @@
+{% extends "rest_framework/base.html" %}
+{% load staticfiles %}
+
+{% block title %}{% if name %}{{ name }} – {% endif %}coffeestats.org API{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="shortcut icon" href="{{ ABSOLUTE_ROOT }}{% static "images/favicon.png" %}" />
+    <link rel="apple-touch-icon" href="{{ ABSOLUTE_ROOT }}{% static "images/touch-icon-57.png" %}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ ABSOLUTE_ROOT }}{% static "images/touch-icon-77.png" %}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ ABSOLUTE_ROOT }}{% static "images/touch-icon-114.png" %}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ ABSOLUTE_ROOT }}{% static "images/touch-icon-144.png" %}" />
+{% endblock %}
+
+{% block branding %}
+    <a class="navbar-brand" rel="nofollow" href="{% url "home" %}">
+        coffeestats.org API
+    </a>
+{% endblock %}

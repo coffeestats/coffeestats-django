@@ -66,7 +66,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
         # ... and is redirected to the landing page
         self.assertRegexpMatches(self.selenium.current_url,
-                                 r'/auth/login/\?next=/$')
+                                 r'/$')
 
         # ... and gets an email with an activation link
         self.assertEqual(len(mail.outbox), 1)

@@ -6,16 +6,14 @@ from datetime import datetime
 
 from django import forms
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-
+from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationFormUniqueEmail
 
 from .models import (
     ACTION_TYPES,
     Action,
     Caffeine,
-    DRINK_TYPES,
     User,
 )
 
@@ -178,18 +176,4 @@ class SubmitCaffeineForm(forms.ModelForm):
         else:
             self.instance.date = datetime.combine(
                 self.cleaned_data['date'], self.cleaned_data['time'])
-        recent_caffeine = Caffeine.objects.find_recent_caffeine(
-            self.instance.user, self.instance.date, self.instance.ctype)
-        if recent_caffeine:
-            raise forms.ValidationError(
-                _('Your last %(drink)s was less than %(minutes)d minutes '
-                  'ago at %(date)s %(timezone)s'),
-                code='drinkfrequency',
-                params={
-                    'drink': DRINK_TYPES[self.instance.ctype],
-                    'minutes': settings.MINIMUM_DRINK_DISTANCE,
-                    'date': recent_caffeine.date,
-                    'timezone': recent_caffeine.timezone
-                }
-            )
         return super(SubmitCaffeineForm, self).clean()

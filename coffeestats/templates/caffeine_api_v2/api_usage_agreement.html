@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+    <div class="white-box fullWidth">
+        <h2>{% trans "API usage agreement" %}</h2>
+        <h3>{% trans "Effective: October 3rd 2016" %}</h3>
+        <p>To use our APIs you have to agree to the following terms and
+            conditions:</p>
+        <p>All content, content access, and the coffeestats.org API are provided
+            solely and exclusively for authorized users of coffeestats.org.</p>
+        <p>API users must agree to comply with all applicable laws, especially
+            personal data regulations.</p>
+        <p>You should use the APIs reasonably, use caching and reduce the number
+            of requests where appropriate.</p>
+        <p>Any and all express or implied warranties are being disclaimed,
+            including, without limitation any implied warranty of suitability
+            for a particular purpose.</p>
+        <p>Disclaimer: The coffeestats.org API and content are provided “as is”
+            without warranty of any kind. Coffeestats.org disclaims all
+            warranties, whether express, implied or statutory, regarding API,
+            including without limitation any and all implied warranties of
+            accuracy, results of use, reliability, suitability for a particular
+            purpose and any warranties or conditions arising out using the API.
+            Further, coffeestats.org disclaims any warranty that use of the
+            coffeestats.org API will meet any or all API client application's
+            requirements or that such use will be uninterrupted or
+            error-free.</p>
+        <p>It is the obligation of the API client user to keep credentials for
+            the API client safe.</p>
+        <p>If coffeestats.org believes, at its sole discretion, that any API
+            client application or user of the API has violated or attempted to
+            violate any term,
+            condition, or the spirit of this Agreement, the API access or
+            ability to use and access the content of coffeestats.org may be
+            temporarily or permanently revoked, with or without notice.</p>
+    </div>
+{% endblock %}

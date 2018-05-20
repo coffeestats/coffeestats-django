@@ -4,8 +4,8 @@
     Author: Jan Dittberner <jan@dittberner.info>
     Author: Jeremias Arnstadt <j.arnstadt@art-ifact.de>
     license: MIT
-    Date: March 27th, 2014
-    Version: 1.4
+    Date: Sep 28th, 2016
+    Version: 1.5
 */
 .clearfix {
   clear: both;
@@ -146,7 +146,7 @@ a.btn {
   background: #796c67;
   padding: 5px 10px;
   font-size: 1.35em;
-  color: white !important;
+  color: #fff !important;
   min-height: 25px;
   border: 1px solid #615a4f;
   box-shadow: 0 1px 0 #9e9482 inset;
@@ -163,9 +163,9 @@ a.btn {
   button.secondary,
   a.btn.secondary {
     color: #b6aa97 !important;
-    text-shadow: 1px 1px 0 white;
+    text-shadow: 1px 1px 0 #fff;
     background: #f7f3e5;
-    box-shadow: 0 1px 0 white inset;
+    box-shadow: 0 1px 0 #fff inset;
     border: 1px solid #b6aa97; }
     input[type=submit].secondary:hover,
     button.secondary:hover,
@@ -173,7 +173,7 @@ a.btn {
       background: #5a5348 !important;
       box-shadow: 0 1px 0 #9e9482 inset;
       text-shadow: 1px 1px 0 #524c42 !important;
-      color: white !important; }
+      color: #fff !important; }
 
 input[type=text],
 input[type=email],
@@ -189,7 +189,7 @@ input[type=password] {
   padding: 1em;
   border: 1px solid #796c67;
   border-radius: 0;
-  background: white;
+  background: #fff;
   resize: none;
   outline: none; }
   input[type=text][required]:focus, input[type=text][name]:focus,
@@ -253,7 +253,7 @@ input[type=password] {
       white-space: nowrap;
       transition: .3s ease-in-out;
       -webkit-transition: .3s ease-in-out;
-      background-image: linear-gradient(to bottom, white, white);
+      background-image: linear-gradient(to bottom, #fff, #fff);
       background-size: 100% 12px;
       background-repeat: no-repeat;
       background-position: center; }
@@ -283,9 +283,13 @@ strong {
       display: inline-block;
       width: 94%; }
 
+ul.list-unstyled {
+  list-style-type: none;
+  padding: 0; }
+
 .white-box {
   padding: 10px;
-  background-color: white;
+  background-color: #fff;
   float: left;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -366,7 +370,7 @@ form {
   form .left,
   form .leftform {
     width: 40%; } }
-@media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+@media screen and (max-width: 480px), screen and (max-device-width: 480px) {
   form .left,
   form .leftform {
     width: 40% !important; } }
@@ -417,7 +421,7 @@ li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
     font-size: 16px;
     font-family: 'source_sans_probold';
     color: #4b4b4b;
-    text-shadow: 0 1px 0 white;
+    text-shadow: 0 1px 0 #fff;
     opacity: 0.2; }
 
 ul.errorlist li {
@@ -472,7 +476,7 @@ ul.userlist {
   margin-bottom: 35px;
   width: 100%;
   height: 58px;
-  background: white;
+  background: #fff;
   z-index: 999;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); }
   #header .headerWrapper {
@@ -491,7 +495,7 @@ ul.userlist {
         width: 100%;
         padding: 0 10px;
         background-position: 10px center; } }
-    @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+    @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
       #header .headerWrapper {
         background-size: auto 27px !important; } }
     #header .headerWrapper h1 {
@@ -508,7 +512,7 @@ ul.userlist {
       @media screen and (max-width: 873px) {
         #header .headerWrapper h1 {
           font-size: 22px; } }
-      @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+      @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
         #header .headerWrapper h1 {
           font-size: 18px;
           line-height: 37px;
@@ -519,7 +523,7 @@ ul.userlist {
 nav.login {
   height: 58px; }
   nav.login .btn {
-    color: white;
+    color: #fff;
     font-family: 'source_sans_prolight';
     font-size: 15px; }
   nav.login ul,
@@ -543,7 +547,7 @@ nav.login {
           width: 262px;
           border-right: 1px solid #eeeded;
           border-left: 1px solid #eeeded;
-          background: white; }
+          background: #fff; }
           @media screen and (max-width: 873px) {
             nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
               width: 320px !important; } }
@@ -585,7 +589,7 @@ nav.login {
     #content {
       width: 100%;
       padding: 35px 10px 35px; } }
-  @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
     #content {
       width: 100%; } }
   #content h2 {
@@ -602,7 +606,7 @@ nav.login {
 /* FOOTER */
 .footer {
   clear: both;
-  background: white;
+  background: #fff;
   height: 28px;
   position: fixed;
   bottom: 0;
@@ -620,7 +624,7 @@ nav.login {
       .footer .footertext {
         font-size: small;
         width: 100%; } }
-    @media screen and (max-width: 480x), screen and (max-device-width: 480px) {
+    @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
       .footer .footertext {
         width: 100%;
         font-size: 9px !important; } }
@@ -629,7 +633,7 @@ nav.login {
 nav.mainNav {
   height: 58px; }
   nav.mainNav .btn {
-    color: white;
+    color: #fff;
     font-family: 'source_sans_prolight';
     font-size: 15px; }
   nav.mainNav ul,
@@ -657,7 +661,7 @@ nav.mainNav {
           width: 153px;
           border-right: 1px solid #eeeded;
           border-left: 1px solid #eeeded;
-          background: white; }
+          background: #fff; }
           nav.mainNav > ul > li:hover .settingsBox .btn, nav.mainNav > ul > li.hover .settingsBox .btn {
             position: absolute;
             bottom: 0;
@@ -751,7 +755,7 @@ nav.mainNavMobile {
             text-decoration: none;
             font-family: 'source_sans_prolight';
             font-size: 16px;
-            background: white; }
+            background: #fff; }
             nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
               border-bottom: 1px solid #d7d2c7; }
             nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
@@ -1024,7 +1028,7 @@ nav.mainNavMobile {
   .clockpicker-tick.active, .clockpicker-tick:hover {
     background-color: #796c67;
     background-color: #796c67;
-    color: white; }
+    color: #fff; }
 
 .clockpicker-button {
   background-image: none;
@@ -1210,7 +1214,7 @@ nav.mainNavMobile {
     cursor: default; }
 .datepicker table tr td.today {
   background-color: #796c67;
-  color: white; }
+  color: #fff; }
   .datepicker table tr td.today.disabled:active, .datepicker table tr td.today.disabled:hover:active {
     background-color: #fdf59a; }
   .datepicker table tr td.today.active, .datepicker table tr td.today:hover.active {
@@ -1725,3 +1729,5 @@ nav.mainNavMobile {
     .rankbox div.left input {
       display: inline-block;
       width: 94%; }
+
+/*# sourceMappingURL=caffeine.css.map */

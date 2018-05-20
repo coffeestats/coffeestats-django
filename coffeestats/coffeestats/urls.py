@@ -4,11 +4,18 @@ from django.views.i18n import javascript_catalog
 
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
+
+
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^', include('caffeine.urls')),
     url(r'^api/v1/', include('caffeine_api_v1.urls', 'apiv1')),
+    # new API
+    url(r'^api/v2/', include('caffeine_api_v2.urls')),
+    # oauth2
+    url(r'^oauth2/',
+        include('caffeine_oauth2.urls', namespace='oauth2_provider')),
     # authentication
     url(r'^auth/login/$', auth_views.login,
         name='auth_login'),

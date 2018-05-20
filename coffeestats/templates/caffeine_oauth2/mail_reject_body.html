@@ -1,0 +1,17 @@
+{% extends "caffeine_oauth2/mail_body_base.html" %}{% load i18n %}
+{% block title %}[{{ site.name }}]
+    {% blocktrans with appname=application.name %}Your API client {{ appname }}
+        has been rejected{% endblocktrans %}
+{% endblock %}
+{% block content_start %}{% blocktrans with user=application.user %}Hello
+    {{ user }},{% endblocktrans %}{% endblock %}
+{% block content %}
+    {% blocktrans with appname=application.name sitename=site.name %}
+        <p>we are sorry to tell you that your API client registration
+            <b>{{ appname }}</b> for <b>{{ sitename }}</b> has been rejected
+            because of the following reason(s):</p>
+        <p>{{ reasoning }}</p>
+        <p>You can try to register your API client again once you could resolve
+            the mentioned problems.</p>
+    {% endblocktrans %}
+{% endblock %}

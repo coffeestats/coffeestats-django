@@ -1,0 +1,1 @@
+{% load i18n %}[{{ site.name }}] {% blocktrans with appname=application.name|safe %}Your API client {{ appname }} has been rejected{% endblocktrans %}

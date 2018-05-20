@@ -46,3 +46,4 @@ tags
 .coverage
 docs/_build/
 coverage-report/
+.idea/

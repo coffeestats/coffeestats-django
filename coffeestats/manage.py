@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# pymode:lint_ignore=E501
+# -*- python -*-
 import os
 import sys
 

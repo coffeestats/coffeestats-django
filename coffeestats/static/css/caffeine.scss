@@ -4,8 +4,8 @@
     Author: Jan Dittberner <jan@dittberner.info>
     Author: Jeremias Arnstadt <j.arnstadt@art-ifact.de>
     license: MIT
-    Date: March 27th, 2014
-    Version: 1.4
+    Date: Sep 28th, 2016
+    Version: 1.5
 */
 
 @import 'common/common';
@@ -33,7 +33,7 @@
 #system-flash .flash-messages {
     background: transparent;
     position: absolute;
-    top: 0px;
+    top: 0;
     width: 60%;
 }
 

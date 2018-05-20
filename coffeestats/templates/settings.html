@@ -1,86 +1,121 @@
 {% extends "base.html" %}
 {% load i18n staticfiles %}
 {% if form.non_field_errors %}
-{% block extra_system_flash %}
-{% for message in form.non_field_errors %}
-<li class="flash-error">{{ message }} <a href="#" class="close">X</a></li>
-{% endfor %}
-{% endblock %}
+    {% block extra_system_flash %}
+        {% for message in form.non_field_errors %}
+            <li class="flash-error">{{ message }} <a href="#" class="close">X</a></li>
+        {% endfor %}
+    {% endblock %}
 {% endif %}
 {% block content %}
-<div class="white-box">
-  <h2>{% trans "Update your profile" %}</h2>
-  <p>{% trans "You may change your personal information." %}</p>
-  <form action="{% url "settings" %}" method="post" class="coffeeform">
-    <div class="leftform">
-      <h3>{% trans "General" %}</h3>
-      <input type="text" name="username" id="id_username" maxlength="30" value="{{ request.user.username }}" readonly="readonly" />
-      {{ form.password1.errors }}
-      <input type="password" name="password1" pattern=".{8,}" id="id_password1" maxlength="20" autofocus />
-      <label alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
-      {{ form.password2.errors }}
-      <input type="password" name="password2" pattern=".{8,}" id="id_password2" />
-      <label alt="{% trans "Password (again)" %}" placeholder="{% trans "Password (again)" %}"></label>
+    <div class="white-box">
+        <h2>{% trans "Update your profile" %}</h2>
+        <p>{% trans "You may change your personal information." %}</p>
+        <form action="{% url "settings" %}" method="post" class="coffeeform">
+            <div class="leftform">
+                <h3>{% trans "General" %}</h3>
+                <input type="text" name="username" id="id_username" maxlength="30" value="{{ request.user.username }}"
+                       readonly="readonly"/>
+                {{ form.password1.errors }}
+                <input type="password" name="password1" pattern=".{8,}" id="id_password1" maxlength="20" autofocus/>
+                <label alt="{% trans "Password" %}" placeholder="{% trans "Password" %}"></label>
+                {{ form.password2.errors }}
+                <input type="password" name="password2" pattern=".{8,}" id="id_password2"/>
+                <label alt="{% trans "Password (again)" %}" placeholder="{% trans "Password (again)" %}"></label>
+            </div>
+            <div class="leftform">
+                <h3>{% trans "Additional" %}</h3>
+                {{ form.first_name.errors }}
+                <input type="text" name="first_name" id="id_first_name" maxlength="20"
+                       {% if form.first_name.value %}value="{{ form.first_name.value }}" {% endif %}/>
+                <label alt="{% trans "First name" %}" placeholder="{% trans "First name" %}"></label>
+                {{ form.last_name.errors }}
+                <input type="text" name="last_name" id="id_last_name" maxlength="20"
+                       {% if form.last_name.value %}value="{{ form.last_name.value }}" {% endif %}/>
+                <label alt="{% trans "Last name" %}" placeholder="{% trans "Last name" %}"></label>
+                {{ form.location.errors }}
+                <input type="text" name="location" id="id_location" maxlength="20" placeholder="{% trans "Location" %}"
+                       {% if form.location.value %}value="{{ form.location.value }}" {% endif %}/>
+                <label alt="{% trans "Location" %}" placeholder="{% trans "Location" %}"></label>
+            </div>
+            <div class="clear">
+                {{ form.email.errors }}
+                <input type="email" name="email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required id="id_email"
+                       maxlength="128" value="{{ form.email.value }}"/>
+                <label alt="{% trans "Email" %}" placeholder="{% trans "Email" %}"></label>
+            </div>
+            <div class="clearfix"></div>
+            <p><input type="submit" name="submit" value="Update my settings"/></p>
+            {% csrf_token %}
+        </form>
+        <div class="clear"></div>
     </div>
-    <div class="leftform">
-      <h3>{% trans "Additional" %}</h3>
-      {{ form.first_name.errors }}
-      <input type="text" name="first_name" id="id_first_name" maxlength="20" {% if form.first_name.value %}value="{{ form.first_name.value }}" {% endif %}/>
-      <label alt="{% trans "First name" %}" placeholder="{% trans "First name" %}"></label>
-      {{ form.last_name.errors }}
-      <input type="text" name="last_name" id="id_last_name" maxlength="20" {% if form.last_name.value %}value="{{ form.last_name.value }}" {% endif %}/>
-      <label alt="{% trans "Last name" %}" placeholder="{% trans "Last name" %}"></label>
-      {{ form.location.errors }}
-      <input type="text" name="location" id="id_location" maxlength="20" placeholder="{% trans "Location" %}" {% if form.location.value %}value="{{ form.location.value }}" {% endif %}/>
-      <label alt="{% trans "Location" %}" placeholder="{% trans "Location" %}"></label>
+    <div class="white-box">
+        <h2>{% trans "Export your Activity" %}</h2>
+        <p>{% trans "Your data is yours. You will receive the CSV files via email." %}</p>
+        <p><a class="btn" href="{% url "export_activity" %}">{% trans "Export, please!" %}</a></p>
     </div>
-    <div class="clear">
-      {{ form.email.errors }}
-      <input type="email" name="email" pattern="[A-Za-z0-9._%+-]+@[^@]+" required id="id_email" maxlength="128" value="{{ form.email.value }}" />
-      <label alt="{% trans "Email" %}" placeholder="{% trans "Email" %}"></label>
+    <div><!-- space --></div>
+    <div class="white-box">
+        <h2>{% trans "Delete your data" %}</h2>
+        <p>{% trans "Your data is yours. So it is your decission to leave us." %}</p>
+        <p><a class="btn" href="{% url "delete_account" %}">{% trans "Delete me, please!" %}</a></p>
     </div>
-    <div class="clearfix"></div>
-    <p><input type="submit" name="submit" value="Update my settings" /></p>
-    {% csrf_token %}
-  </form>
-  <div class="clear"></div>
-</div>
-<div class="white-box">
-  <h2>{% trans "Export your Activity" %}</h2>
-  <p>{% trans "Your data is yours. You will receive the CSV files via email." %}</p>
-  <p><a class="btn" href="{% url "export_activity" %}">{% trans "Export, please!" %}</a></p>
-</div>
-<div><!-- space --></div>
-<div class="white-box">
-  <h2>{% trans "Delete your data" %}</h2>
-  <p>{% trans "Your data is yours. So it is your decission to leave us." %}</p>
-  <p><a class="btn" href="{% url "delete_account" %}">{% trans "Delete me, please!" %}</a></p>
-</div>
+    <div class="white-box">
+        <h2>{% trans "API access" %}</h2>
+        <p>{% trans "We have an API that you can use for your own integrations." %}</p>
+        <p>{% url "api_usage_agreement" as api_usage_agreement %}{% blocktrans %}
+            Please see our
+            <a href="{{ api_usage_agreement }}">API usage agreement</a>
+            for conditions of the API usage.
+        {% endblocktrans %}</p>
+        <ul class="list-unstyled">
+            <li><a href="{% url "user-list" %}">{% trans "Browse the API" %}</a></li>
+        </ul>
+        <h3>{% trans "API applications" %}</h3>
+        <p>{% trans "You can register your own OAuth2 capable application to use our API." %}</p>
+        <ul class="list-unstyled">
+            <li><a href="{% url "oauth2_provider:register" %}">{% trans "Register a new application" %}</a></li>
+            {% if oauth2_applications %}
+                <li><a href="{% url "oauth2_provider:list" %}">{% trans "Manage your applications" %}</a></li>
+            {% endif %}
+        </ul>
+        <h3>{% trans "Authorized API applications" %}</h3>
+        <ul class="list-unstyled">
+            <li>
+                {% if oauth2_tokens %}
+                    <a href="{% url "oauth2_provider:authorized-token-list" %}">{% trans "Manage authorized applications" %}</a>
+                {% else %}
+                    {% trans "You have not authorized any applications to use the API on your behalf yet." %}
+                {% endif %}
+            </li>
+        </ul>
+    </div>
 {% endblock content %}
 {% block extra_js %}
-<script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
-<script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-  $('input#id_password1').bind('invalid', pwfieldvalidation);
-  $('input#id_password2').bind('invalid', pwfieldvalidation);
-  $('input#id_email').bind('invalid', emailfieldvalidation);
+    <script type="text/javascript" src="{% url "jsi18n_catalog" packages='caffeine' %}"></script>
+    <script type="text/javascript" src="{% static "caffeine/js/validation.js" %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input#id_password1').bind('invalid', pwfieldvalidation);
+            $('input#id_password2').bind('invalid', pwfieldvalidation);
+            $('input#id_email').bind('invalid', emailfieldvalidation);
 
-  if (!("autofocus" in document.createElement('input'))) {
-    $("input#id_password1").focus();
-  }
+            if (!("autofocus" in document.createElement('input'))) {
+                $("input#id_password1").focus();
+            }
 
-  $('form').submit(function(event) {
-    return sanitize_password(
-        'input#id_password1', 'input#id_password2', true)
-      && sanitize_email('input#id_email')
-      && sanitize_string('input#id_first_name', false,
-                         '{% trans "First name" %}')
-      && sanitize_string('input#id_last_name', false,
-                         '{% trans "Last name" %}')
-      && sanitize_string('input#id_location', false,
-                         '{% trans "Location" %}');
-  });
-});
-</script>
+            $('form').submit(function (event) {
+                return sanitize_password(
+                                'input#id_password1', 'input#id_password2', true)
+                        && sanitize_email('input#id_email')
+                        && sanitize_string('input#id_first_name', false,
+                                '{% trans "First name" %}')
+                        && sanitize_string('input#id_last_name', false,
+                                '{% trans "Last name" %}')
+                        && sanitize_string('input#id_location', false,
+                                '{% trans "Location" %}');
+            });
+        });
+    </script>
 {% endblock %}

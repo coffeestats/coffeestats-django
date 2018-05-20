@@ -11,10 +11,6 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
         self.check_page_header()
 
-        # He finds out that he was redirected to a login page
-        self.assertRegexpMatches(self.selenium.current_url,
-                                 r'/auth/login/\?next=/$')
-
         # He sees 2 boxes
         boxes = self.selenium.find_elements_by_css_selector('.white-box')
         self.assertEqual(len(boxes), 2)
@@ -131,9 +127,16 @@ class ProfilePageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertRegexpMatches(self.selenium.current_url,
                                  r'/auth/login/\?next=/profile/$')
 
-        # there is a navigation in the page header
-        header = self.selenium.find_element_by_id('header')
-        nav = header.find_element_by_tag_name('nav')
-        self.assertEquals("Login\nRegister", nav.text)
+        # there is a Login form in the page content
+        content = self.selenium.find_element_by_id('content')
+        login_form = content.find_element_by_tag_name('form')
+        # there is a "Login" button
+        login_button = login_form.find_element_by_name('submit')
+        self.assertEqual(login_button.get_attribute('value'), 'Login')
+
+        register_link = content.find_element_by_link_text("Register")
+        self.assertRegexpMatches(
+            register_link.get_attribute('href'),
+            r'/auth/register/$')
 
         self.check_page_footer()

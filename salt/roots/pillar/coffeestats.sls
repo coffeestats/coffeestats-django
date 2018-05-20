@@ -4,10 +4,6 @@ database:
   database: coffeestats
   port: 5432
 
-#piwik:
-#  host:
-#  siteid:
-
 general:
   mailfrom: coffeestats@vagrant.local
   sitename: Coffeestats in a vagrant box

@@ -5,7 +5,7 @@ django-model-utils==2.5.2
 django-registration==2.1.2
 django-absolute==0.3
 logutils==0.3.3
-psycopg2==2.6.2
+psycopg2==2.7.4
 passlib==1.6.5
 bcrypt==3.1.1
 pytz==2016.6.1

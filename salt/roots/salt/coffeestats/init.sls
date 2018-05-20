@@ -28,7 +28,7 @@ coffeestats-dependencies:
       - iceweasel
       - libyaml-dev
       - libjpeg-dev
-      - libpng-dev
+      - libpng12-dev
 
 /etc/uwsgi/apps-available/coffeestats.ini:
   file.managed:

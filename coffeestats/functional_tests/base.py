@@ -21,7 +21,7 @@ class SeleniumTest(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.selenium = webdriver.Firefox()
+        cls.selenium = webdriver.Chrome()
         cls.selenium.implicitly_wait(10)
         super(SeleniumTest, cls).setUpClass()
         cls.server_url = cls.live_server_url

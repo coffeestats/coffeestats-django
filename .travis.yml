@@ -3,12 +3,12 @@ language: python
 sudo: required
 
 addons:
-  chrome: stable
   postgresql: '9.4'
   apt:
     packages:
     - libffi-dev
     - postgresql-server-dev-9.4
+    - chromium-chromedriver
 
 services:
   - postgresql

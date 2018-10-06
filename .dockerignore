@@ -1,0 +1,5 @@
+coffeestats/
+.git/
+.env
+coverage.xml
+coverage-report/

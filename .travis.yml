@@ -1,41 +1,15 @@
 language: python
-
-sudo: required
-
-addons:
-  postgresql: '9.4'
-  apt:
-    packages:
-    - libffi-dev
-    - postgresql-server-dev-9.4
-    - chromium-chromedriver
-
-services:
-  - postgresql
-
-os:
-  - linux
-
+sudo: true
 python:
-  - "2.7"
-
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x2160x16"
-
+  - "3.6"
+services:
+  - docker
 install:
-  - pip install -r requirements/test.txt
+  - "./generate-env.sh"
+  - "docker-compose build"
   - pip install coveralls
-
-env:
-  - DJANGO_SETTINGS_MODULE="coffeestats.settings.test" COFFEESTATS_MAIL_FROM_ADDRESS="travisci@example.org" COFFEESTATS_PGSQL_DATABASE="coffeestats" COFFEESTATS_PGSQL_HOSTNAME="127.0.0.1" COFFEESTATS_PGSQL_USER="postgres" COFFEESTATS_PGSQL_PASSWORD="" COFFEESTATS_PGSQL_PORT="" COFFEESTATS_SITE_ADMINMAIL="admin@example.org" COFFEESTATS_SITE_NAME="Coffeestats Travis CI testsite" COFFEESTATS_DOMAIN_NAME=localhost COFFEESTATS_SITE_SECRET="6892a651-3f9f-4b6d-ad34-03531acf7a7e"
-
-before_script:
-  - "export DISPLAY=:99.0"
-  - psql -c 'create database coffeestats;' -U postgres
-
 script:
-  - "cd coffeestats"
-  - "coverage run manage.py test"
-
+  - "docker-compose up -d"
+  - "docker-compose exec app coverage run --branch manage.py test -v 1"
 after_success:
-  coveralls
+  coveralls --data-file coffeestats/.coverage

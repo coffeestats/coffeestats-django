@@ -21,6 +21,15 @@ import os
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', 'coffeestats'))
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'coffeestats.settings.local')
+os.environ.setdefault('COFFEESTATS_SITE_ADMINMAIL', 'admin@coffeestats.org')
+os.environ.setdefault('COFFEESTATS_PGSQL_DATABASE', 'coffeestats')
+os.environ.setdefault('COFFEESTATS_PGSQL_HOSTNAME', 'db')
+os.environ.setdefault('COFFEESTATS_PGSQL_USER', 'coffeestats')
+os.environ.setdefault('COFFEESTATS_PGSQL_PASSWORD', 'coffeestats')
+os.environ.setdefault('COFFEESTATS_PGSQL_PORT', 'coffeestats')
+os.environ.setdefault('COFFEESTATS_DOMAIN_NAME', 'coffeestats.org')
+os.environ.setdefault('COFFEESTATS_SITE_NAME', 'coffeestats.org')
+os.environ.setdefault('COFFEESTATS_SITE_SECRET', 'secret')
 
 from django import setup as django_setup
 django_setup()

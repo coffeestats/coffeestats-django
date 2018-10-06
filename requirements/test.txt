@@ -1,5 +1,0 @@
-# Test dependencies go here.
--r base.txt
-coverage==4.5.1
-selenium==3.12.0
-mock==2.0.0

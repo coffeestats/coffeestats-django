@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+drf-nested-routers = "*"
+django-oauth-toolkit = "*"
+django-registration = "*"
+"psycopg2-binary" = "*"
+django-model-utils = "*"
+pillow = "*"
+passlib = "*"
+bcrypt = "*"
+django-absolute = "*"
+pip = "==18.0"
+
+[dev-packages]
+django-debug-toolbar = "*"
+django-extensions = "*"
+selenium = "*"
+coverage = "*"
+sphinx = "*"
+sphinxcontrib-httpdomain = "*"
+
+[requires]
+python_version = "3.6"

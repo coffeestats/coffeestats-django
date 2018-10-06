@@ -15,7 +15,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='caffeine',
             name='user',
-            field=models.ForeignKey(related_name='caffeines', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                related_name='caffeines', on_delete=models.PROTECT,
+                to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
     ]

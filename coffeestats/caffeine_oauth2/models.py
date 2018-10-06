@@ -38,7 +38,8 @@ class CoffeestatsApplication(AbstractApplication):
         verbose_name=_('time of approval by the coffeestats team'),
         blank=True, null=True
     )
-    approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    approved_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, models.SET_NULL, null=True)
 
     class Meta(AbstractApplication.Meta):
         verbose_name = _('Coffeestats OAuth2 application')

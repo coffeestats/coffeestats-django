@@ -1,13 +1,14 @@
 from django.conf import settings
-from django.core.urlresolvers import (
-    reverse,
-    reverse_lazy,
-)
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import (
     HttpResponseRedirect,
 )
-from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_GET
 from django.views.generic import (
@@ -22,27 +23,19 @@ from django.views.generic.edit import (
     FormView,
     UpdateView,
 )
-
-from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-
-from braces.views import LoginRequiredMixin
-from registration.backends.model_activation.views import (
+from django_registration.backends.activation.views import (
     ActivationView,
     RegistrationView,
 )
 from pytz import common_timezones
 
 from core.utils import json_response
-
 from .forms import (
     CoffeestatsRegistrationForm,
     SelectTimeZoneForm,
     SettingsForm,
     SubmitCaffeineForm,
 )
-
 from .models import (
     ACTION_TYPES,
     Action,
@@ -96,9 +89,9 @@ class ExploreView(LoginRequiredMixin, TemplateView):
             'topmateavg': Caffeine.objects.top_consumers_average(
                 DRINK_TYPES.mate, 10),
             'topcoffeerecent': Caffeine.objects.top_consumers_recent(
-                DRINK_TYPES.coffee, 10, '30 days'),
+                DRINK_TYPES.coffee, 10, interval='30 days'),
             'topmaterecent': Caffeine.objects.top_consumers_recent(
-                DRINK_TYPES.mate, 10, '30 days'),
+                DRINK_TYPES.mate, 10, interval='30 days'),
             'recentlyjoined': User.objects.recently_joined(5),
             'longestjoined': User.objects.longest_joined(
                 count=5, days=365)})
@@ -129,7 +122,7 @@ class DeleteAccountView(LoginRequiredMixin, DeleteView):
             DELETE_ACCOUNT_MESSAGE)
         return super(DeleteAccountView, self).get_success_url()
 
-    def get_object(self):
+    def get_object(self, queryset=None):
         return self.request.user
 
 
@@ -206,7 +199,7 @@ class ProfileView(PublicProfileView):
         if 'u' in request.GET:
             return HttpResponseRedirect(reverse('public', kwargs={
                 'username': request.GET['u']}))
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return HttpResponseRedirect(
                 "%s?next=%s" % (settings.LOGIN_URL, request.path))
         return super(ProfileView, self).get(request, *args, **kwargs)
@@ -222,7 +215,7 @@ class ProfileView(PublicProfileView):
 
 
 class CaffeineActivationView(ActivationView):
-    def get_success_url(self, user):
+    def get_success_url(self, user=None):
         messages.add_message(
             self.request, messages.SUCCESS, ACTIVATION_SUCCESS_MESSAGE)
         return reverse_lazy('home')
@@ -235,7 +228,7 @@ class CaffeineRegistrationView(RegistrationView):
     """
     form_class = CoffeestatsRegistrationForm
 
-    def get_success_url(self, user):
+    def get_success_url(self, user=None):
         messages.add_message(
             self.request, messages.SUCCESS, REGISTRATION_SUCCESS_MESSAGE)
         messages.add_message(
@@ -252,7 +245,7 @@ class CaffeineRegistrationView(RegistrationView):
 
 
 class RegistrationClosedView(TemplateView):
-    template_name = 'registration/registration_closed.html'
+    template_name = 'django_registration/registration_closed.html'
 
 
 class SettingsView(LoginRequiredMixin, FormView):
@@ -272,7 +265,7 @@ class SettingsView(LoginRequiredMixin, FormView):
         user = self.request.user
 
         applications = user.caffeine_oauth2_coffeestatsapplication.count()
-        tokens = user.accesstoken_set.count()
+        tokens = user.oauth2_provider_accesstoken.count()
 
         context.update({
             'oauth2_applications': applications > 0,
@@ -290,9 +283,9 @@ class SettingsView(LoginRequiredMixin, FormView):
             'user': self.request.user,
         }
         subject = render_to_string(
-            'registration/email_change_email_subject.txt', ctx_dict)
+            'django_registration/email_change_email_subject.txt', ctx_dict)
         subject = ''.join(subject.splitlines())
-        body = render_to_string('registration/email_change_email.txt',
+        body = render_to_string('django_registration/email_change_email.txt',
                                 ctx_dict)
         form.instance.email_user(subject, body, settings.DEFAULT_FROM_EMAIL)
         messages.add_message(
@@ -334,11 +327,11 @@ class ConfirmActionView(SingleObjectMixin, View):
 class OnTheRunView(TemplateView):
     template_name = "ontherun.html"
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         get_object_or_404(
             User, username=self.kwargs['username'],
             token=self.kwargs['token'])
-        return super(OnTheRunView, self).get_context_data(*args, **kwargs)
+        return super(OnTheRunView, self).get_context_data(**kwargs)
 
 
 class OnTheRunOldView(RedirectView):
@@ -451,11 +444,11 @@ class SelectTimeZoneView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         success_url = self.request.GET.get('next', reverse('profile'))
-        if success_url == reverse('selecttimezone'):
+        if success_url == reverse('select_timezone'):
             success_url = reverse('profile')
         return success_url
 
-    def get_object(self):
+    def get_object(self, queryset=None):
         return self.request.user
 
 

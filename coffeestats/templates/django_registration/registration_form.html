@@ -11,7 +11,7 @@
 <div class="white-box fullWidth">
   <h2>{% trans "Register" %}</h2>
   <p>{% trans "Fill these fields with your data and click Register!" %}</p>
-  <form action="{% url "registration_register" %}" method="post">
+  <form action="{% url "django_registration_register" %}" method="post">
     <div class="leftform">
       <h3>{% trans "General" %}</h3>
       {{ form.username.errors }}

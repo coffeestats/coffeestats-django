@@ -58,7 +58,6 @@ class CoffeestatsRegistrationFormTest(TestCase):
                   'password2': 'test1234'}
         )
         self.assertTrue(form.is_valid(), str(form.errors))
-        self.assertEqual(form.clean_email(), 'test@bla.com')
 
     def test_clean_email_existing_email(self):
         User.objects.create_user('testuser', 'test@bla.com')

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.utils.translation import ugettext as _
 
@@ -42,7 +42,7 @@ class SubNav(object):
 
 def mainnav(request):
     retval = {}
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         navitems = [
             NavItem(request, reverse('profile'),
                     _('Profile'), 'navprofile'),

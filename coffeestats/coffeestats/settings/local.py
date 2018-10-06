@@ -6,6 +6,8 @@ from __future__ import absolute_import
 
 from .base import *  # noqa  intended behaviour
 
+ALLOWED_HOSTS = ['localhost', 'app', '127.0.0.1']
+
 
 # ######### DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
@@ -36,7 +38,7 @@ INSTALLED_APPS += (
     'django_extensions',
 )
 
-MIDDLEWARE_CLASSES += (
+MIDDLEWARE += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 

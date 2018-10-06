@@ -4,7 +4,7 @@ import re
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core import mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.http import urlquote
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -29,7 +29,8 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # prepare a regular and a staff user
         self.applicant = User.objects.create_user(
             username=APPLICANT_USERNAME, email=APPLICANT_EMAIL,
-            password=APPLICANT_PASSWORD, timezone=DEFAULT_TIMEZONE)
+            password=APPLICANT_PASSWORD, timezone=DEFAULT_TIMEZONE,
+            is_active=True)
         self.admin = User.objects.create_superuser(
             username=ADMIN_USERNAME, email=ADMIN_EMAIL,
             password=ADMIN_PASSWORD, timezone=DEFAULT_TIMEZONE)
@@ -65,7 +66,7 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # user is redirected to the profile page
         self.assertRegexpMatches(self.selenium.current_url, r'/settings/$')
 
-        # find application registration link and click it
+        # find application django_registration link and click it
         reglink = self.selenium.find_element_by_link_text(
             'Register a new application')
         reglink.click()
@@ -79,7 +80,7 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
     def test_register_and_approve_oauth2_client(self):
         """
         This method tests the process of an oauth2 client application
-        registration that is rejected by an admin.
+        django_registration that is rejected by an admin.
 
         """
         self.goto_application_registration()
@@ -146,7 +147,7 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(submit_button.get_attribute('type'), 'submit')
         submit_button.click()
 
-        # the application registration is submitted and the user lands on the
+        # the application django_registration is submitted and the user lands on the
         # pending application page
         self.assertRegexpMatches(
             self.selenium.current_url, r'/oauth2/applications/\d+/$')
@@ -261,7 +262,7 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
     def test_register_and_reject_oauth2_client(self):
         """
         This method tests the process of an oauth2 client application
-        registration that is rejected by an admin.
+        django_registration that is rejected by an admin.
 
         """
         self.goto_application_registration()
@@ -339,9 +340,12 @@ class RegisterApplicationTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
         submit_button = self.selenium.find_element_by_tag_name('button')
         self.assertEqual(submit_button.get_attribute('type'), 'submit')
+        action_chain = ActionChains(self.selenium)
+        action_chain.move_to_element(submit_button).perform()
+        self.selenium.execute_script('scroll(0, 100);')
         submit_button.click()
 
-        # the application registration is submitted and the user lands on the
+        # the application django_registration is submitted and the user lands on the
         # pending application page
         self.assertRegexpMatches(
             self.selenium.current_url, r'/oauth2/applications/\d+/$')

@@ -1,8 +1,8 @@
-from datetime import timedelta
 import json
+from datetime import timedelta
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.contrib.auth import get_user_model
 from django.http import (
     HttpRequest,
     HttpResponse,
@@ -10,11 +10,8 @@ from django.http import (
     HttpResponseForbidden,
 )
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
-
-from core.utils import json_response
 
 from caffeine.models import (
     Caffeine,
@@ -33,12 +30,11 @@ from caffeine_api_v1.views import (
     API_WARNING_TIMEZONE_NOT_SET,
     api_token_required,
 )
-
+from core.utils import json_response
 
 User = get_user_model()
 
 _TEST_PASSWORD = 'test1234'
-_HASHED_DEFAULT_PASSWORD = make_password(_TEST_PASSWORD)
 
 
 class ApiTokenRequiredTest(TestCase):
@@ -48,9 +44,10 @@ class ApiTokenRequiredTest(TestCase):
             messages['success'] = True
             return {'messages': messages,
                     'user': userinfo.username}
-        self.user = User.objects.create(
-            username='testuser', email='test@example.org',
-            password=_HASHED_DEFAULT_PASSWORD, token='testtoken')
+
+        self.user = User.objects.create_user(
+            'testuser', 'test@example.org', password=_TEST_PASSWORD,
+            token='testtoken', is_active=True)
         self.wrapped = api_token_required(json_response(testfun))
         self.request = HttpRequest()
         self.request.method = 'POST'
@@ -132,9 +129,9 @@ class RandomUsersTest(TestCase):
 
     def setUp(self):
         super(RandomUsersTest, self).setUp()
-        self.user = User.objects.create(
-            username='testuser', email='test@example.org',
-            password=_HASHED_DEFAULT_PASSWORD, token='testtoken')
+        self.user = User.objects.create_user(
+            'testuser', 'test@example.org', password=_TEST_PASSWORD,
+            token='testtoken', is_active=True)
         self.user.timezone = 'Europe/Berlin'
         self.user.save()
 
@@ -145,10 +142,11 @@ class RandomUsersTest(TestCase):
 
     def test_missing_count_yields_five_users(self):
         for num in range(10):
-            User.objects.create(
-                username='test{}'.format(num + 1),
+            User.objects.create_user(
+                'test{}'.format(num + 1), 'test{}@example.org'.format(num + 1),
                 token='testtoken{}'.format(num + 1),
-                date_joined=timezone.now() - timedelta(days=num))
+                date_joined=timezone.now() - timedelta(days=num),
+                is_active=True)
 
         response = self.client.post(reverse('apiv1:random_users'), data={
             'u': self.user.username,
@@ -160,10 +158,11 @@ class RandomUsersTest(TestCase):
 
     def test_get_random_users(self):
         for num in range(10):
-            User.objects.create(
-                username='test{}'.format(num + 1),
+            User.objects.create_user(
+                'test{}'.format(num + 1), 'test{}@example.org'.format(num + 1),
                 token='testtoken{}'.format(num + 1),
-                date_joined=timezone.now() - timedelta(days=num))
+                date_joined=timezone.now() - timedelta(days=num),
+                is_active=True)
 
         response = self.client.post(
             reverse('apiv1:random_users'),
@@ -179,7 +178,7 @@ class RandomUsersTest(TestCase):
         for item in data:
             self.assertTrue(item['username'].startswith('test'))
             for key in (
-                'username', 'name', 'location', 'profile', 'coffees', 'mate'
+                    'username', 'name', 'location', 'profile', 'coffees', 'mate'
             ):
                 self.assertIn(key, item)
 
@@ -188,9 +187,9 @@ class AddDrinkTest(TestCase):
 
     def setUp(self):
         super(AddDrinkTest, self).setUp()
-        self.user = User.objects.create(
-            username='testuser', email='test@example.org',
-            password=_HASHED_DEFAULT_PASSWORD, token='testtoken')
+        self.user = User.objects.create_user(
+            'testuser', 'test@example.org', password=_TEST_PASSWORD,
+            token='testtoken', is_active=True)
         self.user.timezone = 'Europe/Berlin'
         self.user.save()
         self.url = reverse('apiv1:add_drink')

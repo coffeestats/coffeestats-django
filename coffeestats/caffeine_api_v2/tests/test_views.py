@@ -79,7 +79,7 @@ class UsageAgreementTest(TransactionTestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username='test', email='test@example.org', password='s3cr3t',
-            timezone='Europe/Berlin')
+            timezone='Europe/Berlin', is_active=True)
         self.my_url = reverse('api_usage_agreement')
 
     def test_needs_login(self):

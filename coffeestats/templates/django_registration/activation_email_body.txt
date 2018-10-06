@@ -6,7 +6,7 @@ link below if you intend to use coffeestats.org.
 
 Your activation link is:
 
-http://{{ site.domain }}{% url "registration_activate" activation_key=activation_key %}
+http://{{ site.domain }}{% url "django_registration_activate" activation_key=activation_key %}
 
 Enjoy your caffeine and our fine statistics.
 

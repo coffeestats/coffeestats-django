@@ -2,11 +2,11 @@ import json
 from datetime import datetime, timedelta
 from functools import wraps
 
-from django.core.urlresolvers import reverse
 from django.http import (
     HttpResponseBadRequest,
     HttpResponseForbidden,
 )
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import available_attrs
@@ -133,6 +133,7 @@ def add_drink(request, userinfo, messages, *args, **kwargs):
 
     ctype = request.POST.get('beverage')
     drinktime = request.POST.get('time')
+    time = None
     if not ctype:
         messages.setdefault('error', []).append(
             API_ERROR_MISSING_PARAM_BEVERAGE)

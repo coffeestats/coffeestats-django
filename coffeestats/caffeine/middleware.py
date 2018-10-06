@@ -1,15 +1,19 @@
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.http import urlquote_plus
 
 
-class EnforceTimezoneMiddleware(object):
+class EnforceTimezoneMiddleware:
     """
     Middleware to enforce that users have a time zone set.
 
     """
-    def process_request(self, request):
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
         """
         Redirects to the time zone selection vie and passes the originally
         requested URL to that view if the current user does not have a time
@@ -18,11 +22,12 @@ class EnforceTimezoneMiddleware(object):
         :param HttpRequest request: the current request
         :return: redirect or None
         """
-        timezonepath = reverse('selecttimezone')
-        if (request.user.is_authenticated() and
+        timezone_path = reverse('select_timezone')
+        if (request.user.is_authenticated and
                 not request.user.timezone and
                 not request.path.startswith(settings.STATIC_URL) and
-                not request.path.startswith(timezonepath)):
+                not request.path.startswith(timezone_path)):
             return HttpResponseRedirect(
-                timezonepath + '?next=' +
+                timezone_path + '?next=' +
                 urlquote_plus(request.get_full_path()))
+        return self.get_response(request)

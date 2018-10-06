@@ -65,7 +65,7 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': get_env_variable('COFFEESTATS_PGSQL_DATABASE'),
         'USER': get_env_variable('COFFEESTATS_PGSQL_USER'),
         'PASSWORD': get_env_variable('COFFEESTATS_PGSQL_PASSWORD'),
@@ -177,7 +177,7 @@ TEMPLATES = [
 
 # ######### MIDDLEWARE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     # Default Django middleware.
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -216,7 +216,7 @@ DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'registration',
+    'django_registration',
     'caffeine',
     'caffeine_api_v1',
     'caffeine_oauth2',
@@ -253,7 +253,7 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 # ######### REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [

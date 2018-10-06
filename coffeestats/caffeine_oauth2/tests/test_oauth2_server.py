@@ -1,5 +1,5 @@
 from django.test import TestCase
-from mock import Mock, MagicMock
+from unittest.mock import Mock, MagicMock
 
 from caffeine_oauth2.oauth2_server import CoffeestatsServer
 

@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 
 from caffeine_oauth2.models import CoffeestatsApplication
@@ -40,7 +40,7 @@ class CoffeestatsApplicationTest(TestCase):
         self.assertIsNotNone(application.approved_on)
 
     def test_reject(self):
-        user = User.objects.create(username='tester')
+        user = User.objects.create_user('tester', 'test@example.org')
         application = CoffeestatsApplication.objects.create(
             name='test', agree=False, user=user)
         client_id = application.client_id

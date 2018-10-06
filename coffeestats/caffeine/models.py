@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import csv
-from StringIO import StringIO
+from io import StringIO
 from calendar import monthrange
 from datetime import timedelta
 from hashlib import md5
@@ -13,11 +13,11 @@ from django.contrib.auth.models import (
 )
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
-from django.core.urlresolvers import reverse
 from django.db import (
     connection,
     models,
 )
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
@@ -51,11 +51,15 @@ class CaffeineUserManager(BaseUserManager):
             **kwargs)
         if password is not None:
             user.set_password(password)
-        user.date_joined = timezone.now()
+        else:
+            user.set_unusable_password()
+        if 'date_joined' not in kwargs:
+            user.date_joined = timezone.now()
         user.save(using=self.db)
         return user
 
-    def create_user(self, username, email, password=None, **kwargs):
+    def create_user(
+            self, username, email, password=None, is_active=False, **kwargs):
         """
         Creates and saves a User with the given user name, email addresse and
         password.
@@ -63,10 +67,15 @@ class CaffeineUserManager(BaseUserManager):
         :param str username: the user name
         :param str email: the email address
         :param str password: the password
+        :param bool is_active: flag to indicate if the user is active
         :returns: User instance
 
         """
-        return self._create_user(username, email, password, **kwargs)
+        return self._create_user(
+            username, email, password, is_active=is_active, **kwargs)
+
+    def create(self, **kwargs):
+        raise NotImplementedError('use create_user instead')
 
     def create_superuser(self, username, email, password, **kwargs):
         """
@@ -138,7 +147,7 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse("public", kwargs={'username': self.username})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_full_name() or self.username
 
     def export_csv(self):
@@ -185,7 +194,7 @@ def _total_result_dict():
 
 def _hour_result_dict():
     return {
-        'labels': [unicode(i) for i in range(24)],
+        'labels': [str(i) for i in range(24)],
         'coffee': [0 for i in range(24)],
         'mate': [0 for i in range(24)],
         'maxvalue': 1,
@@ -194,7 +203,7 @@ def _hour_result_dict():
 
 def _month_result_dict(date):
     result = {
-        'labels': [unicode(i + 1) for i in range(monthrange(
+        'labels': [str(i + 1) for i in range(monthrange(
             date.year, date.month)[1])],
     }
     result.update({
@@ -207,7 +216,7 @@ def _month_result_dict(date):
 
 def _year_result_dict():
     return {
-        'labels': [unicode(i + 1) for i in range(12)],
+        'labels': [str(i + 1) for i in range(12)],
         'coffee': [0 for i in range(12)],
         'mate': [0 for i in range(12)],
         'maxvalue': 1,
@@ -506,9 +515,8 @@ class CaffeineManager(models.Manager):
             GROUP BY wday, ctype
             """, [])
         for ctype, value, wday in cursor.fetchall():
-            if wday is not None:
-                result['maxvalue'] = max(value, result['maxvalue'])
-                result[DRINK_TYPES._triples[ctype][1]][wday - 1] = value
+            result['maxvalue'] = max(value, result['maxvalue'])
+            result[DRINK_TYPES._triples[ctype][1]][wday - 1] = value
         return result
 
     def recent_caffeine_queryset(self, user, date, ctype):
@@ -565,7 +573,9 @@ class CaffeineManager(models.Manager):
                            'average': average})
         return result
 
-    def top_consumers_recent(self, ctype, count=10, interval='30 days'):
+    def top_consumers_recent(
+            self, ctype, count=10, start_time=timezone.now(),
+            interval='30 days'):
         cursor = connection.cursor()
         cursor.execute(
             """
@@ -574,11 +584,11 @@ class CaffeineManager(models.Manager):
                 COUNT(c.id) AS total
             FROM caffeine_caffeine c
             WHERE c.ctype = %s
-              AND c.date >= CURRENT_TIMESTAMP - INTERVAL %s
+              AND c.date >= %s - INTERVAL %s
             GROUP BY c.user_id
             ORDER BY total DESC, c.user_id
             LIMIT %s
-            """, [interval, ctype, interval, count]
+            """, [interval, ctype, start_time, interval, count]
         )
         q = cursor.fetchall()
         users = User.objects.in_bulk([row[0] for row in q])
@@ -617,7 +627,7 @@ class Caffeine(models.Model):
     """
     ctype = models.PositiveSmallIntegerField(choices=DRINK_TYPES,
                                              db_index=True)
-    user = models.ForeignKey('User', related_name='caffeines')
+    user = models.ForeignKey('User', models.PROTECT, related_name='caffeines')
     date = models.DateTimeField(_('consumed'), db_index=True)
     entrytime = AutoCreatedField(_('entered'), db_index=True)
     timezone = models.CharField(max_length=40, db_index=True,
@@ -647,10 +657,10 @@ class Caffeine(models.Model):
 
     def __str__(self):
         return (
-            "%s at %s %s" % (
-                DRINK_TYPES[self.ctype],
-                self.date.strftime(settings.CAFFEINE_DATETIME_FORMAT),
-                self.timezone or "")).strip()
+                "%s at %s %s" % (
+            DRINK_TYPES[self.ctype],
+            self.date.strftime(settings.CAFFEINE_DATETIME_FORMAT),
+            self.timezone or "")).strip()
 
     def format_type(self):
         return DRINK_TYPES[self.ctype]
@@ -665,11 +675,10 @@ class ActionManager(models.Manager):
     def create_action(self, user, actiontype, data, validdays):
         action = self.model(user=user, atype=actiontype, data=data)
         action.validuntil = timezone.now() + timedelta(validdays)
-        action.code = md5(user.username +
-                          ACTION_TYPES[actiontype] +
-                          data +
-                          action.validuntil.strftime(
-                              "%Y%m%d%H%M%S%f")).hexdigest()
+        action.code = md5(
+            (user.username + ACTION_TYPES[actiontype] + data +
+             action.validuntil.strftime("%Y%m%d%H%M%S%f")).encode('utf8')
+        ).hexdigest()
         action.save(using=self.db)
         return action
 
@@ -679,7 +688,7 @@ class Action(models.Model):
     Action model.
 
     """
-    user = models.ForeignKey('User')
+    user = models.ForeignKey('User', models.PROTECT)
     code = models.CharField(_('action code'), max_length=32, unique=True)
     created = AutoCreatedField(_('created'))
     validuntil = models.DateTimeField(_('valid until'), db_index=True)
@@ -693,6 +702,6 @@ class Action(models.Model):
     class Meta:
         ordering = ['-validuntil']
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s valid until %s" % (ACTION_TYPES[self.atype],
                                       self.validuntil)

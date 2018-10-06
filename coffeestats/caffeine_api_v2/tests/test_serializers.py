@@ -5,7 +5,7 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
-from mock import MagicMock
+from unittest.mock import MagicMock
 from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory
@@ -44,7 +44,7 @@ class CaffeineFieldTest(TestCase):
 class CaffeineSerializerTest(TestCase):
     def setUp(self):
         super(CaffeineSerializerTest, self).setUp()
-        user = User.objects.create(username='test', email='test@example.org')
+        user = User.objects.create_user('test', 'test@example.org')
         now = datetime.now()
         coffee = Caffeine.objects.create(
             ctype=DRINK_TYPES.coffee, user=user, date=now)
@@ -74,8 +74,8 @@ class CaffeineSerializerTest(TestCase):
 class UserCaffeineSerializerTest(TestCase):
     def setUp(self):
         super(UserCaffeineSerializerTest, self).setUp()
-        self.user = User.objects.create(
-            username='test', email='test@example.org',
+        self.user = User.objects.create_user(
+            'test', 'test@example.org',
             timezone='Europe/Berlin')
         self.mockview = MagicMock(view_owner=self.user)
 
@@ -116,9 +116,9 @@ class UserCaffeineSerializerTest(TestCase):
 class UserSerializerTest(TestCase):
     def setUp(self):
         super(UserSerializerTest, self).setUp()
-        self.user = User.objects.create(
-            username='test', first_name='Test', last_name='User',
-            email='test@example.org')
+        self.user = User.objects.create_user(
+            'test', 'test@example.org', first_name='Test', last_name='User',
+            is_active=True)
         self.request = APIRequestFactory().get(
             reverse('user-detail', kwargs={'username': self.user.username}))
         self.subject = UserSerializer(

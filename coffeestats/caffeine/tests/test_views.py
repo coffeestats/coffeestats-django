@@ -1,58 +1,46 @@
 import json
 from datetime import timedelta
+from unittest.mock import patch
 
 from django.conf import settings
-from django.core import mail
-from django.core.urlresolvers import reverse
-from django.test import TestCase
-from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-
-from mock import patch
-
-from registration.models import RegistrationProfile
+from django.core import mail
+from django.test import TestCase
+from django.urls import reverse
+from django.utils import timezone
 
 from caffeine.forms import (
     CoffeestatsRegistrationForm,
     EMPTY_TIMEZONE_ERROR,
     SettingsForm,
 )
-from caffeine.models import (
-    Action,
-    ACTION_TYPES,
-    Caffeine,
-    DRINK_TYPES,
-)
-from caffeine.views import (
-    ACTIVATION_SUCCESS_MESSAGE,
-    DELETE_ACCOUNT_MESSAGE,
-    DELETE_CAFFEINE_SUCCESS_MESSAGE,
-    EMAIL_CHANGE_SUCCESS_MESSAGE,
-    EXPORT_SUCCESS_MESSAGE,
-    REGISTRATION_MAILINFO_MESSAGE,
-    REGISTRATION_SUCCESS_MESSAGE,
-    SELECT_TIMEZONE_SUCCESS_MESSAGE,
-    SETTINGS_EMAIL_CHANGE_MESSAGE,
-    SETTINGS_PASSWORD_CHANGE_SUCCESS,
-    SETTINGS_SUCCESS_MESSAGE,
-    SUBMIT_CAFFEINE_SUCCESS_MESSAGE,
-)
-
+from caffeine.models import (ACTION_TYPES, Action, Caffeine, DRINK_TYPES)
+from caffeine.views import (ACTIVATION_SUCCESS_MESSAGE,
+                            CaffeineRegistrationView, DELETE_ACCOUNT_MESSAGE,
+                            DELETE_CAFFEINE_SUCCESS_MESSAGE,
+                            EMAIL_CHANGE_SUCCESS_MESSAGE,
+                            EXPORT_SUCCESS_MESSAGE,
+                            REGISTRATION_MAILINFO_MESSAGE,
+                            REGISTRATION_SUCCESS_MESSAGE,
+                            SELECT_TIMEZONE_SUCCESS_MESSAGE,
+                            SETTINGS_EMAIL_CHANGE_MESSAGE,
+                            SETTINGS_PASSWORD_CHANGE_SUCCESS,
+                            SETTINGS_SUCCESS_MESSAGE,
+                            SUBMIT_CAFFEINE_SUCCESS_MESSAGE)
 
 User = get_user_model()
 
 _TEST_PASSWORD = 'test1234'
-_HASHED_DEFAULT_PASSWORD = make_password(_TEST_PASSWORD)
 
 
 class CaffeineViewTest(TestCase):
 
-    def _create_testuser(self):
-        user = User.objects.create(
-            username='testuser', email='test@bla.com',
-            password=_HASHED_DEFAULT_PASSWORD, token='testfoo'
+    def _create_testuser(self, is_active=True):
+        user = User.objects.create_user(
+            'testuser', 'test@bla.com',
+            password=_TEST_PASSWORD, token='testfoo', is_active=is_active
         )
         user.timezone = 'Europe/Berlin'
         user.save()
@@ -242,25 +230,24 @@ class ProfileViewsTest(CaffeineViewTest):
 class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
 
     def test_redirects_to_home(self):
-        user = self._create_testuser()
-        regprofile = RegistrationProfile.objects.create_profile(user)
+        user = self._create_testuser(is_active=False)
+        activation_key = CaffeineRegistrationView().get_activation_key(user)
         response = self.client.get('/auth/activate/{}/'.format(
-            regprofile.activation_key), follow=True)
+            activation_key), follow=True)
         self.assertRedirects(response, '/')
         self.assertIsNotNone(user.token)
         self.assertNotEqual(user.token, '')
 
     def test_activation_success_message(self):
-        user = self._create_testuser()
-        regprofile = RegistrationProfile.objects.create_profile(user)
+        user = self._create_testuser(is_active=False)
+        activation_key = CaffeineRegistrationView().get_activation_key(user)
         response = self.client.get('/auth/activate/{}/'.format(
-            regprofile.activation_key), follow=True)
+            activation_key), follow=True)
         self.assertMessageCount(response, 1)
         self.assertMessageContains(response, ACTIVATION_SUCCESS_MESSAGE)
 
 
 class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
-
     TEST_POST_DATA = {
         'username': 'testuser',
         'email': 'test@bla.com',
@@ -274,7 +261,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
     def test_get_renders_registration_template(self):
         response = self.client.get('/auth/register/')
         self.assertTemplateUsed(
-            response, 'registration/registration_form.html')
+            response, 'django_registration/registration_form.html')
 
     def test_get_context_has_form(self):
         response = self.client.get('/auth/register/')
@@ -284,7 +271,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
 
     def test_empty_post_renders_errors(self):
         response = self.client.post('/auth/register/', data={})
-        self.assertIn('errorlist', response.content)
+        self.assertIn(b'errorlist', response.content)
 
     def test_successful_post_creates_inactive_user(self):
         self.client.post('/auth/register/', data=self.TEST_POST_DATA)
@@ -294,17 +281,14 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
         self.assertEqual(user.last_name, self.TEST_POST_DATA['lastname'])
         self.assertEqual(user.location, self.TEST_POST_DATA['location'])
 
-    def test_successful_post_creates_registration_profile(self):
-        self.client.post('/auth/register/', data=self.TEST_POST_DATA)
-        self.assertEqual(len(RegistrationProfile.objects.all()), 1)
-
     def test_successful_post_sends_email(self):
         self.client.post('/auth/register/', data=self.TEST_POST_DATA)
-        regprofile = RegistrationProfile.objects.all()[0]
         self.assertEqual(len(mail.outbox), 1)
-        firstmail = mail.outbox[0]
-        self.assertEquals(firstmail.to, [self.TEST_POST_DATA['email']])
-        self.assertIn(regprofile.activation_key, firstmail.body)
+        first_mail = mail.outbox[0]
+        self.assertEquals(first_mail.to, [self.TEST_POST_DATA['email']])
+        self.assertIn(reverse(
+            'django_registration_activate', kwargs={'activation_key': 'abc'}
+        ).rsplit('/', maxsplit=2)[0], first_mail.body)
 
     def test_successful_post_creates_messages(self):
         response = self.client.post(
@@ -338,7 +322,7 @@ class RegistrationClosedViewTest(CaffeineViewTest):
     def test_renders_registration_closed_template(self):
         response = self.client.get('/auth/register/closed')
         self.assertTemplateUsed(
-            response, 'registration/registration_closed.html')
+            response, 'django_registration/registration_closed.html')
 
 
 class SettingsViewTest(MessagesTestMixin, CaffeineViewTest):
@@ -480,10 +464,12 @@ class OnTheRunViewTest(CaffeineViewTest):
         response = self.client.get(
             '/ontherun/{}/{}/'.format(user.username, user.token))
         self.assertIn(
-            '/coffee/submit/{}/{}/'.format(user.username, user.token),
+            '/coffee/submit/{}/{}/'.format(
+                user.username, user.token).encode('utf8'),
             response.content)
         self.assertIn(
-            '/mate/submit/{}/{}/'.format(user.username, user.token),
+            '/mate/submit/{}/{}/'.format(
+                user.username, user.token).encode('utf8'),
             response.content)
 
 
@@ -685,7 +671,7 @@ class SelectTimeZoneViewTest(MessagesTestMixin, CaffeineViewTest):
         self.assertTrue(self._do_login(self.user), 'login failed')
         response = self.client.post(self.url, data={
             'timezone': 'Europe/Berlin'}
-        )
+                                    )
         self.assertRedirects(response, '/profile/')
 
     def test_redirects_to_next(self):
@@ -749,9 +735,9 @@ class RandomUsersTest(TestCase):
 
     def setUp(self):
         super(RandomUsersTest, self).setUp()
-        self.user = User.objects.create(
-            username='testuser', email='test@example.org',
-            password=_HASHED_DEFAULT_PASSWORD, token='testtoken')
+        self.user = User.objects.create_user(
+            'testuser', 'test@example.org',
+            password=_TEST_PASSWORD, token='testtoken', is_active=True)
         self.user.timezone = 'Europe/Berlin'
         self.user.save()
 
@@ -768,8 +754,9 @@ class RandomUsersTest(TestCase):
 
     def test_missing_count_yields_fife_users(self):
         for num in range(10):
-            User.objects.create(
-                username='test{}'.format(num + 1),
+            User.objects.create_user(
+                'test{}'.format(num + 1),
+                'test{}@example.org'.format(num + 1),
                 token='testtoken{}'.format(num + 1),
                 date_joined=timezone.now() - timedelta(days=num))
         self._do_login()
@@ -781,8 +768,9 @@ class RandomUsersTest(TestCase):
 
     def test_get_random_users(self):
         for num in range(10):
-            User.objects.create(
-                username='test{}'.format(num + 1),
+            User.objects.create_user(
+                'test{}'.format(num + 1),
+                'test{}@example.org'.format(num + 1),
                 token='testtoken{}'.format(num + 1),
                 date_joined=timezone.now() - timedelta(days=num))
         self._do_login()
@@ -795,6 +783,6 @@ class RandomUsersTest(TestCase):
         for item in data:
             self.assertTrue(item['username'].startswith('test'))
             for key in (
-                'username', 'name', 'location', 'profile', 'coffees', 'mate'
+                    'username', 'name', 'location', 'profile', 'coffees', 'mate'
             ):
                 self.assertIn(key, item)

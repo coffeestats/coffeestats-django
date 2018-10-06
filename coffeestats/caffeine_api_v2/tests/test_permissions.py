@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 from django.test import SimpleTestCase
-from mock import Mock
+from unittest.mock import Mock
 
 from caffeine_api_v2.permissions import (
     IsOwnerOrReadOnly, IsOwnCaffeineOrReadOnly

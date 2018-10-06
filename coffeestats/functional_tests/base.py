@@ -1,15 +1,15 @@
 import re
 import sys
+import os
 from datetime import datetime
 
-from django.core import mail
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
+from django.core import mail
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 from six.moves.urllib import parse
-
 
 simple_url_re = re.compile(
     r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|'
@@ -21,7 +21,18 @@ class SeleniumTest(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.selenium = webdriver.Chrome()
+        options = ChromeOptions()
+        options.headless = True
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--privileged')
+        options.add_argument('--window-size=1920,1080')
+        if 'TEST_CHROMEDRIVER' in os.environ:
+            chromedriver_executable = os.environ['TEST_CHROMEDRIVER']
+        else:
+            chromedriver_executable = '/usr/lib/chromium-browser/chromedriver'
+        cls.selenium = webdriver.Chrome(
+            executable_path=chromedriver_executable, chrome_options=options)
         cls.selenium.implicitly_wait(10)
         super(SeleniumTest, cls).setUpClass()
         cls.server_url = cls.live_server_url
@@ -109,7 +120,7 @@ class BaseCoffeeStatsPageTestMixin(object):
         register_link = nav.find_element_by_link_text('Register')
         register_link.click()
 
-        # He finds out that he is now on the registration page
+        # He finds out that he is now on the django_registration page
         self.assertRegexpMatches(self.selenium.current_url,
                                  r'/auth/register/$')
 

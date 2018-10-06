@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpRequest
 from django.test import TestCase
 from django.contrib.auth import get_user_model
@@ -27,12 +27,12 @@ class PublicUrlTest(RequestTagTestMixin, TestCase):
             tags.publicurl({})
 
     def test_profileuser_without_request(self):
-        testuser = User.objects.create(username='testuser')
+        testuser = User.objects.create_user('testuser', 'test@example.org')
         with self.assertRaises(KeyError):
             tags.publicurl({'profileuser': testuser})
 
     def test_profileuser_with_request(self):
-        testuser = User.objects.create(username='testuser')
+        testuser = User.objects.create_user('testuser', 'test@example.org')
         url = tags.publicurl({'request': self._create_request(),
                               'profileuser': testuser})
         self.assertTrue(url.endswith(reverse(
@@ -52,28 +52,30 @@ class OnTheRunUrlTest(RequestTagTestMixin, TestCase):
             tags.ontherunurl({})
 
     def test_profileuser_without_request(self):
-        testuser = User.objects.create(username='testuser')
+        test_user = User.objects.create_user('testuser', 'test@example.org')
         with self.assertRaises(KeyError):
-            tags.ontherunurl({'profileuser': testuser})
+            tags.ontherunurl({'profileuser': test_user})
 
     def test_profileuser_with_request(self):
-        testuser = User.objects.create(username='testuser', token='bla')
+        test_user = User.objects.create_user(
+            'testuser', 'test@example.org', token='bla')
         url = tags.ontherunurl({'request': self._create_request(),
-                                'profileuser': testuser})
+                                'profileuser': test_user})
         self.assertTrue(url.endswith(reverse(
             'ontherun', kwargs={'username': 'testuser', 'token': 'bla'})))
 
     def test_with_user(self):
-        testuser = User.objects.create(username='testuser', token='bla')
+        test_user = User.objects.create_user(
+            'testuser', 'test@example.org', token='bla')
         url = tags.ontherunurl({'request': self._create_request()},
-                               user=testuser)
+                               user=test_user)
         self.assertTrue(url.endswith(reverse(
             'ontherun', kwargs={'username': 'testuser', 'token': 'bla'})))
 
 
 class MessagetagsTest(TestCase):
 
-    class _message(object):
+    class _Message(object):
 
         def __init__(self, text, tags):
             self.text = text
@@ -83,15 +85,15 @@ class MessagetagsTest(TestCase):
         self.assertEqual(tags.messagetags([], None), [])
 
     def test_empty_for_non_matching_tags(self):
-        message1 = MessagetagsTest._message('test', ['notinteresting'])
+        message1 = MessagetagsTest._Message('test', ['notinteresting'])
 
         self.assertEqual(tags.messagetags([message1], 'interesting'),
                          [])
 
     def test_matching_tags_only(self):
-        message1 = MessagetagsTest._message('test1', ['notinteresting'])
-        message2 = MessagetagsTest._message('test2', ['interesting'])
-        message3 = MessagetagsTest._message('test3', ['interesting', 'error'])
+        message1 = MessagetagsTest._Message('test1', ['notinteresting'])
+        message2 = MessagetagsTest._Message('test2', ['interesting'])
+        message3 = MessagetagsTest._Message('test3', ['interesting', 'error'])
 
         self.assertEqual(tags.messagetags(
             [message1, message2, message3], 'interesting'),

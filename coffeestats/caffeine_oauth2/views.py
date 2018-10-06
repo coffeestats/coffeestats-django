@@ -2,15 +2,15 @@ from django.conf import settings
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView
 from oauth2_provider.views import ApplicationRegistration
 from oauth2_provider.views.application import ApplicationDetail
 
-from caffeine_oauth2.forms import CoffeestatsApplicationRejectionForm, \
-    CoffeestatsApplicationApprovalForm, CoffeestatsApplicationForm
+from caffeine_oauth2.forms import CoffeestatsApplicationApprovalForm, \
+    CoffeestatsApplicationForm, CoffeestatsApplicationRejectionForm
 from caffeine_oauth2.models import CoffeestatsApplication
 
 

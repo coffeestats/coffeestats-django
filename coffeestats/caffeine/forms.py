@@ -8,7 +8,7 @@ from django import forms
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from registration.forms import RegistrationFormUniqueEmail
+from django_registration.forms import RegistrationFormUniqueEmail
 
 from .models import (
     ACTION_TYPES,
@@ -49,16 +49,6 @@ class CoffeestatsRegistrationForm(RegistrationFormUniqueEmail):
             raise forms.ValidationError(DUPLICATE_USER_ERROR)
         else:
             return self.cleaned_data['username']
-
-    def clean_email(self):
-        """
-        Validate that the supplied email address is unique for the
-        site.
-
-        """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError(DUPLICATE_EMAIL_ERROR)
-        return self.cleaned_data['email']
 
     class Meta(RegistrationFormUniqueEmail.Meta):
         model = User

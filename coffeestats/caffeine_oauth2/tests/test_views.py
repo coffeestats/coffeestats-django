@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.test import TransactionTestCase
 
@@ -20,8 +20,9 @@ class CoffeestatsApplicationRegistrationTest(TransactionTestCase):
         self.assertEqual(form_class.Meta.model, CoffeestatsApplication)
 
     def setUp(self):
-        self.user = User.objects.create(
-            username='tester', timezone='Europe/Berlin')
+        self.user = User.objects.create_user(
+            'tester', 'tester@example.org', timezone='Europe/Berlin',
+            is_active=True)
         self.post_data = {
             'agree': True, 'website': 'http://foo.example.org/',
             'client_type': CoffeestatsApplication.CLIENT_PUBLIC,
@@ -87,8 +88,8 @@ class CoffeestatsApplicationRegistrationTest(TransactionTestCase):
 
 class CoffeestatsApplicationApprovalTest(TransactionTestCase):
     def setUp(self):
-        self.appuser = User.objects.create(
-            username='appuser', email='appuser@example.org')
+        self.appuser = User.objects.create_user(
+            'appuser', 'appuser@example.org')
         self.application = CoffeestatsApplication.objects.create(
             user=self.appuser, agree=False, website='http://foo.example.org/',
             client_type=CoffeestatsApplication.CLIENT_PUBLIC,
@@ -152,8 +153,8 @@ class CoffeestatsApplicationApprovalTest(TransactionTestCase):
 
 class CoffeestatsApplicationRejectionTest(TransactionTestCase):
     def setUp(self):
-        self.appuser = User.objects.create(
-            username='appuser', email='appuser@example.org')
+        self.appuser = User.objects.create_user(
+            'appuser', 'appuser@example.org')
         self.application = CoffeestatsApplication.objects.create(
             user=self.appuser, agree=False, website='http://foo.example.org/',
             client_type=CoffeestatsApplication.CLIENT_PUBLIC,

@@ -4,7 +4,7 @@
 <div class="white-box fullWidth">
   <p>{% trans "You have not defined your timezone yet. Now is a good time to select it." %}</p>
   <p>{% blocktrans %}Detected timezone: <span id="timezoneinfo">Not detected yet</span>{% endblocktrans %}</p>
-  <form action="{% url "selecttimezone" %}?next={{ request.GET.next|urlencode }}" method="post" class="inlineform">
+  <form action="{% url "select_timezone" %}?next={{ request.GET.next|urlencode }}" method="post" class="inlineform">
     {{ form.timezone.errors }}
     <select name="timezone" id="tzselect" autofocus class="left">
       {% for tz in tzlist %}

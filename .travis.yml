@@ -9,7 +9,7 @@ install:
   - "docker-compose build"
   - pip install coveralls
 script:
-  - "docker-compose up -d"
+  - "docker-compose up -d && sleep 10"
   - "docker-compose exec app coverage run --branch manage.py test -v 1"
 after_success:
   coveralls --data-file coffeestats/.coverage

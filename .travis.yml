@@ -13,4 +13,4 @@ script:
   - "docker-compose up -d && sleep 5"
   - "docker-compose exec app coverage run --branch manage.py test -v 1"
 after_success:
-  coveralls --data-file coffeestats/.coverage
+  - "cd coffeestats ; coverage combine .coverage ; coveralls"

@@ -1,7 +1,7 @@
 language: python
 sudo: true
 python:
-  - "3.6"
+  - "3.5"
 services:
   - docker
 install:

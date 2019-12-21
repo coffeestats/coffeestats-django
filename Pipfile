@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-djangorestframework = "*"
+django = "<3"
+djangorestframework = "<3.10"
 drf-nested-routers = "*"
 django-oauth-toolkit = "*"
 django-registration = "*"

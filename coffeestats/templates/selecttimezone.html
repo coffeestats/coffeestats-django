@@ -11,7 +11,7 @@
       <option>{{ tz }}</option>
       {% endfor %}
     </select>
-    <input type="submit" name="submit" value="{% trans "Select timezone" %}" class="left" />
+    <input id="submit" type="submit" name="submit" value="{% trans "Select timezone" %}" class="left" />
     {% csrf_token %}
   </form>
 </div>

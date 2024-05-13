@@ -38,15 +38,15 @@ tramp
 Thumbs.db
 Desktop.ini
 
-.vagrant
-coffeestats/assets/
+.coverage
+.env
+.idea/
 .ropeproject/
 .sass-cache/
-tags
-.coverage
-docs/_build/
+coffeestats/assets/
 coverage-report/
-.idea/
-.env
+coverage-report/
 coverage.xml
-coverage-report/
+docs/_build/
+tags
+/.envrc

@@ -3,12 +3,9 @@ from django.views.generic import TemplateView
 from rest_framework import permissions, viewsets
 
 from caffeine.models import Caffeine, User
-from .serializers import (
-    CaffeineSerializer,
-    UserCaffeineSerializer,
-    UserSerializer,
-)
-from .permissions import IsOwnerOrReadOnly, IsOwnCaffeineOrReadOnly
+
+from .permissions import IsOwnCaffeineOrReadOnly, IsOwnerOrReadOnly
+from .serializers import CaffeineSerializer, UserCaffeineSerializer, UserSerializer
 
 
 class CaffeineViewSet(viewsets.ReadOnlyModelViewSet):
@@ -28,7 +25,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all().order_by("username")
     serializer_class = UserSerializer
     lookup_field = "username"
-    lookup_value_regex = r"[\w0-9@.+-_]+"
+    lookup_value_regex = r"[\w@.+_-]+"
 
 
 class UserCaffeineViewSet(viewsets.ModelViewSet):

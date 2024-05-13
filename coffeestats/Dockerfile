@@ -1,42 +1,44 @@
-FROM python:3.6-alpine
+FROM python:3.9-bullseye
 
 ENV \
   PYTHONUNBUFFERED=1 \
   PYTHONFAULTHANDLER=1 \
   PIP_NO_CACHE_DIR=off \
   PIP_DISABLE_VERSION_CHECK=on \
-  PIP_DEFAULT_TIMEOUT=100 \
-  PIPENV_HIDE_EMOJIS=true \
-  PIPENV_COLORBLIND=true \
-  PIPENV_NOSPIN=true \
-  PIPENV_DOTENV_LOCATION=config/.env \
-  TEST_CHROMEDRIVER=/usr/bin/chromedriver
+  PIP_DEFAULT_TIMEOUT=100
 
 EXPOSE 8000
 
-RUN apk --no-cache add \
-  bash \
-  build-base \
-  curl \
-  gcc \
-  gettext \
-  git \
-  libffi-dev \
-  linux-headers \
-  musl-dev \
-  zlib-dev \
-  postgresql-dev \
-  jpeg-dev \
-  chromium \
-  chromium-chromedriver
+RUN DEBIAN_FRONTEND=noninteractive \
+  ; apt-get update \
+  && apt-get install -y --no-install-recommends \
+    build-essential \
+    chromium \
+    chromium-driver \
+    curl \
+    gettext \
+    git \
+    libffi-dev \
+    libjpeg-dev \
+    libpq-dev \
+    python3-dev \
+    python3-pip \
+    python3-venv \
+    zlib1g-dev
 
-RUN pip install pipenv
+ENV PATH=/root/.local/bin:$PATH
+
+RUN python3 -m pip install --user pipx \
+ && python3 -m pipx ensurepath \
+ && pipx install "poetry==1.8.2"
 
 VOLUME /srv/coffeestats
 WORKDIR /srv/coffeestats
-COPY Pipfile Pipfile.lock /srv/coffeestats/
+COPY pyproject.toml poetry.lock /srv/coffeestats/
 
-RUN pipenv install --system --deploy --ignore-pipfile --dev
+RUN poetry export --with=dev > requirements.txt \
+ && python3 -m venv /srv/venv \
+ && /srv/venv/bin/python3 -m pip install -r requirements.txt
 
 COPY docker/start-coffeestats.sh /srv/
 

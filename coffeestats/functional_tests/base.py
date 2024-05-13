@@ -1,18 +1,18 @@
 import re
 import sys
-import os
 from datetime import datetime
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core import mail
 from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from six.moves.urllib import parse
 
 simple_url_re = re.compile(
-    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
     re.IGNORECASE | re.MULTILINE,
 )
 
@@ -26,13 +26,7 @@ class SeleniumTest(StaticLiveServerTestCase):
         options.add_argument("--disable-gpu")
         options.add_argument("--privileged")
         options.add_argument("--window-size=1920,1080")
-        if "TEST_CHROMEDRIVER" in os.environ:
-            chromedriver_executable = os.environ["TEST_CHROMEDRIVER"]
-        else:
-            chromedriver_executable = "/usr/lib/chromium-browser/chromedriver"
-        cls.selenium = webdriver.Chrome(
-            executable_path=chromedriver_executable, chrome_options=options
-        )
+        cls.selenium = webdriver.Chrome()
         cls.selenium.implicitly_wait(10)
         super(SeleniumTest, cls).setUpClass()
         cls.server_url = cls.live_server_url
@@ -63,22 +57,22 @@ class BaseCoffeeStatsPageTestMixin(object):
         self.assertIn("coffeestats", self.selenium.title)
 
         # find favicon and touch icons
-        favicons = self.selenium.find_elements_by_css_selector(
-            'link[rel="shortcut icon"]'
+        favicons = self.selenium.find_elements(
+            by=By.CSS_SELECTOR, value='link[rel="shortcut icon"]'
         )
         self.assertEqual(len(favicons), 1)
 
-        touchicons = self.selenium.find_elements_by_css_selector(
-            'link[rel="apple-touch-icon"]'
+        touchicons = self.selenium.find_elements(
+            by=By.CSS_SELECTOR, value='link[rel="apple-touch-icon"]'
         )
         self.assertEqual(len(touchicons), 4)
         sizes = (None, "72x72", "114x114", "144x144")
         for icidx in range(4):
             self.assertEqual(touchicons[icidx].get_attribute("sizes"), sizes[icidx])
 
-        header = self.selenium.find_element_by_id("header")
+        header = self.selenium.find_element(by=By.ID, value="header")
         # the title links to the home page
-        homelink = header.find_element_by_link_text("coffeestats.org")
+        homelink = header.find_element(by=By.LINK_TEXT, value="coffeestats.org")
         self.assertEqual(homelink.get_attribute("href"), "{}/".format(self.server_url))
 
         # the title has the awesome slogan title
@@ -89,20 +83,20 @@ class BaseCoffeeStatsPageTestMixin(object):
     def check_page_footer(self):
         # the footer contains links to the home page, the authors' web sites
         # and the imprint
-        footer = self.selenium.find_element_by_class_name("footer")
+        footer = self.selenium.find_element(by=By.CLASS_NAME, value="footer")
 
         expected_footer_links = [
-            (u"coffeestats.org", u"{}/".format(self.server_url)),
-            (u"Jan Dittberner", u"https://jan.dittberner.info/"),
-            (u"Jeremias Arnstadt", u"http://www.art-ifact.de/"),
-            (u"Florian Baumann", u"http://noqqe.de/"),
-            (u"Imprint", u"{}/imprint/".format(self.server_url)),
+            ("coffeestats.org", "{}/".format(self.server_url)),
+            ("Jan Dittberner", "https://jan.dittberner.info/"),
+            ("Jeremias Arnstadt", "http://www.art-ifact.de/"),
+            ("Florian Baumann", "http://noqqe.de/"),
+            ("Imprint", "{}/imprint/".format(self.server_url)),
         ]
 
         self.assertEqual(
             [
                 (link.text, link.get_attribute("href"))
-                for link in footer.find_elements_by_tag_name("a")
+                for link in footer.find_elements(by=By.TAG_NAME, value="a")
             ],
             expected_footer_links,
         )
@@ -117,11 +111,11 @@ class BaseCoffeeStatsPageTestMixin(object):
         self.assertRegexpMatches(self.selenium.current_url, r"/$")
 
         # there is a navigation in the page header
-        header = self.selenium.find_element_by_id("header")
-        nav = header.find_element_by_tag_name("nav")
+        header = self.selenium.find_element(by=By.ID, value="header")
+        nav = header.find_element(by=By.TAG_NAME, value="nav")
 
         # He wants to register and finds the register_link
-        register_link = nav.find_element_by_link_text("Register")
+        register_link = nav.find_element(by=By.LINK_TEXT, value="Register")
         register_link.click()
 
         # He finds out that he is now on the django_registration page
@@ -158,25 +152,25 @@ class BaseCoffeeStatsPageTestMixin(object):
 
         self.selenium.get(activation_link)
 
-        header = self.selenium.find_element_by_id("header")
-        nav = header.find_element_by_tag_name("nav")
-        login_subnav = nav.find_element_by_tag_name("span")
+        header = self.selenium.find_element(by=By.ID, value="header")
+        nav = header.find_element(by=By.TAG_NAME, value="nav")
+        login_subnav = nav.find_element(by=By.TAG_NAME, value="span")
         action_chain = ActionChains(self.selenium)
         action_chain.move_to_element(login_subnav).perform()
 
-        username_field = self.selenium.find_element_by_id("id_login_username")
+        username_field = self.selenium.find_element(by=By.ID, value="id_login_username")
         username_field.send_keys(self.TEST_USERNAME + Keys.TAB)
 
         password_field = self.selenium.switch_to.active_element
         self.assertEqual(password_field.get_attribute("id"), "id_login_password")
         password_field.send_keys(self.TEST_PASSWORD + Keys.ENTER)
 
-        tzselect = self.selenium.find_element_by_id("tzselect")
+        tzselect = self.selenium.find_element(by=By.ID, value="tzselect")
         action_chain = ActionChains(self.selenium)
         action_chain.move_to_element(tzselect).perform()
 
         # submits the form
-        submit_button = self.selenium.find_element_by_id("submit")
+        submit_button = self.selenium.find_element(by=By.ID, value="submit")
         submit_button.click()
 
         mail.outbox = []

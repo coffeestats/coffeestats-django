@@ -1,5 +1,6 @@
 from django.core import mail
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 from .base import BaseCoffeeStatsPageTestMixin, SeleniumTest
@@ -38,9 +39,11 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # he hits enter and gets a validation error
         input_password1.submit()
 
-        input_password1 = self.selenium.find_element_by_id("id_password1")
+        input_password1 = self.selenium.find_element(by=By.ID, value="id_password1")
 
-        elems = input_password1.parent.find_elements_by_css_selector("ul.errorlist")
+        elems = input_password1.parent.find_elements(
+            by=By.CSS_SELECTOR, value="ul.errorlist"
+        )
         self.assertEqual(len(elems), 2)  # one error for email one for password
 
         # the cursor is on the username input field
@@ -79,17 +82,17 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # he opens the activation link
         self.selenium.get(activation_link)
 
-        content = self.selenium.find_element_by_css_selector("body")
+        content = self.selenium.find_element(by=By.CSS_SELECTOR, value="body")
         self.assertIn("Your account has been activated successfully.", content.text)
 
         # he opens the login form and enters his credentials
-        header = self.selenium.find_element_by_id("header")
-        nav = header.find_element_by_tag_name("nav")
-        login_subnav = nav.find_element_by_tag_name("span")
+        header = self.selenium.find_element(by=By.ID, value="header")
+        nav = header.find_element(by=By.TAG_NAME, value="nav")
+        login_subnav = nav.find_element(by=By.TAG_NAME, value="span")
         action_chain = ActionChains(self.selenium)
         action_chain.move_to_element(login_subnav).perform()
 
-        username_field = self.selenium.find_element_by_id("id_login_username")
+        username_field = self.selenium.find_element(by=By.ID, value="id_login_username")
         username_field.send_keys(self.TEST_USERNAME + Keys.TAB)
 
         password_field = self.selenium.switch_to.active_element
@@ -102,12 +105,12 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         )
 
         # he selects a time zone
-        tzselect = self.selenium.find_element_by_id("tzselect")
+        tzselect = self.selenium.find_element(by=By.ID, value="tzselect")
         action_chain = ActionChains(self.selenium)
         action_chain.move_to_element(tzselect).perform()
 
         # submits the form
-        submit_button = self.selenium.find_element_by_id("submit")
+        submit_button = self.selenium.find_element(by=By.ID, value="submit")
         submit_button.click()
 
         # and is redirected to the profile page
@@ -117,7 +120,9 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.register_user()
 
         # find the logout link
-        menuitems = self.selenium.find_elements_by_css_selector("#header nav > ul > li")
+        menuitems = self.selenium.find_elements(
+            by=By.CSS_SELECTOR, value="#header nav > ul > li"
+        )
 
         self.assertEqual(len(menuitems), 5)
 
@@ -125,15 +130,17 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         action_chain.move_to_element(menuitems[3]).perform()
 
         # ... and logout
-        self.selenium.find_element_by_link_text("Logout").click()
+        self.selenium.find_element(by=By.LINK_TEXT, value="Logout").click()
 
         # find the login form and click the forgot password link
-        login_subnav = self.selenium.find_element_by_css_selector(
-            "#header nav ul > li > span"
+        login_subnav = self.selenium.find_element(
+            by=By.CSS_SELECTOR, value="#header nav ul > li > span"
         )
         action_chain = ActionChains(self.selenium)
         action_chain.move_to_element(login_subnav).perform()
-        self.selenium.find_element_by_link_text("Forgot your password?").click()
+        self.selenium.find_element(
+            by=By.LINK_TEXT, value="Forgot your password?"
+        ).click()
 
         # check the URL
         self.assertRegexpMatches(self.selenium.current_url, r"/auth/password/reset/$")
@@ -142,14 +149,14 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         email_field.send_keys(self.TEST_EMAILADDRESS)
 
         # submits the form
-        submit_button = self.selenium.find_element_by_id("submit")
+        submit_button = self.selenium.find_element(by=By.ID, value="submit")
         submit_button.click()
 
         self.assertRegexpMatches(self.selenium.current_url, r"/password/reset/done/")
         self.assertIn(
             "We sent an email with a password reset link if any of our users"
             " has an account with the given email address.",
-            self.selenium.find_element_by_tag_name("body").text,
+            self.selenium.find_element(by=By.TAG_NAME, value="body").text,
         )
 
         self.assertEqual(len(mail.outbox), 1)
@@ -160,7 +167,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
         # we reach the password reset page
         self.assertEqual(
-            "Change Your Password", self.selenium.find_element_by_tag_name("h2").text
+            "Change Your Password",
+            self.selenium.find_element(by=By.TAG_NAME, value="h2").text,
         )
 
         pwfield1 = self.selenium.switch_to.active_element
@@ -176,13 +184,13 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         )
 
         # login with the new password
-        login_subnav = self.selenium.find_element_by_css_selector(
-            "#header nav ul > li > span"
+        login_subnav = self.selenium.find_element(
+            by=By.CSS_SELECTOR, value="#header nav ul > li > span"
         )
         action_chain = ActionChains(self.selenium)
         action_chain.move_to_element(login_subnav).perform()
 
-        username_field = self.selenium.find_element_by_id("id_login_username")
+        username_field = self.selenium.find_element(by=By.ID, value="id_login_username")
         username_field.send_keys(self.TEST_USERNAME + Keys.TAB)
 
         password_field = self.selenium.switch_to.active_element

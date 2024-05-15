@@ -130,7 +130,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         action_chain.move_to_element(menuitems[3]).perform()
 
         # ... and logout
-        self.selenium.find_element(by=By.LINK_TEXT, value="Logout").click()
+        self.selenium.find_element(by=By.CSS_SELECTOR, value="input.btn[value='Logout']").click()
 
         # find the login form and click the forgot password link
         login_subnav = self.selenium.find_element(

@@ -65,7 +65,7 @@
                 $("input#username").focus();
             }
 
-            var lineChartData = {
+            let lineChartData = {
                 labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",],
                 datasets: [
                     {
@@ -87,7 +87,7 @@
 
             new Chart(document.getElementById("coffeeexample").getContext("2d")).Line(lineChartData);
 
-            $('form').submit(function (event) {
+            $('#login-form').submit(function (event) {
                 return sanitize_username('input#id_login_username')
                         && sanitize_not_empty('input#id_login_password', '{% trans "Password must not be empty!" %}');
             });

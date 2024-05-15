@@ -88,9 +88,6 @@ SITES_SITE_NAME = get_env_variable("COFFEESTATS_SITE_NAME")
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
-USE_L10N = True
-
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = False
 # ######### END GENERAL CONFIGURATION

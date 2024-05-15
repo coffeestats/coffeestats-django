@@ -16,10 +16,11 @@ class NavItem(object):
 
 
 class SubNavItem(object):
-    def __init__(self, request, url, title, css_class="subNavLink", **kwargs):
+    def __init__(self, url, title, css_class="subNavLink", nav_type="link", **kwargs):
         self.url = url
         self.title = title
         self.css_class = css_class
+        self.nav_type = nav_type
         for arg in kwargs:
             setattr(self, arg, kwargs[arg])
 
@@ -47,19 +48,19 @@ def mainnav(request):
 
         if request.user.is_staff:
             settingschildren = [
-                SubNavItem(request, reverse("admin:index"), _("Admin site")),
+                SubNavItem(reverse("admin:index"), _("Admin site")),
             ]
         else:
             settingschildren = []
         settingschildren.extend(
             [
-                SubNavItem(request, reverse("about"), _("About")),
+                SubNavItem(reverse("about"), _("About")),
                 SubNavItem(
-                    request, settings.GOOGLE_PLUS_URL, _("Google+"), rel="publisher"
+                    settings.GOOGLE_PLUS_URL, _("Google+"), rel="publisher"
                 ),
-                SubNavItem(request, settings.TWITTER_URL, _("Twitter")),
-                SubNavItem(request, reverse("settings"), _("Settings")),
-                SubNavItem(request, reverse("auth_logout"), _("Logout"), "btn"),
+                SubNavItem(settings.TWITTER_URL, _("Twitter")),
+                SubNavItem(reverse("settings"), _("Settings")),
+                SubNavItem(reverse("auth_logout"), _("Logout"), "btn", nav_type="submit"),
             ]
         )
 

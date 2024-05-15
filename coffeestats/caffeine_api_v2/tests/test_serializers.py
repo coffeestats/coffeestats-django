@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
+from django.http import HttpRequest
 from django.test import TestCase
 from django.utils import timezone
 from unittest.mock import MagicMock
@@ -78,12 +79,15 @@ class UserCaffeineSerializerTest(TestCase):
             'test', 'test@example.org',
             timezone='Europe/Berlin')
         self.mockview = MagicMock(view_owner=self.user)
+        self.test_request = HttpRequest()
+        self.test_request.user = self.user
 
     def test_save_no_timezone(self):
         subject = UserCaffeineSerializer(
             data={'date': datetime.now(), 'ctype': 'coffee'},
             context={'view': self.mockview})
-        self.assertTrue(subject.is_valid(True))
+        subject.context.update({'request': self.test_request})
+        self.assertTrue(subject.is_valid())
         saved = subject.save()
         self.assertIsInstance(saved, Caffeine)
         self.assertEqual(saved.timezone, self.user.timezone)
@@ -93,7 +97,8 @@ class UserCaffeineSerializerTest(TestCase):
             data={'date': datetime.now(), 'ctype': 'coffee',
                   'timezone': 'Arctic/Longyearbyen'},
             context={'view': self.mockview})
-        self.assertTrue(subject.is_valid(True))
+        subject.context.update({'request': self.test_request})
+        self.assertTrue(subject.is_valid())
         saved = subject.save()
         self.assertIsInstance(saved, Caffeine)
         self.assertEqual(saved.timezone, 'Arctic/Longyearbyen')
@@ -102,10 +107,12 @@ class UserCaffeineSerializerTest(TestCase):
         subject = UserCaffeineSerializer(
             data={'date': datetime.now(), 'ctype': 'coffee'},
             context={'view': self.mockview})
+        subject.context.update({'request': self.test_request})
         first_caff = Caffeine.objects.create(
             ctype=DRINK_TYPES.coffee, date=timezone.now(), user=self.user)
         first_caff.save()
         data = {
+            'user': self.user,
             'date': timezone.now(),
             'ctype': 'coffee',
         }

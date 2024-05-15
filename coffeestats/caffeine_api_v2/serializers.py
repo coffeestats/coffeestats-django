@@ -1,6 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
-from rest_framework.validators import BaseUniqueForValidator
+from rest_framework.validators import BaseUniqueForValidator, UniqueTogetherValidator
 
 from caffeine.models import User, Caffeine, DRINK_TYPES
 
@@ -37,20 +37,10 @@ class NoRecentCaffeineValidator(BaseUniqueForValidator):
         self.user_field = user_field
         self.message = message or self.message
 
-    def set_context(self, serializer):
-        """
-        This hook is called by the serializer instance, prior to the validation
-        call being made.
-        """
-        self.field_date = serializer.fields[self.date_field].source_attrs[-1]
-        self.field_ctype = serializer.fields[self.field].source_attrs[-1]
-        self.user = serializer.context['view'].view_owner
-        self.instance = getattr(serializer, 'instance', None)
-
-    def filter_queryset(self, attrs, queryset):
-        user = self.user
-        date = attrs[self.field_date]
-        ctype = attrs[self.field_ctype]
+    def filter_queryset(self, attrs, queryset, field_name, date_field_name):
+        user = attrs[self.user_field]
+        date = attrs[self.date_field]
+        ctype = attrs[self.field]
         self.message = (
             'Your last %(drink)s was less than %(minutes)d minutes ago.'
         ) % dict(
@@ -79,7 +69,7 @@ class CaffeineSerializer(serializers.HyperlinkedModelSerializer):
 class UserCaffeineSerializer(serializers.HyperlinkedModelSerializer):
     ctype = CaffeineField()
     user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name='user-detail', lookup_field='username')
+        read_only=True, view_name='user-detail', lookup_field='username', default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Caffeine

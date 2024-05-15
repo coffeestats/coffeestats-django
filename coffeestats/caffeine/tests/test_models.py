@@ -151,7 +151,7 @@ class UserTest(TestCase):
 
     def test_has_usable_password_oldhash(self):
         user = User.objects.create_user("testuser", "testuser@bla.com")
-        user.cryptsum = bcrypt.hash("test", ident="2y")
+        user.cryptsum = bcrypt.using(ident="2y").hash("test")
         user.password = ""
         user.save()
         self.assertTrue(user.has_usable_password())

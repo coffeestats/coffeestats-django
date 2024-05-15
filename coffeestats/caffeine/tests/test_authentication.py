@@ -11,7 +11,7 @@ from caffeine.authbackend import LegacyCoffeestatsAuth
 class LegacyCoffeestatsAuthTest(TestCase):
     def setUp(self):
         self.user, created = User.objects.get_or_create(username="testuser")
-        self.user.cryptsum = bcrypt.hash("test", ident="2y")
+        self.user.cryptsum = bcrypt.using(ident="2y").hash("test")
         self.user.password = ""
         self.user.save()
 

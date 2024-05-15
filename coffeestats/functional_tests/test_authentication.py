@@ -70,7 +70,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         input_email.submit()
 
         # ... and is redirected to the landing page
-        self.assertRegexpMatches(self.selenium.current_url, r"/$")
+        self.assertRegex(self.selenium.current_url, r"/$")
 
         # ... and gets an email with an activation link
         self.assertEqual(len(mail.outbox), 1)
@@ -100,7 +100,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         password_field.send_keys(self.TEST_PASSWORD + Keys.ENTER)
 
         # ... and is redirected to the timezone selection page
-        self.assertRegexpMatches(
+        self.assertRegex(
             self.selenium.current_url, r"/selecttimezone/\?next=%2Fprofile%2F$"
         )
 
@@ -114,7 +114,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         submit_button.click()
 
         # and is redirected to the profile page
-        self.assertRegexpMatches(self.selenium.current_url, r"/profile/$")
+        self.assertRegex(self.selenium.current_url, r"/profile/$")
 
     def test_forget_password(self):
         self.register_user()
@@ -143,7 +143,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         ).click()
 
         # check the URL
-        self.assertRegexpMatches(self.selenium.current_url, r"/auth/password/reset/$")
+        self.assertRegex(self.selenium.current_url, r"/auth/password/reset/$")
         email_field = self.selenium.switch_to.active_element
         self.assertEqual(email_field.get_attribute("id"), "id_email")
         email_field.send_keys(self.TEST_EMAILADDRESS)
@@ -152,7 +152,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         submit_button = self.selenium.find_element(by=By.ID, value="submit")
         submit_button.click()
 
-        self.assertRegexpMatches(self.selenium.current_url, r"/password/reset/done/")
+        self.assertRegex(self.selenium.current_url, r"/password/reset/done/")
         self.assertIn(
             "We sent an email with a password reset link if any of our users"
             " has an account with the given email address.",
@@ -179,9 +179,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(pwfield2.get_attribute("id"), "id_new_password2")
         pwfield2.send_keys(self.TEST_PASSWORD + "new" + Keys.ENTER)
 
-        self.assertRegexpMatches(
-            self.selenium.current_url, r"/password/reset/complete/$"
-        )
+        self.assertRegex(self.selenium.current_url, r"/password/reset/complete/$")
 
         # login with the new password
         login_subnav = self.selenium.find_element(
@@ -198,4 +196,4 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         password_field.send_keys(self.TEST_PASSWORD + "new" + Keys.ENTER)
 
         # ... and is redirected to the profile
-        self.assertRegexpMatches(self.selenium.current_url, r"/profile/$")
+        self.assertRegex(self.selenium.current_url, r"/profile/$")

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles i18n %}
+{% load static i18n %}
 {% if form.non_field_errors %}
     {% block extra_system_flash %}
         {% for message in form.non_field_errors %}

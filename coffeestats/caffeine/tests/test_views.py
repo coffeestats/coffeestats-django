@@ -313,7 +313,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
         self.client.post("/auth/register/", data=self.TEST_POST_DATA)
         self.assertEqual(len(mail.outbox), 1)
         first_mail = mail.outbox[0]
-        self.assertEquals(first_mail.to, [self.TEST_POST_DATA["email"]])
+        self.assertEqual(first_mail.to, [self.TEST_POST_DATA["email"]])
         self.assertIn(
             reverse(
                 "django_registration_activate", kwargs={"activation_key": "abc"}
@@ -383,7 +383,7 @@ class SettingsViewTest(MessagesTestMixin, CaffeineViewTest):
             "login failed",
         )
         response = self.client.get("/settings/")
-        self.assertEquals(response.context["form"].instance, login_user)
+        self.assertEqual(response.context["form"].instance, login_user)
 
     def test_email_change_sends_email(self):
         login_user = self._create_testuser()

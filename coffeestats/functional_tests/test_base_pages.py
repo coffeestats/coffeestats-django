@@ -5,7 +5,6 @@ from .base import BaseCoffeeStatsPageTestMixin, SeleniumTest
 
 
 class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
-
     def test_check_homepage_elements(self):
         # Coffeejunkie has heard about coffeestats and wants to visit the
         # homepage
@@ -34,9 +33,7 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
         # nav contains Register and Login
         register_link = nav.find_element(by=By.LINK_TEXT, value="Register")
-        self.assertRegexpMatches(
-            register_link.get_attribute("href"), r"/auth/register/$"
-        )
+        self.assertRegex(register_link.get_attribute("href"), r"/auth/register/$")
 
         login_subnav = nav.find_element(by=By.TAG_NAME, value="span")
         action_chain = ActionChains(self.selenium)
@@ -69,9 +66,7 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         pwreset_link = login_box.find_element(
             by=By.LINK_TEXT, value="Forgot your password?"
         )
-        self.assertRegexpMatches(
-            pwreset_link.get_attribute("href"), r"/auth/password/reset/$"
-        )
+        self.assertRegex(pwreset_link.get_attribute("href"), r"/auth/password/reset/$")
 
         self.check_page_footer()
 
@@ -120,16 +115,13 @@ class BasicPageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
 
 class ProfilePageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
-
     def test_redirect_profile_for_anonymous(self):
         self.selenium.get(self.server_url + "/profile/")
 
         self.check_page_header()
 
         # He finds out that he was redirected to a login page
-        self.assertRegexpMatches(
-            self.selenium.current_url, r"/auth/login/\?next=/profile/$"
-        )
+        self.assertRegex(self.selenium.current_url, r"/auth/login/\?next=/profile/$")
 
         # there is a Login form in the page content
         content = self.selenium.find_element(by=By.ID, value="content")
@@ -139,8 +131,6 @@ class ProfilePageTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(login_button.get_attribute("value"), "Login")
 
         register_link = content.find_element(by=By.LINK_TEXT, value="Register")
-        self.assertRegexpMatches(
-            register_link.get_attribute("href"), r"/auth/register/$"
-        )
+        self.assertRegex(register_link.get_attribute("href"), r"/auth/register/$")
 
         self.check_page_footer()

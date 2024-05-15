@@ -108,7 +108,7 @@ class BaseCoffeeStatsPageTestMixin(object):
         self.check_page_header()
 
         # He finds out that he was redirected to the home page
-        self.assertRegexpMatches(self.selenium.current_url, r"/$")
+        self.assertRegex(self.selenium.current_url, r"/$")
 
         # there is a navigation in the page header
         header = self.selenium.find_element(by=By.ID, value="header")
@@ -119,7 +119,7 @@ class BaseCoffeeStatsPageTestMixin(object):
         register_link.click()
 
         # He finds out that he is now on the django_registration page
-        self.assertRegexpMatches(self.selenium.current_url, r"/auth/register/$")
+        self.assertRegex(self.selenium.current_url, r"/auth/register/$")
 
     def extract_link(self, data):
         match = simple_url_re.search(data)

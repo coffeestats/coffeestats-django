@@ -49,12 +49,10 @@ DEBUG = False
 
 # ######### MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (
-    ('Coffeestats Team', get_env_variable('COFFEESTATS_SITE_ADMINMAIL')),
-)
+ADMINS = (("Coffeestats Team", get_env_variable("COFFEESTATS_SITE_ADMINMAIL")),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
-DEFAULT_FROM_EMAIL = get_env_variable('COFFEESTATS_SITE_ADMINMAIL')
+DEFAULT_FROM_EMAIL = get_env_variable("COFFEESTATS_SITE_ADMINMAIL")
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -64,13 +62,13 @@ MANAGERS = ADMINS
 # ######### DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_env_variable('COFFEESTATS_PGSQL_DATABASE'),
-        'USER': get_env_variable('COFFEESTATS_PGSQL_USER'),
-        'PASSWORD': get_env_variable('COFFEESTATS_PGSQL_PASSWORD'),
-        'HOST': get_env_variable('COFFEESTATS_PGSQL_HOSTNAME'),
-        'PORT': get_env_variable('COFFEESTATS_PGSQL_PORT'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": get_env_variable("COFFEESTATS_PGSQL_DATABASE"),
+        "USER": get_env_variable("COFFEESTATS_PGSQL_USER"),
+        "PASSWORD": get_env_variable("COFFEESTATS_PGSQL_PASSWORD"),
+        "HOST": get_env_variable("COFFEESTATS_PGSQL_HOSTNAME"),
+        "PORT": get_env_variable("COFFEESTATS_PGSQL_PORT"),
     }
 }
 # ######### END DATABASE CONFIGURATION
@@ -78,15 +76,15 @@ DATABASES = {
 
 # ######### GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = 'Europe/Berlin'
+TIME_ZONE = "Europe/Berlin"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
-SITES_DOMAIN_NAME = get_env_variable('COFFEESTATS_DOMAIN_NAME')
-SITES_SITE_NAME = get_env_variable('COFFEESTATS_SITE_NAME')
+SITES_DOMAIN_NAME = get_env_variable("COFFEESTATS_DOMAIN_NAME")
+SITES_SITE_NAME = get_env_variable("COFFEESTATS_SITE_NAME")
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
@@ -101,29 +99,27 @@ USE_TZ = False
 
 # ######### MEDIA CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = normpath(join(SITE_ROOT, 'media'))
+MEDIA_ROOT = normpath(join(SITE_ROOT, "media"))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 # ######### END MEDIA CONFIGURATION
 
 
 # ######### STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = normpath(join(SITE_ROOT, 'assets'))
+STATIC_ROOT = normpath(join(SITE_ROOT, "assets"))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS  # noqa
-STATICFILES_DIRS = (
-    normpath(join(SITE_ROOT, 'static')),
-)
+STATICFILES_DIRS = (normpath(join(SITE_ROOT, "static")),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders  # noqa
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 # ######### END STATIC FILE CONFIGURATION
 
@@ -131,7 +127,7 @@ STATICFILES_FINDERS = (
 # ######### SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key should only be used for development and testing.
-SECRET_KEY = get_env_variable('COFFEESTATS_SITE_SECRET')
+SECRET_KEY = get_env_variable("COFFEESTATS_SITE_SECRET")
 # ######### END SECRET CONFIGURATION
 
 
@@ -144,9 +140,7 @@ ALLOWED_HOSTS = []
 
 # ######### FIXTURE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS  # noqa
-FIXTURE_DIRS = (
-    normpath(join(SITE_ROOT, 'fixtures')),
-)
+FIXTURE_DIRS = (normpath(join(SITE_ROOT, "fixtures")),)
 # ######### END FIXTURE CONFIGURATION
 
 
@@ -154,24 +148,24 @@ FIXTURE_DIRS = (
 # See: https://docs.djangoproject.com/en/1.9/ref/settings/#templates
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'DIRS': [normpath(join(SITE_ROOT, 'templates'))],
-        'OPTIONS': {
-            'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request',
-                'absolute.context_processors.absolute',
-                'caffeine.context_processors.mainnav',
-                'caffeine.context_processors.socialurls',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
+        "DIRS": [normpath(join(SITE_ROOT, "templates"))],
+        "OPTIONS": {
+            "context_processors": [
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.request",
+                "absolute.context_processors.absolute",
+                "caffeine.context_processors.mainnav",
+                "caffeine.context_processors.socialurls",
             ],
-        }
+        },
     },
 ]
 
@@ -179,70 +173,68 @@ TEMPLATES = [
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE = (
     # Default Django middleware.
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    "django.middleware.common.CommonMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     # uncomment next line to enable translation to browser locale
     # 'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # middleware to redirect user to set timezone
-    'caffeine.middleware.EnforceTimezoneMiddleware',
+    "caffeine.middleware.EnforceTimezoneMiddleware",
 )
 # ######### END MIDDLEWARE CONFIGURATION
 
 
 # ######### URL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = '%s.urls' % SITE_NAME
+ROOT_URLCONF = "%s.urls" % SITE_NAME
 # ######### END URL CONFIGURATION
 
 
 # ######### APP CONFIGURATION
 DJANGO_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.humanize',
-    'django.contrib.admin',
-
-    'oauth2_provider',
-    'rest_framework',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.humanize",
+    "django.contrib.admin",
+    "rest_framework",
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'django_registration',
-    'caffeine',
-    'caffeine_api_v1',
-    'caffeine_oauth2',
+    "django_registration",
+    "caffeine",
+    "caffeine_api_v1",
+    "caffeine_api_v2",
 )
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'caffeine.authbackend.LegacyCoffeestatsAuth',
+    "django.contrib.auth.backends.ModelBackend",
+    "caffeine.authbackend.LegacyCoffeestatsAuth",
 )
 
-LOGIN_URL = '/auth/login/'
-LOGIN_REDIRECT_URL = '/'
-AUTH_USER_MODEL = 'caffeine.User'
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/"
+AUTH_USER_MODEL = "caffeine.User"
 ACCOUNT_ACTIVATION_DAYS = 2
 EMAIL_CHANGE_ACTION_VALIDITY = 2
 MINIMUM_DRINK_DISTANCE = 5
-CAFFEINE_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-GOOGLE_PLUS_URL = 'https://plus.google.com/108309823073824027966'
-TWITTER_URL = 'https://twitter.com/coffeestats'
+CAFFEINE_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+GOOGLE_PLUS_URL = "https://plus.google.com/108309823073824027966"
+TWITTER_URL = "https://twitter.com/coffeestats"
 
 MESSAGE_TAGS = {
-    message_constants.DEBUG: 'flash-debug',
-    message_constants.INFO: 'flash-info',
-    message_constants.SUCCESS: 'flash-success',
-    message_constants.WARNING: 'flash-warning',
-    message_constants.ERROR: 'flash-error',
+    message_constants.DEBUG: "flash-debug",
+    message_constants.INFO: "flash-info",
+    message_constants.SUCCESS: "flash-success",
+    message_constants.WARNING: "flash-warning",
+    message_constants.ERROR: "flash-error",
 }
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -252,43 +244,18 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
 # ######### REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
-    'PAGINATE_BY': 10
+    "PAGINATE_BY": 10,
 }
 
 # ######### END REST FRAMEWORK CONFIGURATION
 
-
-# ######### OAUTH2 settings
-# this setting is required to make oauth2_provider work
-OAUTH2_PROVIDER_APPLICATION_MODEL = 'caffeine_oauth2.CoffeestatsApplication'
-OAUTH2_PROVIDER = {
-    'OAUTH2_SERVER_CLASS': 'caffeine_oauth2.oauth2_server.CoffeestatsServer',
-    # list of allowed URI schemes for redirect URIs
-    'ALLOWED_REDIRECT_URI_SCHEMES': [
-        'http',
-        'https',
-        'org.coffeestats.android',
-        'org.coffeestats.cli',
-        'org.coffeestats.ios',
-    ],
-    # the list of available scopes
-    'SCOPES': {
-        'read': _('Read your caffeine consumption'),
-        'write': _('Add and modify your caffeine consumption'),
-        # 'openid': _('Get information about you'),
-    },
-    'DEFAULT_SCOPES': ['read', 'write'],
-}
-# ######### END OAUTH2 settings
-
-API_USAGE_AGREEMENT = '/api/v2/agreement/'
+API_USAGE_AGREEMENT = "/api/v2/agreement/"
 
 # ######### LOGGING CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
@@ -298,48 +265,44 @@ API_USAGE_AGREEMENT = '/api/v2/agreement/'
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {
-            'format': '%(levelname)s %(message)s',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "%(levelname)s %(message)s",
         },
     },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
         },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
         },
-        'caffeine': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-        }
-    }
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "caffeine": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+        },
+    },
 }
 # ######### END LOGGING CONFIGURATION
 
 
 # ######### WSGI CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
+WSGI_APPLICATION = "%s.wsgi.application" % SITE_NAME
 # ######### END WSGI CONFIGURATION
 
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+TEST_RUNNER = "django.test.runner.DiscoverRunner"

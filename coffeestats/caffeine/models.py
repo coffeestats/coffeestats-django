@@ -638,7 +638,7 @@ class Caffeine(models.Model):
     """
 
     ctype = models.PositiveSmallIntegerField(choices=DRINK_TYPES, db_index=True)
-    user = models.ForeignKey("User", models.PROTECT, related_name="caffeines")
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="caffeines")
     date = models.DateTimeField(_("consumed"), db_index=True)
     entrytime = AutoCreatedField(_("entered"), db_index=True)
     timezone = models.CharField(max_length=40, db_index=True, blank=True)
@@ -709,7 +709,7 @@ class Action(models.Model):
 
     """
 
-    user = models.ForeignKey("User", models.PROTECT)
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     code = models.CharField(_("action code"), max_length=32, unique=True)
     created = AutoCreatedField(_("created"))
     validuntil = models.DateTimeField(_("valid until"), db_index=True)

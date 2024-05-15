@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
 
 import csv
-from io import StringIO
 from calendar import monthrange
 from datetime import timedelta
 from hashlib import md5
+from io import StringIO
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -13,7 +13,7 @@ from django.core.mail import EmailMessage
 from django.db import connection, models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from model_utils import Choices
 from model_utils.fields import AutoCreatedField
 

@@ -1,11 +1,8 @@
-from django.conf.urls import url
+from django.urls import re_path
 
-from .views import (
-    add_drink,
-    random_users,
-)
+from .views import add_drink, random_users
 
 urlpatterns = [
-    url(r'random-users$', random_users, name='random_users'),
-    url(r'add-drink$', add_drink, name='add_drink'),
+    re_path(r"random-users$", random_users, name="random_users"),
+    re_path(r"add-drink$", add_drink, name="add_drink"),
 ]

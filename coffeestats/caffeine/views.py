@@ -3,26 +3,15 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import (
-    HttpResponseRedirect,
-)
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_GET
-from django.views.generic import (
-    RedirectView,
-    TemplateView,
-    View,
-)
+from django.views.generic import RedirectView, TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import (
-    BaseFormView,
-    DeleteView,
-    FormView,
-    UpdateView,
-)
+from django.views.generic.edit import BaseFormView, DeleteView, FormView, UpdateView
 from django_registration.backends.activation.views import (
     ActivationView,
     RegistrationView,
@@ -30,19 +19,14 @@ from django_registration.backends.activation.views import (
 from pytz import common_timezones
 
 from core.utils import json_response
+
 from .forms import (
     CoffeestatsRegistrationForm,
     SelectTimeZoneForm,
     SettingsForm,
     SubmitCaffeineForm,
 )
-from .models import (
-    ACTION_TYPES,
-    Action,
-    Caffeine,
-    DRINK_TYPES,
-    User,
-)
+from .models import ACTION_TYPES, DRINK_TYPES, Action, Caffeine, User
 
 ACTIVATION_SUCCESS_MESSAGE = _("Your account has been activated successfully.")
 DELETE_ACCOUNT_MESSAGE = _(

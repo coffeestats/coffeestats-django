@@ -2,13 +2,12 @@
 # pymode:lint_ignore=E501
 """Common settings and globals."""
 
+import os
+from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
-import os
 from django.contrib.messages import constants as message_constants
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext_lazy as _
-from os.path import abspath, basename, dirname, join, normpath
 
 
 def get_env_variable(var_name, default=None):
@@ -306,3 +305,4 @@ WSGI_APPLICATION = "%s.wsgi.application" % SITE_NAME
 # ######### END WSGI CONFIGURATION
 
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

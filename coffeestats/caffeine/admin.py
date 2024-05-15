@@ -2,18 +2,14 @@
 Django admin classes for the caffeine app.
 
 """
-from django import forms
-from django.utils.translation import ugettext as _
 
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.utils.translation import gettext as _
 
-from .models import (
-    Action,
-    Caffeine,
-    User,
-)
+from .models import Action, Caffeine, User
 
 PASSWORD_MISMATCH_ERROR = _("Passwords don't match")
 
@@ -24,22 +20,21 @@ class UserCreationForm(forms.ModelForm):
     repeated password.
 
     """
-    password1 = forms.CharField(label=_('Password'),
-                                widget=forms.PasswordInput)
-    password2 = forms.CharField(label=_('Password (again)'),
-                                widget=forms.PasswordInput)
+
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password2 = forms.CharField(label=_("Password (again)"), widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ("username", "email")
 
     def clean_password2(self):
         """
         Check that the two password entries match.
 
         """
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError(PASSWORD_MISMATCH_ERROR)
         return password2
@@ -50,7 +45,7 @@ class UserCreationForm(forms.ModelForm):
 
         """
         user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password1'])
+        user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
@@ -62,41 +57,56 @@ class UserChangeForm(forms.ModelForm):
     replaces the password field with admin's password hash display field.
 
     """
+
     password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'first_name', 'last_name', 'location',
-                  'timezone', 'is_superuser', 'is_staff', 'is_active')
+        fields = (
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+            "location",
+            "timezone",
+            "is_superuser",
+            "is_staff",
+            "is_active",
+        )
 
     def clean_password(self):
-        return self.initial['password']
+        return self.initial["password"]
 
 
 class CaffeineUserAdmin(UserAdmin):
     """
     Custom admin page for users.
     """
+
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
-    list_filter = ('is_staff',)
+    list_display = ("username", "email", "first_name", "last_name", "is_staff")
+    list_filter = ("is_staff",)
     fieldsets = (
-        (None, {
-            'fields': ('username', 'email', 'password')}),
-        (_('Personal info'), {
-            'fields': ('first_name', 'last_name', 'location')}),
-        (_('Permissions'), {
-            'fields': ('is_superuser', 'is_staff', 'is_active', 'public')}),
+        (None, {"fields": ("username", "email", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "location")}),
+        (
+            _("Permissions"),
+            {"fields": ("is_superuser", "is_staff", "is_active", "public")},
+        ),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2')}),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("username", "email", "password1", "password2"),
+            },
+        ),
     )
-    search_fields = ('username', 'email')
-    ordering = ('username', 'email')
+    search_fields = ("username", "email")
+    ordering = ("username", "email")
     filter_horizontal = ()
 
 

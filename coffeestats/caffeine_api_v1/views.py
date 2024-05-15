@@ -2,22 +2,15 @@ import json
 from datetime import datetime, timedelta
 from functools import wraps
 
-from django.http import (
-    HttpResponseBadRequest,
-    HttpResponseForbidden,
-)
+from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.urls import reverse
-from django.views.decorators.http import require_POST
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.translation import ugettext as _
-
-from core.utils import json_response
+from django.views.decorators.http import require_POST
 
 from caffeine.forms import SubmitCaffeineForm
-from caffeine.models import (
-    DRINK_TYPES,
-    User,
-)
+from caffeine.models import DRINK_TYPES, User
+from core.utils import json_response
 
 API_ERROR_AUTH_REQUIRED = _("API operation requires authentication")
 API_ERROR_FUTURE_DATETIME = _("You can not enter dates in the future!")

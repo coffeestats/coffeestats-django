@@ -1,3 +1,5 @@
+import zoneinfo
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -16,7 +18,6 @@ from django_registration.backends.activation.views import (
     ActivationView,
     RegistrationView,
 )
-from pytz import common_timezones
 
 from core.utils import json_response
 
@@ -416,7 +417,7 @@ class SelectTimeZoneView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(SelectTimeZoneView, self).get_context_data(**kwargs)
-        context.update({"tzlist": common_timezones})
+        context.update({"tzlist": zoneinfo.available_timezones()})
         return context
 
     def form_valid(self, form):

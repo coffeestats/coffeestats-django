@@ -9,7 +9,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = "<3.3"
+django = "<4.1"
 djangorestframework = "*"
 drf-nested-routers = "*"
 django-registration = "<3.3"

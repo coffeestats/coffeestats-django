@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
@@ -55,12 +54,10 @@ def mainnav(request):
         settingschildren.extend(
             [
                 SubNavItem(reverse("about"), _("About")),
-                SubNavItem(
-                    settings.GOOGLE_PLUS_URL, _("Google+"), rel="publisher"
-                ),
-                SubNavItem(settings.TWITTER_URL, _("Twitter")),
                 SubNavItem(reverse("settings"), _("Settings")),
-                SubNavItem(reverse("auth_logout"), _("Logout"), "btn", nav_type="submit"),
+                SubNavItem(
+                    reverse("auth_logout"), _("Logout"), "btn", nav_type="submit"
+                ),
             ]
         )
 
@@ -70,12 +67,3 @@ def mainnav(request):
         navitems.append(settingsnav)
         retval["navitems"] = navitems
     return retval
-
-
-def socialurls(request):
-    return {
-        "social": {
-            "googleplus": settings.GOOGLE_PLUS_URL,
-            "twitter": settings.TWITTER_URL,
-        }
-    }

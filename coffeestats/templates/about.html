@@ -13,11 +13,11 @@
     <li>{% blocktrans %}<a href="http://picjumbo.com/girl-with-watches-typing-on-macbook/">Backgroundimage Landingpage</a> by <a href="https://twitter.com/viktorhanacek">Viktor Hanacek</a>{% endblocktrans %}</li>
     <li>{% blocktrans %}<a href="http://picjumbo.com/cafe-workspace-with-diary/">Backgroundimage Profilepage</a> by <a href="http://inspirationfeed.com">inspirationfeed.com</a>{% endblocktrans %}</li>
   </ul>
-  <p>{% blocktrans %}Follow us on <a href="https://twitter.com/coffeestats">Twitter</a> or <a href="http://www.facebook.com/pages/coffeestatsorg/135455386573798?sk=info">Facebook</a>! (We won't keep you from clicking "I like" either!){% endblocktrans %}</p>
 </div>
 <div class="white-box">
   <h2>{% trans "Changelog" %}</h2>
   <ul>
+    <li>{% trans "2024-05-15 Update dependencies, remove broken social links, remove unused OAuth2 code" %}</li>
     <li>{% trans "2018-05-20 Remove piwik integration" %}</li>
     <li>{% trans "2016-09-16 Update to Django 1.9.9 and latest versions of other Dependencies" %}"</li>
     <li>{% trans "2016-01-16 Update to Django 1.9 and latest versions of other Dependencies" %}</li>
@@ -58,23 +58,5 @@
     <a href="https://github.com/coffeestats/coffeestats-django/issues">share your ideas or report bugs</a>!{% endblocktrans %}</p>
   <p>{% blocktrans %}Development / deployment documentation is at <a href="https://coffeestats.readthedocs.org">coffeestats.readthedocs.org</a>{% endblocktrans %}</p>
   <p>{% blocktrans %}Or show some love &lt;3{% endblocktrans %}</p>
-  <p><div id='fb1dxpt'></div></p>
 </div>
 {% endblock content %}
-{% block extra_js %}
-<script type="text/javascript">
-function flattr_iframe(elementid) {
-  var f, s=document.getElementById(elementid);
-  f=document.createElement('iframe');
-  f.src='//api.flattr.com/button/view/?uid=noqqe&title=coffeestats.org&url=https%3A%2F%2Fcoffeestats.org';
-  f.title='Flattr';
-  f.height=62;
-  f.width=55;
-  f.style.borderWidth=0;
-  s.parentNode.insertBefore(f, s);
-}
-$(document).ready(function() {
-  flattr_iframe('fb1dxpt');
-});
-</script>
-{% endblock extra_js %}

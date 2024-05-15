@@ -159,7 +159,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "absolute.context_processors.absolute",
                 "caffeine.context_processors.mainnav",
-                "caffeine.context_processors.socialurls",
             ],
         },
     },
@@ -222,8 +221,6 @@ ACCOUNT_ACTIVATION_DAYS = 2
 EMAIL_CHANGE_ACTION_VALIDITY = 2
 MINIMUM_DRINK_DISTANCE = 5
 CAFFEINE_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-GOOGLE_PLUS_URL = "https://plus.google.com/108309823073824027966"
-TWITTER_URL = "https://twitter.com/coffeestats"
 
 MESSAGE_TAGS = {
     message_constants.DEBUG: "flash-debug",

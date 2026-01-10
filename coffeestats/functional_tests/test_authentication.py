@@ -4,6 +4,7 @@ from django.core import mail
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from .base import BaseCoffeeStatsPageTestMixin, SeleniumTest
@@ -89,7 +90,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
 
         self.selenium.find_element(By.ID, "activate_button").click()
 
-        self.selenium.implicitly_wait(2)
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/".format(self.server_url)))
 
         content = self.selenium.find_element(by=By.CSS_SELECTOR, value="body")
         self.assertIn("Your account has been activated successfully.", content.text)
@@ -144,7 +146,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # ... and logout
         self.selenium.find_element(by=By.CSS_SELECTOR, value="input.btn[value='Logout']").click()
 
-        time.sleep(1)
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/".format(self.server_url)))
 
         # find the login form and click the forgot password link
         login_subnav = self.selenium.find_element(
@@ -156,8 +159,10 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
             by=By.LINK_TEXT, value="Forgot your password?"
         ).click()
 
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/auth/password/reset/".format(self.server_url)))
+
         # check the URL
-        self.assertRegex(self.selenium.current_url, r"/auth/password/reset/$")
         email_field = self.selenium.switch_to.active_element
         self.assertEqual(email_field.get_attribute("id"), "id_email")
         email_field.send_keys(self.TEST_EMAIL_ADDRESS)
@@ -166,7 +171,9 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         submit_button = self.selenium.find_element(by=By.ID, value="submit")
         submit_button.click()
 
-        self.assertRegex(self.selenium.current_url, r"/password/reset/done/")
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/password/reset/done/".format(self.server_url)))
+
         self.assertIn(
             "We sent an email with a password reset link if any of our users"
             " has an account with the given email address.",
@@ -193,7 +200,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertEqual(pwfield2.get_attribute("id"), "id_new_password2")
         pwfield2.send_keys(self.TEST_PASSWORD + "new" + Keys.ENTER)
 
-        self.assertRegex(self.selenium.current_url, r"/password/reset/complete/$")
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/password/reset/complete/".format(self.server_url)))
 
         # login with the new password
         login_subnav = self.selenium.find_element(

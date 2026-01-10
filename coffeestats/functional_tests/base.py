@@ -2,6 +2,7 @@ import re
 import sys
 import time
 from datetime import datetime
+from urllib import parse
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core import mail
@@ -10,8 +11,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from urllib import parse
-
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 simple_url_re = re.compile(
@@ -110,7 +110,8 @@ class BaseCoffeeStatsPageTestMixin(object):
         self.check_page_header()
 
         # He finds out that he was redirected to the home page
-        self.assertRegex(self.selenium.current_url, r"/$")
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/".format(self.server_url)))
 
         # there is a navigation in the page header
         header = self.selenium.find_element(by=By.ID, value="header")
@@ -121,7 +122,8 @@ class BaseCoffeeStatsPageTestMixin(object):
         register_link.click()
 
         # He finds out that he is now on the django_registration page
-        self.assertRegex(self.selenium.current_url, r"/auth/register/$")
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.url_to_be("{}/auth/register/".format(self.server_url)))
 
     def extract_link(self, data):
         match = simple_url_re.search(data)
@@ -134,6 +136,9 @@ class BaseCoffeeStatsPageTestMixin(object):
 
     def register_user(self):
         self.navigate_to_register_page()
+
+        wait = WebDriverWait(self.selenium, 2)
+        wait.until(EC.visibility_of_element_located((By.ID, "id_username")))
 
         input_username = self.selenium.switch_to.active_element
         input_username.send_keys(self.TEST_USERNAME + Keys.TAB)
@@ -149,7 +154,8 @@ class BaseCoffeeStatsPageTestMixin(object):
 
         input_email.submit()
 
-        time.sleep(1)
+        wait = WebDriverWait(self.selenium, 5)
+        wait.until(EC.url_to_be("{}/".format(self.server_url)))
 
         self.assertEqual(len(mail.outbox), 1)
         activation_link = self.extract_link(mail.outbox[0].body)

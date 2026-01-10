@@ -16,6 +16,10 @@ services:
       - "15432:5432"
     healthcheck:
       test: ["CMD", "su", "postgres", "-c", "pg_isready"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
   mailpit:
     image: docker.io/axllent/mailpit:v1.28
     environment:
@@ -28,6 +32,12 @@ services:
       - "8025:8025"
     volumes:
       - "mp_data:/data"
+    healthcheck:
+      test: ["CMD", "grep", "-q", "1F59", "/proc/1/net/tcp6"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
   app:
     build:
       context: .
@@ -52,7 +62,7 @@ services:
       db:
         condition: service_healthy
       mailpit:
-        condition: service_started
+        condition: service_healthy
     tmpfs:
       - "/run"
     volumes:
@@ -61,16 +71,27 @@ services:
       - "rundir:/run/coffeestats"
     healthcheck:
       test: ["CMD", "test", "-S", "/run/coffeestats/coffeestats.sock"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
   reverse_proxy:
     image: docker.io/library/nginx:1.18
     depends_on:
-      - app
+      app:
+        condition: service_healthy
     ports:
       - "8080:80"
     volumes:
       - "assets:/var/www/static:ro"
       - "rundir:/run/coffeestats"
       - "./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro"
+    healthcheck:
+      test: ["CMD", "curl", "--user-agent", "curl health check", "--head", "--silent", "--fail", "http://localhost:80/"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
 volumes:
   assets:

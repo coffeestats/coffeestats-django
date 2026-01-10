@@ -10,7 +10,7 @@ REST API version 1.0
 Coffeestats provides a small REST API to be used by third party applications.
 The API is described with some example `curl`_ calls below.
 
-.. _curl: http://curl.haxx.se/
+.. _curl: https://curl.haxx.se/
 
 
 Base URI

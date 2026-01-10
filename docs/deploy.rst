@@ -2,33 +2,39 @@
 Deployment
 **********
 
-Salt states
-===========
-
-The live deployment for https://coffeestats.org/ is done using `Salt states`_.
-The setup is similar to the setup described in
-`salt/roots/salt/coffeestats <https://github.com/coffeestats/coffeestats-django/tree/master/salt/roots/salt/coffeestats>`_.
-
-.. _Salt states: http://docs.saltstack.com/en/latest/ref/states/index.html
-
 Manual deployment
 =================
 
 You have to setup a WSGI capable web server. We recommend to use `uwsgi`_ and
-`nginx`_. You should use `virtualenv`_ to isolate the application code and its
-dependencies from the rest of your system.
+`nginx`_. We use `uv`_ for dependency management and to isolate the application
+code and its dependencies from the rest of your system.
 
-.. _uwsgi: http://uwsgi-docs.readthedocs.org/en/latest/
-.. _nginx: http://nginx.org/
-.. _virtualenv: https://virtualenv.pypa.io/en/latest/
+.. _uwsgi: https://uwsgi-docs.readthedocs.org/en/latest/
+.. _nginx: https://nginx.org/
+.. _uv: https://docs.astral.sh/uv/
+
+
+Containers
+----------
+
+We provide a `docker-compose`_ setup in :file:`docker-compose.yml` and a
+production ready :file:`coffeestats/Dockerfile` including `gunicorn`_ as WSGI
+server. You may use this with Docker or `podman`_ to run coffeestats behind a
+reverse proxy. An example using `nginx`_ is included in the docker-compose
+example.
+
+.. _docker-compose: https://docs.docker.com/compose/
+.. _gunicorn: https://gunicorn.org/
+.. _podman: https://podman.io/
+
 
 Requirements
 ------------
 
 The following preconditions have to be fulfilled for a manual deployment:
 
-* `Python`_ 2.7.x
-* `PostgreSQL`_ >= 9.1
+* `Python`_ >= 3.11.x
+* `PostgreSQL`_ >= 11
 * a WSGI capable web server
 
 .. _Python: https://www.python.org/
@@ -42,4 +48,4 @@ We use Django's ORM and you can simply setup your database using:
 
 .. code-block:: sh
 
-   python manage.py syncdb --migrate
+   python manage.py migrate

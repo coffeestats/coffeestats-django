@@ -27,3 +27,7 @@ dev = [
     "ruff>=0.6.3",
     "selenium>=4.24.0",
 ]
+docs = [
+    "sphinx>=9.0.4",
+    "sphinxcontrib-httpdomain>=1.8.1",
+]

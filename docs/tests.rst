@@ -9,13 +9,13 @@ When all test requirements are met you can run all tests using:
 .. code-block:: sh
 
    cd coffeestats
-   poetry run coverage run --branch manage.py test
+   uv run coverage run --branch manage.py test
 
 You can get a coverage report with:
 
 .. code-block:: sh
 
-   poetry run coverage report -m
+   uv run coverage report -m
 
 .. note::
    The functional tests in the :file:`coffeestats/functional_tests` directory

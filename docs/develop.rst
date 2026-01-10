@@ -89,11 +89,9 @@ Directory structure
       directory containing the `Sphinx`_ documentation source
 
 
-.. _Selenium: http://www.seleniumhq.org/
-.. _Sphinx: http://sphinx-doc.org/
-.. _pip: https://pip.pypa.io/en/latest/
-.. _Sass: http://sass-lang.com/
-
+.. _Selenium: https://www.seleniumhq.org/
+.. _Sphinx: https://sphinx-doc.org/
+.. _Sass: https://sass-lang.com/
 
 .. index:: Sass
 
@@ -115,6 +113,8 @@ On other systems with a Ruby Gems installation you can run:
 .. code-block:: sh
 
    gem install sass
+
+.. todo:: migrate to dart-sass
 
 During development you can continuosly run :program:`sass` to generate the
 :file:`coffeestats/static/css/caffeine.css`:

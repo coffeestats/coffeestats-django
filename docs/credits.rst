@@ -3,7 +3,7 @@ Credits
 
 Coffeestats was originally implemented in PHP by `Florian Baumann`_ and others,
 the code base got some major improvements by `Jan Dittberner`_ in 2013 but
-still used PHP. `Jeremias Arnstadt`_ contributed `SASS`_ based styling and
+still used PHP. Jeremias Arnstadt contributed `SASS`_ based styling and
 general design improvements.
 
 In November 2013 Florian released the coffeestats PHP code under the
@@ -17,15 +17,14 @@ reimplementation of Coffeestats in `Django`_. Jeremias did a complete redesign
 and the new site went live on 20th of June 2014 on one of Jan's Debian
 GNU/Linux machines.
 
-.. _Chemnitzer-Linux Tage 2014: http://chemnitzer.linux-tage.de/2014/de/info/
+.. _Chemnitzer-Linux Tage 2014: https://chemnitzer.linux-tage.de/2014/de/info/
 .. _Clemens Lang: https://neverpanic.de/
 .. _Django: https://www.djangoproject.com/
-.. _Florian Baumann: http://noqqe.de/
+.. _Florian Baumann: https://noqqe.de/
 .. _Github: https://github.com/coffeestats/coffeestats/
 .. _Jan Dittberner: https://jan.dittberner.info/
-.. _Jeremias Arnstadt: http://www.art-ifact.de/
-.. _OpenBSD: http://www.openbsd.org/
-.. _SASS: http://sass-lang.com/
+.. _OpenBSD: https://www.openbsd.org/
+.. _SASS: https://sass-lang.com/
 
 
 Contributors

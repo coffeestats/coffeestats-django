@@ -1,8 +1,6 @@
 ARG DEBIAN_RELEASE=bookworm
-ARG UV_VERSION=0.9.24
 
 FROM debian:${DEBIAN_RELEASE}-slim AS builder
-ARG UV_VERSION
 
 RUN DEBIAN_FRONTEND=noninteractive \
   ; apt-get update \
@@ -19,7 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 COPY pyproject.toml uv.lock /srv/coffeestats/
 WORKDIR /srv/coffeestats
-RUN --mount=from=ghcr.io/astral-sh/uv:$UV_VERSION,source=/uv,target=/bin/uv \
+RUN --mount=from=ghcr.io/astral-sh/uv:0.9.24,source=/uv,target=/bin/uv \
     uv sync --no-dev --no-python-downloads --locked --compile-bytecode ; rm -rf /root/.cache /tmp/uv-*.lock
 
 FROM debian:${DEBIAN_RELEASE}-slim
@@ -27,6 +25,7 @@ FROM debian:${DEBIAN_RELEASE}-slim
 RUN DEBIAN_FRONTEND=noninteractive \
   ; apt-get update \
   && apt-get install -y --no-install-recommends \
+    ca-certificates \
     gettext \
     libffi8 \
     libjpeg62-turbo \

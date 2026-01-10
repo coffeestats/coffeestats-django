@@ -4,8 +4,15 @@
     <div class="white-box fullWidth">
     <form method="post">
         {% csrf_token %}
-        {{ form.activation_key }}
-        <button type="submit">{% translate "Activate my account" %}</button>
+        <div>
+            {{ form.activation_key.label_tag }}
+            <div class="helptext" id="{{ form.activation_key.auto_id }}_helptext">
+                {{ form.activation_key.help_text|safe }}
+            </div>
+            {{ form.activation_key.errors }}
+            {{ form.activation_key }}
+        </div>
+        <button id="activate_button" type="submit">{% translate "Activate my account" %}</button>
     </form>
         {% if activation_error %}
             {{ activation_error }}

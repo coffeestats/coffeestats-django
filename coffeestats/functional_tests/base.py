@@ -1,5 +1,6 @@
 import re
 import sys
+import time
 from datetime import datetime
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -10,6 +11,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from urllib import parse
+
+from selenium.webdriver.support.wait import WebDriverWait
 
 simple_url_re = re.compile(
     r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
@@ -49,7 +52,7 @@ class SeleniumTest(StaticLiveServerTestCase):
 class BaseCoffeeStatsPageTestMixin(object):
     TEST_USERNAME = "coffeejunkie"
     TEST_PASSWORD = "g3h31m!1elf!!"
-    TEST_EMAILADDRESS = "coffeejunkie@example.org"
+    TEST_EMAIL_ADDRESS = "coffeejunkie@example.org"
 
     def check_page_header(self):
         # The caffeine junkie sees that the page title mention coffeestats and
@@ -88,8 +91,7 @@ class BaseCoffeeStatsPageTestMixin(object):
         expected_footer_links = [
             ("coffeestats.org", "{}/".format(self.server_url)),
             ("Jan Dittberner", "https://jan.dittberner.info/"),
-            ("Jeremias Arnstadt", "http://www.art-ifact.de/"),
-            ("Florian Baumann", "http://noqqe.de/"),
+            ("Florian Baumann", "https://noqqe.de/"),
             ("Imprint", "{}/imprint/".format(self.server_url)),
         ]
 
@@ -125,10 +127,10 @@ class BaseCoffeeStatsPageTestMixin(object):
         match = simple_url_re.search(data)
         if not match:
             self.fail("no link found")
-        urlparts = list(parse.urlsplit(match.group(0)))
-        urlparts[:2] = ["", ""]
-        urlremainder = parse.urlunsplit(urlparts)
-        return parse.urljoin(self.server_url, urlremainder)
+        url_parts = list(parse.urlsplit(match.group(0)))
+        url_parts[:2] = ["", ""]
+        url_remainder = parse.urlunsplit(url_parts)
+        return parse.urljoin(self.server_url, url_remainder)
 
     def register_user(self):
         self.navigate_to_register_page()
@@ -143,14 +145,21 @@ class BaseCoffeeStatsPageTestMixin(object):
         input_password2.send_keys(self.TEST_PASSWORD + Keys.TAB)
 
         input_email = self.selenium.switch_to.active_element
-        input_email.send_keys(self.TEST_EMAILADDRESS)
+        input_email.send_keys(self.TEST_EMAIL_ADDRESS)
 
         input_email.submit()
+
+        time.sleep(1)
 
         self.assertEqual(len(mail.outbox), 1)
         activation_link = self.extract_link(mail.outbox[0].body)
 
         self.selenium.get(activation_link)
+
+        button_activate = self.selenium.find_element(By.ID, value="activate_button")
+        button_activate.click()
+
+        time.sleep(1)
 
         header = self.selenium.find_element(by=By.ID, value="header")
         nav = header.find_element(by=By.TAG_NAME, value="nav")

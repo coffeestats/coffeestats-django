@@ -261,8 +261,11 @@ class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
         user = self._create_testuser(is_active=False)
         activation_key = CaffeineRegistrationView().get_activation_key(user)
         response = self.client.get(
-            "/auth/activate/{}/".format(activation_key), follow=True
+            "/auth/activate/?activation_key={}".format(activation_key), follow=True
         )
+        self.assertTemplateUsed(response, "django_registration/activation_form.html")
+
+        response = self.client.post("/auth/activate/", data={"activation_key": activation_key})
         self.assertRedirects(response, "/")
         self.assertIsNotNone(user.token)
         self.assertNotEqual(user.token, "")
@@ -271,8 +274,11 @@ class CaffeineActivationViewTest(MessagesTestMixin, CaffeineViewTest):
         user = self._create_testuser(is_active=False)
         activation_key = CaffeineRegistrationView().get_activation_key(user)
         response = self.client.get(
-            "/auth/activate/{}/".format(activation_key), follow=True
+            "/auth/activate/?activation_key={}".format(activation_key), follow=True
         )
+        self.assertTemplateUsed(response, "django_registration/activation_form.html")
+
+        response = self.client.post("/auth/activate/", data={"activation_key": activation_key}, follow=True)
         self.assertMessageCount(response, 1)
         self.assertMessageContains(response, ACTIVATION_SUCCESS_MESSAGE)
 
@@ -315,9 +321,7 @@ class CaffeineRegistrationViewTest(MessagesTestMixin, CaffeineViewTest):
         first_mail = mail.outbox[0]
         self.assertEqual(first_mail.to, [self.TEST_POST_DATA["email"]])
         self.assertIn(
-            reverse(
-                "django_registration_activate", kwargs={"activation_key": "abc"}
-            ).rsplit("/", maxsplit=2)[0],
+            reverse("django_registration_activate"),
             first_mail.body,
         )
 

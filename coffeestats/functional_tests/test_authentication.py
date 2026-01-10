@@ -1,7 +1,10 @@
+import time
+
 from django.core import mail
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
 
 from .base import BaseCoffeeStatsPageTestMixin, SeleniumTest
 
@@ -64,7 +67,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         input_password2.send_keys(self.TEST_PASSWORD + Keys.TAB)
 
         input_email = self.selenium.switch_to.active_element
-        input_email.send_keys(self.TEST_EMAILADDRESS)
+        input_email.send_keys(self.TEST_EMAIL_ADDRESS)
 
         # he submits the form
         input_email.submit()
@@ -72,15 +75,21 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # ... and is redirected to the landing page
         self.assertRegex(self.selenium.current_url, r"/$")
 
+        time.sleep(1)
+
         # ... and gets an email with an activation link
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("Please activate your account", mail.outbox[0].subject)
-        self.assertIn(self.TEST_EMAILADDRESS, mail.outbox[0].to)
+        self.assertIn(self.TEST_EMAIL_ADDRESS, mail.outbox[0].to)
 
         activation_link = self.extract_link(mail.outbox[0].body)
 
         # he opens the activation link
         self.selenium.get(activation_link)
+
+        self.selenium.find_element(By.ID, "activate_button").click()
+
+        self.selenium.implicitly_wait(2)
 
         content = self.selenium.find_element(by=By.CSS_SELECTOR, value="body")
         self.assertIn("Your account has been activated successfully.", content.text)
@@ -98,6 +107,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         password_field = self.selenium.switch_to.active_element
         self.assertEqual(password_field.get_attribute("id"), "id_login_password")
         password_field.send_keys(self.TEST_PASSWORD + Keys.ENTER)
+
+        time.sleep(1)
 
         # ... and is redirected to the timezone selection page
         self.assertRegex(
@@ -117,6 +128,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertRegex(self.selenium.current_url, r"/profile/$")
 
     def test_forget_password(self):
+        self.selenium.implicitly_wait(2)
         self.register_user()
 
         # find the logout link
@@ -132,6 +144,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         # ... and logout
         self.selenium.find_element(by=By.CSS_SELECTOR, value="input.btn[value='Logout']").click()
 
+        time.sleep(1)
+
         # find the login form and click the forgot password link
         login_subnav = self.selenium.find_element(
             by=By.CSS_SELECTOR, value="#header nav ul > li > span"
@@ -146,7 +160,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         self.assertRegex(self.selenium.current_url, r"/auth/password/reset/$")
         email_field = self.selenium.switch_to.active_element
         self.assertEqual(email_field.get_attribute("id"), "id_email")
-        email_field.send_keys(self.TEST_EMAILADDRESS)
+        email_field.send_keys(self.TEST_EMAIL_ADDRESS)
 
         # submits the form
         submit_button = self.selenium.find_element(by=By.ID, value="submit")
@@ -160,7 +174,7 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         )
 
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(self.TEST_EMAILADDRESS, mail.outbox[0].to)
+        self.assertIn(self.TEST_EMAIL_ADDRESS, mail.outbox[0].to)
 
         reset_pw_link = self.extract_link(mail.outbox[0].body)
         self.selenium.get(reset_pw_link)
@@ -194,6 +208,8 @@ class RegisterUserTest(BaseCoffeeStatsPageTestMixin, SeleniumTest):
         password_field = self.selenium.switch_to.active_element
         self.assertEqual(password_field.get_attribute("id"), "id_login_password")
         password_field.send_keys(self.TEST_PASSWORD + "new" + Keys.ENTER)
+
+        time.sleep(1)
 
         # ... and is redirected to the profile
         self.assertRegex(self.selenium.current_url, r"/profile/$")

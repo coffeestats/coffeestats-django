@@ -28,13 +28,6 @@
       <a class="btn secondary left" href="{% url "ontherun" username=profileuser.username token=profileuser.token %}">{% trans "on-the-run" %}</a>
       {% endif %}
     </div>
-    <div class="right">
-      {% if ownprofile %}
-      <a title="{% trans "share your public profile page on facebook" %}" href="https://www.facebook.com/sharer.php?u={% filter urlencode %}{% publicurl %}{% endfilter %}&amp;t={% filter urlencode %}{% trans "My coffee statistics" %}{% endfilter %}"><img src="{% static "images/facebook40.png" %}" alt="{% trans "facebook share icon" %}" /></a>
-      <a title="{% trans "share your public profile page on twitter" %}" href="https://twitter.com/intent/tweet?original_referer={% filter urlencode %}{% publicurl %}{% endfilter %}&amp;text={% filter urlencode %}{% trans "My coffee statistics" %}{% endfilter %}&amp;tw_p=tweetbutton&amp;url={% filter urlencode %}{% publicurl %}{% endfilter %}&amp;via=coffeestats"><img src="{% static "images/twitter40.png" %}" alt="{% trans "twitter share" %}" /></a>
-      <a title="{% trans "share your public profile page on Google plus" %}" href="https://plus.google.com/share?url={% filter urlencode %}{% publicurl %}{% endfilter %}"><img src="{% static "images/googleplus40.png" %}" alt="{% trans "google plus share" %}" /></a>
-      {% endif %}
-    </div>
   </div>
 </div>
 {% if ownprofile %}

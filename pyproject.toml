@@ -21,6 +21,7 @@ dependencies = [
 
 [tool.uv]
 dev-dependencies = [
+    "coverage>=7.6.9",
     "ruff>=0.6.3",
     "selenium>=4.24.0",
 ]

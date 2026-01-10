@@ -2,7 +2,7 @@
 @use "../common/mediaqueries";
 
 form {
-  margin: 14px 0;
+  //margin: 14px 0;
 
   &.coffeeform {
       #email {
@@ -13,7 +13,7 @@ form {
 
 form .left,
 form .leftform {
-  @media #{mediaqueries.$desktop} {
+  /*@media #{mediaqueries.$desktop} {
     width: 48%;
   }
   @media #{mediaqueries.$moblet} {
@@ -24,7 +24,7 @@ form .leftform {
   }
   @media #{mediaqueries.$mobile-small} {
     width: 40% !important;
-  }
+  }*/
 
   &:nth-child(odd) {
     margin-right: 2%;
@@ -32,7 +32,7 @@ form .leftform {
 }
 
 .fullWidth form .leftform {
-  width: 30%;
+  // width: 30%;
 
   &:nth-child(odd) {
     margin-right:0;

@@ -37,6 +37,27 @@
     width: 60%;
 }
 
+#content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+  }
+}
+
+#registration_form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .usercard,
 .rankbox {
   width: 45%;

@@ -4,18 +4,18 @@ $(document).ready(function(){
 
   var coffeestats = {
     init: function () {
-        coffeestats.equalHeightsBoxes();
+        // coffeestats.equalHeightsBoxes();
         coffeestats.showNavigation();
         coffeestats.showMenuDropdown();
         coffeestats.showLoginDropdown();
         coffeestats.profilePage();
     },
 
-    equalHeightsBoxes : function() {
+    /*equalHeightsBoxes : function() {
       if (!window.matchMedia('(max-width: 873px)').matches) {
         $('.white-box').not('.fullWidth').equalHeights();
         }
-    },
+    },*/
 
     showNavigation : function() {
       $('.menuIndicator').on( 'click',function(){

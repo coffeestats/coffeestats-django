@@ -15,12 +15,12 @@
 
 .clockpicker {
   display: inline-block;
-  @media #{mediaqueries.$desktop} {
+  /*@media #{mediaqueries.$desktop} {
     width: 18%;
   }
   @media #{mediaqueries.$moblet} {
     width: 22%;
-  }
+  }*/
   padding: 2px 0;
   margin: 0 0 0 8px;
   position: relative;

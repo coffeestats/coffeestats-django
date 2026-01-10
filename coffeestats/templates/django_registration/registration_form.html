@@ -11,8 +11,8 @@
 <div class="white-box fullWidth">
   <h2>{% trans "Register" %}</h2>
   <p>{% trans "Fill these fields with your data and click Register!" %}</p>
-  <form action="{% url "django_registration_register" %}" method="post">
-    <div class="leftform">
+  <form id="registration_form" action="{% url "django_registration_register" %}" method="post">
+    <div class="form_fields">
       <h3>{% trans "General" %}</h3>
       {{ form.username.errors }}
       <input type="text" name="username" required pattern="[a-z][a-z0-9_-]{1,29}" id="id_username" maxlength="30" class="register_field_standard" {% if form.username.value %}value="{{ form.username.value }}" {% endif %}autofocus/>
@@ -28,7 +28,7 @@
       <label alt="{{ form.email.label }}" placeholder="{{ form.email.label }}"></label>
     </div>
 
-    <div class="leftform">
+    <div class="form_fields">
       <h3>{% trans "Additional" %}</h3>
       {{ form.firstname.errors }}
       <input type="text" name="firstname" id="firstname" maxlength="20" class="register_field_standard" {% if form.firstname.value %}value="{{ form.firstname.value }}"{% endif %}/>

@@ -334,57 +334,68 @@ ul.list-unstyled {
 .white-box {
   padding: 10px;
   background-color: #fff;
-  float: left;
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  border-radius: 3px;
-  min-height: 115px;
+  border-radius: 5px;
 }
-@media screen and (min-width: 874px) {
-  .white-box {
-    margin: 0 2% 2% 0;
-    width: 49%;
-  }
+.white-box .caffeine_forms {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
-@media screen and (max-width: 873px) {
-  .white-box {
-    width: 100%;
-    float: none !important;
-    margin: 2% auto 0;
-    display: inline-block;
-  }
-  .white-box:nth-child(even), .white-box:nth-child(odd) {
-    margin: 2% auto 0 !important;
-  }
-}
-@media screen and (min-width: 874px) {
-  .white-box.update {
-    min-height: 317px;
-  }
-}
-.white-box.today {
-  min-height: 318px;
-}
-.white-box.fullWidth {
-  width: 100%;
-  margin: 0 0 2% 0;
-}
-.white-box:nth-child(even) {
-  float: right;
-  margin: 0 0 2% 0;
+.white-box .caffeine_forms form {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 1rem;
 }
 .white-box {
+  /*&.update {
+    @media screen and (min-width: 874px) {
+      min-height: 317px;
+    }
+  }
+  &.today {
+    min-height: 318px;
+  }
+  */
+}
+.white-box.fullWidth {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+@media screen and (max-width: 1024px) {
+  .white-box.fullWidth {
+    grid-column-end: 2;
+  }
+}
+.white-box.three-high {
+  grid-row-start: 1;
+  grid-row-end: 4;
+}
+@media screen and (max-width: 1024px) {
+  .white-box.three-high {
+    grid-row-end: 2;
+  }
+}
+.white-box {
+  /*&:nth-child(even) {
+    float: right;
+    margin: 0 0 2% 0;
+  }*/
   /* REGISTER */
-}
-.white-box.fullWidth div.left {
-  width: 33%;
-}
-.white-box.fullWidth div.left b {
-  display: inline-block;
-  margin-bottom: 10px;
-}
-.white-box.fullWidth div.left input {
-  width: 80%;
+  /*&.fullWidth {
+    div.left {
+      width: 33%;
+
+      b {
+        display: inline-block;
+        margin-bottom:10px;
+      }
+
+      input {
+        width:80%;
+      }
+    }
+  }*/
 }
 .white-box p {
   line-height: 24px;
@@ -396,13 +407,6 @@ ul.list-unstyled {
 .white-box h2 {
   font-size: 2.4em !important;
   color: rgb(194, 185, 185);
-}
-.white-box .pagelinks {
-  display: inline-block;
-  width: 100%;
-}
-.white-box .pagelinks div.left {
-  width: 50%;
 }
 .white-box .pagelinks div.left a.btn {
   width: 94%;
@@ -421,52 +425,36 @@ ul.list-unstyled {
 }
 .white-box p {
   margin: 14px 0;
-  clear: both;
 }
 
 .white-box-center {
   text-align: center;
 }
 
-form {
-  margin: 14px 0;
-}
 form.coffeeform #email {
   width: 98%;
 }
 
-@media screen and (min-width: 874px) {
-  form .left,
-  form .leftform {
+form .left,
+form .leftform {
+  /*@media screen and (min-width: 874px) {
     width: 48%;
   }
-}
-@media screen and (max-width: 873px) {
-  form .left,
-  form .leftform {
+  @media screen and (max-width: 873px) {
     width: 40%;
   }
-}
-@media screen and (max-width: 480px), screen and (max-device-width: 480px) {
-  form .left,
-  form .leftform {
+  @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
     width: 40% !important;
   }
-}
-@media screen and (max-width: 320px), screen and (max-device-width: 320px) {
-  form .left,
-  form .leftform {
+  @media screen and (max-width: 320px), screen and (max-device-width: 320px) {
     width: 40% !important;
-  }
+  }*/
 }
 form .left:nth-child(odd),
 form .leftform:nth-child(odd) {
   margin-right: 2%;
 }
 
-.fullWidth form .leftform {
-  width: 30%;
-}
 .fullWidth form .leftform:nth-child(odd) {
   margin-right: 0;
 }
@@ -971,18 +959,12 @@ nav.mainNavMobile {
 /* Picked from bootstrap: .popover, .btn, .text-primary */
 .clockpicker {
   display: inline-block;
-}
-@media screen and (min-width: 874px) {
-  .clockpicker {
+  /*@media screen and (min-width: 874px) {
     width: 18%;
   }
-}
-@media screen and (max-width: 873px) {
-  .clockpicker {
+  @media screen and (max-width: 873px) {
     width: 22%;
-  }
-}
-.clockpicker {
+  }*/
   padding: 2px 0;
   margin: 0 0 0 8px;
   position: relative;
@@ -1360,22 +1342,14 @@ nav.mainNavMobile {
  *
  */
 .datepicker {
-  float: left;
   padding: 2px 0;
-}
-@media screen and (min-width: 874px) {
-  .datepicker {
+  /*@media screen and (min-width: 874px) {
     width: 30%;
   }
-}
-@media screen and (max-width: 873px) {
-  .datepicker {
+  @media screen and (max-width: 873px) {
     width: 32%;
-  }
-}
-.datepicker {
+  }*/
   -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
   direction: ltr;
   position: relative;
@@ -1474,7 +1448,6 @@ nav.mainNavMobile {
   height: 20px;
   border: none;
   -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
   border-radius: 4px;
   text-align: center;
 }
@@ -1548,33 +1521,30 @@ nav.mainNavMobile {
 }
 .datepicker table tr td.range {
   -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
   background: #eeeeee;
 }
 .datepicker table tr td.range:hover {
   -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
   background: #eeeeee;
 }
 .datepicker table tr td.range.disabled {
   -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
   background: #eeeeee;
 }
 .datepicker table tr td.range.disabled:hover {
   background: #eeeeee;
   -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
 }
 .datepicker table tr td.range.today {
-  border-color: #f3e97a #f3e97a #edde34;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-top-color: rgba(0, 0, 0, 0.1);
+  border-right-color: rgba(0, 0, 0, 0.1);
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  border-left-color: rgba(0, 0, 0, 0.1);
   -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
   background-color: #f3d17a;
   background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
@@ -2105,6 +2075,29 @@ nav.mainNavMobile {
   position: absolute;
   top: 0;
   width: 60%;
+}
+
+#content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media screen and (max-width: 1024px) {
+  #content {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+  }
+}
+
+#registration_form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media screen and (max-width: 1024px) {
+  #registration_form {
+    grid-template-columns: 1fr;
+  }
 }
 
 .usercard,

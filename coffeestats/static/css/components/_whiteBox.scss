@@ -4,30 +4,22 @@
 .white-box {
   padding: 10px;
   background-color: colors.$white-box-background;
-  float: left;
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  border-radius: 3px;
-  min-height: 115px;
+  border-radius: 5px;
 
-  @media #{mediaqueries.$desktop} {
-    margin: 0 2% 2% 0;
-    width: 49%;
-  }
+  .caffeine_forms {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
 
-  @media #{mediaqueries.$moblet} {
-    width: 100%;
-    float: none !important;
-    margin: 2% auto 0;
-    display: inline-block;
-
-    &:nth-child(even),
-    &:nth-child(odd) {
-      margin: 2% auto 0 !important;
+    form {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 1rem;
     }
   }
 
-  &.update {
+  /*&.update {
     @media #{mediaqueries.$desktop} {
       min-height: 317px;
     }
@@ -35,19 +27,33 @@
   &.today {
     min-height: 318px;
   }
+  */
 
   &.fullWidth {
-    width: 100%;
-    margin: 0 0 2% 0;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    @media screen and (max-width: 1024px) {
+      grid-column-end: 2;
+    }
   }
 
-  &:nth-child(even) {
+  &.three-high {
+    grid-row-start: 1;
+    grid-row-end: 4;
+
+    @media screen and (max-width: 1024px) {
+      grid-row-end: 2;
+    }
+  }
+
+  /*&:nth-child(even) {
     float: right;
     margin: 0 0 2% 0;
-  }
+  }*/
 
   /* REGISTER */
-  &.fullWidth {
+  /*&.fullWidth {
     div.left {
       width: 33%;
 
@@ -60,26 +66,28 @@
         width:80%;
       }
     }
-  }
+  }*/
 
   p {
     line-height: 24px;
   }
+
   canvas {
-    width:100% !important;
+    width: 100% !important;
     height: auto !important;
   }
+
   h2 {
     font-size: 2.4em !important;
     color: rgb(194, 185, 185);
   }
 
   .pagelinks {
-    display:inline-block;
-    width: 100%;
+    // display:inline-block;
+    // width: 100%;
 
     div.left {
-      width: 50%;
+      // width: 50%;
 
       a.btn {
         width: 94%;
@@ -87,13 +95,14 @@
         display: block;
       }
     }
+
     div.right {
       margin-right: 21px;
     }
   }
 
   .profilelist {
-    padding-left:0;
+    padding-left: 0;
 
     li {
       list-style: none;
@@ -103,10 +112,10 @@
 
   p {
     margin: 14px 0;
-    clear: both;
+    // clear: both;
   }
 }
 
 .white-box-center {
-    text-align: center;
+  text-align: center;
 }

@@ -1,0 +1,22 @@
+{
+  "name": "coffeestats-django",
+  "version": "0.5.0",
+  "description": "Coffeestats.org assets",
+  "scripts": {
+    "build": "npx sass coffeestats/static/css/caffeine.scss coffeestats/static/css/caffeine.css",
+    "watch": "npx sass --watch coffeestats/static/css/caffeine.scss coffeestats/static/css/caffeine.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coffeestats/coffeestats-django.git"
+  },
+  "author": "Jan Dittberner <jan@dittberner.info>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coffeestats/coffeestats-django/issues"
+  },
+  "homepage": "https://github.com/coffeestats/coffeestats-django#readme",
+  "dependencies": {
+    "sass": "^1.97.2"
+  }
+}

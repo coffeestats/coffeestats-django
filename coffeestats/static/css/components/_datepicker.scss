@@ -1,3 +1,6 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 /*!
  * Datepicker for Bootstrap
  *
@@ -11,10 +14,10 @@
 .datepicker {
   float: left;
   padding: 2px 0;
-  @media #{$desktop} {
+  @media #{mediaqueries.$desktop} {
     width: 30%;
   }
-  @media #{$moblet} {
+  @media #{mediaqueries.$moblet} {
     width: 32%;
   }
   -webkit-border-radius: 3px;
@@ -158,8 +161,8 @@
       }
     }
     &.today {
-      background-color: $button-background;
-      color: $white;
+      background-color: colors.$button-background;
+      color: colors.$white;
       &.disabled {
         &:hover {
         }
@@ -803,7 +806,7 @@
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
-  color: $input-color;
+  color: colors.$input-color;
   list-style: none;
   font-size: 13px;
   font-family: Source Sans Pro, Helvetica, Arial, sans-serif;

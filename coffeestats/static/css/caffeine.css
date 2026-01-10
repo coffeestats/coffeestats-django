@@ -9,27 +9,33 @@
 */
 .clearfix {
   clear: both;
-  height: 0; }
+  height: 0;
+}
 
 .right,
 .rightfloated {
-  float: right; }
+  float: right;
+}
 
 .left,
 .leftform {
-  float: left; }
+  float: left;
+}
 
 .clear {
-  clear: both; }
+  clear: both;
+}
 
 /* apply a natural box layout model to all elements */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 .rightfloated {
-  float: right; }
+  float: right;
+}
 
 /* colors */
 @font-face {
@@ -37,70 +43,84 @@
   src: url("./fonts/coffeestats.eot");
   src: url("./fonts/coffeestats.eot#iefix") format("embedded-opentype"), url("./fonts/coffeestats.woff") format("woff"), url("./fonts/coffeestats.ttf") format("truetype"), url("./fonts/coffeestats.svg") format("svg");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 .icon {
   display: inline;
   position: absolute;
   right: 4px;
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .icon:before, .icon:before,
 .icon:after, .icon:after {
   font-family: Coffeestats;
   font-size: 16px;
   font-style: normal;
-  color: #d4d2d2; }
+  color: #d4d2d2;
+}
 
 .coffeestats-calendar:before {
   content: "\e000";
   font-size: 14px;
-  margin-right: 3px; }
+  margin-right: 3px;
+}
 
 .coffeestats-clock:before {
-  content: "\e001"; }
+  content: "\e001";
+}
 
 .coffeestats-lock:before {
-  content: "\e004"; }
+  content: "\e004";
+}
 
 .coffeestats-user:before {
-  content: "\e005"; }
+  content: "\e005";
+}
 
 .coffeestats-settings:before {
-  content: "\e002"; }
+  content: "\e002";
+}
 
 .coffeestats-menu:before {
-  content: "\e003"; }
+  content: "\e003";
+}
 
 @font-face {
-  font-family: 'amaranthregular';
+  font-family: "amaranthregular";
   src: url("./fonts/amaranth-regular.eot");
   src: url("./fonts/amaranth-regular.eot?#iefix") format("embedded-opentype"), url("./fonts/amaranth-regular.woff") format("woff"), url("./fonts/amaranth-regular.ttf") format("truetype"), url("./fonts/amaranth-regular.svg#amaranthregular") format("svg");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 @font-face {
-  font-family: 'source_sans_probold';
+  font-family: "source_sans_probold";
   src: url("./fonts/sourcesanspro-bold.eot");
   src: url("./fonts/sourcesanspro-bold.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-bold.woff") format("woff"), url("./fonts/sourcesanspro-bold.ttf") format("truetype"), url("./fonts/sourcesanspro-bold.svg#source_sans_probold") format("svg");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 @font-face {
-  font-family: 'source_sans_proregular';
+  font-family: "source_sans_proregular";
   src: url("./fonts/sourcesanspro-regular.eot");
   src: url("./fonts/sourcesanspro-regular.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-regular.woff") format("woff"), url("./fonts/sourcesanspro-regular.ttf") format("truetype"), url("./fonts/sourcesanspro-regular.svg#source_sans_proregular") format("svg");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 @font-face {
-  font-family: 'source_sans_prolight';
+  font-family: "source_sans_prolight";
   src: url("./fonts/sourcesanspro-light.eot");
   src: url("./fonts/sourcesanspro-light.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-light.woff") format("woff"), url("./fonts/sourcesanspro-light.ttf") format("truetype"), url("./fonts/sourcesanspro-light.svg#source_sans_prolight") format("svg");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 @font-face {
-  font-family: 'source_sans_proextralight';
+  font-family: "source_sans_proextralight";
   src: url("./fonts/sourcesanspro-extralight.eot");
   src: url("./fonts/sourcesanspro-extralight.eot?#iefix") format("embedded-opentype"), url("./fonts/sourcesanspro-extralight.woff") format("woff"), url("./fonts/sourcesanspro-extralight.ttf") format("truetype"), url("./fonts/sourcesanspro-extralight.svg#source_sans_proextralight") format("svg");
   font-weight: normal;
-  font-style: normal; }
+  font-style: normal;
+}
 /* GENERAL */
 body {
   padding: 0;
@@ -112,33 +132,40 @@ body {
   -o-background-size: cover;
   background-size: cover;
   color: #4b4b4b;
-  font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
+  font-family: "Source Sans Pro", Helvetica, Verdana, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
-  padding-top: 55px; }
-  body.profile {
-    background: url("/static/images/bg-profilepage.jpg") no-repeat center center fixed;
-    background-color: #c9c6bb;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; }
+  padding-top: 55px;
+}
+body.profile {
+  background: url("/static/images/bg-profilepage.jpg") no-repeat center center fixed;
+  background-color: #c9c6bb;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
 a {
-  color: #796c67 !important; }
+  color: #796c67 !important;
+}
 
 a.btn, input {
   margin: 2px 0;
-  font-family: 'source_sans_proregular', Helvetica, Verdana, Arial, sans-serif; }
+  font-family: "source_sans_proregular", Helvetica, Verdana, Arial, sans-serif;
+}
 
 a {
   text-decoration: none;
-  font-family: 'source_sans_probold';
-  color: inherit; }
-  a:hover {
-    text-decoration: underline; }
-  a img {
-    border: none; }
+  font-family: "source_sans_probold";
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+a img {
+  border: none;
+}
 
 input[type=submit],
 button,
@@ -154,26 +181,30 @@ a.btn {
   display: inline-block;
   text-align: center;
   text-decoration: none !important;
-  font-family: 'source_sans_proregular' !important; }
-  input[type=submit]:hover,
-  button:hover,
-  a.btn:hover {
-    background: #5a5348; }
-  input[type=submit].secondary,
-  button.secondary,
-  a.btn.secondary {
-    color: #b6aa97 !important;
-    text-shadow: 1px 1px 0 #fff;
-    background: #f7f3e5;
-    box-shadow: 0 1px 0 #fff inset;
-    border: 1px solid #b6aa97; }
-    input[type=submit].secondary:hover,
-    button.secondary:hover,
-    a.btn.secondary:hover {
-      background: #5a5348 !important;
-      box-shadow: 0 1px 0 #9e9482 inset;
-      text-shadow: 1px 1px 0 #524c42 !important;
-      color: #fff !important; }
+  font-family: "source_sans_proregular" !important;
+}
+input[type=submit]:hover,
+button:hover,
+a.btn:hover {
+  background: #5a5348;
+}
+input[type=submit].secondary,
+button.secondary,
+a.btn.secondary {
+  color: #b6aa97 !important;
+  text-shadow: 1px 1px 0 #fff;
+  background: #f7f3e5;
+  box-shadow: 0 1px 0 #fff inset;
+  border: 1px solid #b6aa97;
+}
+input[type=submit].secondary:hover,
+button.secondary:hover,
+a.btn.secondary:hover {
+  background: #5a5348 !important;
+  box-shadow: 0 1px 0 #9e9482 inset;
+  text-shadow: 1px 1px 0 #524c42 !important;
+  color: #fff !important;
+}
 
 input[type=text],
 input[type=email],
@@ -191,81 +222,90 @@ input[type=password] {
   border-radius: 0;
   background: #fff;
   resize: none;
-  outline: none; }
-  input[type=text][required]:focus, input[type=text][name]:focus,
-  input[type=email][required]:focus,
-  input[type=email][name]:focus,
-  input[type=password][required]:focus,
-  input[type=password][name]:focus {
-    border-color: #796c67; }
-    input[type=text][required]:focus + label[placeholder]:before, input[type=text][name]:focus + label[placeholder]:before,
-    input[type=email][required]:focus + label[placeholder]:before,
-    input[type=email][name]:focus + label[placeholder]:before,
-    input[type=password][required]:focus + label[placeholder]:before,
-    input[type=password][name]:focus + label[placeholder]:before {
-      color: #796c67; }
-  input[type=text][required]:focus + label[placeholder]:before, input[type=text][required]:valid + label[placeholder]:before, input[type=text][name]:focus + label[placeholder]:before, input[type=text][name]:valid + label[placeholder]:before,
-  input[type=email][required]:focus + label[placeholder]:before,
-  input[type=email][required]:valid + label[placeholder]:before,
-  input[type=email][name]:focus + label[placeholder]:before,
-  input[type=email][name]:valid + label[placeholder]:before,
-  input[type=password][required]:focus + label[placeholder]:before,
-  input[type=password][required]:valid + label[placeholder]:before,
-  input[type=password][name]:focus + label[placeholder]:before,
-  input[type=password][name]:valid + label[placeholder]:before {
-    transition-duration: .2s;
-    transform: translate(0, -1.2em) scale(0.9, 0.9);
-    -webkit-transform: translate(0, -1.2em) scale(0.9, 0.9);
-    color: #796c67; }
-  input[type=text][required]:invalid + label[placeholder][alt]:before, input[type=text][name]:invalid + label[placeholder][alt]:before,
-  input[type=email][required]:invalid + label[placeholder][alt]:before,
-  input[type=email][name]:invalid + label[placeholder][alt]:before,
-  input[type=password][required]:invalid + label[placeholder][alt]:before,
-  input[type=password][name]:invalid + label[placeholder][alt]:before {
-    content: attr(alt); }
-  input[type=text][required] + label[placeholder], input[type=text][name] + label[placeholder],
-  input[type=email][required] + label[placeholder],
-  input[type=email][name] + label[placeholder],
-  input[type=password][required] + label[placeholder],
-  input[type=password][name] + label[placeholder] {
-    display: block;
-    pointer-events: none;
-    line-height: 1em;
-    margin-top: -webkit-calc(-3em + 7px);
-    margin-top: calc(-3em + 7px);
-    margin-bottom: -webkit-calc((3em - 1em) - 8px);
-    margin-bottom: calc((3em - 1em) - 8px); }
-    input[type=text][required] + label[placeholder]:before, input[type=text][name] + label[placeholder]:before,
-    input[type=email][required] + label[placeholder]:before,
-    input[type=email][name] + label[placeholder]:before,
-    input[type=password][required] + label[placeholder]:before,
-    input[type=password][name] + label[placeholder]:before {
-      content: attr(placeholder);
-      display: inline-block;
-      margin: 0;
-      margin-left: -webkit-calc(1em - 0.6em);
-      margin-left: calc(1em - 0.6em);
-      margin-right: -webkit-calc(1em - 0.6em);
-      margin-right: calc(1em - 0.6em);
-      padding: 0 2px;
-      color: #d4d2d2;
-      font-weight: 400;
-      white-space: nowrap;
-      transition: .3s ease-in-out;
-      -webkit-transition: .3s ease-in-out;
-      background-image: linear-gradient(to bottom, #fff, #fff);
-      background-size: 100% 12px;
-      background-repeat: no-repeat;
-      background-position: center; }
+  outline: none;
+}
+input[type=text][required]:focus, input[type=text][name]:focus,
+input[type=email][required]:focus,
+input[type=email][name]:focus,
+input[type=password][required]:focus,
+input[type=password][name]:focus {
+  border-color: #796c67;
+}
+input[type=text][required]:focus + label[placeholder]:before, input[type=text][name]:focus + label[placeholder]:before,
+input[type=email][required]:focus + label[placeholder]:before,
+input[type=email][name]:focus + label[placeholder]:before,
+input[type=password][required]:focus + label[placeholder]:before,
+input[type=password][name]:focus + label[placeholder]:before {
+  color: #796c67;
+}
+input[type=text][required]:focus + label[placeholder]:before, input[type=text][required]:valid + label[placeholder]:before, input[type=text][name]:focus + label[placeholder]:before, input[type=text][name]:valid + label[placeholder]:before,
+input[type=email][required]:focus + label[placeholder]:before,
+input[type=email][required]:valid + label[placeholder]:before,
+input[type=email][name]:focus + label[placeholder]:before,
+input[type=email][name]:valid + label[placeholder]:before,
+input[type=password][required]:focus + label[placeholder]:before,
+input[type=password][required]:valid + label[placeholder]:before,
+input[type=password][name]:focus + label[placeholder]:before,
+input[type=password][name]:valid + label[placeholder]:before {
+  transition-duration: 0.2s;
+  transform: translate(0, -1.2em) scale(0.9, 0.9);
+  -webkit-transform: translate(0, -1.2em) scale(0.9, 0.9);
+  color: #796c67;
+}
+input[type=text][required]:invalid + label[placeholder][alt]:before, input[type=text][name]:invalid + label[placeholder][alt]:before,
+input[type=email][required]:invalid + label[placeholder][alt]:before,
+input[type=email][name]:invalid + label[placeholder][alt]:before,
+input[type=password][required]:invalid + label[placeholder][alt]:before,
+input[type=password][name]:invalid + label[placeholder][alt]:before {
+  content: attr(alt);
+}
+input[type=text][required] + label[placeholder], input[type=text][name] + label[placeholder],
+input[type=email][required] + label[placeholder],
+input[type=email][name] + label[placeholder],
+input[type=password][required] + label[placeholder],
+input[type=password][name] + label[placeholder] {
+  display: block;
+  pointer-events: none;
+  line-height: 1em;
+  margin-top: -webkit-calc(-3em + 7px);
+  margin-top: calc(-3em + 7px);
+  margin-bottom: -webkit-calc((3em - 1em) - 8px);
+  margin-bottom: calc((3em - 1em) - 8px);
+}
+input[type=text][required] + label[placeholder]:before, input[type=text][name] + label[placeholder]:before,
+input[type=email][required] + label[placeholder]:before,
+input[type=email][name] + label[placeholder]:before,
+input[type=password][required] + label[placeholder]:before,
+input[type=password][name] + label[placeholder]:before {
+  content: attr(placeholder);
+  display: inline-block;
+  margin: 0;
+  margin-left: -webkit-calc(1em - 0.6em);
+  margin-left: calc(1em - 0.6em);
+  margin-right: -webkit-calc(1em - 0.6em);
+  margin-right: calc(1em - 0.6em);
+  padding: 0 2px;
+  color: #d4d2d2;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  background-image: linear-gradient(to bottom, #fff, #fff);
+  background-size: 100% 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 strong {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 #system-flash .flash-messages {
   background: transparent;
   position: absolute;
   top: 0px;
-  width: 60%; }
+  width: 60%;
+}
 
 .usercard,
 .rankbox {
@@ -274,18 +314,22 @@ strong {
   margin-bottom: 10px;
   margin-top: 10px;
   float: left;
-  display: inline-block; }
-  .usercard div.left,
-  .rankbox div.left {
-    display: inline-block; }
-    .usercard div.left input,
-    .rankbox div.left input {
-      display: inline-block;
-      width: 94%; }
+  display: inline-block;
+}
+.usercard div.left,
+.rankbox div.left {
+  display: inline-block;
+}
+.usercard div.left input,
+.rankbox div.left input {
+  display: inline-block;
+  width: 94%;
+}
 
 ul.list-unstyled {
   list-style-type: none;
-  padding: 0; }
+  padding: 0;
+}
 
 .white-box {
   padding: 10px;
@@ -295,109 +339,153 @@ ul.list-unstyled {
   -moz-box-sizing: border-box;
   border-radius: 3px;
   min-height: 115px;
-  /* REGISTER */ }
-  @media screen and (min-width: 874px) {
-    .white-box {
-      margin: 0 2% 2% 0;
-      width: 49%; } }
-  @media screen and (max-width: 873px) {
-    .white-box {
-      width: 100%;
-      float: none !important;
-      margin: 2% auto 0;
-      display: inline-block; }
-      .white-box:nth-child(even), .white-box:nth-child(odd) {
-        margin: 2% auto 0 !important; } }
-  @media screen and (min-width: 874px) {
-    .white-box.update {
-      min-height: 317px; } }
-  .white-box.today {
-    min-height: 318px; }
-  .white-box.fullWidth {
+}
+@media screen and (min-width: 874px) {
+  .white-box {
+    margin: 0 2% 2% 0;
+    width: 49%;
+  }
+}
+@media screen and (max-width: 873px) {
+  .white-box {
     width: 100%;
-    margin: 0 0 2% 0; }
-  .white-box:nth-child(even) {
-    float: right;
-    margin: 0 0 2% 0; }
-  .white-box.fullWidth div.left {
-    width: 33%; }
-    .white-box.fullWidth div.left b {
-      display: inline-block;
-      margin-bottom: 10px; }
-    .white-box.fullWidth div.left input {
-      width: 80%; }
-  .white-box p {
-    line-height: 24px; }
-  .white-box canvas {
-    width: 100% !important;
-    height: auto !important; }
-  .white-box h2 {
-    font-size: 2.4em !important;
-    color: #c2b9b9; }
-  .white-box .pagelinks {
+    float: none !important;
+    margin: 2% auto 0;
     display: inline-block;
-    width: 100%; }
-    .white-box .pagelinks div.left {
-      width: 50%; }
-      .white-box .pagelinks div.left a.btn {
-        width: 94%;
-        margin-bottom: 10px;
-        display: block; }
-    .white-box .pagelinks div.right {
-      margin-right: 21px; }
-  .white-box .profilelist {
-    padding-left: 0; }
-    .white-box .profilelist li {
-      list-style: none;
-      margin: 7px 0; }
-  .white-box p {
-    margin: 14px 0;
-    clear: both; }
+  }
+  .white-box:nth-child(even), .white-box:nth-child(odd) {
+    margin: 2% auto 0 !important;
+  }
+}
+@media screen and (min-width: 874px) {
+  .white-box.update {
+    min-height: 317px;
+  }
+}
+.white-box.today {
+  min-height: 318px;
+}
+.white-box.fullWidth {
+  width: 100%;
+  margin: 0 0 2% 0;
+}
+.white-box:nth-child(even) {
+  float: right;
+  margin: 0 0 2% 0;
+}
+.white-box {
+  /* REGISTER */
+}
+.white-box.fullWidth div.left {
+  width: 33%;
+}
+.white-box.fullWidth div.left b {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.white-box.fullWidth div.left input {
+  width: 80%;
+}
+.white-box p {
+  line-height: 24px;
+}
+.white-box canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+.white-box h2 {
+  font-size: 2.4em !important;
+  color: rgb(194, 185, 185);
+}
+.white-box .pagelinks {
+  display: inline-block;
+  width: 100%;
+}
+.white-box .pagelinks div.left {
+  width: 50%;
+}
+.white-box .pagelinks div.left a.btn {
+  width: 94%;
+  margin-bottom: 10px;
+  display: block;
+}
+.white-box .pagelinks div.right {
+  margin-right: 21px;
+}
+.white-box .profilelist {
+  padding-left: 0;
+}
+.white-box .profilelist li {
+  list-style: none;
+  margin: 7px 0;
+}
+.white-box p {
+  margin: 14px 0;
+  clear: both;
+}
 
 .white-box-center {
-  text-align: center; }
+  text-align: center;
+}
 
 form {
-  margin: 14px 0; }
-  form.coffeeform #email {
-    width: 98%; }
+  margin: 14px 0;
+}
+form.coffeeform #email {
+  width: 98%;
+}
 
 @media screen and (min-width: 874px) {
   form .left,
   form .leftform {
-    width: 48%; } }
+    width: 48%;
+  }
+}
 @media screen and (max-width: 873px) {
   form .left,
   form .leftform {
-    width: 40%; } }
+    width: 40%;
+  }
+}
 @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
   form .left,
   form .leftform {
-    width: 40% !important; } }
+    width: 40% !important;
+  }
+}
 @media screen and (max-width: 320px), screen and (max-device-width: 320px) {
   form .left,
   form .leftform {
-    width: 40% !important; } }
+    width: 40% !important;
+  }
+}
 form .left:nth-child(odd),
 form .leftform:nth-child(odd) {
-  margin-right: 2%; }
+  margin-right: 2%;
+}
 
 .fullWidth form .leftform {
-  width: 30%; }
-  .fullWidth form .leftform:nth-child(odd) {
-    margin-right: 0; }
-  .fullWidth form .leftform:nth-child(2) {
-    margin: 0 2%; }
+  width: 30%;
+}
+.fullWidth form .leftform:nth-child(odd) {
+  margin-right: 0;
+}
+.fullWidth form .leftform:nth-child(2) {
+  margin: 0 2%;
+}
 
 .leftform {
-  display: inline-block; }
-  .leftform input {
-    width: 100%; }
+  display: inline-block;
+}
+.leftform input {
+  width: 100%;
+}
 
 form.otrblockform input[type=submit] {
   width: 50%;
   padding: 30px;
-  font-size: 2em; }
+  font-size: 2em;
+}
 
 .inlineform select {
   padding: 10px;
@@ -406,7 +494,8 @@ form.otrblockform input[type=submit] {
   background-color: #f9f9f9;
   color: #4b4b4b;
   min-height: 22px;
-  line-height: 22px; }
+  line-height: 22px;
+}
 
 li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
   list-style-type: none;
@@ -415,59 +504,69 @@ li.flash-success, li.flash-info, li.flash-warning, li.flash-error {
   border: 1px solid #4b4b4b;
   border-radius: 4px;
   background-repeat: no-repeat;
-  background-position: 5px center; }
-  li.flash-success .close, li.flash-info .close, li.flash-warning .close, li.flash-error .close {
-    float: right;
-    font-size: 16px;
-    font-family: 'source_sans_probold';
-    color: #4b4b4b;
-    text-shadow: 0 1px 0 #fff;
-    opacity: 0.2; }
+  background-position: 5px center;
+}
+li.flash-success .close, li.flash-info .close, li.flash-warning .close, li.flash-error .close {
+  float: right;
+  font-size: 16px;
+  font-family: "source_sans_probold";
+  color: #4b4b4b;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.2;
+}
 
 ul.errorlist li {
   list-style-type: none;
   padding: 2px;
   background-repeat: no-repeat;
   background-position: 5px center;
-  padding: 10px 10px 10px 25px; }
+  padding: 10px 10px 10px 25px;
+}
 
 li.flash-success {
   background-image: url("/static/images/info.png");
   color: #468847;
   background-color: #dff0d8;
-  border-color: #d6e9c6; }
+  border-color: #d6e9c6;
+}
 
 li.flash-info {
   background-image: url("/static/images/info.png");
   color: #3a87ad;
   background-color: #d9edf7;
-  border-color: #bce8f1; }
+  border-color: #bce8f1;
+}
 
 li.flash-warning {
   background-image: url("/static/images/alert.png");
   color: #c09853;
   background-color: #fcf8e3;
-  border-color: #fbeed5; }
+  border-color: #fbeed5;
+}
 
 li.flash-error, ul.errorlist li {
   background-image: url("/static/images/alert.png");
   color: #b94a48;
   background-color: #f2dede;
-  border-color: #eed3d7; }
+  border-color: #eed3d7;
+}
 
 ul.flash-messages, ul.errorlist {
   margin: 0px;
-  padding: 0px; }
+  padding: 0px;
+}
 
 ul.userlist {
   list-style: none;
-  padding: 0; }
+  padding: 0;
+}
 
 /* WRAPPER */
 #wrapper {
   padding: 0 0 30px;
   display: inline-block;
-  width: 100%; }
+  width: 100%;
+}
 
 /* HEADER */
 #header {
@@ -478,130 +577,173 @@ ul.userlist {
   height: 58px;
   background: #fff;
   z-index: 999;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); }
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+#header .headerWrapper {
+  margin: 0 auto;
+  height: 49px;
+  background-image: url("/static/images/logo.png");
+  background-size: auto 42px;
+  background-repeat: no-repeat;
+  color: #796c67;
+}
+@media screen and (min-width: 874px) {
   #header .headerWrapper {
-    margin: 0 auto;
-    height: 49px;
-    background-image: url("/static/images/logo.png");
-    background-size: auto 42px;
-    background-repeat: no-repeat;
-    color: #796c67; }
-    @media screen and (min-width: 874px) {
-      #header .headerWrapper {
-        width: 960px;
-        background-position: left center; } }
-    @media screen and (max-width: 873px) {
-      #header .headerWrapper {
-        width: 100%;
-        padding: 0 10px;
-        background-position: 10px center; } }
-    @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
-      #header .headerWrapper {
-        background-size: auto 27px !important; } }
-    #header .headerWrapper h1 {
-      display: inline-block;
-      margin-top: 8px;
-      margin-bottom: 1px;
-      margin-left: 47px;
-      max-width: 32%;
-      font-family: 'amaranthregular', sans-serif;
-      line-height: 43px; }
-      @media screen and (min-width: 874px) {
-        #header .headerWrapper h1 {
-          font-size: 25px; } }
-      @media screen and (max-width: 873px) {
-        #header .headerWrapper h1 {
-          font-size: 22px; } }
-      @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
-        #header .headerWrapper h1 {
-          font-size: 18px;
-          line-height: 37px;
-          margin-left: 29px !important; } }
-      #header .headerWrapper h1 a {
-        font-family: 'amaranthregular', sans-serif; }
+    width: 960px;
+    background-position: left center;
+  }
+}
+@media screen and (max-width: 873px) {
+  #header .headerWrapper {
+    width: 100%;
+    padding: 0 10px;
+    background-position: 10px center;
+  }
+}
+@media screen and (max-width: 480px), screen and (max-device-width: 480px) {
+  #header .headerWrapper {
+    background-size: auto 27px !important;
+  }
+}
+#header .headerWrapper h1 {
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 1px;
+  margin-left: 47px;
+  max-width: 32%;
+  font-family: "amaranthregular", sans-serif;
+  line-height: 43px;
+}
+@media screen and (min-width: 874px) {
+  #header .headerWrapper h1 {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 873px) {
+  #header .headerWrapper h1 {
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 480px), screen and (max-device-width: 480px) {
+  #header .headerWrapper h1 {
+    font-size: 18px;
+    line-height: 37px;
+    margin-left: 29px !important;
+  }
+}
+#header .headerWrapper h1 a {
+  font-family: "amaranthregular", sans-serif;
+}
 
 nav.login {
-  height: 58px; }
-  nav.login .btn {
-    color: #fff;
-    font-family: 'source_sans_prolight';
-    font-size: 15px; }
-  nav.login ul,
-  nav.login li {
-    list-style: none; }
-  nav.login > ul {
-    margin-top: 10px; }
-    nav.login > ul > li {
-      float: right; }
-      nav.login > ul > li:first-child {
-        position: relative;
-        margin-left: 6px; }
-      nav.login > ul > li:hover, nav.login > ul > li.hover {
-        position: relative;
-        cursor: pointer; }
-        nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
-          position: absolute;
-          right: 0;
-          display: inline-block;
-          padding: 10px 10px 46px;
-          width: 262px;
-          border-right: 1px solid #eeeded;
-          border-left: 1px solid #eeeded;
-          background: #fff; }
-          @media screen and (max-width: 873px) {
-            nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
-              width: 320px !important; } }
-          nav.login > ul > li:hover .loginBox input, nav.login > ul > li.hover .loginBox input {
-            display: block;
-            width: 100%; }
-            nav.login > ul > li:hover .loginBox input[type=submit], nav.login > ul > li.hover .loginBox input[type=submit] {
-              position: absolute;
-              bottom: 0;
-              left: -0.5%;
-              margin-bottom: 0;
-              width: 101%;
-              height: 36px;
-              font-family: 'source_sans_prolight' !important; }
-          nav.login > ul > li:hover .loginBox a, nav.login > ul > li.hover .loginBox a {
-            font-size: 10px; }
-        nav.login > ul > li:hover span, nav.login > ul > li.hover span {
-          border-bottom: 3px solid #796c67;
-          padding-bottom: 19px; }
-      nav.login > ul > li span {
-        display: inline-block;
-        margin-left: 0px;
-        padding: 8px 10px 10px; }
-      nav.login > ul > li ul {
-        display: none; }
+  height: 58px;
+}
+nav.login .btn {
+  color: #fff;
+  font-family: "source_sans_prolight";
+  font-size: 15px;
+}
+nav.login ul,
+nav.login li {
+  list-style: none;
+}
+nav.login > ul {
+  margin-top: 10px;
+}
+nav.login > ul > li {
+  float: right;
+}
+nav.login > ul > li:first-child {
+  position: relative;
+  margin-left: 6px;
+}
+nav.login > ul > li:hover, nav.login > ul > li.hover {
+  position: relative;
+  cursor: pointer;
+}
+nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  padding: 10px 10px 46px;
+  width: 262px;
+  border-right: 1px solid #eeeded;
+  border-left: 1px solid #eeeded;
+  background: #fff;
+}
+@media screen and (max-width: 873px) {
+  nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
+    width: 320px !important;
+  }
+}
+nav.login > ul > li:hover .loginBox input, nav.login > ul > li.hover .loginBox input {
+  display: block;
+  width: 100%;
+}
+nav.login > ul > li:hover .loginBox input[type=submit], nav.login > ul > li.hover .loginBox input[type=submit] {
+  position: absolute;
+  bottom: 0;
+  left: -0.5%;
+  margin-bottom: 0;
+  width: 101%;
+  height: 36px;
+  font-family: "source_sans_prolight" !important;
+}
+nav.login > ul > li:hover .loginBox a, nav.login > ul > li.hover .loginBox a {
+  font-size: 10px;
+}
+nav.login > ul > li:hover span, nav.login > ul > li.hover span {
+  border-bottom: 3px solid #796c67;
+  padding-bottom: 19px;
+}
+nav.login > ul > li span {
+  display: inline-block;
+  margin-left: 0px;
+  padding: 8px 10px 10px;
+}
+nav.login > ul > li ul {
+  display: none;
+}
 
 @-moz-document url-prefix() {
   nav.login > ul > li:hover .loginBox, nav.login > ul > li.hover .loginBox {
-    top: 48px; } }
+    top: 48px;
+  }
+}
 /* CONTENT */
 #content {
   padding: 35px 0 35px 0;
-  margin: 0 auto; }
-  @media screen and (min-width: 874px) {
-    #content {
-      width: 960px;
-      padding: 35px 10px 35px; } }
-  @media screen and (max-width: 873px) {
-    #content {
-      width: 100%;
-      padding: 35px 10px 35px; } }
-  @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
-    #content {
-      width: 100%; } }
-  #content h2 {
-    padding: 0 0 10px 0;
-    margin: 0;
-    font-size: 16px;
-    font-weight: 300; }
-  #content h3 {
-    padding: 0 0 10px 0;
-    margin: 0;
-    font-size: 14px;
-    font-weight: bold; }
+  margin: 0 auto;
+}
+@media screen and (min-width: 874px) {
+  #content {
+    width: 960px;
+    padding: 35px 10px 35px;
+  }
+}
+@media screen and (max-width: 873px) {
+  #content {
+    width: 100%;
+    padding: 35px 10px 35px;
+  }
+}
+@media screen and (max-width: 480px), screen and (max-device-width: 480px) {
+  #content {
+    width: 100%;
+  }
+}
+#content h2 {
+  padding: 0 0 10px 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 300;
+}
+#content h3 {
+  padding: 0 0 10px 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
 
 /* FOOTER */
 .footer {
@@ -610,165 +752,212 @@ nav.login {
   height: 28px;
   position: fixed;
   bottom: 0;
-  width: 100%; }
+  width: 100%;
+}
+.footer .footertext {
+  margin: 0 auto;
+  width: 960px;
+  text-align: center;
+  padding: 7px 0;
+}
+@media screen and (min-width: 874px) {
   .footer .footertext {
-    margin: 0 auto;
+    font-size: small;
     width: 960px;
-    text-align: center;
-    padding: 7px 0; }
-    @media screen and (min-width: 874px) {
-      .footer .footertext {
-        font-size: small;
-        width: 960px; } }
-    @media screen and (max-width: 873px) {
-      .footer .footertext {
-        font-size: small;
-        width: 100%; } }
-    @media screen and (max-width: 480px), screen and (max-device-width: 480px) {
-      .footer .footertext {
-        width: 100%;
-        font-size: 9px !important; } }
+  }
+}
+@media screen and (max-width: 873px) {
+  .footer .footertext {
+    font-size: small;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 480px), screen and (max-device-width: 480px) {
+  .footer .footertext {
+    width: 100%;
+    font-size: 9px !important;
+  }
+}
 
 /* NAVIGATION */
 nav.mainNav {
-  height: 58px; }
-  nav.mainNav .btn {
-    color: #fff;
-    font-family: 'source_sans_prolight';
-    font-size: 15px; }
-  nav.mainNav ul,
-  nav.mainNav li {
-    list-style: none; }
-  nav.mainNav > ul {
-    margin-top: 10px; }
-    nav.mainNav > ul > li {
-      float: left; }
-      nav.mainNav > ul > li:first-child {
-        position: relative;
-        margin-left: 6px; }
-      nav.mainNav > ul > li.active span,
-      nav.mainNav > ul > li.active > a {
-        border-bottom: 3px solid #796c67;
-        cursor: pointer; }
-      nav.mainNav > ul > li:hover, nav.mainNav > ul > li.hover {
-        position: relative; }
-        nav.mainNav > ul > li:hover .settingsBox, nav.mainNav > ul > li.hover .settingsBox {
-          position: absolute;
-          right: 0;
-          display: inline-block;
-          margin-top: 48px;
-          padding: 0 0 36px;
-          width: 153px;
-          border-right: 1px solid #eeeded;
-          border-left: 1px solid #eeeded;
-          background: #fff; }
-          nav.mainNav > ul > li:hover .settingsBox .btn, nav.mainNav > ul > li.hover .settingsBox .btn {
-            position: absolute;
-            bottom: 0;
-            left: -0.5%;
-            margin-bottom: 0;
-            width: 101%;
-            height: 36px;
-            font-family: 'source_sans_prolight' !important; }
-          nav.mainNav > ul > li:hover .settingsBox a.subNavLink, nav.mainNav > ul > li.hover .settingsBox a.subNavLink {
-            display: block;
-            padding: 8px 10px;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-            font-family: 'source_sans_prolight';
-            font-size: 16px; }
-            nav.mainNav > ul > li:hover .settingsBox a.subNavLink:first-child, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:first-child {
-              border-bottom: 1px solid #d7d2c7; }
-            nav.mainNav > ul > li:hover .settingsBox a.subNavLink:hover, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:hover {
-              background: #f4eedf; }
-        nav.mainNav > ul > li:hover span,
-        nav.mainNav > ul > li:hover > a, nav.mainNav > ul > li.hover span,
-        nav.mainNav > ul > li.hover > a {
-          border-bottom: 3px solid #796c67;
-          cursor: pointer; }
-        nav.mainNav > ul > li:hover span.settings:before, nav.mainNav > ul > li.hover span.settings:before {
-          color: #796c67; }
-      nav.mainNav > ul > li span,
-      nav.mainNav > ul > li > a {
-        display: inline-block;
-        margin-left: 0px;
-        padding: 8px 10px 17px;
-        text-decoration: none;
-        font-family: 'source_sans_prolight';
-        font-size: 16px; }
-      nav.mainNav > ul > li > span.settings {
-        display: inline;
-        padding-bottom: 14px; }
-        nav.mainNav > ul > li > span.settings span {
-          display: none;
-          text-indent: -4000px;
-          height: 0;
-          width: 0;
-          margin: 0;
-          padding: 0; }
-        nav.mainNav > ul > li > span.settings:before {
-          font-family: Coffeestats;
-          font-size: 23px;
-          line-height: 35px;
-          font-style: normal;
-          color: #d4d2d2;
-          content: "\e002"; }
-      nav.mainNav > ul > li ul {
-        display: none; }
-  @media screen and (max-width: 625px) {
-    nav.mainNav {
-      display: none; } }
+  height: 58px;
+}
+nav.mainNav .btn {
+  color: #fff;
+  font-family: "source_sans_prolight";
+  font-size: 15px;
+}
+nav.mainNav ul,
+nav.mainNav li {
+  list-style: none;
+}
+nav.mainNav > ul {
+  margin-top: 10px;
+}
+nav.mainNav > ul > li {
+  float: left;
+}
+nav.mainNav > ul > li:first-child {
+  position: relative;
+  margin-left: 6px;
+}
+nav.mainNav > ul > li.active span,
+nav.mainNav > ul > li.active > a {
+  border-bottom: 3px solid #796c67;
+  cursor: pointer;
+}
+nav.mainNav > ul > li:hover, nav.mainNav > ul > li.hover {
+  position: relative;
+}
+nav.mainNav > ul > li:hover .settingsBox, nav.mainNav > ul > li.hover .settingsBox {
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  margin-top: 48px;
+  padding: 0 0 36px;
+  width: 153px;
+  border-right: 1px solid #eeeded;
+  border-left: 1px solid #eeeded;
+  background: #fff;
+}
+nav.mainNav > ul > li:hover .settingsBox .btn, nav.mainNav > ul > li.hover .settingsBox .btn {
+  position: absolute;
+  bottom: 0;
+  left: -0.5%;
+  margin-bottom: 0;
+  width: 101%;
+  height: 36px;
+  font-family: "source_sans_prolight" !important;
+}
+nav.mainNav > ul > li:hover .settingsBox a.subNavLink, nav.mainNav > ul > li.hover .settingsBox a.subNavLink {
+  display: block;
+  padding: 8px 10px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  font-family: "source_sans_prolight";
+  font-size: 16px;
+}
+nav.mainNav > ul > li:hover .settingsBox a.subNavLink:first-child, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:first-child {
+  border-bottom: 1px solid #d7d2c7;
+}
+nav.mainNav > ul > li:hover .settingsBox a.subNavLink:hover, nav.mainNav > ul > li.hover .settingsBox a.subNavLink:hover {
+  background: #f4eedf;
+}
+nav.mainNav > ul > li:hover span,
+nav.mainNav > ul > li:hover > a, nav.mainNav > ul > li.hover span,
+nav.mainNav > ul > li.hover > a {
+  border-bottom: 3px solid #796c67;
+  cursor: pointer;
+}
+nav.mainNav > ul > li:hover span.settings:before, nav.mainNav > ul > li.hover span.settings:before {
+  color: #796c67;
+}
+nav.mainNav > ul > li span,
+nav.mainNav > ul > li > a {
+  display: inline-block;
+  margin-left: 0px;
+  padding: 8px 10px 17px;
+  text-decoration: none;
+  font-family: "source_sans_prolight";
+  font-size: 16px;
+}
+nav.mainNav > ul > li > span.settings {
+  display: inline;
+  padding-bottom: 14px;
+}
+nav.mainNav > ul > li > span.settings span {
+  display: none;
+  text-indent: -4000px;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+nav.mainNav > ul > li > span.settings:before {
+  font-family: Coffeestats;
+  font-size: 23px;
+  line-height: 35px;
+  font-style: normal;
+  color: #d4d2d2;
+  content: "\e002";
+}
+nav.mainNav > ul > li ul {
+  display: none;
+}
+@media screen and (max-width: 625px) {
+  nav.mainNav {
+    display: none;
+  }
+}
 
 nav.mainNavMobile {
-  display: none; }
-  @media screen and (max-width: 625px) {
-    nav.mainNavMobile {
-      display: block; }
-      nav.mainNavMobile > ul {
-        margin: 0; }
-      nav.mainNavMobile li {
-        list-style: none; }
-      nav.mainNavMobile li.menuIndicator {
-        display: block; }
-        nav.mainNavMobile li.menuIndicator span span {
-          text-indent: -300000px;
-          display: inline-block;
-          width: 0;
-          margin-right: 10px; }
-        nav.mainNavMobile li.menuIndicator ul {
-          display: none; }
-        nav.mainNavMobile li.menuIndicator .icon:before {
-          font-size: 35px; }
-        nav.mainNavMobile li.menuIndicator.hover ul {
-          display: inline-block;
-          width: 100%;
-          position: absolute;
-          left: 0;
-          top: 38px;
-          padding: 20px 0 0 0; }
-          nav.mainNavMobile li.menuIndicator.hover ul li a {
-            display: block;
-            padding: 8px 10px;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-            font-family: 'source_sans_prolight';
-            font-size: 16px;
-            background: #fff; }
-            nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
-              border-bottom: 1px solid #d7d2c7; }
-            nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
-              background: #f4eedf; }
-            nav.mainNavMobile li.menuIndicator.hover ul li a.btn {
-              background: #796c67;
-              margin: 0; }
-              nav.mainNavMobile li.menuIndicator.hover ul li a.btn:first-child {
-                border-bottom: 0; }
-        nav.mainNavMobile li.menuIndicator.hover.inactive ul {
-          display: none !important; }
-        nav.mainNavMobile li.menuIndicator.hover .icon:before {
-          color: #796c67; } }
+  display: none;
+}
+@media screen and (max-width: 625px) {
+  nav.mainNavMobile {
+    display: block;
+  }
+  nav.mainNavMobile > ul {
+    margin: 0;
+  }
+  nav.mainNavMobile li {
+    list-style: none;
+  }
+  nav.mainNavMobile li.menuIndicator {
+    display: block;
+  }
+  nav.mainNavMobile li.menuIndicator span span {
+    text-indent: -300000px;
+    display: inline-block;
+    width: 0;
+    margin-right: 10px;
+  }
+  nav.mainNavMobile li.menuIndicator ul {
+    display: none;
+  }
+  nav.mainNavMobile li.menuIndicator .icon:before {
+    font-size: 35px;
+  }
+  nav.mainNavMobile li.menuIndicator.hover ul {
+    display: inline-block;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 38px;
+    padding: 20px 0 0 0;
+  }
+  nav.mainNavMobile li.menuIndicator.hover ul li a {
+    display: block;
+    padding: 8px 10px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    font-family: "source_sans_prolight";
+    font-size: 16px;
+    background: #fff;
+  }
+  nav.mainNavMobile li.menuIndicator.hover ul li a:first-child {
+    border-bottom: 1px solid #d7d2c7;
+  }
+  nav.mainNavMobile li.menuIndicator.hover ul li a:hover {
+    background: #f4eedf;
+  }
+  nav.mainNavMobile li.menuIndicator.hover ul li a.btn {
+    background: #796c67;
+    margin: 0;
+  }
+  nav.mainNavMobile li.menuIndicator.hover ul li a.btn:first-child {
+    border-bottom: 0;
+  }
+  nav.mainNavMobile li.menuIndicator.hover.inactive ul {
+    display: none !important;
+  }
+  nav.mainNavMobile li.menuIndicator.hover .icon:before {
+    color: #796c67;
+  }
+}
 
 /*!
  * ClockPicker v0.0.6 for jQuery (http://weareoutman.github.io/clockpicker/)
@@ -782,18 +971,26 @@ nav.mainNavMobile {
 /* Picked from bootstrap: .popover, .btn, .text-primary */
 .clockpicker {
   display: inline-block;
+}
+@media screen and (min-width: 874px) {
+  .clockpicker {
+    width: 18%;
+  }
+}
+@media screen and (max-width: 873px) {
+  .clockpicker {
+    width: 22%;
+  }
+}
+.clockpicker {
   padding: 2px 0;
   margin: 0 0 0 8px;
-  position: relative; }
-  @media screen and (min-width: 874px) {
-    .clockpicker {
-      width: 18%; } }
-  @media screen and (max-width: 873px) {
-    .clockpicker {
-      width: 22%; } }
-  .clockpicker input {
-    padding-right: 22px;
-    margin-bottom: 0; }
+  position: relative;
+}
+.clockpicker input {
+  padding-right: 22px;
+  margin-bottom: 0;
+}
 
 .popover {
   position: absolute;
@@ -809,15 +1006,20 @@ nav.mainNavMobile {
   background-clip: padding-box;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 3px; }
-  .popover.top {
-    margin-top: -10px; }
-  .popover.right {
-    margin-left: 10px; }
-  .popover.bottom {
-    margin-top: 10px; }
-  .popover.left {
-    margin-left: -10px; }
+  border-radius: 3px;
+}
+.popover.top {
+  margin-top: -10px;
+}
+.popover.right {
+  margin-left: 10px;
+}
+.popover.bottom {
+  margin-top: 10px;
+}
+.popover.left {
+  margin-left: -10px;
+}
 
 .popover-title {
   padding: 8px 14px;
@@ -827,10 +1029,12 @@ nav.mainNavMobile {
   line-height: 18px;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
-  border-radius: 5px 5px 0 0; }
+  border-radius: 5px 5px 0 0;
+}
 
 .popover-content {
-  padding: 9px 14px; }
+  padding: 9px 14px;
+}
 
 .popover > .arrow {
   position: absolute;
@@ -839,68 +1043,80 @@ nav.mainNavMobile {
   height: 0;
   border-color: transparent;
   border-style: solid;
-  border-width: 11px; }
-  .popover > .arrow:after {
-    position: absolute;
-    display: block;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    content: "";
-    border-width: 10px; }
+}
+.popover > .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  content: "";
+  border-width: 10px;
+}
+.popover > .arrow {
+  border-width: 11px;
+}
 .popover.top > .arrow {
   bottom: -11px;
   left: 50%;
   margin-left: -11px;
   border-top-color: #999;
   border-top-color: rgba(0, 0, 0, 0.25);
-  border-bottom-width: 0; }
-  .popover.top > .arrow:after {
-    bottom: 1px;
-    margin-left: -10px;
-    content: " ";
-    border-top-color: #fff;
-    border-bottom-width: 0; }
+  border-bottom-width: 0;
+}
+.popover.top > .arrow:after {
+  bottom: 1px;
+  margin-left: -10px;
+  content: " ";
+  border-top-color: #fff;
+  border-bottom-width: 0;
+}
 .popover.right > .arrow {
   top: 50%;
   left: -11px;
   margin-top: -11px;
   border-right-color: #999;
   border-right-color: rgba(0, 0, 0, 0.25);
-  border-left-width: 0; }
-  .popover.right > .arrow:after {
-    bottom: -10px;
-    left: 1px;
-    content: " ";
-    border-right-color: #fff;
-    border-left-width: 0; }
+  border-left-width: 0;
+}
+.popover.right > .arrow:after {
+  bottom: -10px;
+  left: 1px;
+  content: " ";
+  border-right-color: #fff;
+  border-left-width: 0;
+}
 .popover.bottom > .arrow {
   top: -11px;
   left: 50%;
   margin-left: -11px;
   border-top-width: 0;
   border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, 0.25); }
-  .popover.bottom > .arrow:after {
-    top: 1px;
-    margin-left: -10px;
-    content: " ";
-    border-top-width: 0;
-    border-bottom-color: #fff; }
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+}
+.popover.bottom > .arrow:after {
+  top: 1px;
+  margin-left: -10px;
+  content: " ";
+  border-top-width: 0;
+  border-bottom-color: #fff;
+}
 .popover.left > .arrow {
   top: 50%;
   right: -11px;
   margin-top: -11px;
   border-right-width: 0;
   border-left-color: #999;
-  border-left-color: rgba(0, 0, 0, 0.25); }
-  .popover.left > .arrow:after {
-    right: 1px;
-    bottom: -10px;
-    content: " ";
-    border-right-width: 0;
-    border-left-color: #fff; }
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+.popover.left > .arrow:after {
+  right: 1px;
+  bottom: -10px;
+  content: " ";
+  border-right-width: 0;
+  border-left-color: #fff;
+}
 
 .btn {
   cursor: pointer;
@@ -909,44 +1125,55 @@ nav.mainNavMobile {
   -ms-user-select: none;
   user-select: none;
   background-image: none;
-  border: 1px solid transparent; }
-  .btn:focus, .btn:active:focus, .btn.active:focus {
-    outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px; }
-  .btn:hover, .btn:focus {
-    color: #333;
-    text-decoration: none; }
-  .btn:active, .btn.active {
-    background-image: none;
-    outline: 0; }
+  border: 1px solid transparent;
+}
+.btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover, .btn:focus {
+  color: #333;
+  text-decoration: none;
+}
+.btn:active, .btn.active {
+  background-image: none;
+  outline: 0;
+}
 
 .btn-default {
   color: #333;
   background-color: #fff;
-  border-color: #ccc; }
-  .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active {
-    color: #333;
-    background-color: #ebebeb;
-    border-color: #adadad; }
+  border-color: #ccc;
+}
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active {
+  color: #333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
 
 .open .dropdown-toggle.btn-default {
   color: #333;
   background-color: #ebebeb;
-  border-color: #adadad; }
+  border-color: #adadad;
+}
 
 .btn-default:active, .btn-default.active {
-  background-image: none; }
+  background-image: none;
+}
 
 .open .dropdown-toggle.btn-default {
-  background-image: none; }
+  background-image: none;
+}
 
 .btn-block {
   display: block;
-  width: 100%; }
+  width: 100%;
+}
 
 .text-primary {
-  color: #796c67; }
+  color: #796c67;
+}
 
 /*!
  * ClockPicker v{package.version} for Bootstrap (http://weareoutman.github.io/clockpicker/)
@@ -954,24 +1181,30 @@ nav.mainNavMobile {
  * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/master/LICENSE)
  */
 .clockpicker .input-group-addon {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .clockpicker-moving {
-  cursor: move; }
+  cursor: move;
+}
 
 .clockpicker-align-left.popover > .arrow {
-  left: 25px; }
+  left: 25px;
+}
 
 .clockpicker-align-top.popover > .arrow {
-  top: 17px; }
+  top: 17px;
+}
 
 .clockpicker-align-right.popover > .arrow {
   left: auto;
-  right: 25px; }
+  right: 25px;
+}
 
 .clockpicker-align-bottom.popover > .arrow {
   top: auto;
-  bottom: 6px; }
+  bottom: 6px;
+}
 
 .clockpicker-popover .popover-title {
   background-color: #fff;
@@ -979,16 +1212,20 @@ nav.mainNavMobile {
   font-size: 24px;
   font-weight: bold;
   line-height: 30px;
-  text-align: center; }
-  .clockpicker-popover .popover-title span {
-    cursor: pointer; }
+  text-align: center;
+}
+.clockpicker-popover .popover-title span {
+  cursor: pointer;
+}
 .clockpicker-popover .popover-content {
   background-color: #f8f8f8;
-  padding: 12px; }
+  padding: 12px;
+}
 
 .popover-content:last-child {
   border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px; }
+  border-bottom-right-radius: 5px;
+}
 
 .clockpicker-plate {
   background-color: #fff;
@@ -1004,17 +1241,20 @@ nav.mainNavMobile {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none; }
+  user-select: none;
+}
 
 .clockpicker-canvas, .clockpicker-dial {
   width: 200px;
   height: 200px;
   position: absolute;
   left: -1px;
-  top: -1px; }
+  top: -1px;
+}
 
 .clockpicker-minutes {
-  visibility: hidden; }
+  visibility: hidden;
+}
 
 .clockpicker-tick {
   border-radius: 50%;
@@ -1024,11 +1264,13 @@ nav.mainNavMobile {
   width: 26px;
   height: 26px;
   position: absolute;
-  cursor: pointer; }
-  .clockpicker-tick.active, .clockpicker-tick:hover {
-    background-color: #796c67;
-    background-color: #796c67;
-    color: #fff; }
+  cursor: pointer;
+}
+.clockpicker-tick.active, .clockpicker-tick:hover {
+  background-color: #796c67;
+  background-color: #796c67;
+  color: #fff;
+}
 
 .clockpicker-button {
   background-image: none;
@@ -1037,63 +1279,76 @@ nav.mainNavMobile {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   margin: 0;
-  padding: 10px 0; }
-  .clockpicker-button:hover {
-    background-image: none;
-    background-color: #ebebeb; }
-  .clockpicker-button:focus {
-    outline: none !important; }
+  padding: 10px 0;
+}
+.clockpicker-button:hover {
+  background-image: none;
+  background-color: #ebebeb;
+}
+.clockpicker-button:focus {
+  outline: none !important;
+}
 
 .clockpicker-dial {
   -webkit-transition: -webkit-transform 350ms, opacity 350ms;
   -moz-transition: -moz-transform 350ms, opacity 350ms;
   -ms-transition: -ms-transform 350ms, opacity 350ms;
   -o-transition: -o-transform 350ms, opacity 350ms;
-  transition: transform 350ms, opacity 350ms; }
+  transition: transform 350ms, opacity 350ms;
+}
 
 .clockpicker-dial-out {
-  opacity: 0; }
+  opacity: 0;
+}
 
 .clockpicker-hours.clockpicker-dial-out {
   -webkit-transform: scale(1.2, 1.2);
   -moz-transform: scale(1.2, 1.2);
   -ms-transform: scale(1.2, 1.2);
   -o-transform: scale(1.2, 1.2);
-  transform: scale(1.2, 1.2); }
+  transform: scale(1.2, 1.2);
+}
 
 .clockpicker-minutes.clockpicker-dial-out {
   -webkit-transform: scale(0.8, 0.8);
   -moz-transform: scale(0.8, 0.8);
   -ms-transform: scale(0.8, 0.8);
   -o-transform: scale(0.8, 0.8);
-  transform: scale(0.8, 0.8); }
+  transform: scale(0.8, 0.8);
+}
 
 .clockpicker-canvas {
   -webkit-transition: opacity 175ms;
   -moz-transition: opacity 175ms;
   -ms-transition: opacity 175ms;
   -o-transition: opacity 175ms;
-  transition: opacity 175ms; }
+  transition: opacity 175ms;
+}
 
 .clockpicker-canvas-out {
-  opacity: 0.25; }
+  opacity: 0.25;
+}
 
 .clockpicker-canvas-bearing, .clockpicker-canvas-fg {
   stroke: none;
-  fill: #796c67; }
+  fill: #796c67;
+}
 
 .clockpicker-canvas-bg {
   stroke: none;
-  fill: #bcb6b3; }
+  fill: #bcb6b3;
+}
 
 .clockpicker-canvas-bg-trans {
-  fill: #bcb6b3; }
+  fill: #bcb6b3;
+}
 
 .clockpicker-canvas line {
   stroke: #796c67;
   stroke-width: 1;
   stroke-linecap: round;
-  /*shape-rendering: crispEdges;*/ }
+  /*shape-rendering: crispEdges;*/
+}
 
 /*!
  * Datepicker for Bootstrap
@@ -1107,78 +1362,104 @@ nav.mainNavMobile {
 .datepicker {
   float: left;
   padding: 2px 0;
+}
+@media screen and (min-width: 874px) {
+  .datepicker {
+    width: 30%;
+  }
+}
+@media screen and (max-width: 873px) {
+  .datepicker {
+    width: 32%;
+  }
+}
+.datepicker {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
   direction: ltr;
   position: relative;
+}
+.datepicker input {
+  padding-right: 22px;
+  margin-bottom: 0;
+}
+.datepicker {
   /*.dow {
     border-top: 1px solid #ddd !important;
-  }*/ }
-  @media screen and (min-width: 874px) {
-    .datepicker {
-      width: 30%; } }
-  @media screen and (max-width: 873px) {
-    .datepicker {
-      width: 32%; } }
-  .datepicker input {
-    padding-right: 22px;
-    margin-bottom: 0; }
+  }*/
+}
 
 .datepicker-inline {
-  width: 220px; }
+  width: 220px;
+}
 
 .datepicker.datepicker-rtl {
-  direction: rtl; }
-  .datepicker.datepicker-rtl table tr td span {
-    float: right; }
+  direction: rtl;
+}
+.datepicker.datepicker-rtl table tr td span {
+  float: right;
+}
 
 .datepicker-dropdown {
   top: 0;
   left: 0;
-  margin-top: 15px; }
-  .datepicker-dropdown:before {
-    position: absolute;
-    display: inline-block;
-    border-top: 0;
-    border-right: 7px solid transparent;
-    border-bottom: 7px solid #ccc;
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    border-left: 7px solid transparent;
-    content: ''; }
-  .datepicker-dropdown:after {
-    position: absolute;
-    display: inline-block;
-    border-top: 0;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid #ffffff;
-    border-left: 6px solid transparent;
-    content: ''; }
-  .datepicker-dropdown.datepicker-orient-left:before {
-    left: 6px; }
-  .datepicker-dropdown.datepicker-orient-left:after {
-    left: 7px; }
-  .datepicker-dropdown.datepicker-orient-right:before {
-    right: 6px; }
-  .datepicker-dropdown.datepicker-orient-right:after {
-    right: 7px; }
-  .datepicker-dropdown.datepicker-orient-top:before {
-    top: -7px; }
-  .datepicker-dropdown.datepicker-orient-top:after {
-    top: -6px; }
-  .datepicker-dropdown.datepicker-orient-bottom:before {
-    bottom: -7px;
-    border-top: 7px solid #999;
-    border-bottom: 0; }
-  .datepicker-dropdown.datepicker-orient-bottom:after {
-    bottom: -6px;
-    border-top: 6px solid #ffffff;
-    border-bottom: 0; }
+  margin-top: 15px;
+}
+.datepicker-dropdown:before {
+  position: absolute;
+  display: inline-block;
+  border-top: 0;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-left: 7px solid transparent;
+  content: "";
+}
+.datepicker-dropdown:after {
+  position: absolute;
+  display: inline-block;
+  border-top: 0;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  border-left: 6px solid transparent;
+  content: "";
+}
+.datepicker-dropdown.datepicker-orient-left:before {
+  left: 6px;
+}
+.datepicker-dropdown.datepicker-orient-left:after {
+  left: 7px;
+}
+.datepicker-dropdown.datepicker-orient-right:before {
+  right: 6px;
+}
+.datepicker-dropdown.datepicker-orient-right:after {
+  right: 7px;
+}
+.datepicker-dropdown.datepicker-orient-top:before {
+  top: -7px;
+}
+.datepicker-dropdown.datepicker-orient-top:after {
+  top: -6px;
+}
+.datepicker-dropdown.datepicker-orient-bottom:before {
+  bottom: -7px;
+  border-top: 7px solid #999;
+  border-bottom: 0;
+}
+.datepicker-dropdown.datepicker-orient-bottom:after {
+  bottom: -6px;
+  border-top: 6px solid #ffffff;
+  border-bottom: 0;
+}
 
 .datepicker > div {
-  display: none; }
+  display: none;
+}
 .datepicker.days div.datepicker-days, .datepicker.months div.datepicker-months, .datepicker.years div.datepicker-years {
-  display: block; }
+  display: block;
+}
 .datepicker table {
   margin: 0;
   -webkit-touch-callout: none;
@@ -1186,7 +1467,8 @@ nav.mainNavMobile {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none; }
+  user-select: none;
+}
 .datepicker td, .datepicker th {
   width: 20px;
   height: 20px;
@@ -1194,165 +1476,207 @@ nav.mainNavMobile {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  text-align: center; }
+  text-align: center;
+}
 
 .table-striped .datepicker table tr td, .table-striped .datepicker table tr th {
-  background-color: transparent; }
+  background-color: transparent;
+}
 
 .datepicker table tr td.day:hover, .datepicker table tr td.day.focused {
   background: #eeeeee;
-  cursor: pointer; }
+  cursor: pointer;
+}
 .datepicker table tr td.old, .datepicker table tr td.new {
-  color: #999999; }
+  color: #999999;
+}
 .datepicker table tr td.disabled {
   background: none;
   color: #999999;
-  cursor: default; }
-  .datepicker table tr td.disabled:hover {
-    background: none;
-    color: #999999;
-    cursor: default; }
+  cursor: default;
+}
+.datepicker table tr td.disabled:hover {
+  background: none;
+  color: #999999;
+  cursor: default;
+}
 .datepicker table tr td.today {
   background-color: #796c67;
-  color: #fff; }
-  .datepicker table tr td.today.disabled:active, .datepicker table tr td.today.disabled:hover:active {
-    background-color: #fdf59a; }
-  .datepicker table tr td.today.active, .datepicker table tr td.today:hover.active {
-    background-color: #fdf59a; }
-  .datepicker table tr td.today.disabled {
-    background-color: #fdf59a; }
-    .datepicker table tr td.today.disabled.active, .datepicker table tr td.today.disabled:hover.active {
-      background-color: #fdf59a; }
-  .datepicker table tr td.today:hover.disabled {
-    background-color: #fdf59a; }
-  .datepicker table tr td.today.disabled.disabled, .datepicker table tr td.today.disabled:hover.disabled {
-    background-color: #fdf59a; }
-  .datepicker table tr td.today[disabled], .datepicker table tr td.today:hover[disabled] {
-    background-color: #fdf59a; }
-  .datepicker table tr td.today.disabled[disabled], .datepicker table tr td.today.disabled:hover[disabled] {
-    background-color: #fdf59a; }
-  .datepicker table tr td.today:active, .datepicker table tr td.today:hover:active {
-    background-color: #fbf069 \9; }
-  .datepicker table tr td.today.disabled:active, .datepicker table tr td.today.disabled:hover:active {
-    background-color: #fbf069 \9; }
-  .datepicker table tr td.today.active, .datepicker table tr td.today:hover.active {
-    background-color: #fbf069 \9; }
-  .datepicker table tr td.today.disabled.active, .datepicker table tr td.today.disabled:hover.active {
-    background-color: #fbf069 \9; }
-  .datepicker table tr td.today:hover:hover {
-    color: #000; }
-  .datepicker table tr td.today.active:hover {
-    color: #fff; }
+  color: #fff;
+}
+.datepicker table tr td.today.disabled:active, .datepicker table tr td.today.disabled:hover:active {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today.active, .datepicker table tr td.today:hover.active {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today.disabled {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today.disabled.active, .datepicker table tr td.today.disabled:hover.active {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today:hover.disabled {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today.disabled.disabled, .datepicker table tr td.today.disabled:hover.disabled {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today[disabled], .datepicker table tr td.today:hover[disabled] {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today.disabled[disabled], .datepicker table tr td.today.disabled:hover[disabled] {
+  background-color: #fdf59a;
+}
+.datepicker table tr td.today:active, .datepicker table tr td.today:hover:active {
+  background-color: #fbf069 \9 ;
+}
+.datepicker table tr td.today.disabled:active, .datepicker table tr td.today.disabled:hover:active {
+  background-color: #fbf069 \9 ;
+}
+.datepicker table tr td.today.active, .datepicker table tr td.today:hover.active {
+  background-color: #fbf069 \9 ;
+}
+.datepicker table tr td.today.disabled.active, .datepicker table tr td.today.disabled:hover.active {
+  background-color: #fbf069 \9 ;
+}
+.datepicker table tr td.today:hover:hover {
+  color: #000;
+}
+.datepicker table tr td.today.active:hover {
+  color: #fff;
+}
 .datepicker table tr td.range {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
-  background: #eeeeee; }
-  .datepicker table tr td.range:hover {
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    background: #eeeeee; }
-  .datepicker table tr td.range.disabled {
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    background: #eeeeee; }
-    .datepicker table tr td.range.disabled:hover {
-      background: #eeeeee;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0; }
-  .datepicker table tr td.range.today {
-    border-color: #f3e97a #f3e97a #edde34;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    background-color: #f3d17a;
-    background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
-    background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
-    background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
-    background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
-    background-image: linear-gradient(top, #f3c17a, #f3e97a);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td.range.today:hover {
-      border-color: #f3e97a #f3e97a #edde34;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      background-color: #f3d17a;
-      background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
-      background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: linear-gradient(top, #f3c17a, #f3e97a);
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td.range.today.disabled {
-      border-color: #f3e97a #f3e97a #edde34;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      background-color: #f3d17a;
-      background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
-      background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
-      background-image: linear-gradient(top, #f3c17a, #f3e97a);
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-      .datepicker table tr td.range.today.disabled:hover {
-        background-color: #f3d17a;
-        background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
-        background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
-        background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
-        background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
-        background-image: linear-gradient(top, #f3c17a, #f3e97a);
-        background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
-        border-color: #f3e97a #f3e97a #edde34;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0; }
-    .datepicker table tr td.range.today:hover, .datepicker table tr td.range.today.disabled:hover, .datepicker table tr td.range.today:active, .datepicker table tr td.range.today:hover:active {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today.disabled:active, .datepicker table tr td.range.today.disabled:hover:active {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today.active, .datepicker table tr td.range.today:hover.active {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today.disabled {
-      background-color: #f3e97a; }
-      .datepicker table tr td.range.today.disabled.active, .datepicker table tr td.range.today.disabled:hover.active {
-        background-color: #f3e97a; }
-    .datepicker table tr td.range.today:hover.disabled {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today.disabled.disabled, .datepicker table tr td.range.today.disabled:hover.disabled {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today[disabled], .datepicker table tr td.range.today:hover[disabled] {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today.disabled[disabled], .datepicker table tr td.range.today.disabled:hover[disabled] {
-      background-color: #f3e97a; }
-    .datepicker table tr td.range.today:active, .datepicker table tr td.range.today:hover:active {
-      background-color: #efe24b \9; }
-    .datepicker table tr td.range.today.disabled:active, .datepicker table tr td.range.today.disabled:hover:active {
-      background-color: #efe24b \9; }
-    .datepicker table tr td.range.today.active, .datepicker table tr td.range.today:hover.active {
-      background-color: #efe24b \9; }
-    .datepicker table tr td.range.today.disabled.active, .datepicker table tr td.range.today.disabled:hover.active {
-      background-color: #efe24b \9; }
+  background: #eeeeee;
+}
+.datepicker table tr td.range:hover {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background: #eeeeee;
+}
+.datepicker table tr td.range.disabled {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background: #eeeeee;
+}
+.datepicker table tr td.range.disabled:hover {
+  background: #eeeeee;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.datepicker table tr td.range.today {
+  border-color: #f3e97a #f3e97a #edde34;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: #f3d17a;
+  background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
+  background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: linear-gradient(top, #f3c17a, #f3e97a);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.range.today:hover {
+  border-color: #f3e97a #f3e97a #edde34;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: #f3d17a;
+  background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
+  background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: linear-gradient(top, #f3c17a, #f3e97a);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.range.today.disabled {
+  border-color: #f3e97a #f3e97a #edde34;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: #f3d17a;
+  background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
+  background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: linear-gradient(top, #f3c17a, #f3e97a);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.range.today.disabled:hover {
+  background-color: #f3d17a;
+  background-image: -moz-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -ms-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3c17a), to(#f3e97a));
+  background-image: -webkit-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: -o-linear-gradient(top, #f3c17a, #f3e97a);
+  background-image: linear-gradient(top, #f3c17a, #f3e97a);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
+  border-color: #f3e97a #f3e97a #edde34;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.datepicker table tr td.range.today:hover, .datepicker table tr td.range.today.disabled:hover, .datepicker table tr td.range.today:active, .datepicker table tr td.range.today:hover:active {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today.disabled:active, .datepicker table tr td.range.today.disabled:hover:active {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today.active, .datepicker table tr td.range.today:hover.active {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today.disabled {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today.disabled.active, .datepicker table tr td.range.today.disabled:hover.active {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today:hover.disabled {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today.disabled.disabled, .datepicker table tr td.range.today.disabled:hover.disabled {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today[disabled], .datepicker table tr td.range.today:hover[disabled] {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today.disabled[disabled], .datepicker table tr td.range.today.disabled:hover[disabled] {
+  background-color: #f3e97a;
+}
+.datepicker table tr td.range.today:active, .datepicker table tr td.range.today:hover:active {
+  background-color: #efe24b \9 ;
+}
+.datepicker table tr td.range.today.disabled:active, .datepicker table tr td.range.today.disabled:hover:active {
+  background-color: #efe24b \9 ;
+}
+.datepicker table tr td.range.today.active, .datepicker table tr td.range.today:hover.active {
+  background-color: #efe24b \9 ;
+}
+.datepicker table tr td.range.today.disabled.active, .datepicker table tr td.range.today.disabled:hover.active {
+  background-color: #efe24b \9 ;
+}
 .datepicker table tr td.selected {
   border-color: #808080 #808080 #595959;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -1367,78 +1691,95 @@ nav.mainNavMobile {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-  .datepicker table tr td.selected:hover {
-    border-color: #808080 #808080 #595959;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #9e9e9e;
-    background-image: -moz-linear-gradient(top, #b3b3b3, gray);
-    background-image: -ms-linear-gradient(top, #b3b3b3, gray);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b3b3b3), to(gray));
-    background-image: -webkit-linear-gradient(top, #b3b3b3, gray);
-    background-image: -o-linear-gradient(top, #b3b3b3, gray);
-    background-image: linear-gradient(top, #b3b3b3, gray);
-    background-repeat: repeat-x;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-  .datepicker table tr td.selected.disabled {
-    border-color: #808080 #808080 #595959;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #9e9e9e;
-    background-image: -moz-linear-gradient(top, #b3b3b3, gray);
-    background-image: -ms-linear-gradient(top, #b3b3b3, gray);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b3b3b3), to(gray));
-    background-image: -webkit-linear-gradient(top, #b3b3b3, gray);
-    background-image: -o-linear-gradient(top, #b3b3b3, gray);
-    background-image: linear-gradient(top, #b3b3b3, gray);
-    background-repeat: repeat-x;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td.selected.disabled:hover {
-      background-color: #9e9e9e;
-      background-image: -moz-linear-gradient(top, #b3b3b3, gray);
-      background-image: -ms-linear-gradient(top, #b3b3b3, gray);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b3b3b3), to(gray));
-      background-image: -webkit-linear-gradient(top, #b3b3b3, gray);
-      background-image: -o-linear-gradient(top, #b3b3b3, gray);
-      background-image: linear-gradient(top, #b3b3b3, gray);
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
-      border-color: #808080 #808080 #595959;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-      color: #fff;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); }
-  .datepicker table tr td.selected:hover, .datepicker table tr td.selected.disabled:hover, .datepicker table tr td.selected:active, .datepicker table tr td.selected:hover:active {
-    background-color: #808080; }
-  .datepicker table tr td.selected.disabled:active, .datepicker table tr td.selected.disabled:hover:active {
-    background-color: #808080; }
-  .datepicker table tr td.selected.active, .datepicker table tr td.selected:hover.active {
-    background-color: #808080; }
-  .datepicker table tr td.selected.disabled {
-    background-color: #808080; }
-    .datepicker table tr td.selected.disabled.active, .datepicker table tr td.selected.disabled:hover.active {
-      background-color: #808080; }
-  .datepicker table tr td.selected:hover.disabled {
-    background-color: #808080; }
-  .datepicker table tr td.selected.disabled.disabled, .datepicker table tr td.selected.disabled:hover.disabled {
-    background-color: #808080; }
-  .datepicker table tr td.selected[disabled], .datepicker table tr td.selected:hover[disabled] {
-    background-color: #808080; }
-  .datepicker table tr td.selected.disabled[disabled], .datepicker table tr td.selected.disabled:hover[disabled] {
-    background-color: #808080; }
-  .datepicker table tr td.selected:active, .datepicker table tr td.selected:hover:active {
-    background-color: #666666 \9; }
-  .datepicker table tr td.selected.disabled:active, .datepicker table tr td.selected.disabled:hover:active {
-    background-color: #666666 \9; }
-  .datepicker table tr td.selected.active, .datepicker table tr td.selected:hover.active {
-    background-color: #666666 \9; }
-  .datepicker table tr td.selected.disabled.active, .datepicker table tr td.selected.disabled:hover.active {
-    background-color: #666666 \9; }
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.selected:hover {
+  border-color: #808080 #808080 #595959;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #9e9e9e;
+  background-image: -moz-linear-gradient(top, #b3b3b3, gray);
+  background-image: -ms-linear-gradient(top, #b3b3b3, gray);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b3b3b3), to(gray));
+  background-image: -webkit-linear-gradient(top, #b3b3b3, gray);
+  background-image: -o-linear-gradient(top, #b3b3b3, gray);
+  background-image: linear-gradient(top, #b3b3b3, gray);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.selected.disabled {
+  border-color: #808080 #808080 #595959;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #9e9e9e;
+  background-image: -moz-linear-gradient(top, #b3b3b3, gray);
+  background-image: -ms-linear-gradient(top, #b3b3b3, gray);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b3b3b3), to(gray));
+  background-image: -webkit-linear-gradient(top, #b3b3b3, gray);
+  background-image: -o-linear-gradient(top, #b3b3b3, gray);
+  background-image: linear-gradient(top, #b3b3b3, gray);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.selected.disabled:hover {
+  background-color: #9e9e9e;
+  background-image: -moz-linear-gradient(top, #b3b3b3, gray);
+  background-image: -ms-linear-gradient(top, #b3b3b3, gray);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b3b3b3), to(gray));
+  background-image: -webkit-linear-gradient(top, #b3b3b3, gray);
+  background-image: -o-linear-gradient(top, #b3b3b3, gray);
+  background-image: linear-gradient(top, #b3b3b3, gray);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3b3b3', endColorstr='#808080', GradientType=0);
+  border-color: #808080 #808080 #595959;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.datepicker table tr td.selected:hover, .datepicker table tr td.selected.disabled:hover, .datepicker table tr td.selected:active, .datepicker table tr td.selected:hover:active {
+  background-color: #808080;
+}
+.datepicker table tr td.selected.disabled:active, .datepicker table tr td.selected.disabled:hover:active {
+  background-color: #808080;
+}
+.datepicker table tr td.selected.active, .datepicker table tr td.selected:hover.active {
+  background-color: #808080;
+}
+.datepicker table tr td.selected.disabled {
+  background-color: #808080;
+}
+.datepicker table tr td.selected.disabled.active, .datepicker table tr td.selected.disabled:hover.active {
+  background-color: #808080;
+}
+.datepicker table tr td.selected:hover.disabled {
+  background-color: #808080;
+}
+.datepicker table tr td.selected.disabled.disabled, .datepicker table tr td.selected.disabled:hover.disabled {
+  background-color: #808080;
+}
+.datepicker table tr td.selected[disabled], .datepicker table tr td.selected:hover[disabled] {
+  background-color: #808080;
+}
+.datepicker table tr td.selected.disabled[disabled], .datepicker table tr td.selected.disabled:hover[disabled] {
+  background-color: #808080;
+}
+.datepicker table tr td.selected:active, .datepicker table tr td.selected:hover:active {
+  background-color: #666666 \9 ;
+}
+.datepicker table tr td.selected.disabled:active, .datepicker table tr td.selected.disabled:hover:active {
+  background-color: #666666 \9 ;
+}
+.datepicker table tr td.selected.active, .datepicker table tr td.selected:hover.active {
+  background-color: #666666 \9 ;
+}
+.datepicker table tr td.selected.disabled.active, .datepicker table tr td.selected.disabled:hover.active {
+  background-color: #666666 \9 ;
+}
 .datepicker table tr td.active {
   border-color: #0044cc #0044cc #002a80;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -1453,78 +1794,95 @@ nav.mainNavMobile {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-  .datepicker table tr td.active:hover {
-    border-color: #0044cc #0044cc #002a80;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #006dcc;
-    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-    background-image: linear-gradient(top, #0088cc, #0044cc);
-    background-repeat: repeat-x;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-  .datepicker table tr td.active.disabled {
-    border-color: #0044cc #0044cc #002a80;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #006dcc;
-    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-    background-image: linear-gradient(top, #0088cc, #0044cc);
-    background-repeat: repeat-x;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td.active.disabled:hover {
-      background-color: #006dcc;
-      background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-      background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-      background-image: linear-gradient(top, #0088cc, #0044cc);
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-      border-color: #0044cc #0044cc #002a80;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-      color: #fff;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); }
-  .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:active, .datepicker table tr td.active:hover:active {
-    background-color: #0044cc; }
-  .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active {
-    background-color: #0044cc; }
-  .datepicker table tr td.active.active, .datepicker table tr td.active:hover.active {
-    background-color: #0044cc; }
-  .datepicker table tr td.active.disabled {
-    background-color: #0044cc; }
-    .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:hover.active {
-      background-color: #0044cc; }
-  .datepicker table tr td.active:hover.disabled {
-    background-color: #0044cc; }
-  .datepicker table tr td.active.disabled.disabled, .datepicker table tr td.active.disabled:hover.disabled {
-    background-color: #0044cc; }
-  .datepicker table tr td.active[disabled], .datepicker table tr td.active:hover[disabled] {
-    background-color: #0044cc; }
-  .datepicker table tr td.active.disabled[disabled], .datepicker table tr td.active.disabled:hover[disabled] {
-    background-color: #0044cc; }
-  .datepicker table tr td.active:active, .datepicker table tr td.active:hover:active {
-    background-color: #003399 \9; }
-  .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active {
-    background-color: #003399 \9; }
-  .datepicker table tr td.active.active, .datepicker table tr td.active:hover.active {
-    background-color: #003399 \9; }
-  .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:hover.active {
-    background-color: #003399 \9; }
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.active:hover {
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.active.disabled {
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td.active.disabled:hover {
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.datepicker table tr td.active:hover, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active:active, .datepicker table tr td.active:hover:active {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active.active, .datepicker table tr td.active:hover.active {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active.disabled {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:hover.active {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active:hover.disabled {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active.disabled.disabled, .datepicker table tr td.active.disabled:hover.disabled {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active[disabled], .datepicker table tr td.active:hover[disabled] {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active.disabled[disabled], .datepicker table tr td.active.disabled:hover[disabled] {
+  background-color: #0044cc;
+}
+.datepicker table tr td.active:active, .datepicker table tr td.active:hover:active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td.active.active, .datepicker table tr td.active:hover.active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled:hover.active {
+  background-color: #003399 \9 ;
+}
 .datepicker table tr td span {
   display: block;
   float: left;
@@ -1535,135 +1893,166 @@ nav.mainNavMobile {
   -moz-border-radius: 4px;
   border-radius: 4px;
   line-height: 54px;
-  cursor: pointer; }
-  .datepicker table tr td span:hover {
-    background: #eeeeee; }
-  .datepicker table tr td span.disabled {
-    background: none;
-    color: #999999;
-    cursor: default; }
-    .datepicker table tr td span.disabled:hover {
-      background: none;
-      color: #999999;
-      cursor: default; }
-  .datepicker table tr td span.active {
-    border-color: #0044cc #0044cc #002a80;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    background-color: #006dcc;
-    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-    background-image: linear-gradient(top, #0088cc, #0044cc);
-    background-repeat: repeat-x;
-    color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td span.active:hover {
-      border-color: #0044cc #0044cc #002a80;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      background-color: #006dcc;
-      background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-      background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-      background-image: linear-gradient(top, #0088cc, #0044cc);
-      background-repeat: repeat-x;
-      color: #fff;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-    .datepicker table tr td span.active.disabled {
-      border-color: #0044cc #0044cc #002a80;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      background-color: #006dcc;
-      background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-      background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-      background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-      background-image: linear-gradient(top, #0088cc, #0044cc);
-      background-repeat: repeat-x;
-      color: #fff;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
-      .datepicker table tr td span.active.disabled:hover {
-        background-color: #006dcc;
-        background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
-        background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
-        background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
-        background-image: -o-linear-gradient(top, #0088cc, #0044cc);
-        background-image: linear-gradient(top, #0088cc, #0044cc);
-        background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
-        border-color: #0044cc #0044cc #002a80;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); }
-    .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover:active {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover:active {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active.active, .datepicker table tr td span.active:hover.active {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active.disabled {
-      background-color: #0044cc; }
-      .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled:hover.active {
-        background-color: #0044cc; }
-    .datepicker table tr td span.active:hover.disabled {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active.disabled.disabled, .datepicker table tr td span.active.disabled:hover.disabled {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active[disabled], .datepicker table tr td span.active:hover[disabled] {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active.disabled[disabled], .datepicker table tr td span.active.disabled:hover[disabled] {
-      background-color: #0044cc; }
-    .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover:active {
-      background-color: #003399 \9; }
-    .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover:active {
-      background-color: #003399 \9; }
-    .datepicker table tr td span.active.active, .datepicker table tr td span.active:hover.active {
-      background-color: #003399 \9; }
-    .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled:hover.active {
-      background-color: #003399 \9; }
-  .datepicker table tr td span.old, .datepicker table tr td span.new {
-    color: #999999; }
+  cursor: pointer;
+}
+.datepicker table tr td span:hover {
+  background: #eeeeee;
+}
+.datepicker table tr td span.disabled {
+  background: none;
+  color: #999999;
+  cursor: default;
+}
+.datepicker table tr td span.disabled:hover {
+  background: none;
+  color: #999999;
+  cursor: default;
+}
+.datepicker table tr td span.active {
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td span.active:hover {
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td span.active.disabled {
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.datepicker table tr td span.active.disabled:hover {
+  background-color: #006dcc;
+  background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -ms-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+  background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+  background-image: linear-gradient(top, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088cc', endColorstr='#0044cc', GradientType=0);
+  border-color: #0044cc #0044cc #002a80;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover:active {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover:active {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active.active, .datepicker table tr td span.active:hover.active {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active.disabled {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled:hover.active {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active:hover.disabled {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active.disabled.disabled, .datepicker table tr td span.active.disabled:hover.disabled {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active[disabled], .datepicker table tr td span.active:hover[disabled] {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active.disabled[disabled], .datepicker table tr td span.active.disabled:hover[disabled] {
+  background-color: #0044cc;
+}
+.datepicker table tr td span.active:active, .datepicker table tr td span.active:hover:active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover:active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td span.active.active, .datepicker table tr td span.active:hover.active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled:hover.active {
+  background-color: #003399 \9 ;
+}
+.datepicker table tr td span.old, .datepicker table tr td span.new {
+  color: #999999;
+}
 .datepicker th.datepicker-switch {
-  width: 145px; }
+  width: 145px;
+}
 .datepicker thead tr:first-child th, .datepicker tfoot tr th {
-  cursor: pointer; }
+  cursor: pointer;
+}
 .datepicker thead tr:first-child th:hover, .datepicker tfoot tr th:hover {
-  background: #eeeeee; }
+  background: #eeeeee;
+}
 .datepicker .cw {
   padding: 0 2px 0 5px;
   width: 12px;
   vertical-align: middle;
-  font-size: 10px; }
+  font-size: 10px;
+}
 .datepicker thead tr:first-child th.cw {
   background-color: transparent;
-  cursor: default; }
+  cursor: default;
+}
 
 .input-append.date .add-on i, .input-prepend.date .add-on i {
   width: 16px;
   height: 16px;
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .input-daterange input {
-  text-align: center; }
-  .input-daterange input:first-child {
-    -webkit-border-radius: 3px 0 0 3px;
-    -moz-border-radius: 3px 0 0 3px;
-    border-radius: 3px 0 0 3px; }
-  .input-daterange input:last-child {
-    -webkit-border-radius: 0 3px 3px 0;
-    -moz-border-radius: 0 3px 3px 0;
-    border-radius: 0 3px 3px 0; }
+  text-align: center;
+}
+.input-daterange input:first-child {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+.input-daterange input:last-child {
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
 .input-daterange .add-on {
   display: inline-block;
   margin-right: -5px;
@@ -1678,7 +2067,8 @@ nav.mainNavMobile {
   text-align: center;
   text-shadow: 0 1px 0 #ffffff;
   font-weight: normal;
-  line-height: 20px; }
+  line-height: 20px;
+}
 
 .datepicker.dropdown-menu {
   position: absolute;
@@ -1704,15 +2094,18 @@ nav.mainNavMobile {
   font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
   line-height: 20px;
   *border-right-width: 2px;
-  *border-bottom-width: 2px; }
-  .datepicker.dropdown-menu th, .datepicker.dropdown-menu td {
-    padding: 4px 5px; }
+  *border-bottom-width: 2px;
+}
+.datepicker.dropdown-menu th, .datepicker.dropdown-menu td {
+  padding: 4px 5px;
+}
 
 #system-flash .flash-messages {
   background: transparent;
   position: absolute;
-  top: 0px;
-  width: 60%; }
+  top: 0;
+  width: 60%;
+}
 
 .usercard,
 .rankbox {
@@ -1721,13 +2114,16 @@ nav.mainNavMobile {
   margin-bottom: 10px;
   margin-top: 10px;
   float: left;
-  display: inline-block; }
-  .usercard div.left,
-  .rankbox div.left {
-    display: inline-block; }
-    .usercard div.left input,
-    .rankbox div.left input {
-      display: inline-block;
-      width: 94%; }
+  display: inline-block;
+}
+.usercard div.left,
+.rankbox div.left {
+  display: inline-block;
+}
+.usercard div.left input,
+.rankbox div.left input {
+  display: inline-block;
+  width: 94%;
+}
 
 /*# sourceMappingURL=caffeine.css.map */

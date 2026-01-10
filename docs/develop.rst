@@ -101,36 +101,25 @@ CSS generation with Sass
 ========================
 
 We use `Sass`_ to generate our Cascading Style Sheets (CSS) file. Sass is a CSS
-generator feeded by a CSS like language. On Debian systems you can install Sass
-by running:
+generator feeded by a CSS like language. We use npm to install and run Sass.
 
 .. code-block:: sh
 
-   sudo apt-get install ruby-sass
-
-On other systems with a Ruby Gems installation you can run:
-
-.. code-block:: sh
-
-   gem install sass
-
-.. todo:: migrate to dart-sass
+   npm run build
 
 During development you can continuosly run :program:`sass` to generate the
 :file:`coffeestats/static/css/caffeine.css`:
 
 .. code-block:: sh
 
-   cd coffeestats/static
-   sass --watch css/caffeine.scss:css/caffeine.css
+   npm run watch
 
 You can also run :program:`sass` before committing your changes on
 :file:`coffeestats/static/css/caffeine.scss` manually:
 
 .. code-block:: sh
 
-   cd coffeestats/static
-   sass css/caffeine.scss:css/caffeine.css
+   npm run build
 
 .. index:: caffeine.scss, caffeine.css
 
@@ -140,4 +129,5 @@ You can also run :program:`sass` before committing your changes on
    manually will be overwritten the next time somebody runs Sass. You should
    always modify :file:`css/caffeine.scss` instead.
 
-SASS files which look like this: _filename.scss are for imports in other sass files. Sass won't generate own css files of them.
+SASS files which look like this: _filename.scss are for imports in other sass
+files. Sass won't generate own css files of them.

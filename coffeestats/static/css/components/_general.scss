@@ -1,15 +1,18 @@
+@use "../common/colors";
+@use "adaptivePlaceholders";
+
 /* GENERAL */
 
 body {
   padding: 0;
   margin: 0;
   background: url("/static/images/bg-landingpage.jpg") no-repeat center center fixed;
-  background-color: $body-background-color;
+  background-color: colors.$body-background-color;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  color: $text-color;
+  color: colors.$text-color;
   font-family: 'Source Sans Pro', Helvetica, Verdana, Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
@@ -17,7 +20,7 @@ body {
 
   &.profile {
     background: url("/static/images/bg-profilepage.jpg") no-repeat center center fixed;
-    background-color: $body-background-color;
+    background-color: colors.$body-background-color;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -26,7 +29,7 @@ body {
 }
 
 a {
-  color: $link-color !important;
+  color: colors.$link-color !important;
 }
 
 a.btn, input {
@@ -49,13 +52,13 @@ a {
 input[type=submit],
 button,
 a.btn {
-  background: $button-background;
+  background: colors.$button-background;
   padding: 5px 10px;
   font-size: 1.35em;
-  color: $button-color !important;
+  color: colors.$button-color !important;
   min-height: 25px;
-  border: 1px solid $button-border;
-  box-shadow: 0 1px 0 $button-shadow inset;
+  border: 1px solid colors.$button-border;
+  box-shadow: 0 1px 0 colors.$button-shadow inset;
   cursor: pointer;
   display: inline-block;
   text-align: center;
@@ -63,21 +66,21 @@ a.btn {
   font-family: 'source_sans_proregular' !important;
 
   &:hover {
-    background: $button-hover-background;
+    background: colors.$button-hover-background;
   }
 
   &.secondary {
-    color: $button-secondary-color !important;
-    text-shadow: 1px 1px 0 $button-secondary-text-shadow;
-    background: $button-secondary-background;
-    box-shadow: 0 1px 0 $button-secondary-shadow inset;
-    border: 1px solid $button-secondary-border;
+    color: colors.$button-secondary-color !important;
+    text-shadow: 1px 1px 0 colors.$button-secondary-text-shadow;
+    background: colors.$button-secondary-background;
+    box-shadow: 0 1px 0 colors.$button-secondary-shadow inset;
+    border: 1px solid colors.$button-secondary-border;
 
     &:hover {
-      background: $button-hover-background !important;
-      box-shadow: 0 1px 0 $button-shadow inset;
-      text-shadow: 1px 1px 0 $button-text-shadow !important;
-      color: $button-color !important;
+      background: colors.$button-hover-background !important;
+      box-shadow: 0 1px 0 colors.$button-shadow inset;
+      text-shadow: 1px 1px 0 colors.$button-text-shadow !important;
+      color: colors.$button-color !important;
     }
   }
 }
@@ -90,7 +93,7 @@ input[type=password] {
   background-color: $input-background;
   color: $input-color;*/
   $height: 3em;
-  @include adaptive-placeholder($height, 0);
+  @include adaptivePlaceholders.adaptive-placeholder($height, 0);
 }
 
 strong {

@@ -1,8 +1,11 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 /* FOOTER */
 
 .footer {
     clear: both;
-    background: $white;
+    background: colors.$white;
     height: 28px;
     position: fixed;
     bottom: 0;
@@ -12,15 +15,15 @@
         width: 960px;
         text-align: center;
         padding: 7px 0;
-        @media #{$desktop} {
+        @media #{mediaqueries.$desktop} {
             font-size: small;
             width: 960px;
         }
-        @media #{$moblet} {
+        @media #{mediaqueries.$moblet} {
             font-size: small;
             width: 100%;
         }
-        @media #{$mobile} {
+        @media #{mediaqueries.$mobile} {
             width: 100%;
             font-size: 9px !important;
         }

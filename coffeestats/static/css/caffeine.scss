@@ -8,26 +8,26 @@
     Version: 1.5
 */
 
-@import 'common/common';
-@import 'common/colors';
-@import 'common/coffeestats-icons';
-@import 'common/fonts';
-@import 'common/mediaqueries';
-@import 'components/adaptivePlaceholders';
+@use 'common/common';
+@use 'common/colors';
+@use 'common/coffeestats-icons';
+@use 'common/fonts';
+@use 'common/mediaqueries';
+@use 'components/adaptivePlaceholders';
 
 
-@import 'components/general';
-@import 'components/whiteBox';
-@import 'components/form';
-@import 'components/lists';
-@import 'components/wrapper';
-@import 'components/header';
-@import 'components/login';
-@import 'components/content';
-@import 'components/footer';
-@import 'components/navigation';
-@import 'components/clockpicker';
-@import 'components/datepicker';
+@use 'components/general';
+@use 'components/whiteBox';
+@use 'components/form';
+@use 'components/lists';
+@use 'components/wrapper';
+@use 'components/header';
+@use 'components/login';
+@use 'components/content';
+@use 'components/footer';
+@use 'components/navigation';
+@use 'components/clockpicker';
+@use 'components/datepicker';
 
 
 #system-flash .flash-messages {

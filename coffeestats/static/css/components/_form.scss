@@ -1,3 +1,6 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 form {
   margin: 14px 0;
 
@@ -10,16 +13,16 @@ form {
 
 form .left,
 form .leftform {
-  @media #{$desktop} {
+  @media #{mediaqueries.$desktop} {
     width: 48%;
   }
-  @media #{$moblet} {
+  @media #{mediaqueries.$moblet} {
     width: 40%;
   }
-  @media #{$mobile} {
+  @media #{mediaqueries.$mobile} {
     width: 40% !important;
   }
-  @media #{$mobile-small} {
+  @media #{mediaqueries.$mobile-small} {
     width: 40% !important;
   }
 
@@ -61,8 +64,8 @@ form.otrblockform {
     padding: 10px;
     font-size: 1.35em;
     border: none;
-    background-color: $input-background;
-    color: $input-color;
+    background-color: colors.$input-background;
+    color: colors.$input-color;
     min-height: 22px;
     line-height: 22px;
   }

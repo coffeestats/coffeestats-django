@@ -1,9 +1,12 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 /* NAVIGATION */
 
 nav.mainNav {
       height: 58px;
       .btn {
-        color: $white;
+        color: colors.$white;
         font-family: 'source_sans_prolight';
         font-size: 15px;
       }
@@ -23,7 +26,7 @@ nav.mainNav {
           &.active {
             span,
              > a {
-                border-bottom: 3px solid $button-background;
+                border-bottom: 3px solid colors.$button-background;
                 cursor: pointer;
               }
           }
@@ -37,9 +40,9 @@ nav.mainNav {
               margin-top: 48px;
               padding: 0 0 36px;
               width: 153px;
-              border-right: 1px solid $loginBoxBorder;
-              border-left: 1px solid $loginBoxBorder;
-              background: $white;
+              border-right: 1px solid colors.$loginBoxBorder;
+              border-left: 1px solid colors.$loginBoxBorder;
+              background: colors.$white;
 
               .btn {
                 position: absolute;
@@ -60,21 +63,21 @@ nav.mainNav {
                 font-family: 'source_sans_prolight';
                 font-size: 16px;
                 &:first-child {
-                  border-bottom: 1px solid $subnavigation-border;
+                  border-bottom: 1px solid colors.$subnavigation-border;
                 }
                 &:hover {
-                   background: $subnavigation-bg;
+                   background: colors.$subnavigation-bg;
                 }
               }
             }
              span,
              > a {
-                border-bottom: 3px solid $button-background;
+                border-bottom: 3px solid colors.$button-background;
                 cursor: pointer;
               }
             span.settings {
                 &:before {
-                  color: $button-background;
+                  color: colors.$button-background;
                 }
               }
           }
@@ -105,7 +108,7 @@ nav.mainNav {
                 font-size: 23px;
                 line-height: 35px;
                 font-style: normal;
-                color: $placeholder;
+                color: colors.$placeholder;
                 content: "\e002";
               }
             }
@@ -114,13 +117,13 @@ nav.mainNav {
           }
         }
       }
-      @media #{$moblet-smaller} {
+      @media #{mediaqueries.$moblet-smaller} {
         display: none;
       }
     }
 nav.mainNavMobile {
   display: none;
-  @media #{$moblet-smaller} {
+  @media #{mediaqueries.$moblet-smaller} {
     display: block;
     > ul {
       margin: 0;
@@ -163,15 +166,15 @@ nav.mainNavMobile {
                 text-decoration: none;
                 font-family: 'source_sans_prolight';
                 font-size: 16px;
-                background: $white;
+                background: colors.$white;
                 &:first-child {
-                  border-bottom: 1px solid $subnavigation-border;
+                  border-bottom: 1px solid colors.$subnavigation-border;
                 }
                 &:hover {
-                   background: $subnavigation-bg;
+                   background: colors.$subnavigation-bg;
                 }
                 &.btn {
-                  background: $button-background;
+                  background: colors.$button-background;
                   margin: 0;
                   &:first-child {
                     border-bottom:0;
@@ -188,7 +191,7 @@ nav.mainNavMobile {
         }
 
         .icon:before {
-          color: $button-background;
+          color: colors.$button-background;
         }
 
       }

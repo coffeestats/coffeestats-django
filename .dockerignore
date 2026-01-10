@@ -12,3 +12,4 @@ coffeestats/.coverage
 coffeestats/Dockerfile
 coffeestats/assets/
 coverage.xml
+node_modules/

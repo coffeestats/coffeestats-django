@@ -1,3 +1,5 @@
+@use "../common/colors";
+
 
 li {
     &.flash-success,
@@ -7,7 +9,7 @@ li {
         list-style-type: none;
         padding: 10px 10px 10px 25px;
         margin-bottom: 5pt;
-        border: 1px solid $text-color;
+        border: 1px solid colors.$text-color;
         border-radius: 4px;
         background-repeat: no-repeat;
         background-position: 5px center;
@@ -16,8 +18,8 @@ li {
             float: right;
             font-size: 16px;
             font-family: 'source_sans_probold';
-            color: $text-color;
-            text-shadow: 0 1px 0 $button-secondary-shadow;
+            color: colors.$text-color;
+            text-shadow: 0 1px 0 colors.$button-secondary-shadow;
             opacity: 0.2;
         }
     }
@@ -33,27 +35,27 @@ ul.errorlist li {
 
 li.flash-success {
     background-image: url('/static/images/info.png');
-    color: $success-color;
-    background-color: $success-background;
-    border-color: $success-border;
+    color: colors.$success-color;
+    background-color: colors.$success-background;
+    border-color: colors.$success-border;
 }
 li.flash-info {
     background-image: url('/static/images/info.png');
-    color: $info-color;
-    background-color: $info-background;
-    border-color: $info-border;
+    color: colors.$info-color;
+    background-color: colors.$info-background;
+    border-color: colors.$info-border;
 }
 li.flash-warning {
     background-image: url('/static/images/alert.png');
-    color: $warning-color;
-    background-color: $warning-background;
-    border-color: $warning-border;
+    color: colors.$warning-color;
+    background-color: colors.$warning-background;
+    border-color: colors.$warning-border;
 }
 li.flash-error, ul.errorlist li {
     background-image: url('/static/images/alert.png');
-    color: $error-color;
-    background-color: $error-background;
-    border-color: $error-border;
+    color: colors.$error-color;
+    background-color: colors.$error-background;
+    border-color: colors.$error-border;
 }
 
 ul.flash-messages, ul.errorlist {

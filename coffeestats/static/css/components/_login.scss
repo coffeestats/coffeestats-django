@@ -1,7 +1,10 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 nav.login {
       height: 58px;
       .btn {
-        color: $white;
+        color: colors.$white;
         font-family: 'source_sans_prolight';
         font-size: 15px;
       }
@@ -28,11 +31,11 @@ nav.login {
               display: inline-block;
               padding: 10px 10px 46px;
               width: 262px;
-              border-right: 1px solid $loginBoxBorder;
-              border-left: 1px solid $loginBoxBorder;
-              background: $white;
+              border-right: 1px solid colors.$loginBoxBorder;
+              border-left: 1px solid colors.$loginBoxBorder;
+              background: colors.$white;
 
-              @media #{$moblet} {
+              @media #{mediaqueries.$moblet} {
                 width: 320px !important;
               }
 
@@ -57,7 +60,7 @@ nav.login {
               }
             }
              span {
-                border-bottom: 3px solid $button-background;
+                border-bottom: 3px solid colors.$button-background;
                 padding-bottom: 19px;
               }
           }

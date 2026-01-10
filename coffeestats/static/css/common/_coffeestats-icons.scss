@@ -1,3 +1,5 @@
+@use "colors";
+
 @font-face {
 	font-family: "Coffeestats";
 	src: url("./fonts/coffeestats.eot");
@@ -19,7 +21,7 @@
 	font-family: Coffeestats;
     font-size: 16px;
 	font-style: normal;
-	color: $placeholder;
+	color: colors.$placeholder;
 }
 .coffeestats-calendar:before {
 	content: "\e000";

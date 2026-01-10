@@ -1,3 +1,5 @@
+@use "../common/colors";
+
 @mixin calc($property, $value) {
   #{$property}: -webkit-calc(#{$value});
   #{$property}:         calc(#{$value});
@@ -11,9 +13,9 @@
   @include calc(height, '#{$height} + #{$borders}');
   margin: 0 0 $margin;
   padding: $margin;
-  border: $border solid $button-background;
+  border: $border solid colors.$button-background;
   border-radius: $radius;
-  background: $white;
+  background: colors.$white;
   resize: none;  // <- For textareas
   outline: none; // <- Because ugly
   //
@@ -22,11 +24,11 @@
   &[required],
   &[name] {
     &:focus {
-      border-color: $button-background;
+      border-color: colors.$button-background;
       + label {
         &[placeholder] {
           &:before {
-            color: $button-background;
+            color: colors.$button-background;
           }
         }
       }
@@ -45,7 +47,7 @@
             //
             transform: translate(0, ($margin * -1.2)) scale(.9, .9);
             -webkit-transform: translate(0, ($margin * -1.2)) scale(.9, .9);
-            color: $button-background;
+            color: colors.$button-background;
           }
         }
       }
@@ -87,7 +89,7 @@
           @include calc(margin-left, '#{$margin} - 0.6em');
           @include calc(margin-right, '#{$margin} - 0.6em');
           padding: 0 2px;
-          color: $placeholder;
+          color: colors.$placeholder;
           font-weight: 400;
           white-space: nowrap;
           transition: .3s ease-in-out;
@@ -96,7 +98,7 @@
           // Following lines lets me use solid color as bkg img.
           // This lets me size bkg to something more sublte
           //
-          background-image: linear-gradient(to bottom, $white, $white);
+          background-image: linear-gradient(to bottom, colors.$white, colors.$white);
           background-size: 100% 12px;
           background-repeat: no-repeat;
           background-position: center;

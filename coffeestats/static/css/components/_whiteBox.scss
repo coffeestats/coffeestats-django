@@ -1,18 +1,21 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 .white-box {
   padding: 10px;
-  background-color: $white-box-background;
+  background-color: colors.$white-box-background;
   float: left;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border-radius: 3px;
   min-height: 115px;
 
-  @media #{$desktop} {
+  @media #{mediaqueries.$desktop} {
     margin: 0 2% 2% 0;
     width: 49%;
   }
 
-  @media #{$moblet} {
+  @media #{mediaqueries.$moblet} {
     width: 100%;
     float: none !important;
     margin: 2% auto 0;
@@ -25,7 +28,7 @@
   }
 
   &.update {
-    @media #{$desktop} {
+    @media #{mediaqueries.$desktop} {
       min-height: 317px;
     }
   }

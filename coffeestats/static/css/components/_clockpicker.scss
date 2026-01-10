@@ -1,3 +1,6 @@
+@use "../common/colors";
+@use "../common/mediaqueries";
+
 /*!
  * ClockPicker v0.0.6 for jQuery (http://weareoutman.github.io/clockpicker/)
  * Copyright 2014 Wang Shenwei.
@@ -12,10 +15,10 @@
 
 .clockpicker {
   display: inline-block;
-  @media #{$desktop} {
+  @media #{mediaqueries.$desktop} {
     width: 18%;
   }
-  @media #{$moblet} {
+  @media #{mediaqueries.$moblet} {
     width: 22%;
   }
   padding: 2px 0;
@@ -209,7 +212,7 @@
 }
 
 .text-primary {
-  color: $button-background;
+  color: colors.$button-background;
 }
 
 /*!
@@ -298,7 +301,7 @@
 
 .clockpicker-tick {
   border-radius: 50%;
-  color: $input-color;
+  color: colors.$input-color;
   line-height: 26px;
   text-align: center;
   width: 26px;
@@ -306,9 +309,9 @@
   position: absolute;
   cursor: pointer;
   &.active, &:hover {
-    background-color: $button-background;
-    background-color: $button-background;
-    color: $white;
+    background-color: colors.$button-background;
+    background-color: colors.$button-background;
+    color: colors.$white;
   }
 }
 
@@ -371,20 +374,20 @@
 
 .clockpicker-canvas-bearing, .clockpicker-canvas-fg {
   stroke: none;
-  fill: $button-background;
+  fill: colors.$button-background;
 }
 
 .clockpicker-canvas-bg {
   stroke: none;
-  fill: $clockpicker-canvas-bg;
+  fill: colors.$clockpicker-canvas-bg;
 }
 
 .clockpicker-canvas-bg-trans {
-  fill: $clockpicker-canvas-bg;
+  fill: colors.$clockpicker-canvas-bg;
 }
 
 .clockpicker-canvas line {
-  stroke: $button-background;
+  stroke: colors.$button-background;
   stroke-width: 1;
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/

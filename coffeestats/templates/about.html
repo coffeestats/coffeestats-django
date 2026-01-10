@@ -17,6 +17,7 @@
 <div class="white-box">
   <h2>{% trans "Changelog" %}</h2>
   <ul>
+    <li>{% trans "2026-01-10 Remove or fix broken links" %}</li>
     <li>{% trans "2024-05-15 Update dependencies, remove broken social links, remove unused OAuth2 code" %}</li>
     <li>{% trans "2018-05-20 Remove piwik integration" %}</li>
     <li>{% trans "2016-09-16 Update to Django 1.9.9 and latest versions of other Dependencies" %}"</li>
@@ -45,18 +46,18 @@
   <h2>{% trans "Credits" %}</h2>
   <p>{% trans "Some awesome guys have been involved in growing up coffeestats.org so far." %}</p>
   <ul>
-    <li>{% blocktrans %}<a href="http://github.com/neverpanic">Clemens Lang</a> (implementing add-drink REST API){% endblocktrans %}</li>
-    <li>{% blocktrans %}<a href="http://www.art-ifact.de/">Jeremias Arnstadt</a> (new design){% endblocktrans %}</li>
-    <li>{% blocktrans %}<a href="http://dittberner.info/">Jan Dittberner</a> (massive code improvements in many cases, port to Django){% endblocktrans %}</li>
-    <li>{% blocktrans %}<a href="http://sotiriu.de/">Nikolas Sotiriu</a> (testing the site for security flaws){% endblocktrans %}</li>
-    <li>{% blocktrans %}<a href="http://noqqe.org/">Florian Baumann</a> (project founder, source of inspiration, hosting until 2014-06-20){% endblocktrans %}</li>
+    <li>{% blocktrans %}<a href="https://github.com/neverpanic">Clemens Lang</a> (implementing add-drink REST API){% endblocktrans %}</li>
+    <li>{% blocktrans %}Jeremias Arnstadt (new design){% endblocktrans %}</li>
+    <li>{% blocktrans %}<a href="https://jan.dittberner.info/">Jan Dittberner</a> (massive code improvements in many cases, port to Django){% endblocktrans %}</li>
+    <li>{% blocktrans %}Nikolas Sotiriu (testing the site for security flaws){% endblocktrans %}</li>
+    <li>{% blocktrans %}<a href="https://noqqe.de/">Florian Baumann</a> (project founder, source of inspiration, hosting until 2014-06-20){% endblocktrans %}</li>
   </ul>
 </div>
 <div class="white-box">
   <h2>{% trans "Contribution" %}</h2>
   <p>{% blocktrans %}coffeestats.org is OpenSource. Feel free to <a href="https://github.com/coffeestats/coffeestats-django">contribute code</a>,
     <a href="https://github.com/coffeestats/coffeestats-django/issues">share your ideas or report bugs</a>!{% endblocktrans %}</p>
-  <p>{% blocktrans %}Development / deployment documentation is at <a href="https://coffeestats.readthedocs.org">coffeestats.readthedocs.org</a>{% endblocktrans %}</p>
+  <p>{% blocktrans %}Development / deployment documentation is at <a href="https://coffeestats-django.readthedocs.io">coffeestats-django.readthedocs.io</a>{% endblocktrans %}</p>
   <p>{% blocktrans %}Or show some love &lt;3{% endblocktrans %}</p>
 </div>
 {% endblock content %}

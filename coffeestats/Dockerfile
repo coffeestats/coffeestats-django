@@ -1,45 +1,50 @@
-FROM python:3.9-bullseye
+ARG DEBIAN_RELEASE=bookworm
+ARG UV_VERSION=0.9.24
 
-ENV \
-  PYTHONUNBUFFERED=1 \
-  PYTHONFAULTHANDLER=1 \
-  PIP_NO_CACHE_DIR=off \
-  PIP_DISABLE_VERSION_CHECK=on \
-  PIP_DEFAULT_TIMEOUT=100
-
-EXPOSE 8000
+FROM debian:${DEBIAN_RELEASE}-slim AS builder
+ARG UV_VERSION
 
 RUN DEBIAN_FRONTEND=noninteractive \
   ; apt-get update \
   && apt-get install -y --no-install-recommends \
     build-essential \
-    chromium \
-    chromium-driver \
     curl \
     gettext \
-    git \
     libffi-dev \
     libjpeg-dev \
     libpq-dev \
     python3-dev \
-    python3-pip \
     python3-venv \
     zlib1g-dev
 
-ENV PATH=/root/.local/bin:$PATH
-
-RUN python3 -m pip install --user pipx \
- && python3 -m pipx ensurepath \
- && pipx install "poetry==1.8.2"
-
-VOLUME /srv/coffeestats
+COPY pyproject.toml uv.lock /srv/coffeestats/
 WORKDIR /srv/coffeestats
-COPY pyproject.toml poetry.lock /srv/coffeestats/
+RUN --mount=from=ghcr.io/astral-sh/uv:$UV_VERSION,source=/uv,target=/bin/uv \
+    uv sync --no-dev --no-python-downloads --locked --compile-bytecode ; rm -rf /root/.cache /tmp/uv-*.lock
 
-RUN poetry export --with=dev > requirements.txt \
- && python3 -m venv /srv/venv \
- && /srv/venv/bin/python3 -m pip install -r requirements.txt
+FROM debian:${DEBIAN_RELEASE}-slim
 
-COPY docker/start-coffeestats.sh /srv/
+RUN DEBIAN_FRONTEND=noninteractive \
+  ; apt-get update \
+  && apt-get install -y --no-install-recommends \
+    gettext \
+    libffi8 \
+    libjpeg62-turbo \
+    libpq5 \
+    python3 \
+    tini \
+    zlib1g \
+  && apt-get clean \
+  && rm -rf /var/cache/apt/archives /var/lib/apt/lists/* /var/log/apt/* /var/log/dpkg.log
 
-ENTRYPOINT "/srv/start-coffeestats.sh"
+COPY --from=builder /srv/coffeestats/.venv /srv/coffeestats/.venv
+COPY docker/start-coffeestats.sh /srv/coffeestats/
+COPY coffeestats /app/
+
+VOLUME /app/assets
+VOLUME /run/coffeestats
+
+WORKDIR /app
+
+ENTRYPOINT ["tini", "--"]
+CMD ["/srv/coffeestats/start-coffeestats.sh"]

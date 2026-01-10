@@ -4,22 +4,76 @@ services:
     build:
       context: docker/db
     restart: always
-    env_file: .env
+    environment:
+      POSTGRES_PASSWORD: OMMFU4MmrB9MzGwJemhPl4jyHTPvWu9G
+      COFFEESTATS_PGSQL_DATABASE: coffeestats
+      COFFEESTATS_PGSQL_PORT: 5432
+      COFFEESTATS_PGSQL_USER: coffeestats
+      COFFEESTATS_PGSQL_PASSWORD: V0WHNhywtBorIm512YcIclbDcwF1MeET
     volumes:
       - "pg_data:/var/lib/postgresql/data"
     ports:
       - "15432:5432"
+    healthcheck:
+      test: ["CMD", "su", "postgres", "-c", "pg_isready"]
+  mailpit:
+    image: docker.io/axllent/mailpit:v1.28
+    environment:
+      TZ: Europe/Berlin
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    volumes:
+      - "mp_data:/data"
   app:
     build:
       context: .
       dockerfile: coffeestats/Dockerfile
-    env_file: .env
+    environment:
+      DJANGO_SETTINGS_MODULE: coffeestats.settings.production
+      COFFEESTATS_DB_URL: "postgres://coffeestats:V0WHNhywtBorIm512YcIclbDcwF1MeET@db:5432/coffeestats"
+      COFFEESTATS_EMAIL_HOST: mailpit
+      COFFEESTATS_EMAIL_HOST_PASSWORD: coffeestats
+      COFFEESTATS_EMAIL_HOST_USER: coffeestats
+      COFFEESTATS_EMAIL_PORT: 1025
+      COFFEESTATS_EMAIL_USE_TLS: false
+      COFFEESTATS_EMAIL_USE_SSL: false
+      COFFEESTATS_SITE_ADMINMAIL: admin@coffeestats.org
+      COFFEESTATS_DOMAIN_NAME: localhost
+      COFFEESTATS_SITE_NAME: localhost
+      COFFEESTATS_SITE_SECRET: 71TdFqMHlAmZYmmyCqd8gBeDa2plC1Pf
+    read_only: true
+    cap_drop:
+      - ALL
     depends_on:
-      - db
-    ports:
-      - "8000:8000"
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    tmpfs:
+      - "/run"
     volumes:
-      - "./coffeestats:/srv/coffeestats"
+      - "./coffeestats:/app"
+      - "assets:/app/assets"
+      - "rundir:/run/coffeestats"
+    healthcheck:
+      test: ["CMD", "test", "-S", "/run/coffeestats/coffeestats.sock"]
+  reverse_proxy:
+    image: docker.io/library/nginx:1.18
+    depends_on:
+      - app
+    ports:
+      - "8080:80"
+    volumes:
+      - "assets:/var/www/static:ro"
+      - "rundir:/run/coffeestats"
+      - "./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro"
 
 volumes:
+  assets:
+  mp_data:
   pg_data:
+  rundir:

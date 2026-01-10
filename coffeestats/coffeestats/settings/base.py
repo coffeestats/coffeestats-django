@@ -2,56 +2,40 @@
 # pymode:lint_ignore=E501
 """Common settings and globals."""
 
-import os
-from os.path import abspath, basename, dirname, join, normpath
-from sys import path
+from pathlib import Path
 
+import environ
 from django.contrib.messages import constants as message_constants
-from django.core.exceptions import ImproperlyConfigured
 
-
-def get_env_variable(var_name, default=None):
-    """
-    Get a setting from an environment variable.
-
-    :param str var_name: variable name
-
-    """
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        error_msg = "Set the %s environment variable" % var_name
-        raise ImproperlyConfigured(error_msg)
-
+env = environ.Env(
+    DEBUG=(bool, False),
+)
 
 # ######### PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
-DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+DJANGO_ROOT = Path(__file__).parent.parent
 
 # Absolute filesystem path to the top-level project folder:
-SITE_ROOT = dirname(DJANGO_ROOT)
+SITE_ROOT = DJANGO_ROOT.parent
 
 # Site name:
-SITE_NAME = basename(DJANGO_ROOT)
+SITE_NAME = env("COFFEESTATS_SITE_NAME", default="coffeestats")
 
-# Add our project to our pythonpath, this way we don't need to type our project
-# name in our dotted import paths:
-path.append(DJANGO_ROOT)
 # ######### END PATH CONFIGURATION
 
 
 # ######### DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = False
+DEBUG = env("DEBUG")
 # ######### END DEBUG CONFIGURATION
 
 
 # ######### MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (("Coffeestats Team", get_env_variable("COFFEESTATS_SITE_ADMINMAIL")),)
+ADMINS = (("Coffeestats Team", env("COFFEESTATS_SITE_ADMINMAIL")),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
-DEFAULT_FROM_EMAIL = get_env_variable("COFFEESTATS_SITE_ADMINMAIL")
+DEFAULT_FROM_EMAIL = env("COFFEESTATS_SITE_ADMINMAIL")
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -61,29 +45,22 @@ MANAGERS = ADMINS
 # ######### DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": get_env_variable("COFFEESTATS_PGSQL_DATABASE"),
-        "USER": get_env_variable("COFFEESTATS_PGSQL_USER"),
-        "PASSWORD": get_env_variable("COFFEESTATS_PGSQL_PASSWORD"),
-        "HOST": get_env_variable("COFFEESTATS_PGSQL_HOSTNAME"),
-        "PORT": get_env_variable("COFFEESTATS_PGSQL_PORT"),
-    }
+    "default": env.db_url(var="COFFEESTATS_DB_URL"),
 }
 # ######### END DATABASE CONFIGURATION
 
 
 # ######### GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = "Europe/Berlin"
+TIME_ZONE = env("COFFEESTATS_TIME_ZONE", default="Europe/Berlin")
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
-SITES_DOMAIN_NAME = get_env_variable("COFFEESTATS_DOMAIN_NAME")
-SITES_SITE_NAME = get_env_variable("COFFEESTATS_SITE_NAME")
+SITES_DOMAIN_NAME = env("COFFEESTATS_DOMAIN_NAME", default="coffeestats.org")
+SITES_SITE_NAME = env("COFFEESTATS_SITE_NAME", default="coffeestats")
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
@@ -95,7 +72,7 @@ USE_TZ = False
 
 # ######### MEDIA CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = normpath(join(SITE_ROOT, "media"))
+MEDIA_ROOT = SITE_ROOT / "media"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
@@ -104,13 +81,13 @@ MEDIA_URL = "/media/"
 
 # ######### STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = normpath(join(SITE_ROOT, "assets"))
+STATIC_ROOT = SITE_ROOT / "assets"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = "/static/"
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS  # noqa
-STATICFILES_DIRS = (normpath(join(SITE_ROOT, "static")),)
+STATICFILES_DIRS = (SITE_ROOT / "static",)
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders  # noqa
 STATICFILES_FINDERS = (
@@ -123,7 +100,7 @@ STATICFILES_FINDERS = (
 # ######### SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key should only be used for development and testing.
-SECRET_KEY = get_env_variable("COFFEESTATS_SITE_SECRET")
+SECRET_KEY = env("COFFEESTATS_SITE_SECRET")
 # ######### END SECRET CONFIGURATION
 
 
@@ -136,7 +113,7 @@ ALLOWED_HOSTS = []
 
 # ######### FIXTURE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS  # noqa
-FIXTURE_DIRS = (normpath(join(SITE_ROOT, "fixtures")),)
+FIXTURE_DIRS = (SITE_ROOT / "fixtures",)
 # ######### END FIXTURE CONFIGURATION
 
 
@@ -146,7 +123,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "APP_DIRS": True,
-        "DIRS": [normpath(join(SITE_ROOT, "templates"))],
+        "DIRS": [SITE_ROOT / "templates"],
         "OPTIONS": {
             "context_processors": [
                 "django.contrib.auth.context_processors.auth",
@@ -184,7 +161,7 @@ MIDDLEWARE = (
 
 # ######### URL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = "%s.urls" % SITE_NAME
+ROOT_URLCONF = "coffeestats.urls"
 # ######### END URL CONFIGURATION
 
 
@@ -289,13 +266,17 @@ LOGGING = {
             "level": "ERROR",
         },
     },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    }
 }
 # ######### END LOGGING CONFIGURATION
 
 
 # ######### WSGI CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = "%s.wsgi.application" % SITE_NAME
+WSGI_APPLICATION = "coffeestats.wsgi.application"
 # ######### END WSGI CONFIGURATION
 
 TEST_RUNNER = "django.test.runner.DiscoverRunner"

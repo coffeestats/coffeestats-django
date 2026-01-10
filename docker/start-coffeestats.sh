@@ -2,5 +2,8 @@
 
 set -e
 
-/srv/venv/bin/python3 manage.py migrate
-/srv/venv/bin/python3 manage.py runserver 0.0.0.0:8000
+export PYTHONUNBUFFERED=1
+
+/srv/coffeestats/.venv/bin/python3 manage.py collectstatic --noinput
+/srv/coffeestats/.venv/bin/python3 manage.py migrate --noinput
+/srv/coffeestats/.venv/bin/gunicorn --error-logfile - --capture-output --bind unix:/run/coffeestats/coffeestats.sock --env DJANGO_SETTINGS_MODULE=coffeestats.settings.production coffeestats.wsgi

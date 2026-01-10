@@ -1,5 +1,14 @@
-coffeestats/
-.git/
+**/*.pyc
+**/*.scss
+**/.ruff_cache/
+**/.sass-cache/
+**/__pycache__/
+**/coverage-report/
+**/functional_tests/
+**/tests/
 .env
+.git/
+coffeestats/.coverage
+coffeestats/Dockerfile
+coffeestats/assets/
 coverage.xml
-coverage-report/

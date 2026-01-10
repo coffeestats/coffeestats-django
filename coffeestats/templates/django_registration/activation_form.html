@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+    <div class="white-box fullWidth">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.activation_key }}
+        <button type="submit">{% translate "Activate my account" %}</button>
+    </form>
+        {% if activation_error %}
+            {{ activation_error }}
+        {% endif %}
+    </div>
+{% endblock content %}

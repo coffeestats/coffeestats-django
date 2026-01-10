@@ -30,7 +30,7 @@ urlpatterns = [
     re_path(r"^$", IndexView.as_view(), name="home"),
     # django_registration
     re_path(
-        r"^auth/activate/(?P<activation_key>[-:\w]+)/$",
+        r"^auth/activate/$",
         CaffeineActivationView.as_view(),
         name="django_registration_activate",
     ),

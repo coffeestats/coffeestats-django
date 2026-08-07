@@ -12,7 +12,7 @@ dependencies = [
     "django-extensions>=3.2.3",
     "django-model-utils>=4.5.1",
     "django-registration>=3.4",
-    "django<5",
+    "django<6",
     "djangorestframework>=3.15.2",
     "drf-nested-routers>=0.94.1",
     "gunicorn>=23.0.0",

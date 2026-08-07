@@ -1,4 +1,4 @@
-ARG DEBIAN_RELEASE=bookworm
+ARG DEBIAN_RELEASE=trixie
 
 FROM debian:${DEBIAN_RELEASE}-slim AS builder
 
@@ -17,7 +17,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 COPY pyproject.toml uv.lock /srv/coffeestats/
 WORKDIR /srv/coffeestats
-RUN --mount=from=ghcr.io/astral-sh/uv:0.9.24,source=/uv,target=/bin/uv \
+RUN --mount=from=ghcr.io/astral-sh/uv:0.12.2,source=/uv,target=/bin/uv \
     uv sync --no-dev --no-python-downloads --locked --compile-bytecode ; rm -rf /root/.cache /tmp/uv-*.lock
 
 FROM debian:${DEBIAN_RELEASE}-slim
